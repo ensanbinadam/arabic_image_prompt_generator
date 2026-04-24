@@ -1016,8 +1016,16 @@
                 <label for="outputMode">نمط البرومبت</label>
                 <select id="outputMode">
                   <option value="full">موسع جدًا</option>
-                  <option value="medium">متوازن</option>
+                  <option value="medium" selected>متوازن - موصى به</option>
                   <option value="short">مختصر قوي</option>
+                </select>
+              </div>
+              <div>
+                <label for="visualPromptMode">لغة الوصف الفني</label>
+                <select id="visualPromptMode">
+                  <option value="hybrid">مختلط احترافي: إنجليزي للتصميم وعربي للنصوص</option>
+                  <option value="englishVisual">إنجليزي بصري + قواعد عربية</option>
+                  <option value="arabicOnly">عربي كامل</option>
                 </select>
               </div>
               <div class="full">
@@ -1196,6 +1204,19 @@
                 <label for="textFormatting">تعليمات تنسيق النص</label>
                 <input id="textFormatting" placeholder="مثال: سطر واحد عريض، سطران متوازنان، عنوان كبير وسطر فرعي أصغر..." />
               </div>
+              <div class="full">
+                <label for="layoutType">نوع التخطيط العربي</label>
+                <select id="layoutType">
+                  <option>تخطيط عربي مرن حسب المحتوى</option>
+                  <option>عنوان أعلى يمين مع مساحة قراءة واسعة</option>
+                  <option>بطاقات تعليمية مرتبة من اليمين إلى اليسار</option>
+                  <option>إنفوجرافيك خطوات يبدأ من اليمين</option>
+                  <option>جدول عربي يبدأ عموده الأول من اليمين</option>
+                  <option>مخطط تعليمي عربي منظم</option>
+                  <option>تصميم إعلاني عربي بعنوان بارز</option>
+                  <option>منشور سوشيال عربي عالي الوضوح</option>
+                </select>
+              </div>
             </div>
             <div class="mini-tools" style="margin-top:12px;">
               <button class="mini" id="toEnglishDigitsBtn">تحويل أرقام النص إلى إنجليزية</button>
@@ -1286,7 +1307,7 @@
             <div class="checks">
               <div class="check"><input type="checkbox" id="strictArabic" checked><label for="strictArabic">إعطاء أولوية قصوى لصحة النص العربي</label></div>
               <div class="check"><input type="checkbox" id="keepTashkeel" checked><label for="keepTashkeel">الحفاظ على التشكيل كما هو تمامًا</label></div>
-              <div class="check"><input type="checkbox" id="rtl" checked><label for="rtl">إجبار اتجاه الكتابة من اليمين إلى اليسار RTL</label></div>
+              <div class="check"><input type="checkbox" id="rtl" checked disabled><label for="rtl">إجبار اتجاه الكتابة والقوائم من اليمين إلى اليسار RTL دائمًا</label></div>
               <div class="check"><input type="checkbox" id="viewerPerspective" checked><label for="viewerPerspective">تثبيت أن اليمين واليسار من منظور المشاهد</label></div>
               <div class="check"><input type="checkbox" id="noMirror" checked><label for="noMirror">منع انعكاس الصورة أفقيًا</label></div>
               <div class="check"><input type="checkbox" id="noFakeArabic" checked><label for="noFakeArabic">منع الحروف العربية المزيفة أو المشوهة</label></div>
@@ -1422,6 +1443,7 @@
       aspectRatio: $('aspectRatio'),
       qualityLevel: $('qualityLevel'),
       outputMode: $('outputMode'),
+      visualPromptMode: $('visualPromptMode'),
       subject: $('subject'),
       subjectArea: $('subjectArea'),
       gradeLevel: $('gradeLevel'),
@@ -1442,6 +1464,7 @@
       numberStyle: $('numberStyle'),
       textImportance: $('textImportance'),
       textFormatting: $('textFormatting'),
+      layoutType: $('layoutType'),
       enableFooter: $('enableFooter'),
       footerMode: $('footerMode'),
       footerTeacherName: $('footerTeacherName'),
@@ -1528,6 +1551,52 @@
       return 'إذا ظهرت أرقام داخل الصورة أو النص، فاختر النمط المناسب للسياق وطبقه بانتظام على جميع الأرقام.';
     }
 
+    function rtlLayoutInstruction() {
+      return 'التزم دائمًا بالاتجاه العربي الطبيعي من اليمين إلى اليسار RTL في كل ما يظهر داخل الصورة: العنوان، النص الأساسي، النص الثانوي، التذييل، التسميات، البطاقات، الجداول، المخططات، الأسهم، القوائم، التعدادات، والترقيم. اجعل المحاذاة يمينًا، واجعل بداية القراءة والتنظيم من يمين التصميم إلى يساره، ولا تعكس ترتيب الكلمات أو الحروف. عند وجود نقاط أو تعداد أو ترقيم، ابدأ كل نقطة أو رقم من جهة اليمين واجعل النص بعدها يقرأ من اليمين إلى اليسار، بحيث يظهر رقم/رمز التعداد قبل النص من الجهة اليمنى. عند وجود جدول أو مخطط أو خطوات متسلسلة، اجعل العمود أو الخطوة الأولى في أقصى اليمين ثم تتتابع العناصر نحو اليسار بما يوافق العربية.';
+    }
+
+    function englishLayoutCue(layoutType) {
+      if (layoutType.includes('عنوان أعلى يمين')) return 'large Arabic headline in the top-right, right-aligned text blocks, generous reading space';
+      if (layoutType.includes('بطاقات تعليمية')) return 'educational cards arranged from right to left, first card on the far right, consistent spacing';
+      if (layoutType.includes('إنفوجرافيك خطوات')) return 'step-by-step Arabic infographic flowing from right to left, first step on the far right';
+      if (layoutType.includes('جدول عربي')) return 'Arabic table layout with the first column on the far right, rows and labels right-aligned';
+      if (layoutType.includes('مخطط تعليمي')) return 'organized Arabic educational diagram, labels and arrows flow right to left';
+      if (layoutType.includes('تصميم إعلاني')) return 'Arabic advertising layout with a strong right-aligned headline, clear offer area, balanced product space';
+      if (layoutType.includes('منشور سوشيال')) return 'high-readability Arabic social post layout, bold right-aligned hook, clean visual hierarchy';
+      return 'flexible Arabic RTL layout, right-aligned text, clear hierarchy, balanced composition';
+    }
+
+    function arabicLayoutInstruction(d) {
+      const layout = d.layoutType || 'تخطيط عربي مرن حسب المحتوى';
+      let detail = 'اجعل الترتيب العام والمحاذاة واتجاه القراءة متوافقة مع العربية من اليمين إلى اليسار.';
+      if (layout.includes('عنوان أعلى يمين')) detail = 'ضع العنوان في أعلى يمين الصورة، واجعل بقية العناصر تدعم مسار قراءة عربي واضح من اليمين إلى اليسار.';
+      else if (layout.includes('بطاقات تعليمية')) detail = 'رتّب البطاقات التعليمية من اليمين إلى اليسار، واجعل البطاقة الأولى في أقصى اليمين ثم تتدرج البطاقات نحو اليسار.';
+      else if (layout.includes('إنفوجرافيك خطوات')) detail = 'اجعل الخطوة الأولى في أقصى اليمين، ثم تتتابع الخطوات والأسهم نحو اليسار مع أرقام واضحة تبدأ من اليمين.';
+      else if (layout.includes('جدول عربي')) detail = 'اجعل العمود الأول في أقصى اليمين، واجعل عناوين الأعمدة والصفوف بمحاذاة يمينية واتجاه RTL واضح.';
+      else if (layout.includes('مخطط تعليمي')) detail = 'اجعل المخطط والتسميات والأسهم تعمل بمنطق عربي من اليمين إلى اليسار، مع فصل بصري واضح بين الأجزاء.';
+      else if (layout.includes('تصميم إعلاني')) detail = 'اجعل العنوان أو العرض الرئيسي بارزًا في الجهة اليمنى أو أعلى اليمين، مع توازن واضح بين النص والمنتج أو العنصر البصري.';
+      else if (layout.includes('منشور سوشيال')) detail = 'اجعل الجملة الجاذبة واضحة وكبيرة ومحاذاة لليمين، مع مساحات هواء كافية حتى تقرأ بسرعة على الهاتف.';
+      return `نوع التخطيط العربي: ${layout}. ${detail}`;
+    }
+
+    function visualDesignBrief(d, compact = false) {
+      if (d.visualPromptMode === 'arabicOnly') return '';
+      const subject = d.subject || 'clear Arabic visual subject';
+      const keywords = 'clean layout, balanced composition, clear hierarchy, high readability, Arabic typography, generous whitespace, crisp text areas, polished spacing, professional design';
+      const layoutCue = englishLayoutCue(d.layoutType || '');
+      if (compact) {
+        return `English visual brief: professional Arabic-language ${d.imageType}, ${keywords}, ${layoutCue}, keep all Arabic text exactly as provided.`;
+      }
+      return [
+        'English visual design brief for the image model:',
+        `Create a professional Arabic-language ${d.imageType} for ${d.purpose} about "${subject}".`,
+        `Visual style: ${d.style}. Aspect ratio: ${d.aspectRatio}. Quality: ${d.qualityLevel}.`,
+        `Design keywords: ${keywords}.`,
+        `Layout direction: ${layoutCue}.`,
+        'Keep every Arabic word exactly as provided in the Arabic text section; do not translate, rewrite, mirror, or invent Arabic text.'
+      ].join('\n');
+    }
+
     function convertDigitsByStyle(text, style) {
       if (style === 'english') return easternToEnglish(text || '');
       if (style === 'eastern') return englishToEastern(text || '');
@@ -1577,13 +1646,20 @@
       for (const [key, el] of Object.entries(fields)) {
         data[key] = el.type === 'checkbox' ? el.checked : clean(el.value);
       }
+      data.rtl = true;
       return data;
     }
 
     function buildPromptFull(d) {
+      d.rtl = true;
       const lines = [];
       lines.push(`أنشئ صورة من نوع "${d.imageType}" موجهة لغرض "${d.purpose}" عن موضوع "${d.subject || 'موضوع بصري واضح'}".`);
       lines.push(`الأسلوب العام: ${d.style}. نسبة الأبعاد: ${d.aspectRatio}. مستوى الجودة: ${d.qualityLevel}.`);
+      const visualBrief = visualDesignBrief(d);
+      if (visualBrief) {
+        lines.push('');
+        lines.push(visualBrief);
+      }
       if (d.subjectArea !== 'عام' || d.gradeLevel || d.lessonTitle || d.learningGoal || d.audienceType !== 'طلاب المدرسة') {
         lines.push('');
         lines.push('سياق تعليمي إضافي:');
@@ -1598,6 +1674,8 @@
       lines.push(`- أهمية النص داخل الصورة: ${d.textImportance}.`);
       if (d.strictArabic) lines.push('- أولوية قصوى جدًا لصحة اللغة العربية وقابليتها للقراءة فوق أي زخرفة أو تأثير جمالي.');
       if (d.highReadability) lines.push('- اجعل النص واضحًا جدًا ومقروءًا من النظرة الأولى مع تباين كافٍ ومسافات مريحة.');
+      lines.push(`- ${arabicLayoutInstruction(d)}`);
+      if (d.rtl) lines.push(`- ${rtlLayoutInstruction()}`);
       lines.push('');
       lines.push('تعليمات النص العربي الأساسي:');
       lines.push('- انسخ النص التالي حرفيًا 100% دون حذف أو إضافة أو استبدال أو إعادة صياغة لأي حرف.');
@@ -1606,7 +1684,7 @@
         lines.push('- أضف النص الثانوي التالي حرفيًا كما هو، بحجم أصغر وتنسيق متناسق مع النص الأساسي:');
         lines.push(`"${d.secondaryText}"`);
       }
-      if (d.rtl) lines.push('- اتجاه الكتابة من اليمين إلى اليسار RTL بشكل صحيح تمامًا.');
+      if (d.rtl) lines.push('- طبّق قاعدة RTL السابقة على كل كتلة نصية داخل الصورة، ولا تسمح لأي عنوان أو تسمية أو شرح أو رقم بأن يبدأ من اليسار.');
       if (d.keepTashkeel) lines.push('- حافظ على جميع الحركات وعلامات التشكيل كما هي، بما في ذلك الشدة والسكون والتنوين والمد والهمزات.');
       if (d.noFakeArabic) lines.push('- لا تستخدم حروفًا عربية مزيفة أو رموزًا تشبه العربية أو نصًا زخرفيًا غير مقروء.');
       if (d.noSplitWords) lines.push('- لا تقسّم الكلمة العربية بين سطرين ولا تكسر ترابط الحروف بشكل خاطئ.');
@@ -1634,7 +1712,8 @@
           lines.push(`- أضف تذييلًا عربيًا واضحًا في ${d.footerPosition}.`);
           lines.push(`- أسلوب التذييل: ${d.footerStyle}.`);
           lines.push(`- تنسيق التذييل: ${d.footerLayout}.`);
-          lines.push('- اجعل التذييل أقل بروزًا من العنوان الرئيسي لكنه واضح ومقروء ومحاذاته عربية صحيحة.');
+          lines.push('- اجعل التذييل أقل بروزًا من العنوان الرئيسي لكنه واضح ومقروء ومحاذاته عربية صحيحة من اليمين إلى اليسار.');
+          if (d.rtl) lines.push('- رتّب عناصر التذييل من اليمين إلى اليسار؛ ابدأ بالمعلومة الأولى من جهة اليمين ولا تجعل الفواصل أو التاريخ يدفعان النص لاتجاه يسار-يمين.');
           lines.push('- استخدم النص التالي حرفيًا في التذييل:');
           lines.push(`"${footerTextComposed}"`);
         }
@@ -1644,6 +1723,7 @@
       lines.push('- حافظ على توازن بصري احترافي بين النص والعناصر والخلفية.');
       lines.push('- اجعل الصورة نظيفة ومنظمة وغير مزدحمة، خاصة حول مناطق النص.');
       lines.push('- امنع أي نصوص عشوائية أو زخارف كتابية غير مطلوبة أو رموز غير مفهومة.');
+      if (d.rtl) lines.push('- راجع كل اتجاه بصري أو نصي داخل التصميم: لا تجعل أي قائمة أو مخطط أو تسلسل أو بطاقة تعليمية تعمل بمنطق يسار-إلى-يمين.');
       if (d.specialInstructions) {
         lines.push('');
         lines.push('تعليمات دقيقة إضافية:');
@@ -1658,23 +1738,27 @@
       lines.push('مراجعة داخلية قبل الإخراج:');
       lines.push('- تأكد أن النص العربي مطابق تمامًا للنص المرجعي حرفيًا.');
       if (d.keepTashkeel) lines.push('- تأكد أن التشكيل مطابق تمامًا للنص المرجعي.');
-      if (d.rtl) lines.push('- تأكد أن اتجاه الكتابة من اليمين إلى اليسار صحيح.');
+      if (d.rtl) lines.push('- تأكد أن اتجاه الكتابة والقوائم والتعداد والجداول والمخططات والتذييل من اليمين إلى اليسار صحيح، وأن كل رقم أو رمز تعداد يبدأ من يمين السطر.');
       if (d.viewerPerspective) lines.push('- تأكد أن اليمين واليسار محسوبان من منظور المشاهد.');
       lines.push('- تأكد أن وضوح النص وسهولة قراءته أفضل من أي زخرفة إضافية.');
       return lines.join('\n');
     }
 
     function buildPromptMedium(d) {
+      d.rtl = true;
       const lines = [];
       lines.push(`أنشئ ${d.imageType} عربيًا لغرض ${d.purpose} عن "${d.subject || 'موضوع بصري'}" بأسلوب ${d.style}.`);
       lines.push(`نسبة الأبعاد: ${d.aspectRatio}. الجودة: ${d.qualityLevel}.`);
+      const visualBrief = visualDesignBrief(d);
+      if (visualBrief) lines.push(visualBrief);
       if (d.subjectArea !== 'عام' || d.lessonTitle || d.gradeLevel || d.learningGoal) {
         lines.push(`السياق التعليمي: ${[d.subjectArea !== 'عام' ? d.subjectArea : '', d.gradeLevel, d.lessonTitle, d.learningGoal].filter(Boolean).join(' | ')}.`);
       }
       lines.push('استخدم النص العربي التالي حرفيًا دون أي تعديل:');
       lines.push(`"${d.arabicText || 'ضع النص هنا'}"`);
       if (d.secondaryText) lines.push(`واستخدم النص الثانوي التالي بحجم أصغر وبشكل متناسق: "${d.secondaryText}"`);
-      if (d.rtl) lines.push('اتجاه الكتابة من اليمين إلى اليسار RTL بشكل صحيح.');
+      if (d.rtl) lines.push(rtlLayoutInstruction());
+      lines.push(arabicLayoutInstruction(d));
       if (d.keepTashkeel) lines.push('حافظ على جميع الحركات والتشكيل كما هي تمامًا.');
       lines.push(`نوع الخط: ${d.fontStyle}. موضع النص: ${d.textPosition}.`);
       if (d.textFormatting) lines.push(`تنسيق النص: ${d.textFormatting}.`);
@@ -1691,7 +1775,7 @@
       if (d.extraElements) lines.push(`العناصر الإضافية: ${d.extraElements}.`);
       if (d.enableFooter === 'yes') {
         const footerTextComposed = composeFooterText(d);
-        if (footerTextComposed) lines.push(`أضف تذييلًا في ${d.footerPosition} بالنص التالي: "${footerTextComposed}"، بأسلوب ${d.footerStyle}.`);
+        if (footerTextComposed) lines.push(`أضف تذييلًا في ${d.footerPosition} بالنص التالي: "${footerTextComposed}"، بأسلوب ${d.footerStyle}، مع ترتيب ومحاذاة عربية من اليمين إلى اليسار.`);
       }
       if (d.specialInstructions) lines.push(`تعليمات إضافية: ${d.specialInstructions}.`);
       if (d.negativeNotes) lines.push(`ممنوعات: ${d.negativeNotes}.`);
@@ -1700,13 +1784,17 @@
     }
 
     function buildPromptShort(d) {
+      d.rtl = true;
       const parts = [];
       parts.push(`أنشئ ${d.imageType} عربيًا عن "${d.subject || 'موضوع بصري'}" لغرض ${d.purpose} بأسلوب ${d.style}.`);
       parts.push(`النسبة: ${d.aspectRatio}. الجودة: ${d.qualityLevel}.`);
+      const visualBrief = visualDesignBrief(d, true);
+      if (visualBrief) parts.push(visualBrief);
       if (d.lessonTitle || d.subjectArea !== 'عام' || d.gradeLevel) parts.push(`السياق التعليمي: ${[d.subjectArea !== 'عام' ? d.subjectArea : '', d.gradeLevel, d.lessonTitle].filter(Boolean).join(' | ')}.`);
       parts.push(`استخدم النص حرفيًا دون تعديل: "${d.arabicText || 'ضع النص هنا'}".`);
       if (d.secondaryText) parts.push(`أضف النص الثانوي: "${d.secondaryText}".`);
-      if (d.rtl) parts.push('اتجاه الكتابة RTL من اليمين إلى اليسار.');
+      if (d.rtl) parts.push(rtlLayoutInstruction());
+      parts.push(arabicLayoutInstruction(d));
       if (d.keepTashkeel) parts.push('حافظ على التشكيل كاملًا كما هو.');
       parts.push(`موضع النص: ${d.textPosition}. نوع الخط: ${d.fontStyle}.`);
       if (d.textFormatting) parts.push(`تنسيق النص: ${d.textFormatting}.`);
@@ -1722,7 +1810,7 @@
       if (d.extraElements) parts.push(`العناصر: ${d.extraElements}.`);
       if (d.enableFooter === 'yes') {
         const footerTextComposed = composeFooterText(d);
-        if (footerTextComposed) parts.push(`أضف تذييلًا في ${d.footerPosition} بالنص: "${footerTextComposed}" وبأسلوب ${d.footerStyle}.`);
+        if (footerTextComposed) parts.push(`أضف تذييلًا في ${d.footerPosition} بالنص: "${footerTextComposed}" وبأسلوب ${d.footerStyle}، مع محاذاة وترتيب عربي من اليمين إلى اليسار.`);
       }
       if (d.specialInstructions) parts.push(`تعليمات إضافية: ${d.specialInstructions}.`);
       if (d.negativeNotes) parts.push(`ممنوعات: ${d.negativeNotes}.`);
@@ -1734,6 +1822,17 @@
       const parts = [
         'Arabic text errors',
         'wrong RTL direction',
+        'left-to-right Arabic layout',
+        'left-aligned Arabic text',
+        'bullet list starting from left',
+        'numbered list starting from left',
+        'reversed Arabic list order',
+        'left-to-right table order',
+        'first table column on the left',
+        'left-to-right process flow',
+        'timeline starting from left',
+        'footer aligned left',
+        'Arabic labels ordered left to right',
         'mirrored composition',
         'fake Arabic letters',
         'gibberish text',
@@ -1786,6 +1885,10 @@
       }
 
       if (d.secondaryText) notes.push({ type: 'good', text: 'وجود نص ثانوي يعطيك مرونة أكبر في البوسترات والعناوين الفرعية.' });
+      if (d.visualPromptMode === 'hybrid') notes.push({ type: 'good', text: 'الوضع المختلط الاحترافي مفعل: إنجليزي للتصميم وعربي للنصوص، وهذا مناسب جدًا لمعظم مولدات الصور.' });
+      else if (d.visualPromptMode === 'englishVisual') notes.push({ type: 'good', text: 'الوصف البصري الإنجليزي مفعل مع قواعد عربية، وهذا يساعد النموذج على فهم التصميم.' });
+      else notes.push({ type: 'note', text: 'الوصف عربي كامل؛ إن احتجت نتائج تصميم أقوى جرّب الوضع المختلط الاحترافي.' });
+      if (d.layoutType) notes.push({ type: 'good', text: 'تم تحديد نوع التخطيط العربي، وهذا يساعد النموذج على ترتيب العناصر بدل الاكتفاء بوصف عام.' });
       if (d.specialInstructions) notes.push({ type: 'good', text: 'أضفت تعليمات دقيقة إضافية؛ هذا ممتاز للمشاهد التعليمية والإعلانية.' });
       if (d.enableFooter === 'yes') {
         const footerTextComposed = composeFooterText(d);
@@ -1825,6 +1928,9 @@
       if (d.enableFooter === 'yes' && composeFooterText(d)) score += 6;
       if (d.negativeNotes) score += 5;
       if (d.textFormatting) score += 5;
+      if (d.visualPromptMode === 'hybrid') score += 6;
+      else if (d.visualPromptMode === 'englishVisual') score += 4;
+      if (d.layoutType && d.layoutType !== 'تخطيط عربي مرن حسب المحتوى') score += 6;
       if (d.strictArabic) score += 4;
       if (d.keepTashkeel) score += 3;
       if (d.rtl) score += 3;
@@ -1884,6 +1990,7 @@
           if (fields[key].type === 'checkbox') fields[key].checked = Boolean(value);
           else fields[key].value = value;
         }
+        fields.rtl.checked = true;
         metaSave.textContent = 'تم استرجاع آخر حالة محفوظة';
         return true;
       } catch {
@@ -1897,7 +2004,8 @@
       fields.style.value = 'أنيق وحديث واحترافي';
       fields.aspectRatio.value = '1:1 مربع';
       fields.qualityLevel.value = 'عالية جدًا';
-      fields.outputMode.value = 'full';
+      fields.outputMode.value = 'medium';
+      fields.visualPromptMode.value = 'hybrid';
       fields.subject.value = '';
       fields.subjectArea.value = 'عام';
       fields.gradeLevel.value = '';
@@ -1918,6 +2026,7 @@
       fields.numberStyle.value = 'english';
       fields.textImportance.value = 'أولوية قصوى جدًا';
       fields.textFormatting.value = '';
+      fields.layoutType.value = 'تخطيط عربي مرن حسب المحتوى';
       fields.enableFooter.value = 'yes';
       fields.footerMode.value = 'auto';
       fields.footerTeacherName.value = '';
@@ -1981,6 +2090,7 @@
       fields.aspectRatio.value = '16:9 أفقي';
       fields.qualityLevel.value = 'عالية جدًا';
       fields.outputMode.value = 'full';
+      fields.visualPromptMode.value = 'hybrid';
       fields.subject.value = 'التحويلات المترية';
       fields.subjectArea.value = 'رياضيات';
       fields.gradeLevel.value = 'المرحلة الابتدائية';
@@ -2001,6 +2111,7 @@
       fields.numberStyle.value = 'eastern';
       fields.textImportance.value = 'أولوية قصوى جدًا';
       fields.textFormatting.value = 'عنوان رئيسي كبير وواضح، أمثلة سفلية داخل صناديق أفقية مرتبة';
+      fields.layoutType.value = 'إنفوجرافيك خطوات يبدأ من اليمين';
       fields.enableFooter.value = 'yes';
       fields.footerMode.value = 'mixed';
       fields.footerTeacherName.value = 'أ. محمد';
@@ -2025,6 +2136,7 @@
         fields.aspectRatio.value = '16:9 أفقي';
         fields.backgroundStyle.value = 'تعليمية منظمة';
         fields.textImportance.value = 'أولوية قصوى جدًا';
+        fields.layoutType.value = 'عنوان أعلى يمين مع مساحة قراءة واسعة';
       } else if (type === 'eduInfo') {
         fields.imageType.value = 'بوستر';
         fields.purpose.value = 'تعليمي';
@@ -2033,6 +2145,7 @@
         fields.backgroundStyle.value = 'تعليمية منظمة';
         fields.cameraAngle.value = 'مباشرة وواضحة';
         fields.textFormatting.value = 'عنوان علوي واضح، محتوى بصري متسلسل، أمثلة مرتبة أسفل التصميم';
+        fields.layoutType.value = 'إنفوجرافيك خطوات يبدأ من اليمين';
       } else if (type === 'eduBoard') {
         fields.imageType.value = 'بوستر';
         fields.purpose.value = 'تعليمي';
@@ -2040,6 +2153,7 @@
         fields.aspectRatio.value = '16:9 أفقي';
         fields.backgroundStyle.value = 'تعليمية منظمة';
         fields.mainElementPosition.value = 'وسط الصورة من منظور المشاهد';
+        fields.layoutType.value = 'مخطط تعليمي عربي منظم';
       } else if (type === 'eduMath') {
         fields.imageType.value = 'ملصق دعائي';
         fields.purpose.value = 'تعليمي';
@@ -2048,6 +2162,7 @@
         fields.subjectArea.value = 'رياضيات';
         fields.backgroundStyle.value = 'تعليمية منظمة';
         fields.colors.value = 'أبيض وأزرق مع لمسات خضراء تعليمية';
+        fields.layoutType.value = 'جدول عربي يبدأ عموده الأول من اليمين';
       } else if (type === 'eduScience') {
         fields.imageType.value = 'ملصق دعائي';
         fields.purpose.value = 'تعليمي';
@@ -2056,24 +2171,28 @@
         fields.subjectArea.value = 'علوم';
         fields.backgroundStyle.value = 'تعليمية منظمة';
         fields.colors.value = 'أبيض ونفحات تركواز وأزرق فاتح';
+        fields.layoutType.value = 'مخطط تعليمي عربي منظم';
       } else if (type === 'social') {
         fields.imageType.value = 'منشور سوشيال';
         fields.purpose.value = 'سوشيال ميديا';
         fields.style.value = 'حديث وجذاب وقابل للمشاركة';
         fields.aspectRatio.value = '4:5 عمودي';
         fields.backgroundStyle.value = 'معاصرة بسيطة';
+        fields.layoutType.value = 'منشور سوشيال عربي عالي الوضوح';
       } else if (type === 'ad') {
         fields.imageType.value = 'إعلان';
         fields.purpose.value = 'إعلاني';
         fields.style.value = 'فاخر وواضح وجذاب بصريًا';
         fields.aspectRatio.value = '1:1 مربع';
         fields.backgroundStyle.value = 'فاخرة وهادئة';
+        fields.layoutType.value = 'تصميم إعلاني عربي بعنوان بارز';
       } else if (type === 'invite') {
         fields.imageType.value = 'بطاقة دعوة';
         fields.purpose.value = 'رسمي';
         fields.style.value = 'راقي وكلاسيكي ومتوازن';
         fields.aspectRatio.value = 'A4 عمودي';
         fields.backgroundStyle.value = 'فاخرة وهادئة';
+        fields.layoutType.value = 'عنوان أعلى يمين مع مساحة قراءة واسعة';
       }
       generate();
       statusText.textContent = 'تم تطبيق القالب';
@@ -2123,6 +2242,7 @@
             if (fields[key].type === 'checkbox') fields[key].checked = Boolean(value);
             else fields[key].value = value;
           }
+          fields.rtl.checked = true;
           generate();
           statusText.textContent = 'تم استيراد الإعدادات';
         } catch {
