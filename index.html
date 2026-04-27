@@ -953,6 +953,7 @@
               <button class="preset" data-preset="ad">إعلان عربي</button>
               <button class="preset" data-preset="invite">بطاقة دعوة</button>
               <button class="preset" data-preset="slides">شرائح متعددة</button>
+              <button class="preset" data-preset="story">قصة مصورة</button>
             </div>
           </div>
 
@@ -976,6 +977,7 @@
                   <option>بطاقة دعوة</option>
                   <option>هوية بصرية</option>
                   <option>شرائح متعددة مستقلة</option>
+                  <option>قصة مصورة متعددة الصفحات</option>
                 </select>
               </div>
               <div>
@@ -1218,6 +1220,7 @@
                   <option>تصميم إعلاني عربي بعنوان بارز</option>
                   <option>منشور سوشيال عربي عالي الوضوح</option>
                   <option>شرائح عرض عربية مستقلة من اليمين إلى اليسار</option>
+                  <option>قصة مصورة عربية متعددة الصفحات</option>
                 </select>
               </div>
             </div>
@@ -1275,6 +1278,80 @@
 الصورة2 ( صفحة الطالب تعبأ من ولي الأمر )
 الصورة3 ( يتم اختيار اليوم والتاريخ من إلى )"></textarea>
                 <span class="hint">اكتب كل صورة أو شريحة في سطر مستقل. سيربط المولد كل رقم بصورته وتعليقه.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-head">
+              <h3>مولد القصة المصورة</h3>
+              <small>لإنشاء صفحات قصة مصورة مع تثبيت الشخصيات ونص مستقل لكل صفحة</small>
+            </div>
+            <div class="form-grid">
+              <div>
+                <label for="storyMode">وضع القصة المصورة</label>
+                <select id="storyMode">
+                  <option value="off">غير مفعّل</option>
+                  <option value="on">مفعّل: قصة مصورة</option>
+                </select>
+              </div>
+              <div>
+                <label for="storyPageCount">عدد صفحات القصة</label>
+                <input id="storyPageCount" type="number" min="1" max="10" value="6" />
+                <span class="hint">الحد الأقصى ١٠ صفحات في الطلب الواحد.</span>
+              </div>
+              <div>
+                <label for="storyPageSize">مقاس الصفحة</label>
+                <select id="storyPageSize">
+                  <option>A4 عرضي</option>
+                  <option>A4 عمودي</option>
+                  <option>16:9 عرضي</option>
+                  <option>4:5 عمودي</option>
+                  <option>مربع 1:1</option>
+                </select>
+              </div>
+              <div>
+                <label for="storyTextPlacement">موضع نص القصة</label>
+                <select id="storyTextPlacement">
+                  <option>فقاعات حوار عربية داخل المشهد</option>
+                  <option>نص سردي أسفل الصورة</option>
+                  <option>نص سردي أعلى يمين الصفحة</option>
+                  <option>نص في عمود يمين الصفحة</option>
+                  <option>نص في عمود يسار الصفحة</option>
+                  <option>بطاقة نصية أسفل يمين الصورة</option>
+                  <option>بدون نص داخل الصورة، اترك مساحة للنص</option>
+                </select>
+              </div>
+              <div>
+                <label for="storyArtStyle">أسلوب الرسم</label>
+                <select id="storyArtStyle">
+                  <option>رسوم قصص أطفال عربية ناعمة وواضحة</option>
+                  <option>أسلوب كرتوني تعليمي نظيف</option>
+                  <option>رسم شبه واقعي لطيف</option>
+                  <option>أسلوب كتاب مصور فاخر</option>
+                  <option>أسلوب مانجا/كوميكس عربي منظم</option>
+                </select>
+              </div>
+              <div>
+                <label for="storyConsistency">تثبيت الشخصيات</label>
+                <select id="storyConsistency">
+                  <option>صارم جدًا: حافظ على نفس الشخصيات والملابس والألوان في كل الصفحات</option>
+                  <option>صارم: حافظ على نفس الشخصيات مع مرونة بسيطة في الوضعيات</option>
+                  <option>مرن: حافظ على الملامح الأساسية فقط</option>
+                </select>
+              </div>
+              <div class="full">
+                <label for="storyCharacters">وصف الشخصيات الثابتة</label>
+                <textarea id="storyCharacters" class="short-area" placeholder="مثال: سالم طفل عربي عمره ٩ سنوات، شعره أسود قصير، يرتدي ثوبًا أبيض وحقيبة زرقاء. نورة طفلة عمرها ٨ سنوات، شعرها بني، ترتدي فستانًا ورديًا."></textarea>
+                <span class="hint">كلما كان وصف الشخصيات أوضح، زادت فرصة ثباتها عبر الصفحات.</span>
+              </div>
+              <div class="full">
+                <label for="storyPages">وصف صفحات القصة</label>
+                <textarea id="storyPages" class="short-area" placeholder="مثال:
+الصفحة1: سالم يستيقظ مبكرًا ويستعد للمدرسة. النص: اليوم يوم جميل للتعلم.
+الصفحة2: سالم يلتقي نورة أمام المدرسة. النص: التعاون يجعل يومنا أسهل.
+الصفحة3: المعلمة تشرح الدرس داخل الفصل. النص: نسمع جيدًا ونشارك بأدب."></textarea>
+                <span class="hint">اكتب كل صفحة في سطر مستقل، مع وصف المشهد والنص المطلوب إن وجد.</span>
               </div>
             </div>
           </div>
@@ -1524,6 +1601,14 @@
       slideImageCount: $('slideImageCount'),
       slideOverflowMode: $('slideOverflowMode'),
       slideItems: $('slideItems'),
+      storyMode: $('storyMode'),
+      storyPageCount: $('storyPageCount'),
+      storyPageSize: $('storyPageSize'),
+      storyTextPlacement: $('storyTextPlacement'),
+      storyArtStyle: $('storyArtStyle'),
+      storyConsistency: $('storyConsistency'),
+      storyCharacters: $('storyCharacters'),
+      storyPages: $('storyPages'),
       enableFooter: $('enableFooter'),
       footerMode: $('footerMode'),
       footerTeacherName: $('footerTeacherName'),
@@ -1624,6 +1709,10 @@
       return d.slideMode === 'on' || (d.imageType || '').includes('شرائح');
     }
 
+    function isStoryMode(d) {
+      return d.storyMode === 'on' || (d.imageType || '').includes('قصة مصورة');
+    }
+
     function displayNumber(n, style) {
       return style === 'eastern' ? englishToEastern(String(n)) : String(n);
     }
@@ -1636,6 +1725,62 @@
         .map(line => convertDigitsByStyle(line.trim(), d.numberStyle))
         .filter(Boolean)
         .join('\n');
+    }
+
+    function normalizedStoryPages(d) {
+      const raw = normalizeSpaces(d.storyPages || '');
+      if (!raw) return '';
+      return raw
+        .split('\n')
+        .map(line => convertDigitsByStyle(line.trim(), d.numberStyle))
+        .filter(Boolean)
+        .join('\n');
+    }
+
+    function storyTextPlacementInstruction(placement) {
+      if ((placement || '').includes('فقاعات')) return 'استخدم فقاعات حوار عربية واضحة داخل المشهد، واجعل ذيل الفقاعة يشير للشخصية المتحدثة، مع قراءة الفقاعة من اليمين إلى اليسار.';
+      if ((placement || '').includes('أسفل الصورة')) return 'ضع النص السردي أسفل الصورة في مساحة مخصصة نظيفة، بمحاذاة يمينية واتجاه RTL.';
+      if ((placement || '').includes('أعلى يمين')) return 'ضع النص السردي في أعلى يمين الصفحة داخل مساحة هادئة لا تغطي العناصر المهمة.';
+      if ((placement || '').includes('عمود يمين')) return 'ضع النص في عمود واضح على يمين الصفحة، والصورة أو المشهد في المساحة المتبقية، مع محاذاة عربية كاملة.';
+      if ((placement || '').includes('عمود يسار')) return 'ضع النص في عمود يسار الصفحة لكن حافظ على محاذاة النص يمينًا داخل العمود، واجعل القراءة عربية RTL.';
+      if ((placement || '').includes('بطاقة نصية')) return 'ضع النص داخل بطاقة صغيرة أسفل يمين الصورة، بمحاذاة يمينية وتباين واضح.';
+      if ((placement || '').includes('بدون نص')) return 'لا تكتب النص داخل الصورة؛ اترك مساحة نظيفة مخصصة لإضافة النص لاحقًا.';
+      return 'ضع نص القصة في موضع واضح ومقروء، بمحاذاة عربية من اليمين إلى اليسار.';
+    }
+
+    function storyGenerationInstruction(d) {
+      if (!isStoryMode(d)) return '';
+      const pageCount = clampInt(d.storyPageCount, 1, 10, 6);
+      const pageCountLabel = displayNumber(pageCount, d.numberStyle);
+      const pages = normalizedStoryPages(d);
+      const lines = [
+        'تعليمات خاصة بالقصة المصورة:',
+        `- أنشئ قصة مصورة عربية متعددة الصفحات بعدد ${pageCountLabel} صفحات كحد أقصى ١٠ صفحات في الطلب الواحد.`,
+        `- مقاس كل صفحة: ${d.storyPageSize || 'A4 عرضي'}.`,
+        `- أسلوب الرسم المطلوب: ${d.storyArtStyle || 'رسوم قصص أطفال عربية ناعمة وواضحة'}.`,
+        `- موضع نص القصة: ${d.storyTextPlacement || 'نص سردي أسفل الصورة'}. ${storyTextPlacementInstruction(d.storyTextPlacement)}`,
+        `- تثبيت الشخصيات: ${d.storyConsistency || 'صارم جدًا: حافظ على نفس الشخصيات والملابس والألوان في كل الصفحات'}.`,
+        '- كل صفحة يجب أن تكون مشهدًا مستقلًا واضحًا، لكنها جزء من قصة واحدة متصلة بصريًا وسرديًا.',
+        '- حافظ على نفس الشخصيات عبر كل الصفحات: نفس الملامح، العمر، الملابس، الألوان، تسريحة الشعر، والإكسسوارات.',
+        '- لا تغيّر هوية الشخصية بين صفحة وأخرى، ولا تضف شخصية رئيسية جديدة إلا إذا وردت في وصف الصفحة أو وصف الشخصيات.',
+        '- اجعل تسلسل الصفحات عربيًا من اليمين إلى اليسار، واجعل أرقام الصفحات أو العناوين تبدأ من الجهة اليمنى.',
+        '- حافظ على هوية بصرية موحدة بين الصفحات: نفس الأسلوب، لوحة الألوان، الإضاءة، وسماكة الخطوط.',
+        '- اجعل النص العربي قصيرًا ومقروءًا جدًا، ولا تضعه فوق تفاصيل مزدحمة.',
+        '- إذا تعذر توليد النص العربي بدقة، اترك مساحة النص فارغة بدل كتابة نص مشوه.'
+      ];
+      if (d.storyCharacters) {
+        lines.push('- وصف الشخصيات الثابتة التي يجب الالتزام بها حرفيًا:');
+        lines.push(d.storyCharacters);
+      } else {
+        lines.push('- إذا لم يوصف المستخدم الشخصيات، أنشئ شخصيات عربية بسيطة وثابتة وكرر ملامحها وملابسها في كل الصفحات.');
+      }
+      if (pages) {
+        lines.push('- صفحات القصة، وصف كل صفحة ونصها:');
+        lines.push(pages);
+      } else {
+        lines.push('- إذا لم تُكتب صفحات القصة، قسّم الموضوع إلى صفحات قصيرة مترابطة مع مشهد ونص عربي مختصر لكل صفحة.');
+      }
+      return lines.join('\n');
     }
 
     function slideGenerationInstruction(d) {
@@ -1680,6 +1825,7 @@
       if (layoutType.includes('تصميم إعلاني')) return 'Arabic advertising layout with a strong right-aligned headline, clear offer area, balanced product space';
       if (layoutType.includes('منشور سوشيال')) return 'high-readability Arabic social post layout, bold right-aligned hook, clean visual hierarchy';
       if (layoutType.includes('شرائح عرض')) return 'separate Arabic presentation slides, A4 landscape, each slide uses one attached screenshot with its matching caption, consistent RTL slide system';
+      if (layoutType.includes('قصة مصورة')) return 'multi-page Arabic illustrated story, consistent characters across all pages, clear comic/storybook page composition, RTL text placement';
       return 'flexible Arabic RTL layout, right-aligned text, clear hierarchy, balanced composition';
     }
 
@@ -1694,6 +1840,7 @@
       else if (layout.includes('تصميم إعلاني')) detail = 'اجعل العنوان أو العرض الرئيسي بارزًا في الجهة اليمنى أو أعلى اليمين، مع توازن واضح بين النص والمنتج أو العنصر البصري.';
       else if (layout.includes('منشور سوشيال')) detail = 'اجعل الجملة الجاذبة واضحة وكبيرة ومحاذاة لليمين، مع مساحات هواء كافية حتى تقرأ بسرعة على الهاتف.';
       else if (layout.includes('شرائح عرض')) detail = 'اجعل كل شريحة مستقلة ومنظمة، تبدأ قراءتها من اليمين، وتحافظ على نفس النظام البصري بين جميع الشرائح.';
+      else if (layout.includes('قصة مصورة')) detail = 'اجعل كل صفحة مشهدًا قصصيًا واضحًا، وحافظ على الشخصيات نفسها واتجاه القراءة العربي بين الصفحات.';
       return `نوع التخطيط العربي: ${layout}. ${detail}`;
     }
 
@@ -1799,6 +1946,11 @@
         lines.push('');
         lines.push(slideInstruction);
       }
+      const storyInstruction = storyGenerationInstruction(d);
+      if (storyInstruction) {
+        lines.push('');
+        lines.push(storyInstruction);
+      }
       lines.push('');
       lines.push('تعليمات النص العربي الأساسي:');
       lines.push('- انسخ النص التالي حرفيًا 100% دون حذف أو إضافة أو استبدال أو إعادة صياغة لأي حرف.');
@@ -1884,6 +2036,8 @@
       lines.push(arabicLayoutInstruction(d));
       const slideInstruction = slideGenerationInstruction(d);
       if (slideInstruction) lines.push(slideInstruction);
+      const storyInstruction = storyGenerationInstruction(d);
+      if (storyInstruction) lines.push(storyInstruction);
       if (d.keepTashkeel) lines.push('حافظ على جميع الحركات والتشكيل كما هي تمامًا.');
       lines.push(`نوع الخط: ${d.fontStyle}. موضع النص: ${d.textPosition}.`);
       if (d.textFormatting) lines.push(`تنسيق النص: ${d.textFormatting}.`);
@@ -1922,6 +2076,8 @@
       parts.push(arabicLayoutInstruction(d));
       const slideInstruction = slideGenerationInstruction(d);
       if (slideInstruction) parts.push(slideInstruction);
+      const storyInstruction = storyGenerationInstruction(d);
+      if (storyInstruction) parts.push(storyInstruction);
       if (d.keepTashkeel) parts.push('حافظ على التشكيل كاملًا كما هو.');
       parts.push(`موضع النص: ${d.textPosition}. نوع الخط: ${d.fontStyle}.`);
       if (d.textFormatting) parts.push(`تنسيق النص: ${d.textFormatting}.`);
@@ -1979,6 +2135,14 @@
         'wrong image-caption pairing',
         'inconsistent slide style',
         'A4 slide cropped',
+        'inconsistent character design',
+        'character identity drift',
+        'different clothes between story pages',
+        'wrong story page order',
+        'comic bubbles left-to-right',
+        'speech bubble tail pointing to wrong character',
+        'story text outside safe area',
+        'unreadable story caption',
         'watermarks'
       ];
       if (d.keepTashkeel) parts.push('missing diacritics', 'wrong diacritics');
@@ -2029,6 +2193,14 @@
         if (sourceImages > outputSlides) notes.push({ type: 'note', text: 'عدد الصور أكبر من عدد الشرائح؛ سيتم توجيه النموذج لدمج الزائد في الشريحة الأخيرة أو حسب خيار الزائد.' });
         if (!d.slideItems) notes.push({ type: 'warn', text: 'وضع الشرائح مفعل لكن قائمة نصوص الصور أو الشرائح فارغة.' });
       }
+      if (isStoryMode(d)) {
+        const pageCount = clampInt(d.storyPageCount, 1, 10, 6);
+        notes.push({ type: 'good', text: `وضع القصة المصورة مفعل، وسيتم ضبط الإخراج على ${displayNumber(pageCount, d.numberStyle)} صفحات كحد أقصى.` });
+        if (d.storyCharacters) notes.push({ type: 'good', text: 'تم إدخال وصف الشخصيات، وهذا مهم جدًا لتثبيتها عبر صفحات القصة.' });
+        else notes.push({ type: 'warn', text: 'وضع القصة مفعل لكن وصف الشخصيات فارغ؛ أضف ملامح وملابس كل شخصية لزيادة الثبات.' });
+        if (d.storyPages) notes.push({ type: 'good', text: 'تم إدخال وصف صفحات القصة، وهذا يساعد النموذج على بناء تسلسل واضح.' });
+        else notes.push({ type: 'warn', text: 'وضع القصة مفعل لكن وصف الصفحات فارغ.' });
+      }
       if (d.specialInstructions) notes.push({ type: 'good', text: 'أضفت تعليمات دقيقة إضافية؛ هذا ممتاز للمشاهد التعليمية والإعلانية.' });
       if (d.enableFooter === 'yes') {
         const footerTextComposed = composeFooterText(d);
@@ -2073,6 +2245,9 @@
       if (d.layoutType && d.layoutType !== 'تخطيط عربي مرن حسب المحتوى') score += 6;
       if (isSlideMode(d)) score += 6;
       if (isSlideMode(d) && d.slideItems) score += 6;
+      if (isStoryMode(d)) score += 6;
+      if (isStoryMode(d) && d.storyCharacters) score += 6;
+      if (isStoryMode(d) && d.storyPages) score += 6;
       if (d.strictArabic) score += 4;
       if (d.keepTashkeel) score += 3;
       if (d.rtl) score += 3;
@@ -2175,6 +2350,14 @@
       fields.slideImageCount.value = '10';
       fields.slideOverflowMode.value = 'ادمج الصور أو البنود الزائدة في الشريحة الأخيرة';
       fields.slideItems.value = '';
+      fields.storyMode.value = 'off';
+      fields.storyPageCount.value = '6';
+      fields.storyPageSize.value = 'A4 عرضي';
+      fields.storyTextPlacement.value = 'نص سردي أسفل الصورة';
+      fields.storyArtStyle.value = 'رسوم قصص أطفال عربية ناعمة وواضحة';
+      fields.storyConsistency.value = 'صارم جدًا: حافظ على نفس الشخصيات والملابس والألوان في كل الصفحات';
+      fields.storyCharacters.value = '';
+      fields.storyPages.value = '';
       fields.enableFooter.value = 'yes';
       fields.footerMode.value = 'auto';
       fields.footerTeacherName.value = '';
@@ -2222,6 +2405,7 @@
       fields.arabicText.value = '';
       fields.secondaryText.value = '';
       fields.slideItems.value = '';
+      fields.storyPages.value = '';
       fields.negativeNotes.value = '';
       fields.specialInstructions.value = '';
       fields.footerLessonTopic.value = '';
@@ -2382,6 +2566,44 @@
         fields.footerStyle.value = 'أنيق وخفيف وغير مزعج';
         fields.footerText.value = 'الموضوع: شرح منصة أعذار غياب الطلاب | تصميم وكيل المدرسة للشؤون التعليمية والمدرسية: أ. عبدالجبار بن سعد آل جناح الخالدي';
         fields.negativeNotes.value = 'لا تدمج الشرائح كلها في صورة واحدة مزدحمة، لا تغيّر ترتيب الصور، لا تفصل الصورة عن تعليقها، لا تقص واجهات البرنامج، لا تجعل الأرقام أو العناوين تبدأ من اليسار';
+      } else if (type === 'story') {
+        fields.imageType.value = 'قصة مصورة متعددة الصفحات';
+        fields.purpose.value = 'تعليمي';
+        fields.style.value = 'قصة مصورة عربية دافئة، مشاهد واضحة، شخصيات ثابتة، مناسبة للأطفال';
+        fields.aspectRatio.value = 'A4 أفقي';
+        fields.backgroundStyle.value = 'نظيفة وغير مزدحمة';
+        fields.cameraAngle.value = 'مباشرة وواضحة';
+        fields.mainElementPosition.value = 'وسط الصورة من منظور المشاهد';
+        fields.layoutType.value = 'قصة مصورة عربية متعددة الصفحات';
+        fields.storyMode.value = 'on';
+        fields.storyPageCount.value = '6';
+        fields.storyPageSize.value = 'A4 عرضي';
+        fields.storyTextPlacement.value = 'نص سردي أسفل الصورة';
+        fields.storyArtStyle.value = 'رسوم قصص أطفال عربية ناعمة وواضحة';
+        fields.storyConsistency.value = 'صارم جدًا: حافظ على نفس الشخصيات والملابس والألوان في كل الصفحات';
+        fields.numberStyle.value = 'eastern';
+        fields.textPosition.value = 'أعلى يمين الصورة';
+        fields.fontStyle.value = 'خط نسخي واضح';
+        fields.subject.value = 'قصة مصورة عن قيمة التعاون';
+        fields.arabicText.value = 'قصة التعاون';
+        fields.secondaryText.value = 'كل صفحة تحمل مشهدًا ونصًا قصيرًا';
+        fields.sceneDesc.value = 'صمم قصة مصورة عربية متعددة الصفحات، كل صفحة مشهد مستقل من القصة، مع شخصيات ثابتة وملابس موحدة، ألوان دافئة، خلفيات بسيطة، ونص عربي قصير واضح في المكان المختار.';
+        fields.colors.value = 'ألوان دافئة ومريحة، أزرق هادئ، أخضر ناعم، ولمسات ذهبية بسيطة';
+        fields.extraElements.value = 'مدرسة، فصل دراسي، كتب، حقيبة، حديقة صغيرة، أيقونات تعاون ومساعدة';
+        fields.storyCharacters.value = 'سالم: طفل عربي عمره ٩ سنوات، شعره أسود قصير، يرتدي ثوبًا أبيض وحقيبة زرقاء. نورة: طفلة عربية عمرها ٨ سنوات، شعرها بني، ترتدي فستانًا ورديًا وحذاءً أبيض. المعلمة: امرأة عربية لطيفة ترتدي عباءة بسيطة وحجابًا بلون أزرق هادئ.';
+        fields.storyPages.value = [
+          'الصفحة1: سالم يصل إلى المدرسة وهو يحمل كتبه ويبدو متحمسًا. النص: صباح الخير، يوم جديد للتعلم.',
+          'الصفحة2: نورة تسقط بعض الدفاتر قرب باب الفصل وسالم يلاحظ ذلك. النص: رأى سالم أن نورة تحتاج إلى مساعدة.',
+          'الصفحة3: سالم يساعد نورة في جمع الدفاتر بابتسامة. النص: التعاون يجعل العمل أسهل.',
+          'الصفحة4: المعلمة تشكر سالم ونورة أمام الطلاب. النص: عندما نتعاون ننجح جميعًا.',
+          'الصفحة5: الطلاب يعملون معًا في نشاط داخل الفصل. النص: كل واحد منا يستطيع أن يساعد.',
+          'الصفحة6: سالم ونورة يخرجان من المدرسة وهما سعيدان. النص: التعاون خلق جميل يبقى أثره.'
+        ].join('\n');
+        fields.footerMode.value = 'manual';
+        fields.footerPosition.value = 'أسفل وسط الصورة';
+        fields.footerStyle.value = 'أنيق وخفيف وغير مزعج';
+        fields.footerText.value = 'قصة مصورة عربية | قيمة التعاون';
+        fields.negativeNotes.value = 'لا تغيّر ملامح الشخصيات بين الصفحات، لا تغيّر الملابس، لا تجعل فقاعات الحوار تبدأ من اليسار، لا تكتب نصًا مشوهًا، لا تزدحم الصفحة';
       }
       generate();
       statusText.textContent = 'تم تطبيق القالب';
