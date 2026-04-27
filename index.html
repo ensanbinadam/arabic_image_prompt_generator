@@ -953,6 +953,7 @@
               <button class="preset" data-preset="ad">إعلان عربي</button>
               <button class="preset" data-preset="invite">بطاقة دعوة</button>
               <button class="preset" data-preset="slides">شرائح متعددة</button>
+              <button class="preset" data-preset="slidesGenerate">شرائح توليد صور</button>
               <button class="preset" data-preset="story">قصة مصورة</button>
             </div>
           </div>
@@ -1255,6 +1256,13 @@
                 </select>
               </div>
               <div>
+                <label for="slideSourceMode">مصدر صور الشرائح</label>
+                <select id="slideSourceMode">
+                  <option value="attached">صور مرفقة مع تعليقات</option>
+                  <option value="generated">توليد صور من وصف كل شريحة</option>
+                </select>
+              </div>
+              <div>
                 <label for="slideCount">عدد الشرائح الناتجة</label>
                 <input id="slideCount" type="number" min="1" max="10" value="10" />
                 <span class="hint">الحد الأقصى ١٠ شرائح في الطلب الواحد.</span>
@@ -1278,6 +1286,13 @@
 الصورة2 ( صفحة الطالب تعبأ من ولي الأمر )
 الصورة3 ( يتم اختيار اليوم والتاريخ من إلى )"></textarea>
                 <span class="hint">اكتب كل صورة أو شريحة في سطر مستقل. سيربط المولد كل رقم بصورته وتعليقه.</span>
+              </div>
+              <div class="full">
+                <label for="slideGeneratedItems">أوصاف الشرائح عند توليد الصور</label>
+                <textarea id="slideGeneratedItems" class="short-area" placeholder="مثال:
+الشريحة1: العنوان: مفهوم التعاون | الصورة: طلاب يعملون معًا داخل فصل دراسي | النص: التعاون طريق النجاح.
+الشريحة2: العنوان: فوائد التعاون | الصورة: مجموعة طلاب ينجزون مشروعًا | النص: نتعلم أسرع عندما نتعاون."></textarea>
+                <span class="hint">استخدم هذا الحقل عندما تريد توليد صور مناسبة لكل شريحة بدل الاعتماد على صور مرفقة.</span>
               </div>
             </div>
           </div>
@@ -1597,10 +1612,12 @@
       layoutType: $('layoutType'),
       slideMode: $('slideMode'),
       slideSize: $('slideSize'),
+      slideSourceMode: $('slideSourceMode'),
       slideCount: $('slideCount'),
       slideImageCount: $('slideImageCount'),
       slideOverflowMode: $('slideOverflowMode'),
       slideItems: $('slideItems'),
+      slideGeneratedItems: $('slideGeneratedItems'),
       storyMode: $('storyMode'),
       storyPageCount: $('storyPageCount'),
       storyPageSize: $('storyPageSize'),
@@ -1727,6 +1744,16 @@
         .join('\n');
     }
 
+    function normalizedGeneratedSlideItems(d) {
+      const raw = normalizeSpaces(d.slideGeneratedItems || '');
+      if (!raw) return '';
+      return raw
+        .split('\n')
+        .map(line => convertDigitsByStyle(line.trim(), d.numberStyle))
+        .filter(Boolean)
+        .join('\n');
+    }
+
     function normalizedStoryPages(d) {
       const raw = normalizeSpaces(d.storyPages || '');
       if (!raw) return '';
@@ -1785,33 +1812,48 @@
 
     function slideGenerationInstruction(d) {
       if (!isSlideMode(d)) return '';
+      const sourceMode = d.slideSourceMode || 'attached';
       const outputSlides = clampInt(d.slideCount, 1, 10, 10);
       const sourceImages = clampInt(d.slideImageCount, 1, 20, outputSlides);
       const outputSlidesLabel = displayNumber(outputSlides, d.numberStyle);
       const sourceImagesLabel = displayNumber(sourceImages, d.numberStyle);
       const items = normalizedSlideItems(d);
+      const generatedItems = normalizedGeneratedSlideItems(d);
       const overflow = d.slideOverflowMode || 'ادمج الصور أو البنود الزائدة في الشريحة الأخيرة';
       const lines = [
         'تعليمات خاصة بالشرائح المتعددة:',
         `- أنشئ سلسلة شرائح عربية مستقلة، وليس إنفوجرافيكًا واحدًا طويلًا.`,
         `- عدد الشرائح الناتجة المطلوب في هذا الطلب: ${outputSlidesLabel} بحد أقصى ١٠ شرائح.`,
-        `- عدد الصور أو اللقطات المرفقة المتوقع استخدامها: ${sourceImagesLabel}.`,
         `- مقاس كل شريحة: ${d.slideSize || 'A4 عرضي'}.`,
         '- كل شريحة يجب أن تكون تصميمًا مستقلًا كاملًا يصلح للتصدير أو الاستخدام منفردًا.',
-        '- اربط كل صورة مرفقة بتعليقها المرقم نفسه؛ الصورة رقم ١ تستخدم تعليق رقم ١، والصورة رقم ٢ تستخدم تعليق رقم ٢، وهكذا.',
         '- ضع رقم الشريحة أو الصورة بالأرقام الهندية الشرقية عند اختيار هذا النمط، واجعله ظاهرًا من جهة اليمين وبمحاذاة عربية.',
-        `- عند زيادة عدد الصور أو البنود عن عدد الشرائح: ${overflow}.`,
-        '- إذا وُجدت صور زائدة عن الحد الأقصى، فادمج الزائد في الشريحة الأخيرة بوضوح، مثل دمج الصورة ١٠ والصورة ١١ في شريحة واحدة عند الحاجة.',
         '- حافظ على هوية بصرية موحدة بين جميع الشرائح: نفس الخطوط، الألوان، التذييل، المسافات، وأسلوب الأيقونات.',
-        '- اجعل تسلسل الشرائح واللوحات من اليمين إلى اليسار، واجعل أي أسهم أو خطوات أو مؤشرات تقدم تبدأ من اليمين.',
-        '- استخدم الصور المرفقة كعنصر رئيسي في كل شريحة، ولا تستبدلها برسومات عامة إلا عند الحاجة لعناصر مساعدة بسيطة.',
-        '- أضف أيقونات مناسبة حسب تعليق كل شريحة، مثل أيقونات الحضور والغياب والطلبات والصلاحيات والجداول عند ملاءمتها.'
+        '- اجعل تسلسل الشرائح واللوحات من اليمين إلى اليسار، واجعل أي أسهم أو خطوات أو مؤشرات تقدم تبدأ من اليمين.'
       ];
-      if (items) {
-        lines.push('- قائمة الصور أو الشرائح وتعليقات كل واحدة:');
-        lines.push(items);
+      if (sourceMode === 'generated') {
+        lines.push('- مصدر الصور: لا تعتمد على صور مرفقة؛ ولّد صورة أو مشهدًا مناسبًا لكل شريحة اعتمادًا على وصفها.');
+        lines.push('- لكل شريحة: أنشئ عنوانًا عربيًا واضحًا، وصورة تعليمية مناسبة، ونصًا مختصرًا إذا ذُكر في الوصف.');
+        lines.push('- حافظ على نفس الهوية البصرية في كل الصور المولدة، لكن اجعل كل شريحة مختلفة في المشهد بما يخدم موضوعها.');
+        lines.push('- استخدم أيقونات تعليمية بسيطة ورسومًا مناسبة لكل شريحة دون ازدحام أو عناصر عشوائية.');
+        if (generatedItems) {
+          lines.push('- أوصاف الشرائح المطلوب توليد صورها:');
+          lines.push(generatedItems);
+        } else {
+          lines.push('- إذا لم تُكتب أوصاف الشرائح، فقسّم الموضوع إلى شرائح تعليمية واضحة، مع صورة مناسبة ونص عربي مختصر لكل شريحة.');
+        }
       } else {
-        lines.push('- إذا لم تُكتب قائمة مرقمة، فأنشئ عناوين قصيرة لكل شريحة من الموضوع العام مع الحفاظ على التسلسل العربي.');
+        lines.push(`- مصدر الصور: استخدم الصور أو اللقطات المرفقة، وعددها المتوقع: ${sourceImagesLabel}.`);
+        lines.push('- اربط كل صورة مرفقة بتعليقها المرقم نفسه؛ الصورة رقم ١ تستخدم تعليق رقم ١، والصورة رقم ٢ تستخدم تعليق رقم ٢، وهكذا.');
+        lines.push(`- عند زيادة عدد الصور أو البنود عن عدد الشرائح: ${overflow}.`);
+        lines.push('- إذا وُجدت صور زائدة عن الحد الأقصى، فادمج الزائد في الشريحة الأخيرة بوضوح، مثل دمج الصورة ١٠ والصورة ١١ في شريحة واحدة عند الحاجة.');
+        lines.push('- استخدم الصور المرفقة كعنصر رئيسي في كل شريحة، ولا تستبدلها برسومات عامة إلا عند الحاجة لعناصر مساعدة بسيطة.');
+        lines.push('- أضف أيقونات مناسبة حسب تعليق كل شريحة، مثل أيقونات الحضور والغياب والطلبات والصلاحيات والجداول عند ملاءمتها.');
+        if (items) {
+          lines.push('- قائمة الصور أو الشرائح وتعليقات كل واحدة:');
+          lines.push(items);
+        } else {
+          lines.push('- إذا لم تُكتب قائمة مرقمة، فأنشئ عناوين قصيرة لكل شريحة من الموضوع العام مع الحفاظ على التسلسل العربي.');
+        }
       }
       return lines.join('\n');
     }
@@ -1848,7 +1890,10 @@
       if (d.visualPromptMode === 'arabicOnly') return '';
       const subject = d.subject || 'clear Arabic visual subject';
       const keywords = 'clean layout, balanced composition, clear hierarchy, high readability, Arabic typography, generous whitespace, crisp text areas, polished spacing, professional design';
-      const layoutCue = englishLayoutCue(d.layoutType || '');
+      let layoutCue = englishLayoutCue(d.layoutType || '');
+      if (isSlideMode(d) && d.slideSourceMode === 'generated') {
+        layoutCue = 'separate Arabic educational slides, generate a custom illustration for each slide from its description, consistent RTL slide system, no attached screenshots required';
+      }
       if (compact) {
         return `English visual brief: professional Arabic-language ${d.imageType}, ${keywords}, ${layoutCue}, keep all Arabic text exactly as provided.`;
       }
@@ -2133,6 +2178,9 @@
         'missing slide',
         'wrong slide order',
         'wrong image-caption pairing',
+        'missing generated slide illustration',
+        'generated slide does not match description',
+        'using attached screenshot when generated illustration was requested',
         'inconsistent slide style',
         'A4 slide cropped',
         'inconsistent character design',
@@ -2190,8 +2238,13 @@
         const outputSlides = clampInt(d.slideCount, 1, 10, 10);
         const sourceImages = clampInt(d.slideImageCount, 1, 20, outputSlides);
         notes.push({ type: 'good', text: `وضع الشرائح المتعددة مفعل، وسيتم ضبط الإخراج على ${displayNumber(outputSlides, d.numberStyle)} شرائح كحد أقصى في الطلب الواحد.` });
-        if (sourceImages > outputSlides) notes.push({ type: 'note', text: 'عدد الصور أكبر من عدد الشرائح؛ سيتم توجيه النموذج لدمج الزائد في الشريحة الأخيرة أو حسب خيار الزائد.' });
-        if (!d.slideItems) notes.push({ type: 'warn', text: 'وضع الشرائح مفعل لكن قائمة نصوص الصور أو الشرائح فارغة.' });
+        if (d.slideSourceMode === 'generated') {
+          notes.push({ type: 'good', text: 'مصدر الشرائح مضبوط على توليد صور من وصف كل شريحة، ولا يحتاج إلى صور مرفقة.' });
+          if (!d.slideGeneratedItems) notes.push({ type: 'warn', text: 'وضع توليد صور الشرائح مفعل لكن أوصاف الشرائح فارغة.' });
+        } else {
+          if (sourceImages > outputSlides) notes.push({ type: 'note', text: 'عدد الصور أكبر من عدد الشرائح؛ سيتم توجيه النموذج لدمج الزائد في الشريحة الأخيرة أو حسب خيار الزائد.' });
+          if (!d.slideItems) notes.push({ type: 'warn', text: 'وضع الشرائح من الصور المرفقة مفعل لكن قائمة نصوص الصور أو الشرائح فارغة.' });
+        }
       }
       if (isStoryMode(d)) {
         const pageCount = clampInt(d.storyPageCount, 1, 10, 6);
@@ -2244,7 +2297,8 @@
       else if (d.visualPromptMode === 'englishVisual') score += 4;
       if (d.layoutType && d.layoutType !== 'تخطيط عربي مرن حسب المحتوى') score += 6;
       if (isSlideMode(d)) score += 6;
-      if (isSlideMode(d) && d.slideItems) score += 6;
+      if (isSlideMode(d) && d.slideSourceMode === 'generated' && d.slideGeneratedItems) score += 6;
+      else if (isSlideMode(d) && d.slideItems) score += 6;
       if (isStoryMode(d)) score += 6;
       if (isStoryMode(d) && d.storyCharacters) score += 6;
       if (isStoryMode(d) && d.storyPages) score += 6;
@@ -2346,10 +2400,12 @@
       fields.layoutType.value = 'تخطيط عربي مرن حسب المحتوى';
       fields.slideMode.value = 'off';
       fields.slideSize.value = 'A4 عرضي';
+      fields.slideSourceMode.value = 'attached';
       fields.slideCount.value = '10';
       fields.slideImageCount.value = '10';
       fields.slideOverflowMode.value = 'ادمج الصور أو البنود الزائدة في الشريحة الأخيرة';
       fields.slideItems.value = '';
+      fields.slideGeneratedItems.value = '';
       fields.storyMode.value = 'off';
       fields.storyPageCount.value = '6';
       fields.storyPageSize.value = 'A4 عرضي';
@@ -2405,6 +2461,7 @@
       fields.arabicText.value = '';
       fields.secondaryText.value = '';
       fields.slideItems.value = '';
+      fields.slideGeneratedItems.value = '';
       fields.storyPages.value = '';
       fields.negativeNotes.value = '';
       fields.specialInstructions.value = '';
@@ -2537,6 +2594,7 @@
         fields.layoutType.value = 'شرائح عرض عربية مستقلة من اليمين إلى اليسار';
         fields.slideMode.value = 'on';
         fields.slideSize.value = 'A4 عرضي';
+        fields.slideSourceMode.value = 'attached';
         fields.slideCount.value = '10';
         fields.slideImageCount.value = '11';
         fields.slideOverflowMode.value = 'ادمج الصور أو البنود الزائدة في الشريحة الأخيرة';
@@ -2566,6 +2624,42 @@
         fields.footerStyle.value = 'أنيق وخفيف وغير مزعج';
         fields.footerText.value = 'الموضوع: شرح منصة أعذار غياب الطلاب | تصميم وكيل المدرسة للشؤون التعليمية والمدرسية: أ. عبدالجبار بن سعد آل جناح الخالدي';
         fields.negativeNotes.value = 'لا تدمج الشرائح كلها في صورة واحدة مزدحمة، لا تغيّر ترتيب الصور، لا تفصل الصورة عن تعليقها، لا تقص واجهات البرنامج، لا تجعل الأرقام أو العناوين تبدأ من اليسار';
+      } else if (type === 'slidesGenerate') {
+        fields.imageType.value = 'شرائح متعددة مستقلة';
+        fields.purpose.value = 'تعليمي';
+        fields.style.value = 'شرائح تعليمية عربية احترافية، صور مولدة مناسبة لكل فكرة، هوية موحدة ونظيفة';
+        fields.aspectRatio.value = 'A4 أفقي';
+        fields.backgroundStyle.value = 'تعليمية منظمة';
+        fields.cameraAngle.value = 'مباشرة وواضحة';
+        fields.mainElementPosition.value = 'وسط الصورة من منظور المشاهد';
+        fields.layoutType.value = 'شرائح عرض عربية مستقلة من اليمين إلى اليسار';
+        fields.slideMode.value = 'on';
+        fields.slideSize.value = 'A4 عرضي';
+        fields.slideSourceMode.value = 'generated';
+        fields.slideCount.value = '6';
+        fields.slideImageCount.value = '6';
+        fields.numberStyle.value = 'eastern';
+        fields.textPosition.value = 'أعلى يمين الصورة';
+        fields.fontStyle.value = 'خط نسخي واضح';
+        fields.subject.value = 'عرض تعليمي عن قيمة التعاون';
+        fields.arabicText.value = 'قيمة التعاون';
+        fields.secondaryText.value = 'شرائح تعليمية مصورة';
+        fields.sceneDesc.value = 'صمم شرائح تعليمية عربية مستقلة، كل شريحة تحتوي عنوانًا واضحًا، صورة مولدة مناسبة للفكرة، ونصًا قصيرًا. حافظ على هوية بصرية موحدة، خلفيات نظيفة، وأيقونات تعليمية بسيطة.';
+        fields.colors.value = 'أزرق هادئ، أبيض نظيف، أخضر ناعم، ولمسات ذهبية بسيطة';
+        fields.extraElements.value = 'أيقونات تعاون، طلاب، كتب، فصل دراسي، بطاقات تعليمية، أسهم عربية من اليمين إلى اليسار';
+        fields.slideGeneratedItems.value = [
+          'الشريحة1: العنوان: ما هو التعاون؟ | الصورة: طلاب يجلسون حول طاولة ويناقشون مشروعًا مدرسيًا | النص: التعاون يعني أن نعمل معًا لتحقيق هدف جميل.',
+          'الشريحة2: العنوان: لماذا نتعاون؟ | الصورة: أطفال يساعدون بعضهم في ترتيب الكتب داخل الفصل | النص: بالتعاون يصبح العمل أسهل وأسرع.',
+          'الشريحة3: العنوان: التعاون في المدرسة | الصورة: فريق طلابي ينفذ نشاطًا تعليميًا مع المعلمة | النص: نتعلم أكثر عندما نشارك ونتبادل الأفكار.',
+          'الشريحة4: العنوان: التعاون في البيت | الصورة: عائلة عربية ترتب المائدة معًا في جو دافئ | النص: كل فرد يساعد بما يستطيع.',
+          'الشريحة5: العنوان: ثمار التعاون | الصورة: طلاب يرفعون لوحة نجاح بعد إنجاز مشروع | النص: التعاون يصنع النجاح والفرح.',
+          'الشريحة6: العنوان: لنبدأ اليوم | الصورة: طفل يمد يده لصديقه بابتسامة داخل المدرسة | النص: ساعد غيرك، وستجد من يساعدك.'
+        ].join('\n');
+        fields.footerMode.value = 'manual';
+        fields.footerPosition.value = 'أسفل وسط الصورة';
+        fields.footerStyle.value = 'أنيق وخفيف وغير مزعج';
+        fields.footerText.value = 'عرض تعليمي عربي | قيمة التعاون';
+        fields.negativeNotes.value = 'لا تستخدم صورًا مرفقة، لا تجعل الشرائح مزدحمة، لا تولد نصًا عربيًا مشوهًا، لا تغيّر اتجاه القراءة من اليمين إلى اليسار';
       } else if (type === 'story') {
         fields.imageType.value = 'قصة مصورة متعددة الصفحات';
         fields.purpose.value = 'تعليمي';
