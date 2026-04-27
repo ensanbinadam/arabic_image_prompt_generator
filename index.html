@@ -952,6 +952,7 @@
               <button class="preset" data-preset="social">منشور سوشيال</button>
               <button class="preset" data-preset="ad">إعلان عربي</button>
               <button class="preset" data-preset="invite">بطاقة دعوة</button>
+              <button class="preset" data-preset="slides">شرائح متعددة</button>
             </div>
           </div>
 
@@ -974,6 +975,7 @@
                   <option>لوحة فنية</option>
                   <option>بطاقة دعوة</option>
                   <option>هوية بصرية</option>
+                  <option>شرائح متعددة مستقلة</option>
                 </select>
               </div>
               <div>
@@ -1215,6 +1217,7 @@
                   <option>مخطط تعليمي عربي منظم</option>
                   <option>تصميم إعلاني عربي بعنوان بارز</option>
                   <option>منشور سوشيال عربي عالي الوضوح</option>
+                  <option>شرائح عرض عربية مستقلة من اليمين إلى اليسار</option>
                 </select>
               </div>
             </div>
@@ -1223,6 +1226,56 @@
               <button class="mini" id="toEasternDigitsBtn">تحويل أرقام النص إلى هندية شرقية</button>
               <button class="mini" id="normalizeSpacesBtn">تنظيف المسافات</button>
               <button class="mini" id="quoteTextBtn">لفّ النص بين علامات اقتباس</button>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-head">
+              <h3>مولد الشرائح المتعددة</h3>
+              <small>لإنشاء شريحة واحدة أو سلسلة شرائح منفصلة من صور مرفقة وتعليقات مرقمة</small>
+            </div>
+            <div class="form-grid">
+              <div>
+                <label for="slideMode">وضع الشرائح</label>
+                <select id="slideMode">
+                  <option value="off">غير مفعّل</option>
+                  <option value="on">مفعّل: شرائح متعددة</option>
+                </select>
+              </div>
+              <div>
+                <label for="slideSize">مقاس الشرائح</label>
+                <select id="slideSize">
+                  <option>A4 عرضي</option>
+                  <option>A4 عمودي</option>
+                  <option>16:9 عرضي</option>
+                  <option>4:5 عمودي</option>
+                </select>
+              </div>
+              <div>
+                <label for="slideCount">عدد الشرائح الناتجة</label>
+                <input id="slideCount" type="number" min="1" max="10" value="10" />
+                <span class="hint">الحد الأقصى ١٠ شرائح في الطلب الواحد.</span>
+              </div>
+              <div>
+                <label for="slideImageCount">عدد الصور المرفقة</label>
+                <input id="slideImageCount" type="number" min="1" max="20" value="10" />
+              </div>
+              <div class="full">
+                <label for="slideOverflowMode">عند زيادة الصور أو البنود عن عدد الشرائح</label>
+                <select id="slideOverflowMode">
+                  <option>ادمج الصور أو البنود الزائدة في الشريحة الأخيرة</option>
+                  <option>اجعل كل شريحة تحتوي أكثر من صورة عند الحاجة</option>
+                  <option>استخدم أول عدد مسموح فقط واترك الزائد لطلب لاحق</option>
+                </select>
+              </div>
+              <div class="full">
+                <label for="slideItems">نصوص الصور أو الشرائح المرقمة</label>
+                <textarea id="slideItems" class="short-area" placeholder="مثال:
+الصورة1 ( واجهة برنامج أعذار الغياب )
+الصورة2 ( صفحة الطالب تعبأ من ولي الأمر )
+الصورة3 ( يتم اختيار اليوم والتاريخ من إلى )"></textarea>
+                <span class="hint">اكتب كل صورة أو شريحة في سطر مستقل. سيربط المولد كل رقم بصورته وتعليقه.</span>
+              </div>
             </div>
           </div>
 
@@ -1465,6 +1518,12 @@
       textImportance: $('textImportance'),
       textFormatting: $('textFormatting'),
       layoutType: $('layoutType'),
+      slideMode: $('slideMode'),
+      slideSize: $('slideSize'),
+      slideCount: $('slideCount'),
+      slideImageCount: $('slideImageCount'),
+      slideOverflowMode: $('slideOverflowMode'),
+      slideItems: $('slideItems'),
       enableFooter: $('enableFooter'),
       footerMode: $('footerMode'),
       footerTeacherName: $('footerTeacherName'),
@@ -1555,6 +1614,63 @@
       return 'التزم دائمًا بالاتجاه العربي الطبيعي من اليمين إلى اليسار RTL في كل ما يظهر داخل الصورة: العنوان، النص الأساسي، النص الثانوي، التذييل، التسميات، البطاقات، الجداول، المخططات، الأسهم، القوائم، التعدادات، والترقيم. اجعل المحاذاة يمينًا، واجعل بداية القراءة والتنظيم من يمين التصميم إلى يساره، ولا تعكس ترتيب الكلمات أو الحروف. عند وجود نقاط أو تعداد أو ترقيم، ابدأ كل نقطة أو رقم من جهة اليمين واجعل النص بعدها يقرأ من اليمين إلى اليسار، بحيث يظهر رقم/رمز التعداد قبل النص من الجهة اليمنى. عند وجود جدول أو مخطط أو خطوات متسلسلة، اجعل العمود أو الخطوة الأولى في أقصى اليمين ثم تتتابع العناصر نحو اليسار بما يوافق العربية.';
     }
 
+    function clampInt(value, min, max, fallback) {
+      const n = parseInt(easternToEnglish(String(value || '')), 10);
+      if (Number.isNaN(n)) return fallback;
+      return Math.min(max, Math.max(min, n));
+    }
+
+    function isSlideMode(d) {
+      return d.slideMode === 'on' || (d.imageType || '').includes('شرائح');
+    }
+
+    function displayNumber(n, style) {
+      return style === 'eastern' ? englishToEastern(String(n)) : String(n);
+    }
+
+    function normalizedSlideItems(d) {
+      const raw = normalizeSpaces(d.slideItems || '');
+      if (!raw) return '';
+      return raw
+        .split('\n')
+        .map(line => convertDigitsByStyle(line.trim(), d.numberStyle))
+        .filter(Boolean)
+        .join('\n');
+    }
+
+    function slideGenerationInstruction(d) {
+      if (!isSlideMode(d)) return '';
+      const outputSlides = clampInt(d.slideCount, 1, 10, 10);
+      const sourceImages = clampInt(d.slideImageCount, 1, 20, outputSlides);
+      const outputSlidesLabel = displayNumber(outputSlides, d.numberStyle);
+      const sourceImagesLabel = displayNumber(sourceImages, d.numberStyle);
+      const items = normalizedSlideItems(d);
+      const overflow = d.slideOverflowMode || 'ادمج الصور أو البنود الزائدة في الشريحة الأخيرة';
+      const lines = [
+        'تعليمات خاصة بالشرائح المتعددة:',
+        `- أنشئ سلسلة شرائح عربية مستقلة، وليس إنفوجرافيكًا واحدًا طويلًا.`,
+        `- عدد الشرائح الناتجة المطلوب في هذا الطلب: ${outputSlidesLabel} بحد أقصى ١٠ شرائح.`,
+        `- عدد الصور أو اللقطات المرفقة المتوقع استخدامها: ${sourceImagesLabel}.`,
+        `- مقاس كل شريحة: ${d.slideSize || 'A4 عرضي'}.`,
+        '- كل شريحة يجب أن تكون تصميمًا مستقلًا كاملًا يصلح للتصدير أو الاستخدام منفردًا.',
+        '- اربط كل صورة مرفقة بتعليقها المرقم نفسه؛ الصورة رقم ١ تستخدم تعليق رقم ١، والصورة رقم ٢ تستخدم تعليق رقم ٢، وهكذا.',
+        '- ضع رقم الشريحة أو الصورة بالأرقام الهندية الشرقية عند اختيار هذا النمط، واجعله ظاهرًا من جهة اليمين وبمحاذاة عربية.',
+        `- عند زيادة عدد الصور أو البنود عن عدد الشرائح: ${overflow}.`,
+        '- إذا وُجدت صور زائدة عن الحد الأقصى، فادمج الزائد في الشريحة الأخيرة بوضوح، مثل دمج الصورة ١٠ والصورة ١١ في شريحة واحدة عند الحاجة.',
+        '- حافظ على هوية بصرية موحدة بين جميع الشرائح: نفس الخطوط، الألوان، التذييل، المسافات، وأسلوب الأيقونات.',
+        '- اجعل تسلسل الشرائح واللوحات من اليمين إلى اليسار، واجعل أي أسهم أو خطوات أو مؤشرات تقدم تبدأ من اليمين.',
+        '- استخدم الصور المرفقة كعنصر رئيسي في كل شريحة، ولا تستبدلها برسومات عامة إلا عند الحاجة لعناصر مساعدة بسيطة.',
+        '- أضف أيقونات مناسبة حسب تعليق كل شريحة، مثل أيقونات الحضور والغياب والطلبات والصلاحيات والجداول عند ملاءمتها.'
+      ];
+      if (items) {
+        lines.push('- قائمة الصور أو الشرائح وتعليقات كل واحدة:');
+        lines.push(items);
+      } else {
+        lines.push('- إذا لم تُكتب قائمة مرقمة، فأنشئ عناوين قصيرة لكل شريحة من الموضوع العام مع الحفاظ على التسلسل العربي.');
+      }
+      return lines.join('\n');
+    }
+
     function englishLayoutCue(layoutType) {
       if (layoutType.includes('عنوان أعلى يمين')) return 'large Arabic headline in the top-right, right-aligned text blocks, generous reading space';
       if (layoutType.includes('بطاقات تعليمية')) return 'educational cards arranged from right to left, first card on the far right, consistent spacing';
@@ -1563,6 +1679,7 @@
       if (layoutType.includes('مخطط تعليمي')) return 'organized Arabic educational diagram, labels and arrows flow right to left';
       if (layoutType.includes('تصميم إعلاني')) return 'Arabic advertising layout with a strong right-aligned headline, clear offer area, balanced product space';
       if (layoutType.includes('منشور سوشيال')) return 'high-readability Arabic social post layout, bold right-aligned hook, clean visual hierarchy';
+      if (layoutType.includes('شرائح عرض')) return 'separate Arabic presentation slides, A4 landscape, each slide uses one attached screenshot with its matching caption, consistent RTL slide system';
       return 'flexible Arabic RTL layout, right-aligned text, clear hierarchy, balanced composition';
     }
 
@@ -1576,6 +1693,7 @@
       else if (layout.includes('مخطط تعليمي')) detail = 'اجعل المخطط والتسميات والأسهم تعمل بمنطق عربي من اليمين إلى اليسار، مع فصل بصري واضح بين الأجزاء.';
       else if (layout.includes('تصميم إعلاني')) detail = 'اجعل العنوان أو العرض الرئيسي بارزًا في الجهة اليمنى أو أعلى اليمين، مع توازن واضح بين النص والمنتج أو العنصر البصري.';
       else if (layout.includes('منشور سوشيال')) detail = 'اجعل الجملة الجاذبة واضحة وكبيرة ومحاذاة لليمين، مع مساحات هواء كافية حتى تقرأ بسرعة على الهاتف.';
+      else if (layout.includes('شرائح عرض')) detail = 'اجعل كل شريحة مستقلة ومنظمة، تبدأ قراءتها من اليمين، وتحافظ على نفس النظام البصري بين جميع الشرائح.';
       return `نوع التخطيط العربي: ${layout}. ${detail}`;
     }
 
@@ -1676,6 +1794,11 @@
       if (d.highReadability) lines.push('- اجعل النص واضحًا جدًا ومقروءًا من النظرة الأولى مع تباين كافٍ ومسافات مريحة.');
       lines.push(`- ${arabicLayoutInstruction(d)}`);
       if (d.rtl) lines.push(`- ${rtlLayoutInstruction()}`);
+      const slideInstruction = slideGenerationInstruction(d);
+      if (slideInstruction) {
+        lines.push('');
+        lines.push(slideInstruction);
+      }
       lines.push('');
       lines.push('تعليمات النص العربي الأساسي:');
       lines.push('- انسخ النص التالي حرفيًا 100% دون حذف أو إضافة أو استبدال أو إعادة صياغة لأي حرف.');
@@ -1759,6 +1882,8 @@
       if (d.secondaryText) lines.push(`واستخدم النص الثانوي التالي بحجم أصغر وبشكل متناسق: "${d.secondaryText}"`);
       if (d.rtl) lines.push(rtlLayoutInstruction());
       lines.push(arabicLayoutInstruction(d));
+      const slideInstruction = slideGenerationInstruction(d);
+      if (slideInstruction) lines.push(slideInstruction);
       if (d.keepTashkeel) lines.push('حافظ على جميع الحركات والتشكيل كما هي تمامًا.');
       lines.push(`نوع الخط: ${d.fontStyle}. موضع النص: ${d.textPosition}.`);
       if (d.textFormatting) lines.push(`تنسيق النص: ${d.textFormatting}.`);
@@ -1795,6 +1920,8 @@
       if (d.secondaryText) parts.push(`أضف النص الثانوي: "${d.secondaryText}".`);
       if (d.rtl) parts.push(rtlLayoutInstruction());
       parts.push(arabicLayoutInstruction(d));
+      const slideInstruction = slideGenerationInstruction(d);
+      if (slideInstruction) parts.push(slideInstruction);
       if (d.keepTashkeel) parts.push('حافظ على التشكيل كاملًا كما هو.');
       parts.push(`موضع النص: ${d.textPosition}. نوع الخط: ${d.fontStyle}.`);
       if (d.textFormatting) parts.push(`تنسيق النص: ${d.textFormatting}.`);
@@ -1846,6 +1973,12 @@
         'messy layout',
         'visual clutter',
         'duplicate elements',
+        'merged slides into one crowded image',
+        'missing slide',
+        'wrong slide order',
+        'wrong image-caption pairing',
+        'inconsistent slide style',
+        'A4 slide cropped',
         'watermarks'
       ];
       if (d.keepTashkeel) parts.push('missing diacritics', 'wrong diacritics');
@@ -1889,6 +2022,13 @@
       else if (d.visualPromptMode === 'englishVisual') notes.push({ type: 'good', text: 'الوصف البصري الإنجليزي مفعل مع قواعد عربية، وهذا يساعد النموذج على فهم التصميم.' });
       else notes.push({ type: 'note', text: 'الوصف عربي كامل؛ إن احتجت نتائج تصميم أقوى جرّب الوضع المختلط الاحترافي.' });
       if (d.layoutType) notes.push({ type: 'good', text: 'تم تحديد نوع التخطيط العربي، وهذا يساعد النموذج على ترتيب العناصر بدل الاكتفاء بوصف عام.' });
+      if (isSlideMode(d)) {
+        const outputSlides = clampInt(d.slideCount, 1, 10, 10);
+        const sourceImages = clampInt(d.slideImageCount, 1, 20, outputSlides);
+        notes.push({ type: 'good', text: `وضع الشرائح المتعددة مفعل، وسيتم ضبط الإخراج على ${displayNumber(outputSlides, d.numberStyle)} شرائح كحد أقصى في الطلب الواحد.` });
+        if (sourceImages > outputSlides) notes.push({ type: 'note', text: 'عدد الصور أكبر من عدد الشرائح؛ سيتم توجيه النموذج لدمج الزائد في الشريحة الأخيرة أو حسب خيار الزائد.' });
+        if (!d.slideItems) notes.push({ type: 'warn', text: 'وضع الشرائح مفعل لكن قائمة نصوص الصور أو الشرائح فارغة.' });
+      }
       if (d.specialInstructions) notes.push({ type: 'good', text: 'أضفت تعليمات دقيقة إضافية؛ هذا ممتاز للمشاهد التعليمية والإعلانية.' });
       if (d.enableFooter === 'yes') {
         const footerTextComposed = composeFooterText(d);
@@ -1931,6 +2071,8 @@
       if (d.visualPromptMode === 'hybrid') score += 6;
       else if (d.visualPromptMode === 'englishVisual') score += 4;
       if (d.layoutType && d.layoutType !== 'تخطيط عربي مرن حسب المحتوى') score += 6;
+      if (isSlideMode(d)) score += 6;
+      if (isSlideMode(d) && d.slideItems) score += 6;
       if (d.strictArabic) score += 4;
       if (d.keepTashkeel) score += 3;
       if (d.rtl) score += 3;
@@ -2027,6 +2169,12 @@
       fields.textImportance.value = 'أولوية قصوى جدًا';
       fields.textFormatting.value = '';
       fields.layoutType.value = 'تخطيط عربي مرن حسب المحتوى';
+      fields.slideMode.value = 'off';
+      fields.slideSize.value = 'A4 عرضي';
+      fields.slideCount.value = '10';
+      fields.slideImageCount.value = '10';
+      fields.slideOverflowMode.value = 'ادمج الصور أو البنود الزائدة في الشريحة الأخيرة';
+      fields.slideItems.value = '';
       fields.enableFooter.value = 'yes';
       fields.footerMode.value = 'auto';
       fields.footerTeacherName.value = '';
@@ -2073,6 +2221,7 @@
       fields.extraElements.value = '';
       fields.arabicText.value = '';
       fields.secondaryText.value = '';
+      fields.slideItems.value = '';
       fields.negativeNotes.value = '';
       fields.specialInstructions.value = '';
       fields.footerLessonTopic.value = '';
@@ -2193,6 +2342,46 @@
         fields.aspectRatio.value = 'A4 عمودي';
         fields.backgroundStyle.value = 'فاخرة وهادئة';
         fields.layoutType.value = 'عنوان أعلى يمين مع مساحة قراءة واسعة';
+      } else if (type === 'slides') {
+        fields.imageType.value = 'شرائح متعددة مستقلة';
+        fields.purpose.value = 'تعليمي';
+        fields.style.value = 'شرائح شرح عربية احترافية، نظيفة، موحدة الهوية، مناسبة للعرض أو الطباعة';
+        fields.aspectRatio.value = 'A4 أفقي';
+        fields.backgroundStyle.value = 'نظيفة وغير مزدحمة';
+        fields.cameraAngle.value = 'مباشرة وواضحة';
+        fields.mainElementPosition.value = 'وسط الصورة من منظور المشاهد';
+        fields.layoutType.value = 'شرائح عرض عربية مستقلة من اليمين إلى اليسار';
+        fields.slideMode.value = 'on';
+        fields.slideSize.value = 'A4 عرضي';
+        fields.slideCount.value = '10';
+        fields.slideImageCount.value = '11';
+        fields.slideOverflowMode.value = 'ادمج الصور أو البنود الزائدة في الشريحة الأخيرة';
+        fields.numberStyle.value = 'eastern';
+        fields.textPosition.value = 'أعلى يمين الصورة';
+        fields.fontStyle.value = 'خط نسخي واضح';
+        fields.subject.value = 'شرح منصة أعذار غياب الطلاب';
+        fields.arabicText.value = 'شرح منصة أعذار غياب الطلاب';
+        fields.secondaryText.value = 'دليل مصور مختصر';
+        fields.sceneDesc.value = 'صمم شرائح متعددة، كل شريحة مستقلة، وتستخدم كل شريحة صورة من الصور المرفقة مع تعليقها النصي المخصص لها. اجعل الشرائح نظيفة وغير مزدحمة، مع عنوان واضح، صورة الواجهة في الوسط، تعليق عربي قصير، وأيقونات مناسبة للحضور والغياب والطلبات والصلاحيات.';
+        fields.extraElements.value = 'أيقونات حضور وغياب، طلبات، تقويم، جدول، مستخدمون، صلاحيات، ملفات إكسل، لوحة تحكم';
+        fields.slideItems.value = [
+          'الصورة1 ( واجهة برنامج أعذار الغياب )',
+          'الصورة2 ( صفحة الطالب تعبأ من ولي الأمر )',
+          'الصورة3 ( يتم اختيار اليوم والتاريخ من إلى )',
+          'الصورة4 ( واجهة البرنامج في لوحة التحكم )',
+          'الصورة5 ( واجهة استيراد بيانات الطلاب من نظام نور عبر ملف اكسل )',
+          'الصورة6 ( أنواع الأعذار التي يختار منها ولي الأمر )',
+          'الصورة7 ( صفحة الطلبات )',
+          'الصورة8 ( تابع صفحة الطلبات وفيها جميع الخيارات التي يختارها المسؤول )',
+          'الصورة9 ( نموذج من استعراض طلب )',
+          'الصورة10 ( نموذج من استعراض بيانات طلبات الأعذار في جدول )',
+          'الصورة11 ( صفحة المستخدمون ولكل مستخدم صلاحيات بحيث يتم توثيق ماقام به )'
+        ].join('\n');
+        fields.footerMode.value = 'manual';
+        fields.footerPosition.value = 'أسفل وسط الصورة';
+        fields.footerStyle.value = 'أنيق وخفيف وغير مزعج';
+        fields.footerText.value = 'الموضوع: شرح منصة أعذار غياب الطلاب | تصميم وكيل المدرسة للشؤون التعليمية والمدرسية: أ. عبدالجبار بن سعد آل جناح الخالدي';
+        fields.negativeNotes.value = 'لا تدمج الشرائح كلها في صورة واحدة مزدحمة، لا تغيّر ترتيب الصور، لا تفصل الصورة عن تعليقها، لا تقص واجهات البرنامج، لا تجعل الأرقام أو العناوين تبدأ من اليسار';
       }
       generate();
       statusText.textContent = 'تم تطبيق القالب';
