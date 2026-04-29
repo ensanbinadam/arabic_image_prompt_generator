@@ -1,0 +1,2986 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>كنز البرومبت العربي الاحترافي - النسخة التعليمية المضيئة</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@400;500;700;800&display=swap');
+
+    :root {
+      /* --- Vibrant Modern Palette --- */
+      --primary:       #6c3de8;
+      --primary-2:     #9b5eff;
+      --accent:        #00d2b4;
+      --accent-2:      #00f5d4;
+      --amber:         #f97316;
+      --amber-2:       #fb923c;
+      --rose:          #f43f5e;
+      --rose-2:        #ff6b8a;
+      --gold:          #eab308;
+      --gold-2:        #fde047;
+      --sky:           #0ea5e9;
+      --sky-2:         #38bdf8;
+      --emerald:       #10b981;
+      --emerald-2:     #34d399;
+
+      /* --- Glass & Surface --- */
+      --glass-bg:      rgba(255,255,255,0.12);
+      --glass-border:  rgba(255,255,255,0.25);
+      --surface:       rgba(255,255,255,0.90);
+      --surface-2:     rgba(248,245,255,0.96);
+      --surface-dark:  rgba(15,10,40,0.85);
+
+      /* --- Text --- */
+      --text:          #1a0832;
+      --text-2:        #4b3f72;
+      --text-muted:    #7c6fa0;
+      --text-light:    #a899c8;
+
+      /* --- Shadows & Radius --- */
+      --shadow-sm:     0 4px 16px rgba(108,61,232,.10);
+      --shadow:        0 16px 48px rgba(108,61,232,.16);
+      --shadow-lg:     0 28px 72px rgba(108,61,232,.22);
+      --glow-p:        0 0 28px rgba(108,61,232,.35);
+      --glow-a:        0 0 24px rgba(0,210,180,.30);
+      --radius:        22px;
+      --radius-sm:     14px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: 'Cairo', 'Tajawal', 'Tahoma', sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(ellipse at 0% 0%,   rgba(108,61,232,.22) 0%, transparent 50%),
+        radial-gradient(ellipse at 100% 0%,  rgba(0,210,180,.18) 0%, transparent 45%),
+        radial-gradient(ellipse at 50% 100%, rgba(249,115,22,.15) 0%, transparent 55%),
+        linear-gradient(150deg, #f0ebff 0%, #e8f7f4 50%, #fff7ed 100%);
+      min-height: 100vh;
+      line-height: 1.75;
+    }
+
+    /* ===== SCROLLBAR ===== */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: rgba(108,61,232,.04); border-radius: 8px; }
+    ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, var(--primary), var(--accent)); border-radius: 8px; }
+
+    /* ===== WRAP ===== */
+    .wrap {
+      max-width: 1580px;
+      margin: 24px auto;
+      padding: 16px;
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg,
+        rgba(108,61,232,.92) 0%,
+        rgba(0,210,180,.72) 55%,
+        rgba(249,115,22,.62) 100%);
+      border: 1px solid rgba(255,255,255,.30);
+      border-radius: 28px;
+      padding: 26px 28px;
+      box-shadow: var(--shadow-lg);
+      backdrop-filter: blur(20px);
+      margin-bottom: 22px;
+      color: white;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 80% 20%, rgba(255,255,255,.18), transparent 40%),
+        radial-gradient(circle at 10% 80%, rgba(255,255,255,.12), transparent 40%);
+      pointer-events: none;
+    }
+
+    .hero::after {
+      content: '✦';
+      position: absolute;
+      font-size: 16rem;
+      opacity: .04;
+      top: -3rem;
+      left: -2rem;
+      pointer-events: none;
+      animation: heroSpin 30s linear infinite;
+    }
+
+    @keyframes heroSpin { to { transform: rotate(360deg); } }
+
+    /* --- Hero grid: 3 equal columns, no gaps --- */
+    .hero-top {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr auto;
+      align-items: center;
+      gap: 18px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-title-col { min-width: 0; }
+
+    .hero h1 {
+      margin: 0 0 8px;
+      font-size: 1.75rem;
+      font-weight: 900;
+      letter-spacing: -0.4px;
+      text-shadow: 0 2px 12px rgba(0,0,0,.20);
+      background: linear-gradient(135deg, #ffffff, #d9f9f3);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      white-space: nowrap;
+    }
+
+    .hero-sub {
+      color: rgba(255,255,255,.80);
+      font-size: .875rem;
+      font-weight: 500;
+      margin: 0 0 10px;
+      line-height: 1.6;
+    }
+
+    .badges, .preset-row, .mini-tools, .top-actions, .meta-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .badge {
+      padding: 5px 12px;
+      background: rgba(255,255,255,.18);
+      border: 1px solid rgba(255,255,255,.32);
+      border-radius: 999px;
+      color: white;
+      font-size: .80rem;
+      font-weight: 700;
+      backdrop-filter: blur(8px);
+      transition: background .2s, transform .2s;
+      cursor: default;
+    }
+
+    .badge:hover {
+      background: rgba(255,255,255,.28);
+      transform: translateY(-2px);
+    }
+
+    /* ===== HERO GLOW BOX ===== */
+    .hero-glow {
+      background: rgba(255,255,255,.14);
+      border: 1px solid rgba(255,255,255,.28);
+      border-radius: 18px;
+      padding: 14px 16px;
+      color: rgba(255,255,255,.90);
+      font-size: .865rem;
+      backdrop-filter: blur(12px);
+      font-weight: 600;
+      line-height: 1.65;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.20);
+    }
+
+    /* ===== SCORE BOX ===== */
+    .score-box {
+      width: 220px;
+      flex-shrink: 0;
+      background: rgba(255,255,255,.14);
+      border: 1px solid rgba(255,255,255,.26);
+      border-radius: 18px;
+      padding: 14px 16px;
+      backdrop-filter: blur(10px);
+    }
+
+    .score-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 9px;
+      gap: 8px;
+      color: white;
+      font-weight: 800;
+      font-size: .90rem;
+    }
+
+    .progress {
+      height: 12px;
+      background: rgba(255,255,255,.18);
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.18);
+    }
+
+    .progress > span {
+      display: block;
+      height: 100%;
+      background: linear-gradient(90deg, #ff6b6b, #ffd93d, #6bcb77, #4dd5f0);
+      width: 0;
+      transition: width .5s cubic-bezier(.4,0,.2,1);
+      box-shadow: 0 0 10px rgba(255,255,255,.38);
+    }
+
+    .footer-note {
+      color: rgba(255,255,255,.72);
+      font-size: .80rem;
+      margin-top: 7px;
+      font-weight: 600;
+    }
+
+    /* Responsive hero */
+    @media (max-width: 860px) {
+      .hero-top {
+        grid-template-columns: 1fr 1fr;
+      }
+      .score-box { width: auto; grid-column: 1 / -1; }
+    }
+    @media (max-width: 560px) {
+      .hero-top { grid-template-columns: 1fr; }
+      .score-box { grid-column: auto; }
+      .hero h1 { font-size: 1.4rem; white-space: normal; }
+    }
+
+    /* ===== GRID ===== */
+    .grid {
+      display: grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 20px;
+    }
+
+    /* ===== CARD ===== */
+    .card {
+      background: var(--surface);
+      border: 1px solid rgba(108,61,232,.12);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      backdrop-filter: blur(16px);
+      transition: box-shadow .3s;
+    }
+
+    .card:hover {
+      box-shadow: var(--shadow-lg);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      padding: 18px 22px;
+      border-bottom: 2px solid rgba(108,61,232,.08);
+      background: linear-gradient(135deg,
+        rgba(108,61,232,.08) 0%,
+        rgba(0,210,180,.06) 100%);
+      flex-wrap: wrap;
+    }
+
+    .card-header h2 {
+      margin: 0;
+      font-size: 1.1rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .section h3 {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    .card-body { padding: 20px; }
+
+    /* ===== SECTION ===== */
+    .section {
+      position: relative;
+      border: 1.5px solid rgba(108,61,232,.10);
+      border-radius: 20px;
+      background: linear-gradient(145deg, rgba(255,255,255,.85), rgba(248,244,255,.92));
+      padding: 18px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow-sm);
+      transition: border-color .2s, box-shadow .2s;
+    }
+
+    .section:hover {
+      border-color: rgba(108,61,232,.22);
+      box-shadow: 0 6px 24px rgba(108,61,232,.10);
+    }
+
+    .section-edu {
+      border-color: rgba(16,185,129,.22);
+      background: linear-gradient(145deg, rgba(255,255,255,.85), rgba(240,255,249,.92));
+      box-shadow: 0 4px 20px rgba(16,185,129,.08);
+    }
+
+    .section-edu:hover {
+      border-color: rgba(16,185,129,.40);
+      box-shadow: 0 8px 28px rgba(16,185,129,.15);
+    }
+
+    .section-edu .section h3,
+    .section-edu h3 {
+      color: var(--emerald) !important;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .section small {
+      color: var(--text-muted);
+      font-size: .83rem;
+      font-weight: 600;
+    }
+
+    .ui-guide {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 12px;
+      align-items: stretch;
+      margin-bottom: 16px;
+    }
+
+    .ui-guide-main,
+    .ui-guide-side {
+      border: 1px solid rgba(14,165,233,.18);
+      border-radius: 18px;
+      padding: 14px 16px;
+      background: linear-gradient(145deg, rgba(240,249,255,.92), rgba(236,253,245,.88));
+      box-shadow: 0 4px 18px rgba(14,165,233,.08);
+    }
+
+    .ui-guide-main strong,
+    .ui-guide-side strong {
+      display: block;
+      color: var(--sky);
+      font-size: .95rem;
+      margin-bottom: 4px;
+    }
+
+    .ui-guide-main p,
+    .ui-guide-side p {
+      margin: 0;
+      color: var(--text-2);
+      font-size: .86rem;
+      line-height: 1.8;
+      font-weight: 600;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .section-tag {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 24px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-size: .72rem;
+      font-weight: 800;
+      border: 1px solid rgba(108,61,232,.16);
+      background: rgba(108,61,232,.08);
+      color: var(--primary);
+      white-space: nowrap;
+    }
+
+    .section-tag.required {
+      border-color: rgba(14,165,233,.22);
+      background: rgba(14,165,233,.10);
+      color: #0369a1;
+    }
+
+    .section-tag.contextual {
+      border-color: rgba(16,185,129,.24);
+      background: rgba(16,185,129,.10);
+      color: #047857;
+    }
+
+    .section-tag.optional {
+      border-color: rgba(249,115,22,.24);
+      background: rgba(249,115,22,.10);
+      color: #c2410c;
+    }
+
+    .section-tag.auto {
+      border-color: rgba(124,58,237,.22);
+      background: rgba(124,58,237,.10);
+      color: #6d28d9;
+    }
+
+    .section-tag.advanced {
+      border-color: rgba(244,63,94,.22);
+      background: rgba(244,63,94,.09);
+      color: #be123c;
+    }
+
+    @media (max-width: 820px) {
+      .ui-guide { grid-template-columns: 1fr; }
+    }
+
+    /* ===== FORM ELEMENTS ===== */
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .full { grid-column: 1 / -1; }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 700;
+      font-size: .92rem;
+      color: var(--text-2);
+    }
+
+    .hint {
+      display: block;
+      margin-top: 5px;
+      color: var(--text-muted);
+      font-size: .81rem;
+      font-style: italic;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      background: rgba(255,255,255,.95);
+      color: var(--text);
+      border: 1.5px solid rgba(108,61,232,.14);
+      border-radius: var(--radius-sm);
+      padding: 12px 15px;
+      font-family: 'Cairo', 'Tahoma', sans-serif;
+      font-size: .95rem;
+      outline: none;
+      transition: border-color .2s, box-shadow .2s, background .2s;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--primary);
+      background: rgba(255,255,255,1);
+      box-shadow: 0 0 0 4px rgba(108,61,232,.12);
+    }
+
+    input::placeholder, textarea::placeholder {
+      color: var(--text-light);
+    }
+
+    textarea { min-height: 110px; resize: vertical; }
+    .short-area { min-height: 82px; }
+
+    /* ===== CHECKBOXES ===== */
+    .checks {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 10px;
+    }
+
+    .check {
+      position: relative;
+      background: rgba(255,255,255,.88);
+      border: 1.5px solid rgba(108,61,232,.12);
+      border-radius: 14px;
+      padding: 12px 14px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      transition: border-color .2s, background .2s, box-shadow .2s;
+      cursor: pointer;
+    }
+
+    .check:hover {
+      border-color: rgba(108,61,232,.30);
+      background: rgba(248,244,255,.95);
+      box-shadow: 0 2px 12px rgba(108,61,232,.08);
+    }
+
+    .check:has(input:checked) {
+      border-color: rgba(108,61,232,.40);
+      background: linear-gradient(135deg, rgba(108,61,232,.05), rgba(0,210,180,.04));
+      box-shadow: 0 2px 14px rgba(108,61,232,.10);
+    }
+
+    .check input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      margin-top: 3px;
+      accent-color: var(--primary);
+      flex: 0 0 auto;
+      cursor: pointer;
+    }
+
+    .check label {
+      margin: 0;
+      font-weight: 600;
+      font-size: .90rem;
+      color: var(--text-2);
+      cursor: pointer;
+    }
+
+    /* ===== BUTTONS ===== */
+    button {
+      position: relative;
+      overflow: hidden;
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 11px 18px;
+      font-family: 'Cairo', 'Tahoma', sans-serif;
+      font-weight: 800;
+      font-size: .92rem;
+      cursor: pointer;
+      transition: transform .18s cubic-bezier(.4,0,.2,1),
+                  box-shadow .18s ease,
+                  filter .18s ease;
+    }
+
+    button::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,0);
+      transition: background .18s;
+    }
+
+    button:hover::before { background: rgba(255,255,255,.12); }
+    button:hover { transform: translateY(-2px); }
+    button:active { transform: translateY(0px); }
+
+    /* Primary - Purple Gradient */
+    .primary {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-2) 100%);
+      color: white;
+      box-shadow: 0 4px 20px rgba(108,61,232,.40);
+    }
+    .primary:hover { box-shadow: 0 8px 28px rgba(108,61,232,.55); }
+
+    /* Secondary - Teal/Sky */
+    .secondary {
+      background: linear-gradient(135deg, var(--sky) 0%, var(--accent) 100%);
+      color: white;
+      box-shadow: 0 4px 20px rgba(14,165,233,.35);
+    }
+    .secondary:hover { box-shadow: 0 8px 28px rgba(0,210,180,.45); }
+
+    /* Ghost */
+    .ghost {
+      background: rgba(255,255,255,.95);
+      color: var(--primary);
+      border: 1.5px solid rgba(108,61,232,.22);
+      box-shadow: 0 2px 10px rgba(108,61,232,.08);
+    }
+    .ghost:hover {
+      background: rgba(248,244,255,.98);
+      border-color: rgba(108,61,232,.45);
+      box-shadow: 0 4px 18px rgba(108,61,232,.14);
+    }
+
+    /* Amber - Orange */
+    .amber {
+      background: linear-gradient(135deg, var(--amber) 0%, var(--amber-2) 100%);
+      color: white;
+      box-shadow: 0 4px 20px rgba(249,115,22,.35);
+    }
+    .amber:hover { box-shadow: 0 8px 28px rgba(249,115,22,.50); }
+
+    /* Rose - Pink */
+    .rose {
+      background: linear-gradient(135deg, var(--rose) 0%, var(--rose-2) 100%);
+      color: white;
+      box-shadow: 0 4px 20px rgba(244,63,94,.35);
+    }
+    .rose:hover { box-shadow: 0 8px 28px rgba(244,63,94,.50); }
+
+    /* Preset buttons */
+    .preset {
+      background: linear-gradient(135deg,
+        rgba(108,61,232,.10) 0%,
+        rgba(0,210,180,.10) 100%);
+      color: var(--primary);
+      border: 1.5px solid rgba(108,61,232,.22);
+      padding: 9px 14px;
+      font-size: .88rem;
+      transition: background .2s, border-color .2s, transform .18s, box-shadow .18s;
+    }
+
+    .preset:hover {
+      background: linear-gradient(135deg,
+        rgba(108,61,232,.18) 0%,
+        rgba(0,210,180,.18) 100%);
+      border-color: rgba(108,61,232,.45);
+      box-shadow: 0 4px 16px rgba(108,61,232,.18);
+      transform: translateY(-2px);
+      color: var(--primary);
+    }
+
+    /* Mini buttons */
+    .mini {
+      padding: 8px 13px;
+      font-size: .86rem;
+      background: rgba(255,255,255,.95);
+      color: var(--text-2);
+      border: 1.5px solid rgba(108,61,232,.15);
+      font-weight: 700;
+      box-shadow: 0 2px 8px rgba(108,61,232,.06);
+    }
+
+    .mini:hover {
+      border-color: rgba(108,61,232,.35);
+      color: var(--primary);
+      box-shadow: 0 4px 14px rgba(108,61,232,.12);
+    }
+
+    /* ===== STATUS TEXT ===== */
+    .status {
+      font-size: .92rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background-color: rgba(108,61,232,.06);
+      border: 1px solid rgba(108,61,232,.12);
+    }
+
+    /* ===== OUTPUT BOXES ===== */
+    .output-box {
+      background: linear-gradient(145deg,
+        rgba(108,61,232,.04),
+        rgba(0,210,180,.03));
+      border: 1.5px dashed rgba(108,61,232,.22);
+      border-radius: 18px;
+      padding: 18px;
+      min-height: 280px;
+      white-space: pre-wrap;
+      font-size: .97rem;
+      overflow: auto;
+      color: var(--text);
+      line-height: 1.85;
+      font-family: 'Cairo', 'Tahoma', sans-serif;
+      transition: border-color .2s;
+    }
+
+    .output-box:not(:empty):hover {
+      border-color: rgba(108,61,232,.40);
+    }
+
+    .output-box.small { min-height: 170px; }
+
+    /* ===== REPORT ===== */
+    .report {
+      background: linear-gradient(145deg,
+        rgba(15,10,40,.90),
+        rgba(30,15,60,.92));
+      border: 1.5px solid rgba(108,61,232,.30);
+      border-radius: 18px;
+      padding: 16px 18px;
+      min-height: 180px;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.04);
+    }
+
+    .report ul {
+      margin: 0;
+      padding-right: 22px;
+      list-style: none;
+    }
+
+    .report li {
+      position: relative;
+      padding-right: 20px;
+    }
+
+    .report li::before {
+      content: '●';
+      position: absolute;
+      right: 0;
+      font-size: .7rem;
+      top: 5px;
+    }
+
+    .report li + li { margin-top: 9px; }
+
+    .report-good { color: #6effc0; }
+    .report-good::before { color: #6effc0; }
+    .report-warn { color: #ffd77a; }
+    .report-warn::before { color: #ffd77a; }
+    .report-note { color: #94b4ff; }
+    .report-note::before { color: #94b4ff; }
+
+    /* ===== PILL CARDS (meta) ===== */
+    .pill-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 10px;
+    }
+
+    .pill-card {
+      background: linear-gradient(145deg,
+        rgba(108,61,232,.06),
+        rgba(0,210,180,.04));
+      border: 1.5px solid rgba(108,61,232,.12);
+      border-radius: 16px;
+      padding: 12px 14px;
+      transition: border-color .2s, box-shadow .2s;
+    }
+
+    .pill-card:hover {
+      border-color: rgba(108,61,232,.25);
+      box-shadow: 0 2px 12px rgba(108,61,232,.08);
+    }
+
+    .pill-card strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: .82rem;
+      color: var(--text-muted);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+
+    .pill-card span {
+      font-weight: 700;
+      color: var(--primary);
+      font-size: .94rem;
+    }
+
+    /* ===== FOOTER PREVIEW ===== */
+    .footer-preview {
+      background: linear-gradient(135deg,
+        rgba(249,115,22,.08),
+        rgba(234,179,8,.06));
+      border: 1.5px dashed rgba(234,179,8,.50);
+      color: #92400e;
+      border-radius: 16px;
+      padding: 12px 16px;
+      font-size: .92rem;
+      margin-top: 12px;
+      white-space: pre-wrap;
+      font-weight: 600;
+    }
+
+    /* ===== CARD FOOTER NOTE ===== */
+    .card-body > .footer-note {
+      color: var(--text-muted);
+      font-size: .84rem;
+      margin-top: 12px;
+      font-weight: 500;
+    }
+
+    /* ===== CONFIRM DIALOG ===== */
+    .confirm-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 5, 40, .60);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 9999;
+      backdrop-filter: blur(8px);
+    }
+
+    .confirm-overlay.show { display: flex; }
+
+    .confirm-box {
+      width: min(480px, 100%);
+      background: rgba(255,255,255,.98);
+      border: 1.5px solid rgba(108,61,232,.20);
+      border-radius: 24px;
+      box-shadow: 0 30px 80px rgba(15,5,40,.40), 0 0 0 1px rgba(255,255,255,.5) inset;
+      padding: 28px;
+      animation: popIn .25s cubic-bezier(.34,1.56,.64,1);
+    }
+
+    @keyframes popIn {
+      from { transform: scale(.88); opacity: 0; }
+      to   { transform: scale(1);   opacity: 1; }
+    }
+
+    .confirm-box h3 {
+      margin: 0 0 10px;
+      color: var(--primary);
+      font-size: 1.12rem;
+      font-weight: 900;
+    }
+
+    .confirm-message {
+      margin: 0 0 20px;
+      color: var(--text-2);
+      line-height: 1.85;
+      font-weight: 500;
+    }
+
+    .confirm-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+
+    /* ===== HIDDEN INPUT ===== */
+    .hidden-input { display: none; }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .card {
+      animation: fadeInUp .4s ease both;
+    }
+
+    .card:nth-child(2) {
+      animation-delay: .1s;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1080px) {
+      .grid { grid-template-columns: 1fr; }
+      .form-grid, .checks, .pill-grid { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 1.6rem; }
+    }
+
+    @media (max-width: 600px) {
+      .hero { padding: 22px 16px; }
+      .card-body { padding: 14px; }
+    }
+
+    /* ===== SMART FOOTER ===== */
+    .smart-footer {
+      margin-top: 28px;
+      padding: 22px 24px;
+      border-top: 2px solid rgba(108,61,232,.10);
+      background: linear-gradient(135deg,
+        rgba(108,61,232,.06) 0%,
+        rgba(0,210,180,.05) 50%,
+        rgba(249,115,22,.04) 100%);
+      border: 1.5px solid rgba(108,61,232,.12);
+      border-radius: 22px;
+      text-align: center;
+      color: var(--text-muted);
+      font-family: 'Cairo', 'Tajawal', 'Tahoma', sans-serif;
+      box-shadow: 0 8px 32px rgba(108,61,232,.08);
+    }
+
+    .smart-footer .footer-title {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--text-2);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .smart-footer .footer-dev-note {
+      font-size: 0.87rem;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+      font-weight: 600;
+      letter-spacing: .01em;
+    }
+
+    .smart-footer .footer-dev-note span {
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .smart-footer .footer-subtitle {
+      font-size: 0.94rem;
+      margin-bottom: 12px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .smart-footer .footer-links {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-size: 0.92rem;
+    }
+
+    .smart-footer .footer-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 800;
+      transition: all 0.25s ease;
+      border: 1.5px solid transparent;
+      font-family: 'Cairo', 'Tahoma', sans-serif;
+    }
+
+    .smart-footer .footer-link.chatgpt {
+      background: linear-gradient(135deg, rgba(16,185,129,.12), rgba(0,210,180,.10));
+      color: #0d7a69;
+      border-color: rgba(16,185,129,.25);
+    }
+
+    .smart-footer .footer-link.forum {
+      background: linear-gradient(135deg, rgba(108,61,232,.12), rgba(14,165,233,.10));
+      color: var(--primary);
+      border-color: rgba(108,61,232,.25);
+    }
+
+    .smart-footer .footer-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(108,61,232,.15);
+    }
+
+    .smart-footer .footer-link.chatgpt:hover {
+      background: linear-gradient(135deg, rgba(16,185,129,.20), rgba(0,210,180,.16));
+      box-shadow: 0 6px 20px rgba(16,185,129,.20);
+    }
+
+    .smart-footer .footer-link.forum:hover {
+      background: linear-gradient(135deg, rgba(108,61,232,.20), rgba(14,165,233,.16));
+      box-shadow: 0 6px 20px rgba(108,61,232,.20);
+    }
+
+    .smart-footer .footer-note {
+      margin-top: 12px;
+      font-size: 0.82rem;
+      color: var(--text-light);
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <div class="hero-top">
+        <div class="hero-title-col">
+          <h1>🏺 كنز البرومبت العربي</h1>
+          <p class="hero-sub">برومبت عربي احترافي · قوالب تعليمية · تحويل أرقام · تذييل ذكي · حفظ تلقائي</p>
+          <div class="badges">
+            <div class="badge">دقة RTL</div>
+            <div class="badge">حماية التشكيل</div>
+            <div class="badge">تحويل الأرقام</div>
+            <div class="badge">قوالب جاهزة</div>
+            <div class="badge">قوالب تعليمية</div>
+            <div class="badge">تذييل ذكي</div>
+            <div class="badge">Negative Prompt</div>
+            <div class="badge">حفظ محلي</div>
+          </div>
+        </div>
+        <div class="hero-glow">
+          🎓 مُصمَّم للاستخدام التعليمي<br>
+          ملصقات · إنفوجرافيك · لوحات صف<br>
+          شروحات مصوّرة · عروض مدرسية
+        </div>
+        <div class="score-box">
+          <div class="score-head">
+            <strong>اكتمال البرومبت</strong>
+            <span id="scoreText">0/100</span>
+          </div>
+          <div class="progress"><span id="scoreBar"></span></div>
+          <div class="footer-note" id="scoreHint">املأ الحقول لتحصل على برومبت أقوى.</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="grid">
+      <section class="card">
+        <div class="card-header">
+          <div class="top-actions">
+            <h2>لوحة البناء</h2>
+            <button class="ghost" id="newTopicBtn" title="بدء موضوع جديد مع مسح جميع الحقول">موضوع جديد</button>
+            <button class="mini" id="clearTextsBtn" title="مسح النصوص والمحتوى فقط مع الإبقاء على الإعدادات العامة">مسح النصوص فقط</button>
+          </div>
+          <div class="status" id="statusText">جاهز للعمل</div>
+        </div>
+        <div class="card-body">
+
+          <div class="ui-guide">
+            <div class="ui-guide-main">
+              <strong>طريقة الاستخدام المختصرة</strong>
+              <p>املأ الحقول الأساسية أولًا، ثم املأ القسم الخاص بنوع التصميم الذي اخترته فقط. بقية الحقول اختيارية لتحسين النتيجة ولا يضر تركها فارغة.</p>
+            </div>
+            <div class="ui-guide-side">
+              <strong>اطمئنان مهم</strong>
+              <p>إعدادات العربية وRTL والحماية مضبوطة مسبقًا. لا تغيّرها غالبًا إلا إذا كنت تعرف سبب التعديل.</p>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-head">
+              <div class="section-title"><h3>قوالب سريعة</h3><span class="section-tag required">ابدأ هنا</span></div>
+              <small>ابدأ بضغطة واحدة ثم عدّل كما تريد</small>
+            </div>
+            <div class="preset-row">
+              <button class="preset" data-preset="edu">ملصق تعليمي</button>
+              <button class="preset" data-preset="eduInfo">إنفوجرافيك درسي</button>
+              <button class="preset" data-preset="eduBoard">لوحة صفية</button>
+              <button class="preset" data-preset="eduMath">درس رياضيات</button>
+              <button class="preset" data-preset="eduScience">درس علوم</button>
+              <button class="preset" data-preset="social">منشور سوشيال</button>
+              <button class="preset" data-preset="ad">إعلان عربي</button>
+              <button class="preset" data-preset="invite">بطاقة دعوة</button>
+              <button class="preset" data-preset="slides">شرائح متعددة</button>
+              <button class="preset" data-preset="slidesGenerate">شرائح توليد صور</button>
+              <button class="preset" data-preset="story">قصة مصورة</button>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-head">
+              <div class="section-title"><h3>مواصفات أساسية</h3><span class="section-tag required">أساسي</span></div>
+              <small>هذه الحقول تكفي لبناء الهيكل العام للبرومبت</small>
+            </div>
+            <div class="form-grid">
+              <div>
+                <label for="imageType">نوع الصورة</label>
+                <select id="imageType">
+                  <option>بوستر</option>
+                  <option>ملصق دعائي</option>
+                  <option>منشور سوشيال</option>
+                  <option>غلاف كتاب</option>
+                  <option>إعلان</option>
+                  <option>تصميم بطابع واقعي</option>
+                  <option>مشهد سينمائي</option>
+                  <option>لوحة فنية</option>
+                  <option>بطاقة دعوة</option>
+                  <option>هوية بصرية</option>
+                  <option>شرائح متعددة مستقلة</option>
+                  <option>قصة مصورة متعددة الصفحات</option>
+                </select>
+              </div>
+              <div>
+                <label for="purpose">الغرض</label>
+                <select id="purpose">
+                  <option>تعليمي</option>
+                  <option>إعلاني</option>
+                  <option>سوشيال ميديا</option>
+                  <option>ثقافي</option>
+                  <option>دعوي</option>
+                  <option>فني</option>
+                  <option>رسمي</option>
+                </select>
+              </div>
+              <div>
+                <label for="style">الأسلوب</label>
+                <input id="style" value="أنيق وحديث واحترافي" placeholder="مثال: واقعي، تعليمي، سينمائي، فاخر..." />
+              </div>
+              <div>
+                <label for="aspectRatio">نسبة الأبعاد</label>
+                <select id="aspectRatio">
+                  <option>1:1 مربع</option>
+                  <option>4:5 عمودي</option>
+                  <option>16:9 أفقي</option>
+                  <option>9:16 رأسي</option>
+                  <option>A4 عمودي</option>
+                  <option>A4 أفقي</option>
+                  <option>مرن حسب التكوين</option>
+                </select>
+              </div>
+              <div>
+                <label for="qualityLevel">مستوى الجودة</label>
+                <select id="qualityLevel">
+                  <option>عالية جدًا</option>
+                  <option>عالية</option>
+                  <option>متوازنة</option>
+                </select>
+              </div>
+              <div>
+                <label for="outputMode">نمط البرومبت</label>
+                <select id="outputMode">
+                  <option value="full">موسع جدًا</option>
+                  <option value="medium" selected>متوازن - موصى به</option>
+                  <option value="short">مختصر قوي</option>
+                </select>
+              </div>
+              <div>
+                <label for="visualPromptMode">لغة الوصف الفني</label>
+                <select id="visualPromptMode">
+                  <option value="hybrid">مختلط احترافي: إنجليزي للتصميم وعربي للنصوص</option>
+                  <option value="englishVisual">إنجليزي بصري + قواعد عربية</option>
+                  <option value="arabicOnly">عربي كامل</option>
+                </select>
+              </div>
+              <div class="full">
+                <label for="subject">موضوع الصورة</label>
+                <input id="subject" placeholder="مثال: التحويلات المترية، القهوة العربية، القراءة، التراث الإسلامي..." />
+              </div>
+            </div>
+          </div>
+
+          <div class="section section-edu">
+            <div class="section-head">
+              <div class="section-title"><h3>التخصيص التعليمي</h3><span class="section-tag contextual">حسب النوع</span></div>
+              <small>املأه عند التصميم التعليمي فقط، ويمكن تركه فارغًا لغير ذلك</small>
+            </div>
+            <div class="form-grid">
+              <div>
+                <label for="subjectArea">المادة الدراسية</label>
+                <select id="subjectArea">
+                  <option>عام</option>
+                  <option>رياضيات</option>
+                  <option>علوم</option>
+                  <option>لغة عربية</option>
+                  <option>لغة إنجليزية</option>
+                  <option>دراسات اجتماعية</option>
+                  <option>فيزياء</option>
+                  <option>كيمياء</option>
+                  <option>أحياء</option>
+                  <option>هندسة</option>
+                  <option>حاسب آلي</option>
+                  <option>تربية إسلامية</option>
+                </select>
+              </div>
+              <div>
+                <label for="gradeLevel">المرحلة أو الصف</label>
+                <input id="gradeLevel" placeholder="مثال: الصف الرابع الابتدائي، المرحلة المتوسطة..." />
+              </div>
+              <div>
+                <label for="lessonTitle">عنوان الدرس</label>
+                <input id="lessonTitle" placeholder="مثال: التحويلات المترية، جمع الكسور، دورة الماء..." />
+              </div>
+              <div>
+                <label for="audienceType">الفئة المستهدفة</label>
+                <select id="audienceType">
+                  <option>طلاب المدرسة</option>
+                  <option>طلاب المرحلة الابتدائية</option>
+                  <option>طلاب المرحلة المتوسطة</option>
+                  <option>طلاب المرحلة الثانوية</option>
+                  <option>معلمون</option>
+                  <option>أولياء الأمور</option>
+                  <option>عام</option>
+                </select>
+              </div>
+              <div class="full">
+                <label for="learningGoal">هدف الدرس أو الرسالة التعليمية</label>
+                <textarea id="learningGoal" class="short-area" placeholder="مثال: توضيح العلاقة بين وحدات القياس بطريقة بصرية سهلة تحفظها الذاكرة."></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-head">
+              <div class="section-title"><h3>المحتوى البصري</h3><span class="section-tag optional">تحسيني</span></div>
+              <small>تفاصيل اختيارية تجعل النتيجة أجمل وأدق</small>
+            </div>
+            <div class="form-grid">
+              <div class="full">
+                <label for="sceneDesc">وصف المشهد</label>
+                <textarea id="sceneDesc" placeholder="صف المشهد، ترتيب العناصر، البيئة، الشخصيات، الأدوات، الجو العام..."></textarea>
+              </div>
+              <div>
+                <label for="colors">الألوان والجو البصري</label>
+                <input id="colors" placeholder="مثال: أزرق داكن مع لمسات بيضاء، ذهبي دافئ، ألوان تعليمية هادئة..." />
+              </div>
+              <div>
+                <label for="lighting">الإضاءة</label>
+                <select id="lighting">
+                  <option>إضاءة ناعمة ومتوازنة</option>
+                  <option>إضاءة استوديو واضحة</option>
+                  <option>إضاءة سينمائية درامية</option>
+                  <option>إضاءة نهارية مشرقة</option>
+                  <option>إضاءة خافتة راقية</option>
+                </select>
+              </div>
+              <div>
+                <label for="cameraAngle">زاوية المشهد</label>
+                <select id="cameraAngle">
+                  <option>مباشرة وواضحة</option>
+                  <option>منظور ثلاثي الأبعاد</option>
+                  <option>زاوية علوية خفيفة</option>
+                  <option>زاوية أمامية رسمية</option>
+                  <option>منظور ديناميكي</option>
+                </select>
+              </div>
+              <div>
+                <label for="backgroundStyle">الخلفية</label>
+                <select id="backgroundStyle">
+                  <option>نظيفة وغير مزدحمة</option>
+                  <option>تعليمية منظمة</option>
+                  <option>فاخرة وهادئة</option>
+                  <option>معاصرة بسيطة</option>
+                  <option>تفصيلية لكنها متوازنة</option>
+                </select>
+              </div>
+              <div>
+                <label for="mainElementPosition">موضع العنصر الرئيسي</label>
+                <select id="mainElementPosition">
+                  <option>يمين الصورة من منظور المشاهد</option>
+                  <option>يسار الصورة من منظور المشاهد</option>
+                  <option>وسط الصورة من منظور المشاهد</option>
+                </select>
+              </div>
+              <div class="full">
+                <label for="extraElements">عناصر إضافية</label>
+                <textarea id="extraElements" class="short-area" placeholder="مثال: كتب، رموز تعليمية، أدوات هندسية، زينة عربية، نبات، قهوة، أيقونات...\nافصل بينها بفواصل أو اكتبها وصفًا مباشرًا."></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-head">
+              <div class="section-title"><h3>النص العربي داخل الصورة</h3><span class="section-tag required">مهم عند وجود نص</span></div>
+              <small>املأه فقط إذا كنت تريد نصًا ظاهرًا داخل الصورة</small>
+            </div>
+            <div class="form-grid">
+              <div class="full">
+                <label for="arabicText">النص الأساسي</label>
+                <textarea id="arabicText" placeholder="اكتب النص كما تريد ظهوره حرفيًا، مع التشكيل إن كان مهمًا."></textarea>
+                <span class="hint">سيعامل هذا النص على أنه مرجع حرفي مغلق لا يجوز تغييره.</span>
+              </div>
+              <div class="full">
+                <label for="secondaryText">نص ثانوي اختياري</label>
+                <textarea id="secondaryText" class="short-area" placeholder="مثال: سطر فرعي، شرح قصير، عنوان جانبي..."></textarea>
+              </div>
+              <div>
+                <label for="textPosition">موضع النص الأساسي</label>
+                <select id="textPosition">
+                  <option>أعلى يمين الصورة</option>
+                  <option>أعلى وسط الصورة</option>
+                  <option>أعلى يسار الصورة</option>
+                  <option>وسط يمين الصورة</option>
+                  <option>وسط الصورة</option>
+                  <option>وسط يسار الصورة</option>
+                  <option>أسفل يمين الصورة</option>
+                  <option>أسفل وسط الصورة</option>
+                  <option>أسفل يسار الصورة</option>
+                </select>
+              </div>
+              <div>
+                <label for="fontStyle">نوع الخط العربي</label>
+                <select id="fontStyle">
+                  <option>خط نسخي واضح</option>
+                  <option>خط ثلث فخم</option>
+                  <option>خط كوفي أنيق</option>
+                  <option>خط عربي حديث وواضح</option>
+                  <option>خط دعائي عريض</option>
+                  <option>خط مخطوط احترافي</option>
+                </select>
+              </div>
+              <div>
+                <label for="numberStyle">نمط الأرقام</label>
+                <select id="numberStyle">
+                  <option value="english">أرقام إنجليزية 0-9</option>
+                  <option value="eastern">أرقام هندية شرقية ٠-٩</option>
+                  <option value="auto">تلقائي حسب السياق</option>
+                </select>
+              </div>
+              <div>
+                <label for="textImportance">أهمية النص</label>
+                <select id="textImportance">
+                  <option>أولوية قصوى جدًا</option>
+                  <option>أولوية قصوى</option>
+                  <option>متوازن مع العناصر</option>
+                </select>
+              </div>
+              <div class="full">
+                <label for="textFormatting">تعليمات تنسيق النص</label>
+                <input id="textFormatting" placeholder="مثال: سطر واحد عريض، سطران متوازنان، عنوان كبير وسطر فرعي أصغر..." />
+              </div>
+              <div class="full">
+                <label for="layoutType">نوع التخطيط العربي</label>
+                <select id="layoutType">
+                  <option>تخطيط عربي مرن حسب المحتوى</option>
+                  <option>عنوان أعلى يمين مع مساحة قراءة واسعة</option>
+                  <option>بطاقات تعليمية مرتبة من اليمين إلى اليسار</option>
+                  <option>إنفوجرافيك خطوات يبدأ من اليمين</option>
+                  <option>جدول عربي يبدأ عموده الأول من اليمين</option>
+                  <option>مخطط تعليمي عربي منظم</option>
+                  <option>تصميم إعلاني عربي بعنوان بارز</option>
+                  <option>منشور سوشيال عربي عالي الوضوح</option>
+                  <option>شرائح عرض عربية مستقلة من اليمين إلى اليسار</option>
+                  <option>قصة مصورة عربية متعددة الصفحات</option>
+                </select>
+              </div>
+            </div>
+            <div class="mini-tools" style="margin-top:12px;">
+              <button class="mini" id="toEnglishDigitsBtn">تحويل أرقام النص إلى إنجليزية</button>
+              <button class="mini" id="toEasternDigitsBtn">تحويل أرقام النص إلى هندية شرقية</button>
+              <button class="mini" id="normalizeSpacesBtn">تنظيف المسافات</button>
+              <button class="mini" id="quoteTextBtn">لفّ النص بين علامات اقتباس</button>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-head">
+              <div class="section-title"><h3>مولد الشرائح المتعددة</h3><span class="section-tag contextual">خاص بالشرائح</span></div>
+              <small>املأه فقط عند اختيار شرائح من صور مرفقة أو شرائح بتوليد صور</small>
+            </div>
+            <div class="form-grid">
+              <div>
+                <label for="slideMode">وضع الشرائح</label>
+                <select id="slideMode">
+                  <option value="off">غير مفعّل</option>
+                  <option value="on">مفعّل: شرائح متعددة</option>
+                </select>
+              </div>
+              <div>
+                <label for="slideSize">مقاس الشرائح</label>
+                <select id="slideSize">
+                  <option>A4 عرضي</option>
+                  <option>A4 عمودي</option>
+                  <option>16:9 عرضي</option>
+                  <option>4:5 عمودي</option>
+                </select>
+              </div>
+              <div>
+                <label for="slideSourceMode">مصدر صور الشرائح</label>
+                <select id="slideSourceMode">
+                  <option value="attached">صور مرفقة مع تعليقات</option>
+                  <option value="generated">توليد صور من وصف كل شريحة</option>
+                </select>
+              </div>
+              <div>
+                <label for="slideCount">عدد الشرائح الناتجة</label>
+                <input id="slideCount" type="number" min="1" max="10" value="10" />
+                <span class="hint">الحد الأقصى ١٠ شرائح في الطلب الواحد.</span>
+              </div>
+              <div>
+                <label for="slideImageCount">عدد الصور المرفقة</label>
+                <input id="slideImageCount" type="number" min="1" max="20" value="10" />
+              </div>
+              <div class="full">
+                <label for="slideOverflowMode">عند زيادة الصور أو البنود عن عدد الشرائح</label>
+                <select id="slideOverflowMode">
+                  <option>ادمج الصور أو البنود الزائدة في الشريحة الأخيرة</option>
+                  <option>اجعل كل شريحة تحتوي أكثر من صورة عند الحاجة</option>
+                  <option>استخدم أول عدد مسموح فقط واترك الزائد لطلب لاحق</option>
+                </select>
+              </div>
+              <div class="full">
+                <label for="slideItems">نصوص الصور أو الشرائح المرقمة</label>
+                <textarea id="slideItems" class="short-area" placeholder="مثال:
+الصورة1 ( واجهة برنامج أعذار الغياب )
+الصورة2 ( صفحة الطالب تعبأ من ولي الأمر )
+الصورة3 ( يتم اختيار اليوم والتاريخ من إلى )"></textarea>
+                <span class="hint">اكتب كل صورة أو شريحة في سطر مستقل. سيربط المولد كل رقم بصورته وتعليقه.</span>
+              </div>
+              <div class="full">
+                <label for="slideGeneratedItems">أوصاف الشرائح عند توليد الصور</label>
+                <textarea id="slideGeneratedItems" class="short-area" placeholder="مثال:
+الشريحة1: العنوان: مفهوم التعاون | الصورة: طلاب يعملون معًا داخل فصل دراسي | النص: التعاون طريق النجاح.
+الشريحة2: العنوان: فوائد التعاون | الصورة: مجموعة طلاب ينجزون مشروعًا | النص: نتعلم أسرع عندما نتعاون."></textarea>
+                <span class="hint">استخدم هذا الحقل عندما تريد توليد صور مناسبة لكل شريحة بدل الاعتماد على صور مرفقة.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-head">
+              <div class="section-title"><h3>مولد القصة المصورة</h3><span class="section-tag contextual">خاص بالقصص</span></div>
+              <small>املأه فقط عند اختيار قصة مصورة متعددة الصفحات</small>
+            </div>
+            <div class="form-grid">
+              <div>
+                <label for="storyMode">وضع القصة المصورة</label>
+                <select id="storyMode">
+                  <option value="off">غير مفعّل</option>
+                  <option value="on">مفعّل: قصة مصورة</option>
+                </select>
+              </div>
+              <div>
+                <label for="storyPageCount">عدد صفحات القصة</label>
+                <input id="storyPageCount" type="number" min="1" max="10" value="6" />
+                <span class="hint">الحد الأقصى ١٠ صفحات في الطلب الواحد.</span>
+              </div>
+              <div>
+                <label for="storyPageSize">مقاس الصفحة</label>
+                <select id="storyPageSize">
+                  <option>A4 عرضي</option>
+                  <option>A4 عمودي</option>
+                  <option>16:9 عرضي</option>
+                  <option>4:5 عمودي</option>
+                  <option>مربع 1:1</option>
+                </select>
+              </div>
+              <div>
+                <label for="storyTextPlacement">موضع نص القصة</label>
+                <select id="storyTextPlacement">
+                  <option>فقاعات حوار عربية داخل المشهد</option>
+                  <option>نص سردي أسفل الصورة</option>
+                  <option>نص سردي أعلى يمين الصفحة</option>
+                  <option>نص في عمود يمين الصفحة</option>
+                  <option>نص في عمود يسار الصفحة</option>
+                  <option>بطاقة نصية أسفل يمين الصورة</option>
+                  <option>بدون نص داخل الصورة، اترك مساحة للنص</option>
+                </select>
+              </div>
+              <div>
+                <label for="storyArtStyle">أسلوب الرسم</label>
+                <select id="storyArtStyle">
+                  <option>رسوم قصص أطفال عربية ناعمة وواضحة</option>
+                  <option>أسلوب كرتوني تعليمي نظيف</option>
+                  <option>رسم شبه واقعي لطيف</option>
+                  <option>أسلوب كتاب مصور فاخر</option>
+                  <option>أسلوب مانجا/كوميكس عربي منظم</option>
+                </select>
+              </div>
+              <div>
+                <label for="storyConsistency">تثبيت الشخصيات</label>
+                <select id="storyConsistency">
+                  <option>صارم جدًا: حافظ على نفس الشخصيات والملابس والألوان في كل الصفحات</option>
+                  <option>صارم: حافظ على نفس الشخصيات مع مرونة بسيطة في الوضعيات</option>
+                  <option>مرن: حافظ على الملامح الأساسية فقط</option>
+                </select>
+              </div>
+              <div class="full">
+                <label for="storyCharacters">وصف الشخصيات الثابتة</label>
+                <textarea id="storyCharacters" class="short-area" placeholder="مثال: سالم طفل عربي عمره ٩ سنوات، شعره أسود قصير، يرتدي ثوبًا أبيض وحقيبة زرقاء. نورة طفلة عمرها ٨ سنوات، شعرها بني، ترتدي فستانًا ورديًا."></textarea>
+                <span class="hint">كلما كان وصف الشخصيات أوضح، زادت فرصة ثباتها عبر الصفحات.</span>
+              </div>
+              <div class="full">
+                <label for="storyPages">وصف صفحات القصة</label>
+                <textarea id="storyPages" class="short-area" placeholder="مثال:
+الصفحة1: سالم يستيقظ مبكرًا ويستعد للمدرسة. النص: اليوم يوم جميل للتعلم.
+الصفحة2: سالم يلتقي نورة أمام المدرسة. النص: التعاون يجعل يومنا أسهل.
+الصفحة3: المعلمة تشرح الدرس داخل الفصل. النص: نسمع جيدًا ونشارك بأدب."></textarea>
+                <span class="hint">اكتب كل صفحة في سطر مستقل، مع وصف المشهد والنص المطلوب إن وجد.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="section section-edu">
+            <div class="section-head">
+              <div class="section-title"><h3>التذييل الذكي</h3><span class="section-tag optional">اختياري</span></div>
+              <small>يمكن تركه فارغًا أو إيقافه إذا لم تحتج تذييلًا</small>
+            </div>
+            <div class="form-grid">
+              <div>
+                <label for="enableFooter">تفعيل التذييل</label>
+                <select id="enableFooter">
+                  <option value="yes">مفعّل</option>
+                  <option value="no">غير مفعّل</option>
+                </select>
+              </div>
+              <div>
+                <label for="footerMode">طريقة التذييل</label>
+                <select id="footerMode">
+                  <option value="auto">توليد تلقائي من البيانات</option>
+                  <option value="manual">نص يدوي كامل</option>
+                  <option value="mixed">دمج البيانات مع النص اليدوي</option>
+                </select>
+              </div>
+              <div>
+                <label for="footerTeacherName">اسم المعلم / المعلمة</label>
+                <input id="footerTeacherName" placeholder="مثال: أ. أحمد محمد" />
+              </div>
+              <div>
+                <label for="footerDate">تاريخ التذييل</label>
+                <input id="footerDate" placeholder="مثال: ١٤٤٧/١٠/٠٥ أو 2026/04/23" />
+              </div>
+              <div>
+                <label for="footerLessonTopic">موضوع التذييل</label>
+                <input id="footerLessonTopic" placeholder="مثال: موضوع الدرس، اسم الوحدة، اسم المدرسة..." />
+              </div>
+              <div>
+                <label for="footerPosition">موضع التذييل</label>
+                <select id="footerPosition">
+                  <option>أسفل يمين الصورة</option>
+                  <option>أسفل وسط الصورة</option>
+                  <option>أسفل يسار الصورة</option>
+                  <option>شريط سفلي ممتد</option>
+                </select>
+              </div>
+              <div>
+                <label for="footerStyle">أسلوب التذييل</label>
+                <select id="footerStyle">
+                  <option>أنيق وخفيف وغير مزعج</option>
+                  <option>رسمي ومنظم</option>
+                  <option>تعليمي واضح داخل شريط سفلي</option>
+                  <option>هادئ وصغير الحجم</option>
+                </select>
+              </div>
+              <div>
+                <label for="footerLayout">تنسيق التذييل</label>
+                <select id="footerLayout">
+                  <option>سطر واحد مفصول بشرطات عمودية</option>
+                  <option>سطر واحد مفصول بشرطات قصيرة</option>
+                  <option>سطران متوازنان</option>
+                  <option>بطاقة صغيرة في الأسفل</option>
+                </select>
+              </div>
+              <div class="full">
+                <label for="footerText">نص تذييل يدوي أو إضافي</label>
+                <textarea id="footerText" class="short-area" placeholder="مثال: المعلم: خالد | التاريخ: ٢٠٢٦/٠٤/٢٣ | درس التحويلات المترية"></textarea>
+                <span class="hint">يمكنك تركه فارغًا وسيتم توليده تلقائيًا من بياناتك، أو كتابة نص خاص بك.</span>
+              </div>
+            </div>
+            <div class="mini-tools" style="margin-top:12px;">
+              <button class="mini" id="composeFooterBtn">تركيب التذييل تلقائيًا</button>
+              <button class="mini" id="clearFooterBtn">مسح التذييل</button>
+            </div>
+            <div class="footer-preview" id="footerPreview">معاينة التذييل ستظهر هنا بعد التركيب.</div>
+          </div>
+
+          <div class="section">
+            <div class="section-head">
+              <div class="section-title"><h3>الحماية اللغوية والبصرية</h3><span class="section-tag auto">مضبوط تلقائيًا</span></div>
+              <small>يفضل تركها كما هي لأنها تحمي العربية والاتجاه RTL</small>
+            </div>
+            <div class="checks">
+              <div class="check"><input type="checkbox" id="strictArabic" checked><label for="strictArabic">إعطاء أولوية قصوى لصحة النص العربي</label></div>
+              <div class="check"><input type="checkbox" id="keepTashkeel" checked><label for="keepTashkeel">الحفاظ على التشكيل كما هو تمامًا</label></div>
+              <div class="check"><input type="checkbox" id="rtl" checked disabled><label for="rtl">إجبار اتجاه الكتابة والقوائم من اليمين إلى اليسار RTL دائمًا</label></div>
+              <div class="check"><input type="checkbox" id="viewerPerspective" checked><label for="viewerPerspective">تثبيت أن اليمين واليسار من منظور المشاهد</label></div>
+              <div class="check"><input type="checkbox" id="noMirror" checked><label for="noMirror">منع انعكاس الصورة أفقيًا</label></div>
+              <div class="check"><input type="checkbox" id="noFakeArabic" checked><label for="noFakeArabic">منع الحروف العربية المزيفة أو المشوهة</label></div>
+              <div class="check"><input type="checkbox" id="noSplitWords" checked><label for="noSplitWords">منع تقسيم الكلمة العربية بين سطرين</label></div>
+              <div class="check"><input type="checkbox" id="blankIfFail" checked><label for="blankIfFail">عند فشل النص اترك مساحة فارغة بدل نص خاطئ</label></div>
+              <div class="check"><input type="checkbox" id="highReadability" checked><label for="highReadability">تركيز إضافي على الوضوح وسهولة القراءة</label></div>
+              <div class="check"><input type="checkbox" id="consistentDigits" checked><label for="consistentDigits">الحفاظ على نمط أرقام موحّد في كل الصورة</label></div>
+              <div class="check"><input type="checkbox" id="includeNegativePrompt" checked><label for="includeNegativePrompt">توليد Negative Prompt تلقائي</label></div>
+              <div class="check"><input type="checkbox" id="autosave" checked><label for="autosave">حفظ تلقائي للإعدادات داخل المتصفح</label></div>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-head">
+              <div class="section-title"><h3>ممنوعات وتعليمات خاصة</h3><span class="section-tag advanced">متقدم</span></div>
+              <small>اختياري لمن يريد ضبطًا أدق أو منع أخطاء محددة</small>
+            </div>
+            <div class="form-grid">
+              <div class="full">
+                <label for="negativeNotes">ممنوعات خاصة</label>
+                <textarea id="negativeNotes" class="short-area" placeholder="مثال: لا وجوه مشوهة، لا عناصر زائدة، لا نصوص ثانوية، لا ازدحام بصري، لا أخطاء إملائية..."></textarea>
+              </div>
+              <div class="full">
+                <label for="specialInstructions">تعليمات إضافية دقيقة</label>
+                <textarea id="specialInstructions" class="short-area" placeholder="مثال: اجعل الأيقونات تعليمية بسيطة، حافظ على مسافات هواء حول العنوان، اجعل الأمثلة السفلية داخل صناديق واضحة..."></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="top-actions">
+            <button class="primary" id="generateBtn">توليد البرومبت</button>
+            <button class="secondary" id="exampleBtn">تعبئة مثال قوي</button>
+            <button class="ghost" id="clearBtn">مسح الحقول</button>
+            <button class="amber" id="saveBtn">حفظ الإعدادات</button>
+            <button class="ghost" id="exportBtn">تصدير الإعدادات JSON</button>
+            <button class="ghost" id="importBtn">استيراد إعدادات JSON</button>
+            <input type="file" id="importFile" class="hidden-input" accept="application/json" />
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-header">
+          <h2>الناتج الاحترافي</h2>
+          <div class="top-actions">
+            <button class="secondary" id="copyPromptBtn">نسخ البرومبت</button>
+            <button class="ghost" id="copyNegativeBtn">نسخ الـ Negative</button>
+            <button class="amber" id="copyAllBtn">نسخ الكل</button>
+            <button class="rose" id="downloadBtn">تنزيل TXT</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="section">
+            <div class="section-head">
+              <h3>مراجعة ذكية فورية</h3>
+              <small>تلميحات لتحسين البرومبت قبل النسخ</small>
+            </div>
+            <div class="report" id="reportBox">ابدأ بالكتابة وسأراجع بناء البرومبت هنا.</div>
+          </div>
+
+          <div class="section">
+            <div class="section-head">
+              <h3>البرومبت الرئيسي</h3>
+              <small>النص الجاهز لمولد الصور</small>
+            </div>
+            <div class="output-box" id="promptOutput">اضغط «توليد البرومبت» بعد تعبئة الحقول.</div>
+            <div class="footer-note">هذا النص يركز على سلامة العربية، مواضع العناصر، ومعالجة اتجاه RTL والتشكيل والأرقام.</div>
+          </div>
+
+          <div class="section">
+            <div class="section-head">
+              <h3>Negative Prompt</h3>
+              <small>مفيد لتقليل الأخطاء والشوائب</small>
+            </div>
+            <div class="output-box small" id="negativeOutput">سيظهر هنا تلقائيًا إذا كان الخيار مفعّلًا.</div>
+          </div>
+
+          <div class="pill-grid meta-grid">
+            <div class="pill-card"><strong>نمط الأرقام</strong><span id="metaDigits">—</span></div>
+            <div class="pill-card"><strong>أولوية النص</strong><span id="metaPriority">—</span></div>
+            <div class="pill-card"><strong>نسبة الأبعاد</strong><span id="metaAspect">—</span></div>
+            <div class="pill-card"><strong>المادة الدراسية</strong><span id="metaEducation">—</span></div>
+            <div class="pill-card"><strong>حالة التذييل</strong><span id="metaFooter">—</span></div>
+            <div class="pill-card"><strong>حالة الحفظ</strong><span id="metaSave">غير محفوظ بعد</span></div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <footer class="smart-footer">
+      <div class="footer-title">
+        برمجة
+        <a class="footer-link chatgpt" href="https://chatgpt.com" target="_blank" rel="noopener noreferrer">💬 ChatGPT</a>
+      </div>
+
+      <div class="footer-dev-note">
+        تم تطوير الواجهة باستخدام <span>Claude Sonnet 4.6</span>
+      </div>
+
+      <div class="footer-subtitle">
+        لصالح
+        <a class="footer-link forum" href="https://t.me/Interact2030" target="_blank" rel="noopener noreferrer">
+          🎓 ملتقى التعليم التفاعلي
+        </a>
+      </div>
+
+      <div class="footer-note">
+        جميع الحقوق المعنوية محفوظة لأصحابها
+      </div>
+    </footer>
+
+  </div>
+
+  <div class="confirm-overlay" id="confirmOverlay" aria-hidden="true">
+    <div class="confirm-box" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+      <h3 id="confirmTitle">تأكيد الإجراء</h3>
+      <p class="confirm-message" id="confirmMessage">هل تريد المتابعة؟</p>
+      <div class="confirm-actions">
+        <button class="ghost" id="confirmCancelBtn">إلغاء</button>
+        <button class="rose" id="confirmOkBtn">نعم، تابع</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const STORAGE_KEY = 'arabicPromptTreasure_v2';
+
+    const fields = {
+      imageType: $('imageType'),
+      purpose: $('purpose'),
+      style: $('style'),
+      aspectRatio: $('aspectRatio'),
+      qualityLevel: $('qualityLevel'),
+      outputMode: $('outputMode'),
+      visualPromptMode: $('visualPromptMode'),
+      subject: $('subject'),
+      subjectArea: $('subjectArea'),
+      gradeLevel: $('gradeLevel'),
+      lessonTitle: $('lessonTitle'),
+      audienceType: $('audienceType'),
+      learningGoal: $('learningGoal'),
+      sceneDesc: $('sceneDesc'),
+      colors: $('colors'),
+      lighting: $('lighting'),
+      cameraAngle: $('cameraAngle'),
+      backgroundStyle: $('backgroundStyle'),
+      mainElementPosition: $('mainElementPosition'),
+      extraElements: $('extraElements'),
+      arabicText: $('arabicText'),
+      secondaryText: $('secondaryText'),
+      textPosition: $('textPosition'),
+      fontStyle: $('fontStyle'),
+      numberStyle: $('numberStyle'),
+      textImportance: $('textImportance'),
+      textFormatting: $('textFormatting'),
+      layoutType: $('layoutType'),
+      slideMode: $('slideMode'),
+      slideSize: $('slideSize'),
+      slideSourceMode: $('slideSourceMode'),
+      slideCount: $('slideCount'),
+      slideImageCount: $('slideImageCount'),
+      slideOverflowMode: $('slideOverflowMode'),
+      slideItems: $('slideItems'),
+      slideGeneratedItems: $('slideGeneratedItems'),
+      storyMode: $('storyMode'),
+      storyPageCount: $('storyPageCount'),
+      storyPageSize: $('storyPageSize'),
+      storyTextPlacement: $('storyTextPlacement'),
+      storyArtStyle: $('storyArtStyle'),
+      storyConsistency: $('storyConsistency'),
+      storyCharacters: $('storyCharacters'),
+      storyPages: $('storyPages'),
+      enableFooter: $('enableFooter'),
+      footerMode: $('footerMode'),
+      footerTeacherName: $('footerTeacherName'),
+      footerDate: $('footerDate'),
+      footerLessonTopic: $('footerLessonTopic'),
+      footerPosition: $('footerPosition'),
+      footerStyle: $('footerStyle'),
+      footerLayout: $('footerLayout'),
+      footerText: $('footerText'),
+      strictArabic: $('strictArabic'),
+      keepTashkeel: $('keepTashkeel'),
+      rtl: $('rtl'),
+      viewerPerspective: $('viewerPerspective'),
+      noMirror: $('noMirror'),
+      noFakeArabic: $('noFakeArabic'),
+      noSplitWords: $('noSplitWords'),
+      blankIfFail: $('blankIfFail'),
+      highReadability: $('highReadability'),
+      consistentDigits: $('consistentDigits'),
+      includeNegativePrompt: $('includeNegativePrompt'),
+      autosave: $('autosave'),
+      negativeNotes: $('negativeNotes'),
+      specialInstructions: $('specialInstructions')
+    };
+
+    const statusText = $('statusText');
+    const promptOutput = $('promptOutput');
+    const negativeOutput = $('negativeOutput');
+    const reportBox = $('reportBox');
+    const scoreBar = $('scoreBar');
+    const scoreText = $('scoreText');
+    const scoreHint = $('scoreHint');
+    const metaDigits = $('metaDigits');
+    const metaPriority = $('metaPriority');
+    const metaAspect = $('metaAspect');
+    const metaEducation = $('metaEducation');
+    const metaFooter = $('metaFooter');
+    const metaSave = $('metaSave');
+    const footerPreview = $('footerPreview');
+    const confirmOverlay = $('confirmOverlay');
+    const confirmMessage = $('confirmMessage');
+    const confirmOkBtn = $('confirmOkBtn');
+    const confirmCancelBtn = $('confirmCancelBtn');
+    let pendingConfirmAction = null;
+
+    function openConfirmDialog(message, action) {
+      pendingConfirmAction = action;
+      confirmMessage.textContent = message;
+      confirmOverlay.classList.add('show');
+      confirmOverlay.setAttribute('aria-hidden', 'false');
+      confirmOkBtn.focus();
+    }
+
+    function closeConfirmDialog() {
+      confirmOverlay.classList.remove('show');
+      confirmOverlay.setAttribute('aria-hidden', 'true');
+      pendingConfirmAction = null;
+    }
+
+    function clean(v) { return (v || '').trim(); }
+
+    function easternToEnglish(text) {
+      const map = { '٠':'0','١':'1','٢':'2','٣':'3','٤':'4','٥':'5','٦':'6','٧':'7','٨':'8','٩':'9' };
+      return text.replace(/[٠-٩]/g, d => map[d] || d);
+    }
+
+    function englishToEastern(text) {
+      const map = { '0':'٠','1':'١','2':'٢','3':'٣','4':'٤','5':'٥','6':'٦','7':'٧','8':'٨','9':'٩' };
+      return text.replace(/[0-9]/g, d => map[d] || d);
+    }
+
+    function normalizeSpaces(text) {
+      return text
+        .replace(/[ \t]+/g, ' ')
+        .replace(/\s*\n\s*/g, '\n')
+        .replace(/\n{3,}/g, '\n\n')
+        .trim();
+    }
+
+    function numberInstruction(style, consistent) {
+      const consistency = consistent ? ' مع الحفاظ على الاتساق التام في جميع الأرقام داخل الصورة.' : '';
+      if (style === 'english') return 'استخدم الأرقام الإنجليزية فقط عند ظهور أي أرقام داخل النص أو التصميم: 0 1 2 3 4 5 6 7 8 9.' + consistency;
+      if (style === 'eastern') return 'استخدم الأرقام الهندية الشرقية فقط عند ظهور أي أرقام داخل النص أو التصميم: ٠ ١ ٢ ٣ ٤ ٥ ٦ ٧ ٨ ٩.' + consistency;
+      return 'إذا ظهرت أرقام داخل الصورة أو النص، فاختر النمط المناسب للسياق وطبقه بانتظام على جميع الأرقام.';
+    }
+
+    function rtlLayoutInstruction() {
+      return 'التزم دائمًا بالاتجاه العربي الطبيعي من اليمين إلى اليسار RTL في كل ما يظهر داخل الصورة: العنوان، النص الأساسي، النص الثانوي، التذييل، التسميات، البطاقات، الجداول، المخططات، الأسهم، القوائم، التعدادات، والترقيم. اجعل المحاذاة يمينًا، واجعل بداية القراءة والتنظيم من يمين التصميم إلى يساره، ولا تعكس ترتيب الكلمات أو الحروف. عند وجود نقاط أو تعداد أو ترقيم، ابدأ كل نقطة أو رقم من جهة اليمين واجعل النص بعدها يقرأ من اليمين إلى اليسار، بحيث يظهر رقم/رمز التعداد قبل النص من الجهة اليمنى. عند وجود جدول أو مخطط أو خطوات متسلسلة، اجعل العمود أو الخطوة الأولى في أقصى اليمين ثم تتتابع العناصر نحو اليسار بما يوافق العربية.';
+    }
+
+    function clampInt(value, min, max, fallback) {
+      const n = parseInt(easternToEnglish(String(value || '')), 10);
+      if (Number.isNaN(n)) return fallback;
+      return Math.min(max, Math.max(min, n));
+    }
+
+    function isSlideMode(d) {
+      return d.slideMode === 'on' || (d.imageType || '').includes('شرائح');
+    }
+
+    function isStoryMode(d) {
+      return d.storyMode === 'on' || (d.imageType || '').includes('قصة مصورة');
+    }
+
+    function displayNumber(n, style) {
+      return style === 'eastern' ? englishToEastern(String(n)) : String(n);
+    }
+
+    function normalizedSlideItems(d) {
+      const raw = normalizeSpaces(d.slideItems || '');
+      if (!raw) return '';
+      return raw
+        .split('\n')
+        .map(line => convertDigitsByStyle(line.trim(), d.numberStyle))
+        .filter(Boolean)
+        .join('\n');
+    }
+
+    function normalizedGeneratedSlideItems(d) {
+      const raw = normalizeSpaces(d.slideGeneratedItems || '');
+      if (!raw) return '';
+      return raw
+        .split('\n')
+        .map(line => convertDigitsByStyle(line.trim(), d.numberStyle))
+        .filter(Boolean)
+        .join('\n');
+    }
+
+    function normalizedStoryPages(d) {
+      const raw = normalizeSpaces(d.storyPages || '');
+      if (!raw) return '';
+      return raw
+        .split('\n')
+        .map(line => convertDigitsByStyle(line.trim(), d.numberStyle))
+        .filter(Boolean)
+        .join('\n');
+    }
+
+    function storyTextPlacementInstruction(placement) {
+      if ((placement || '').includes('فقاعات')) return 'استخدم فقاعات حوار عربية واضحة داخل المشهد، واجعل ذيل الفقاعة يشير للشخصية المتحدثة، مع قراءة الفقاعة من اليمين إلى اليسار.';
+      if ((placement || '').includes('أسفل الصورة')) return 'ضع النص السردي أسفل الصورة في مساحة مخصصة نظيفة، بمحاذاة يمينية واتجاه RTL.';
+      if ((placement || '').includes('أعلى يمين')) return 'ضع النص السردي في أعلى يمين الصفحة داخل مساحة هادئة لا تغطي العناصر المهمة.';
+      if ((placement || '').includes('عمود يمين')) return 'ضع النص في عمود واضح على يمين الصفحة، والصورة أو المشهد في المساحة المتبقية، مع محاذاة عربية كاملة.';
+      if ((placement || '').includes('عمود يسار')) return 'ضع النص في عمود يسار الصفحة لكن حافظ على محاذاة النص يمينًا داخل العمود، واجعل القراءة عربية RTL.';
+      if ((placement || '').includes('بطاقة نصية')) return 'ضع النص داخل بطاقة صغيرة أسفل يمين الصورة، بمحاذاة يمينية وتباين واضح.';
+      if ((placement || '').includes('بدون نص')) return 'لا تكتب النص داخل الصورة؛ اترك مساحة نظيفة مخصصة لإضافة النص لاحقًا.';
+      return 'ضع نص القصة في موضع واضح ومقروء، بمحاذاة عربية من اليمين إلى اليسار.';
+    }
+
+    function storyGenerationInstruction(d) {
+      if (!isStoryMode(d)) return '';
+      const pageCount = clampInt(d.storyPageCount, 1, 10, 6);
+      const pageCountLabel = displayNumber(pageCount, d.numberStyle);
+      const pages = normalizedStoryPages(d);
+      const lines = [
+        'تعليمات خاصة بالقصة المصورة:',
+        `- أنشئ قصة مصورة عربية متعددة الصفحات بعدد ${pageCountLabel} صفحات كحد أقصى ١٠ صفحات في الطلب الواحد.`,
+        `- مقاس كل صفحة: ${d.storyPageSize || 'A4 عرضي'}.`,
+        `- أسلوب الرسم المطلوب: ${d.storyArtStyle || 'رسوم قصص أطفال عربية ناعمة وواضحة'}.`,
+        `- موضع نص القصة: ${d.storyTextPlacement || 'نص سردي أسفل الصورة'}. ${storyTextPlacementInstruction(d.storyTextPlacement)}`,
+        `- تثبيت الشخصيات: ${d.storyConsistency || 'صارم جدًا: حافظ على نفس الشخصيات والملابس والألوان في كل الصفحات'}.`,
+        '- كل صفحة يجب أن تكون مشهدًا مستقلًا واضحًا، لكنها جزء من قصة واحدة متصلة بصريًا وسرديًا.',
+        '- حافظ على نفس الشخصيات عبر كل الصفحات: نفس الملامح، العمر، الملابس، الألوان، تسريحة الشعر، والإكسسوارات.',
+        '- لا تغيّر هوية الشخصية بين صفحة وأخرى، ولا تضف شخصية رئيسية جديدة إلا إذا وردت في وصف الصفحة أو وصف الشخصيات.',
+        '- اجعل تسلسل الصفحات عربيًا من اليمين إلى اليسار، واجعل أرقام الصفحات أو العناوين تبدأ من الجهة اليمنى.',
+        '- حافظ على هوية بصرية موحدة بين الصفحات: نفس الأسلوب، لوحة الألوان، الإضاءة، وسماكة الخطوط.',
+        '- اجعل النص العربي قصيرًا ومقروءًا جدًا، ولا تضعه فوق تفاصيل مزدحمة.',
+        '- إذا تعذر توليد النص العربي بدقة، اترك مساحة النص فارغة بدل كتابة نص مشوه.'
+      ];
+      if (d.storyCharacters) {
+        lines.push('- وصف الشخصيات الثابتة التي يجب الالتزام بها حرفيًا:');
+        lines.push(d.storyCharacters);
+      } else {
+        lines.push('- إذا لم يوصف المستخدم الشخصيات، أنشئ شخصيات عربية بسيطة وثابتة وكرر ملامحها وملابسها في كل الصفحات.');
+      }
+      if (pages) {
+        lines.push('- صفحات القصة، وصف كل صفحة ونصها:');
+        lines.push(pages);
+      } else {
+        lines.push('- إذا لم تُكتب صفحات القصة، قسّم الموضوع إلى صفحات قصيرة مترابطة مع مشهد ونص عربي مختصر لكل صفحة.');
+      }
+      return lines.join('\n');
+    }
+
+    function slideGenerationInstruction(d) {
+      if (!isSlideMode(d)) return '';
+      const sourceMode = d.slideSourceMode || 'attached';
+      const outputSlides = clampInt(d.slideCount, 1, 10, 10);
+      const sourceImages = clampInt(d.slideImageCount, 1, 20, outputSlides);
+      const outputSlidesLabel = displayNumber(outputSlides, d.numberStyle);
+      const sourceImagesLabel = displayNumber(sourceImages, d.numberStyle);
+      const items = normalizedSlideItems(d);
+      const generatedItems = normalizedGeneratedSlideItems(d);
+      const overflow = d.slideOverflowMode || 'ادمج الصور أو البنود الزائدة في الشريحة الأخيرة';
+      const lines = [
+        'تعليمات خاصة بالشرائح المتعددة:',
+        `- أنشئ سلسلة شرائح عربية مستقلة، وليس إنفوجرافيكًا واحدًا طويلًا.`,
+        `- عدد الشرائح الناتجة المطلوب في هذا الطلب: ${outputSlidesLabel} بحد أقصى ١٠ شرائح.`,
+        `- مقاس كل شريحة: ${d.slideSize || 'A4 عرضي'}.`,
+        '- كل شريحة يجب أن تكون تصميمًا مستقلًا كاملًا يصلح للتصدير أو الاستخدام منفردًا.',
+        '- ضع رقم الشريحة أو الصورة بالأرقام الهندية الشرقية عند اختيار هذا النمط، واجعله ظاهرًا من جهة اليمين وبمحاذاة عربية.',
+        '- حافظ على هوية بصرية موحدة بين جميع الشرائح: نفس الخطوط، الألوان، التذييل، المسافات، وأسلوب الأيقونات.',
+        '- اجعل تسلسل الشرائح واللوحات من اليمين إلى اليسار، واجعل أي أسهم أو خطوات أو مؤشرات تقدم تبدأ من اليمين.'
+      ];
+      if (sourceMode === 'generated') {
+        lines.push('- مصدر الصور: لا تعتمد على صور مرفقة؛ ولّد صورة أو مشهدًا مناسبًا لكل شريحة اعتمادًا على وصفها.');
+        lines.push('- لكل شريحة: أنشئ عنوانًا عربيًا واضحًا، وصورة تعليمية مناسبة، ونصًا مختصرًا إذا ذُكر في الوصف.');
+        lines.push('- حافظ على نفس الهوية البصرية في كل الصور المولدة، لكن اجعل كل شريحة مختلفة في المشهد بما يخدم موضوعها.');
+        lines.push('- استخدم أيقونات تعليمية بسيطة ورسومًا مناسبة لكل شريحة دون ازدحام أو عناصر عشوائية.');
+        if (generatedItems) {
+          lines.push('- أوصاف الشرائح المطلوب توليد صورها:');
+          lines.push(generatedItems);
+        } else {
+          lines.push('- إذا لم تُكتب أوصاف الشرائح، فقسّم الموضوع إلى شرائح تعليمية واضحة، مع صورة مناسبة ونص عربي مختصر لكل شريحة.');
+        }
+      } else {
+        lines.push(`- مصدر الصور: استخدم الصور أو اللقطات المرفقة، وعددها المتوقع: ${sourceImagesLabel}.`);
+        lines.push('- اربط كل صورة مرفقة بتعليقها المرقم نفسه؛ الصورة رقم ١ تستخدم تعليق رقم ١، والصورة رقم ٢ تستخدم تعليق رقم ٢، وهكذا.');
+        lines.push(`- عند زيادة عدد الصور أو البنود عن عدد الشرائح: ${overflow}.`);
+        lines.push('- إذا وُجدت صور زائدة عن الحد الأقصى، فادمج الزائد في الشريحة الأخيرة بوضوح، مثل دمج الصورة ١٠ والصورة ١١ في شريحة واحدة عند الحاجة.');
+        lines.push('- استخدم الصور المرفقة كعنصر رئيسي في كل شريحة، ولا تستبدلها برسومات عامة إلا عند الحاجة لعناصر مساعدة بسيطة.');
+        lines.push('- أضف أيقونات مناسبة حسب تعليق كل شريحة، مثل أيقونات الحضور والغياب والطلبات والصلاحيات والجداول عند ملاءمتها.');
+        if (items) {
+          lines.push('- قائمة الصور أو الشرائح وتعليقات كل واحدة:');
+          lines.push(items);
+        } else {
+          lines.push('- إذا لم تُكتب قائمة مرقمة، فأنشئ عناوين قصيرة لكل شريحة من الموضوع العام مع الحفاظ على التسلسل العربي.');
+        }
+      }
+      return lines.join('\n');
+    }
+
+    function englishLayoutCue(layoutType) {
+      if (layoutType.includes('عنوان أعلى يمين')) return 'large Arabic headline in the top-right, right-aligned text blocks, generous reading space';
+      if (layoutType.includes('بطاقات تعليمية')) return 'educational cards arranged from right to left, first card on the far right, consistent spacing';
+      if (layoutType.includes('إنفوجرافيك خطوات')) return 'step-by-step Arabic infographic flowing from right to left, first step on the far right';
+      if (layoutType.includes('جدول عربي')) return 'Arabic table layout with the first column on the far right, rows and labels right-aligned';
+      if (layoutType.includes('مخطط تعليمي')) return 'organized Arabic educational diagram, labels and arrows flow right to left';
+      if (layoutType.includes('تصميم إعلاني')) return 'Arabic advertising layout with a strong right-aligned headline, clear offer area, balanced product space';
+      if (layoutType.includes('منشور سوشيال')) return 'high-readability Arabic social post layout, bold right-aligned hook, clean visual hierarchy';
+      if (layoutType.includes('شرائح عرض')) return 'separate Arabic presentation slides, A4 landscape, each slide uses one attached screenshot with its matching caption, consistent RTL slide system';
+      if (layoutType.includes('قصة مصورة')) return 'multi-page Arabic illustrated story, consistent characters across all pages, clear comic/storybook page composition, RTL text placement';
+      return 'flexible Arabic RTL layout, right-aligned text, clear hierarchy, balanced composition';
+    }
+
+    function arabicLayoutInstruction(d) {
+      const layout = d.layoutType || 'تخطيط عربي مرن حسب المحتوى';
+      let detail = 'اجعل الترتيب العام والمحاذاة واتجاه القراءة متوافقة مع العربية من اليمين إلى اليسار.';
+      if (layout.includes('عنوان أعلى يمين')) detail = 'ضع العنوان في أعلى يمين الصورة، واجعل بقية العناصر تدعم مسار قراءة عربي واضح من اليمين إلى اليسار.';
+      else if (layout.includes('بطاقات تعليمية')) detail = 'رتّب البطاقات التعليمية من اليمين إلى اليسار، واجعل البطاقة الأولى في أقصى اليمين ثم تتدرج البطاقات نحو اليسار.';
+      else if (layout.includes('إنفوجرافيك خطوات')) detail = 'اجعل الخطوة الأولى في أقصى اليمين، ثم تتتابع الخطوات والأسهم نحو اليسار مع أرقام واضحة تبدأ من اليمين.';
+      else if (layout.includes('جدول عربي')) detail = 'اجعل العمود الأول في أقصى اليمين، واجعل عناوين الأعمدة والصفوف بمحاذاة يمينية واتجاه RTL واضح.';
+      else if (layout.includes('مخطط تعليمي')) detail = 'اجعل المخطط والتسميات والأسهم تعمل بمنطق عربي من اليمين إلى اليسار، مع فصل بصري واضح بين الأجزاء.';
+      else if (layout.includes('تصميم إعلاني')) detail = 'اجعل العنوان أو العرض الرئيسي بارزًا في الجهة اليمنى أو أعلى اليمين، مع توازن واضح بين النص والمنتج أو العنصر البصري.';
+      else if (layout.includes('منشور سوشيال')) detail = 'اجعل الجملة الجاذبة واضحة وكبيرة ومحاذاة لليمين، مع مساحات هواء كافية حتى تقرأ بسرعة على الهاتف.';
+      else if (layout.includes('شرائح عرض')) detail = 'اجعل كل شريحة مستقلة ومنظمة، تبدأ قراءتها من اليمين، وتحافظ على نفس النظام البصري بين جميع الشرائح.';
+      else if (layout.includes('قصة مصورة')) detail = 'اجعل كل صفحة مشهدًا قصصيًا واضحًا، وحافظ على الشخصيات نفسها واتجاه القراءة العربي بين الصفحات.';
+      return `نوع التخطيط العربي: ${layout}. ${detail}`;
+    }
+
+    function visualDesignBrief(d, compact = false) {
+      if (d.visualPromptMode === 'arabicOnly') return '';
+      const subject = d.subject || 'clear Arabic visual subject';
+      const keywords = 'clean layout, balanced composition, clear hierarchy, high readability, Arabic typography, generous whitespace, crisp text areas, polished spacing, professional design';
+      let layoutCue = englishLayoutCue(d.layoutType || '');
+      if (isSlideMode(d) && d.slideSourceMode === 'generated') {
+        layoutCue = 'separate Arabic educational slides, generate a custom illustration for each slide from its description, consistent RTL slide system, no attached screenshots required';
+      }
+      if (compact) {
+        return `English visual brief: professional Arabic-language ${d.imageType}, ${keywords}, ${layoutCue}, keep all Arabic text exactly as provided.`;
+      }
+      return [
+        'English visual design brief for the image model:',
+        `Create a professional Arabic-language ${d.imageType} for ${d.purpose} about "${subject}".`,
+        `Visual style: ${d.style}. Aspect ratio: ${d.aspectRatio}. Quality: ${d.qualityLevel}.`,
+        `Design keywords: ${keywords}.`,
+        `Layout direction: ${layoutCue}.`,
+        'Keep every Arabic word exactly as provided in the Arabic text section; do not translate, rewrite, mirror, or invent Arabic text.'
+      ].join('\n');
+    }
+
+    function convertDigitsByStyle(text, style) {
+      if (style === 'english') return easternToEnglish(text || '');
+      if (style === 'eastern') return englishToEastern(text || '');
+      return text || '';
+    }
+
+    function composeFooterText(d) {
+      const parts = [];
+      const topic = d.footerLessonTopic || d.lessonTitle || d.subject || '';
+      const teacher = d.footerTeacherName || '';
+      const date = convertDigitsByStyle(d.footerDate || '', d.numberStyle);
+      const manual = clean(d.footerText || '');
+
+      if (d.footerMode === 'manual') {
+        return manual;
+      }
+
+      if (topic) parts.push(`الموضوع: ${topic}`);
+      if (teacher) parts.push(`المعلم: ${teacher}`);
+      if (date) parts.push(`التاريخ: ${date}`);
+
+      let autoText = '';
+      if (d.footerLayout === 'سطر واحد مفصول بشرطات عمودية') autoText = parts.join(' | ');
+      else if (d.footerLayout === 'سطر واحد مفصول بشرطات قصيرة') autoText = parts.join(' - ');
+      else if (d.footerLayout === 'سطران متوازنان') {
+        if (parts.length <= 2) autoText = parts.join('\n');
+        else autoText = parts.slice(0, 2).join(' | ') + '\n' + parts.slice(2).join(' | ');
+      } else {
+        autoText = parts.join(' | ');
+      }
+
+      if (d.footerMode === 'mixed' && manual) {
+        return [manual, autoText].filter(Boolean).join('\n');
+      }
+
+      return autoText || manual;
+    }
+
+    function updateFooterPreview(d) {
+      const text = composeFooterText(d);
+      footerPreview.textContent = text || 'معاينة التذييل ستظهر هنا بعد التركيب.';
+      return text;
+    }
+
+    function gatherData() {
+      const data = {};
+      for (const [key, el] of Object.entries(fields)) {
+        data[key] = el.type === 'checkbox' ? el.checked : clean(el.value);
+      }
+      data.rtl = true;
+      return data;
+    }
+
+    function buildPromptFull(d) {
+      d.rtl = true;
+      const lines = [];
+      lines.push(`أنشئ صورة من نوع "${d.imageType}" موجهة لغرض "${d.purpose}" عن موضوع "${d.subject || 'موضوع بصري واضح'}".`);
+      lines.push(`الأسلوب العام: ${d.style}. نسبة الأبعاد: ${d.aspectRatio}. مستوى الجودة: ${d.qualityLevel}.`);
+      const visualBrief = visualDesignBrief(d);
+      if (visualBrief) {
+        lines.push('');
+        lines.push(visualBrief);
+      }
+      if (d.subjectArea !== 'عام' || d.gradeLevel || d.lessonTitle || d.learningGoal || d.audienceType !== 'طلاب المدرسة') {
+        lines.push('');
+        lines.push('سياق تعليمي إضافي:');
+        if (d.subjectArea && d.subjectArea !== 'عام') lines.push(`- المادة الدراسية: ${d.subjectArea}.`);
+        if (d.gradeLevel) lines.push(`- المرحلة أو الصف: ${d.gradeLevel}.`);
+        if (d.lessonTitle) lines.push(`- عنوان الدرس: ${d.lessonTitle}.`);
+        if (d.audienceType && d.audienceType !== 'طلاب المدرسة') lines.push(`- الفئة المستهدفة: ${d.audienceType}.`);
+        if (d.learningGoal) lines.push(`- الهدف التعليمي: ${d.learningGoal}.`);
+      }
+      lines.push('');
+      lines.push('أولويات التنفيذ:');
+      lines.push(`- أهمية النص داخل الصورة: ${d.textImportance}.`);
+      if (d.strictArabic) lines.push('- أولوية قصوى جدًا لصحة اللغة العربية وقابليتها للقراءة فوق أي زخرفة أو تأثير جمالي.');
+      if (d.highReadability) lines.push('- اجعل النص واضحًا جدًا ومقروءًا من النظرة الأولى مع تباين كافٍ ومسافات مريحة.');
+      lines.push(`- ${arabicLayoutInstruction(d)}`);
+      if (d.rtl) lines.push(`- ${rtlLayoutInstruction()}`);
+      const slideInstruction = slideGenerationInstruction(d);
+      if (slideInstruction) {
+        lines.push('');
+        lines.push(slideInstruction);
+      }
+      const storyInstruction = storyGenerationInstruction(d);
+      if (storyInstruction) {
+        lines.push('');
+        lines.push(storyInstruction);
+      }
+      lines.push('');
+      lines.push('تعليمات النص العربي الأساسي:');
+      lines.push('- انسخ النص التالي حرفيًا 100% دون حذف أو إضافة أو استبدال أو إعادة صياغة لأي حرف.');
+      lines.push(`"${d.arabicText || 'ضع النص العربي هنا'}"`);
+      if (d.secondaryText) {
+        lines.push('- أضف النص الثانوي التالي حرفيًا كما هو، بحجم أصغر وتنسيق متناسق مع النص الأساسي:');
+        lines.push(`"${d.secondaryText}"`);
+      }
+      if (d.rtl) lines.push('- طبّق قاعدة RTL السابقة على كل كتلة نصية داخل الصورة، ولا تسمح لأي عنوان أو تسمية أو شرح أو رقم بأن يبدأ من اليسار.');
+      if (d.keepTashkeel) lines.push('- حافظ على جميع الحركات وعلامات التشكيل كما هي، بما في ذلك الشدة والسكون والتنوين والمد والهمزات.');
+      if (d.noFakeArabic) lines.push('- لا تستخدم حروفًا عربية مزيفة أو رموزًا تشبه العربية أو نصًا زخرفيًا غير مقروء.');
+      if (d.noSplitWords) lines.push('- لا تقسّم الكلمة العربية بين سطرين ولا تكسر ترابط الحروف بشكل خاطئ.');
+      lines.push(`- موضع النص الأساسي: ${d.textPosition}.`);
+      lines.push(`- نوع الخط: ${d.fontStyle}.`);
+      if (d.textFormatting) lines.push(`- تنسيق النص المطلوب: ${d.textFormatting}.`);
+      lines.push(`- ${numberInstruction(d.numberStyle, d.consistentDigits)}`);
+      if (d.blankIfFail) lines.push('- إذا تعذر إخراج النص العربي بدقة كاملة، اترك مساحة فارغة نظيفة للنص بدل توليد نص خاطئ.');
+      lines.push('');
+      lines.push('تعليمات التكوين والمشهد:');
+      if (d.viewerPerspective) lines.push('- المقصود باليمين واليسار هو من منظور المشاهد.');
+      lines.push(`- العنصر الرئيسي في ${d.mainElementPosition}.`);
+      if (d.noMirror) lines.push('- لا تعكس الصورة أفقيًا، ولا تقلب مواقع العناصر أو النصوص.');
+      lines.push(`- زاوية المشهد: ${d.cameraAngle}.`);
+      lines.push(`- الإضاءة: ${d.lighting}.`);
+      lines.push(`- الخلفية: ${d.backgroundStyle}.`);
+      lines.push(`- وصف المشهد: ${d.sceneDesc || 'مشهد متوازن وواضح وجميل الإضاءة.'}`);
+      if (d.colors) lines.push(`- الألوان والجو البصري: ${d.colors}.`);
+      if (d.extraElements) lines.push(`- عناصر إضافية مرغوبة: ${d.extraElements}.`);
+      if (d.enableFooter === 'yes') {
+        const footerTextComposed = composeFooterText(d);
+        if (footerTextComposed) {
+          lines.push('');
+          lines.push('تعليمات التذييل:');
+          lines.push(`- أضف تذييلًا عربيًا واضحًا في ${d.footerPosition}.`);
+          lines.push(`- أسلوب التذييل: ${d.footerStyle}.`);
+          lines.push(`- تنسيق التذييل: ${d.footerLayout}.`);
+          lines.push('- اجعل التذييل أقل بروزًا من العنوان الرئيسي لكنه واضح ومقروء ومحاذاته عربية صحيحة من اليمين إلى اليسار.');
+          if (d.rtl) lines.push('- رتّب عناصر التذييل من اليمين إلى اليسار؛ ابدأ بالمعلومة الأولى من جهة اليمين ولا تجعل الفواصل أو التاريخ يدفعان النص لاتجاه يسار-يمين.');
+          lines.push('- استخدم النص التالي حرفيًا في التذييل:');
+          lines.push(`"${footerTextComposed}"`);
+        }
+      }
+      lines.push('');
+      lines.push('تعليمات الجودة والاتساق:');
+      lines.push('- حافظ على توازن بصري احترافي بين النص والعناصر والخلفية.');
+      lines.push('- اجعل الصورة نظيفة ومنظمة وغير مزدحمة، خاصة حول مناطق النص.');
+      lines.push('- امنع أي نصوص عشوائية أو زخارف كتابية غير مطلوبة أو رموز غير مفهومة.');
+      if (d.rtl) lines.push('- راجع كل اتجاه بصري أو نصي داخل التصميم: لا تجعل أي قائمة أو مخطط أو تسلسل أو بطاقة تعليمية تعمل بمنطق يسار-إلى-يمين.');
+      if (d.specialInstructions) {
+        lines.push('');
+        lines.push('تعليمات دقيقة إضافية:');
+        lines.push(`- ${d.specialInstructions}`);
+      }
+      if (d.negativeNotes) {
+        lines.push('');
+        lines.push('ممنوعات صريحة:');
+        lines.push(`- ${d.negativeNotes}`);
+      }
+      lines.push('');
+      lines.push('مراجعة داخلية قبل الإخراج:');
+      lines.push('- تأكد أن النص العربي مطابق تمامًا للنص المرجعي حرفيًا.');
+      if (d.keepTashkeel) lines.push('- تأكد أن التشكيل مطابق تمامًا للنص المرجعي.');
+      if (d.rtl) lines.push('- تأكد أن اتجاه الكتابة والقوائم والتعداد والجداول والمخططات والتذييل من اليمين إلى اليسار صحيح، وأن كل رقم أو رمز تعداد يبدأ من يمين السطر.');
+      if (d.viewerPerspective) lines.push('- تأكد أن اليمين واليسار محسوبان من منظور المشاهد.');
+      lines.push('- تأكد أن وضوح النص وسهولة قراءته أفضل من أي زخرفة إضافية.');
+      return lines.join('\n');
+    }
+
+    function buildPromptMedium(d) {
+      d.rtl = true;
+      const lines = [];
+      lines.push(`أنشئ ${d.imageType} عربيًا لغرض ${d.purpose} عن "${d.subject || 'موضوع بصري'}" بأسلوب ${d.style}.`);
+      lines.push(`نسبة الأبعاد: ${d.aspectRatio}. الجودة: ${d.qualityLevel}.`);
+      const visualBrief = visualDesignBrief(d);
+      if (visualBrief) lines.push(visualBrief);
+      if (d.subjectArea !== 'عام' || d.lessonTitle || d.gradeLevel || d.learningGoal) {
+        lines.push(`السياق التعليمي: ${[d.subjectArea !== 'عام' ? d.subjectArea : '', d.gradeLevel, d.lessonTitle, d.learningGoal].filter(Boolean).join(' | ')}.`);
+      }
+      lines.push('استخدم النص العربي التالي حرفيًا دون أي تعديل:');
+      lines.push(`"${d.arabicText || 'ضع النص هنا'}"`);
+      if (d.secondaryText) lines.push(`واستخدم النص الثانوي التالي بحجم أصغر وبشكل متناسق: "${d.secondaryText}"`);
+      if (d.rtl) lines.push(rtlLayoutInstruction());
+      lines.push(arabicLayoutInstruction(d));
+      const slideInstruction = slideGenerationInstruction(d);
+      if (slideInstruction) lines.push(slideInstruction);
+      const storyInstruction = storyGenerationInstruction(d);
+      if (storyInstruction) lines.push(storyInstruction);
+      if (d.keepTashkeel) lines.push('حافظ على جميع الحركات والتشكيل كما هي تمامًا.');
+      lines.push(`نوع الخط: ${d.fontStyle}. موضع النص: ${d.textPosition}.`);
+      if (d.textFormatting) lines.push(`تنسيق النص: ${d.textFormatting}.`);
+      lines.push(numberInstruction(d.numberStyle, d.consistentDigits));
+      if (d.viewerPerspective) lines.push('اليمين واليسار من منظور المشاهد.');
+      lines.push(`العنصر الرئيسي في ${d.mainElementPosition}.`);
+      if (d.noMirror) lines.push('لا تعكس الصورة أفقيًا.');
+      if (d.noFakeArabic) lines.push('لا تولد حروفًا مزيفة أو نصًا عربيًا مشوهًا.');
+      if (d.noSplitWords) lines.push('لا تقسّم الكلمة العربية بين سطرين.');
+      if (d.blankIfFail) lines.push('إذا تعذر النص بدقة، اترك مساحة فارغة بدل نص خاطئ.');
+      lines.push(`وصف المشهد: ${d.sceneDesc || 'مشهد جميل ومتوازن وواضح.'}`);
+      lines.push(`الإضاءة: ${d.lighting}. زاوية المشهد: ${d.cameraAngle}. الخلفية: ${d.backgroundStyle}.`);
+      if (d.colors) lines.push(`الألوان: ${d.colors}.`);
+      if (d.extraElements) lines.push(`العناصر الإضافية: ${d.extraElements}.`);
+      if (d.enableFooter === 'yes') {
+        const footerTextComposed = composeFooterText(d);
+        if (footerTextComposed) lines.push(`أضف تذييلًا في ${d.footerPosition} بالنص التالي: "${footerTextComposed}"، بأسلوب ${d.footerStyle}، مع ترتيب ومحاذاة عربية من اليمين إلى اليسار.`);
+      }
+      if (d.specialInstructions) lines.push(`تعليمات إضافية: ${d.specialInstructions}.`);
+      if (d.negativeNotes) lines.push(`ممنوعات: ${d.negativeNotes}.`);
+      if (d.strictArabic) lines.push('أولوية قصوى لصحة العربية وقابلية القراءة.');
+      return lines.join('\n');
+    }
+
+    function buildPromptShort(d) {
+      d.rtl = true;
+      const parts = [];
+      parts.push(`أنشئ ${d.imageType} عربيًا عن "${d.subject || 'موضوع بصري'}" لغرض ${d.purpose} بأسلوب ${d.style}.`);
+      parts.push(`النسبة: ${d.aspectRatio}. الجودة: ${d.qualityLevel}.`);
+      const visualBrief = visualDesignBrief(d, true);
+      if (visualBrief) parts.push(visualBrief);
+      if (d.lessonTitle || d.subjectArea !== 'عام' || d.gradeLevel) parts.push(`السياق التعليمي: ${[d.subjectArea !== 'عام' ? d.subjectArea : '', d.gradeLevel, d.lessonTitle].filter(Boolean).join(' | ')}.`);
+      parts.push(`استخدم النص حرفيًا دون تعديل: "${d.arabicText || 'ضع النص هنا'}".`);
+      if (d.secondaryText) parts.push(`أضف النص الثانوي: "${d.secondaryText}".`);
+      if (d.rtl) parts.push(rtlLayoutInstruction());
+      parts.push(arabicLayoutInstruction(d));
+      const slideInstruction = slideGenerationInstruction(d);
+      if (slideInstruction) parts.push(slideInstruction);
+      const storyInstruction = storyGenerationInstruction(d);
+      if (storyInstruction) parts.push(storyInstruction);
+      if (d.keepTashkeel) parts.push('حافظ على التشكيل كاملًا كما هو.');
+      parts.push(`موضع النص: ${d.textPosition}. نوع الخط: ${d.fontStyle}.`);
+      if (d.textFormatting) parts.push(`تنسيق النص: ${d.textFormatting}.`);
+      parts.push(numberInstruction(d.numberStyle, d.consistentDigits));
+      if (d.viewerPerspective) parts.push('اليمين واليسار من منظور المشاهد.');
+      parts.push(`العنصر الرئيسي في ${d.mainElementPosition}.`);
+      parts.push(`زاوية المشهد: ${d.cameraAngle}. الإضاءة: ${d.lighting}. الخلفية: ${d.backgroundStyle}.`);
+      if (d.noMirror) parts.push('لا تعكس الصورة أفقيًا.');
+      if (d.noFakeArabic) parts.push('لا تستخدم حروفًا عربية مزيفة أو مشوهة.');
+      if (d.blankIfFail) parts.push('إذا تعذر النص بدقة، اترك مساحة فارغة بدل نص خاطئ.');
+      parts.push(`وصف الصورة: ${d.sceneDesc || 'مشهد واضح ومتوازن.'}`);
+      if (d.colors) parts.push(`الألوان: ${d.colors}.`);
+      if (d.extraElements) parts.push(`العناصر: ${d.extraElements}.`);
+      if (d.enableFooter === 'yes') {
+        const footerTextComposed = composeFooterText(d);
+        if (footerTextComposed) parts.push(`أضف تذييلًا في ${d.footerPosition} بالنص: "${footerTextComposed}" وبأسلوب ${d.footerStyle}، مع محاذاة وترتيب عربي من اليمين إلى اليسار.`);
+      }
+      if (d.specialInstructions) parts.push(`تعليمات إضافية: ${d.specialInstructions}.`);
+      if (d.negativeNotes) parts.push(`ممنوعات: ${d.negativeNotes}.`);
+      return parts.join(' ');
+    }
+
+    function buildNegativePrompt(d) {
+      if (!d.includeNegativePrompt) return 'تم إيقاف توليد الـ Negative Prompt من الخيارات.';
+      const parts = [
+        'Arabic text errors',
+        'wrong RTL direction',
+        'left-to-right Arabic layout',
+        'left-aligned Arabic text',
+        'bullet list starting from left',
+        'numbered list starting from left',
+        'reversed Arabic list order',
+        'left-to-right table order',
+        'first table column on the left',
+        'left-to-right process flow',
+        'timeline starting from left',
+        'footer aligned left',
+        'Arabic labels ordered left to right',
+        'mirrored composition',
+        'fake Arabic letters',
+        'gibberish text',
+        'misspelled Arabic',
+        'broken letter connections',
+        'split Arabic words',
+        'random symbols',
+        'low readability',
+        'cropped text',
+        'distorted typography',
+        'messy layout',
+        'visual clutter',
+        'duplicate elements',
+        'merged slides into one crowded image',
+        'missing slide',
+        'wrong slide order',
+        'wrong image-caption pairing',
+        'missing generated slide illustration',
+        'generated slide does not match description',
+        'using attached screenshot when generated illustration was requested',
+        'inconsistent slide style',
+        'A4 slide cropped',
+        'inconsistent character design',
+        'character identity drift',
+        'different clothes between story pages',
+        'wrong story page order',
+        'comic bubbles left-to-right',
+        'speech bubble tail pointing to wrong character',
+        'story text outside safe area',
+        'unreadable story caption',
+        'watermarks'
+      ];
+      if (d.keepTashkeel) parts.push('missing diacritics', 'wrong diacritics');
+      if (d.noMirror) parts.push('horizontal flip');
+      if (d.highReadability) parts.push('blurred text', 'low contrast text');
+      if (d.negativeNotes) parts.push(d.negativeNotes);
+      return parts.join(', ');
+    }
+
+    function buildPrompt(d) {
+      if (d.outputMode === 'full') return buildPromptFull(d);
+      if (d.outputMode === 'medium') return buildPromptMedium(d);
+      return buildPromptShort(d);
+    }
+
+    function buildReport(d) {
+      const notes = [];
+      let good = 0;
+      if (d.subject) { notes.push({ type: 'good', text: 'موضوع الصورة محدد، وهذا يقوّي فهم النموذج.' }); good++; }
+      else notes.push({ type: 'warn', text: 'أضف موضوعًا واضحًا للصورة لتصبح النتيجة أكثر دقة.' });
+
+      if (d.subjectArea !== 'عام' || d.lessonTitle || d.gradeLevel || d.learningGoal) {
+        notes.push({ type: 'good', text: 'تمت إضافة سياق تعليمي، وهذا ممتاز للملصقات والدروس والشروحات.' });
+        good++;
+      } else if (d.purpose === 'تعليمي') {
+        notes.push({ type: 'note', text: 'بما أن الغرض تعليمي، فإضافة المادة الدراسية أو عنوان الدرس سترفع الجودة أكثر.' });
+      }
+
+      if (d.sceneDesc && d.sceneDesc.length > 35) { notes.push({ type: 'good', text: 'وصف المشهد جيد وفيه تفاصيل كافية.' }); good++; }
+      else notes.push({ type: 'warn', text: 'وصف المشهد ما يزال قصيرًا؛ أضف العناصر والخلفية والإضاءة.' });
+
+      if (d.arabicText) { notes.push({ type: 'good', text: 'تم إدخال نص عربي صريح، وهذه أهم خطوة لتقليل الأخطاء.' }); good++; }
+      else notes.push({ type: 'warn', text: 'لا يوجد نص عربي داخل الصورة حتى الآن.' });
+
+      if (d.arabicText && /[0-9٠-٩]/.test(d.arabicText)) {
+        notes.push({ type: 'note', text: 'النص يحتوي على أرقام؛ تم تفعيل نمط الأرقام: ' + (d.numberStyle === 'english' ? 'إنجليزية' : d.numberStyle === 'eastern' ? 'هندية شرقية' : 'تلقائي') + '.' });
+      }
+
+      if (d.secondaryText) notes.push({ type: 'good', text: 'وجود نص ثانوي يعطيك مرونة أكبر في البوسترات والعناوين الفرعية.' });
+      if (d.visualPromptMode === 'hybrid') notes.push({ type: 'good', text: 'الوضع المختلط الاحترافي مفعل: إنجليزي للتصميم وعربي للنصوص، وهذا مناسب جدًا لمعظم مولدات الصور.' });
+      else if (d.visualPromptMode === 'englishVisual') notes.push({ type: 'good', text: 'الوصف البصري الإنجليزي مفعل مع قواعد عربية، وهذا يساعد النموذج على فهم التصميم.' });
+      else notes.push({ type: 'note', text: 'الوصف عربي كامل؛ إن احتجت نتائج تصميم أقوى جرّب الوضع المختلط الاحترافي.' });
+      if (d.layoutType) notes.push({ type: 'good', text: 'تم تحديد نوع التخطيط العربي، وهذا يساعد النموذج على ترتيب العناصر بدل الاكتفاء بوصف عام.' });
+      if (isSlideMode(d)) {
+        const outputSlides = clampInt(d.slideCount, 1, 10, 10);
+        const sourceImages = clampInt(d.slideImageCount, 1, 20, outputSlides);
+        notes.push({ type: 'good', text: `وضع الشرائح المتعددة مفعل، وسيتم ضبط الإخراج على ${displayNumber(outputSlides, d.numberStyle)} شرائح كحد أقصى في الطلب الواحد.` });
+        if (d.slideSourceMode === 'generated') {
+          notes.push({ type: 'good', text: 'مصدر الشرائح مضبوط على توليد صور من وصف كل شريحة، ولا يحتاج إلى صور مرفقة.' });
+          if (!d.slideGeneratedItems) notes.push({ type: 'warn', text: 'وضع توليد صور الشرائح مفعل لكن أوصاف الشرائح فارغة.' });
+        } else {
+          if (sourceImages > outputSlides) notes.push({ type: 'note', text: 'عدد الصور أكبر من عدد الشرائح؛ سيتم توجيه النموذج لدمج الزائد في الشريحة الأخيرة أو حسب خيار الزائد.' });
+          if (!d.slideItems) notes.push({ type: 'warn', text: 'وضع الشرائح من الصور المرفقة مفعل لكن قائمة نصوص الصور أو الشرائح فارغة.' });
+        }
+      }
+      if (isStoryMode(d)) {
+        const pageCount = clampInt(d.storyPageCount, 1, 10, 6);
+        notes.push({ type: 'good', text: `وضع القصة المصورة مفعل، وسيتم ضبط الإخراج على ${displayNumber(pageCount, d.numberStyle)} صفحات كحد أقصى.` });
+        if (d.storyCharacters) notes.push({ type: 'good', text: 'تم إدخال وصف الشخصيات، وهذا مهم جدًا لتثبيتها عبر صفحات القصة.' });
+        else notes.push({ type: 'warn', text: 'وضع القصة مفعل لكن وصف الشخصيات فارغ؛ أضف ملامح وملابس كل شخصية لزيادة الثبات.' });
+        if (d.storyPages) notes.push({ type: 'good', text: 'تم إدخال وصف صفحات القصة، وهذا يساعد النموذج على بناء تسلسل واضح.' });
+        else notes.push({ type: 'warn', text: 'وضع القصة مفعل لكن وصف الصفحات فارغ.' });
+      }
+      if (d.specialInstructions) notes.push({ type: 'good', text: 'أضفت تعليمات دقيقة إضافية؛ هذا ممتاز للمشاهد التعليمية والإعلانية.' });
+      if (d.enableFooter === 'yes') {
+        const footerTextComposed = composeFooterText(d);
+        if (footerTextComposed) notes.push({ type: 'good', text: 'التذييل مفعل وسيعطي التصميم لمسة تعليمية احترافية منظمة.' });
+        else notes.push({ type: 'warn', text: 'فعّلت التذييل لكن محتواه لا يزال فارغًا.' });
+      }
+      if (!d.negativeNotes) notes.push({ type: 'note', text: 'يمكنك إضافة ممنوعات خاصة لتقليل الأخطاء أكثر.' });
+      if (!d.colors) notes.push({ type: 'note', text: 'إضافة الألوان والجو البصري ستحسن التجانس الجمالي.' });
+      if (d.includeNegativePrompt) notes.push({ type: 'good', text: 'سيتم إنشاء Negative Prompt تلقائيًا.' });
+      if (d.autosave) notes.push({ type: 'good', text: 'الحفظ التلقائي مفعل، ولن تضيع إعداداتك بسهولة.' });
+
+      const html = ['<ul>'];
+      notes.forEach(n => {
+        const cls = n.type === 'good' ? 'report-good' : n.type === 'warn' ? 'report-warn' : 'report-note';
+        html.push(`<li class="${cls}">${n.text}</li>`);
+      });
+      html.push('</ul>');
+      reportBox.innerHTML = html.join('');
+
+      return good;
+    }
+
+    function computeScore(d) {
+      let score = 0;
+      if (d.subject) score += 12;
+      if (d.subjectArea !== 'عام') score += 5;
+      if (d.lessonTitle) score += 5;
+      if (d.gradeLevel) score += 4;
+      if (d.learningGoal) score += 5;
+      if (d.sceneDesc.length >= 35) score += 18;
+      else if (d.sceneDesc) score += 9;
+      if (d.arabicText) score += 18;
+      if (d.secondaryText) score += 5;
+      if (d.colors) score += 8;
+      if (d.extraElements) score += 7;
+      if (d.specialInstructions) score += 8;
+      if (d.enableFooter === 'yes' && composeFooterText(d)) score += 6;
+      if (d.negativeNotes) score += 5;
+      if (d.textFormatting) score += 5;
+      if (d.visualPromptMode === 'hybrid') score += 6;
+      else if (d.visualPromptMode === 'englishVisual') score += 4;
+      if (d.layoutType && d.layoutType !== 'تخطيط عربي مرن حسب المحتوى') score += 6;
+      if (isSlideMode(d)) score += 6;
+      if (isSlideMode(d) && d.slideSourceMode === 'generated' && d.slideGeneratedItems) score += 6;
+      else if (isSlideMode(d) && d.slideItems) score += 6;
+      if (isStoryMode(d)) score += 6;
+      if (isStoryMode(d) && d.storyCharacters) score += 6;
+      if (isStoryMode(d) && d.storyPages) score += 6;
+      if (d.strictArabic) score += 4;
+      if (d.keepTashkeel) score += 3;
+      if (d.rtl) score += 3;
+      if (d.noMirror) score += 2;
+      if (d.noFakeArabic) score += 2;
+      return Math.min(score, 100);
+    }
+
+    function updateScore(score) {
+      scoreBar.style.width = score + '%';
+      scoreText.textContent = `${score}/100`;
+      if (score >= 85) scoreHint.textContent = 'ممتاز جدًا: البرومبت جاهز بنتيجة قوية.';
+      else if (score >= 65) scoreHint.textContent = 'جيد جدًا: بقيت تحسينات بسيطة لرفعه أكثر.';
+      else if (score >= 40) scoreHint.textContent = 'القاعدة جيدة، لكن أضف تفاصيل أكثر للمشهد والنص.';
+      else scoreHint.textContent = 'ابدأ بموضوع الصورة والنص العربي ووصف المشهد.';
+    }
+
+    function updateMeta(d) {
+      metaDigits.textContent = d.numberStyle === 'english' ? 'إنجليزية 0-9' : d.numberStyle === 'eastern' ? 'هندية شرقية ٠-٩' : 'تلقائي';
+      metaPriority.textContent = d.textImportance;
+      metaAspect.textContent = d.aspectRatio;
+      metaEducation.textContent = [d.subjectArea !== 'عام' ? d.subjectArea : '', d.lessonTitle].filter(Boolean).join(' | ') || 'عام';
+      metaFooter.textContent = d.enableFooter === 'yes' ? (composeFooterText(d) ? 'مفعّل وجاهز' : 'مفعّل لكنه فارغ') : 'غير مفعّل';
+      updateFooterPreview(d);
+    }
+
+    function generate() {
+      const d = gatherData();
+      promptOutput.textContent = buildPrompt(d);
+      negativeOutput.textContent = buildNegativePrompt(d);
+      buildReport(d);
+      updateScore(computeScore(d));
+      updateMeta(d);
+      statusText.textContent = 'تم توليد البرومبت بنجاح';
+      if (d.autosave) saveState(true);
+    }
+
+    function saveState(silent = false) {
+      try {
+        const d = gatherData();
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(d));
+        metaSave.textContent = 'محفوظ محليًا';
+        if (!silent) statusText.textContent = 'تم حفظ الإعدادات';
+      } catch (e) {
+        metaSave.textContent = 'تعذر الحفظ';
+        if (!silent) statusText.textContent = 'تعذر حفظ الإعدادات';
+      }
+    }
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return false;
+        const d = JSON.parse(raw);
+        for (const [key, value] of Object.entries(d)) {
+          if (!fields[key]) continue;
+          if (fields[key].type === 'checkbox') fields[key].checked = Boolean(value);
+          else fields[key].value = value;
+        }
+        fields.rtl.checked = true;
+        metaSave.textContent = 'تم استرجاع آخر حالة محفوظة';
+        return true;
+      } catch {
+        return false;
+      }
+    }
+
+    function clearFields() {
+      fields.imageType.value = 'بوستر';
+      fields.purpose.value = 'تعليمي';
+      fields.style.value = 'أنيق وحديث واحترافي';
+      fields.aspectRatio.value = '1:1 مربع';
+      fields.qualityLevel.value = 'عالية جدًا';
+      fields.outputMode.value = 'medium';
+      fields.visualPromptMode.value = 'hybrid';
+      fields.subject.value = '';
+      fields.subjectArea.value = 'عام';
+      fields.gradeLevel.value = '';
+      fields.lessonTitle.value = '';
+      fields.audienceType.value = 'طلاب المدرسة';
+      fields.learningGoal.value = '';
+      fields.sceneDesc.value = '';
+      fields.colors.value = '';
+      fields.lighting.value = 'إضاءة ناعمة ومتوازنة';
+      fields.cameraAngle.value = 'مباشرة وواضحة';
+      fields.backgroundStyle.value = 'نظيفة وغير مزدحمة';
+      fields.mainElementPosition.value = 'يسار الصورة من منظور المشاهد';
+      fields.extraElements.value = '';
+      fields.arabicText.value = '';
+      fields.secondaryText.value = '';
+      fields.textPosition.value = 'أعلى يمين الصورة';
+      fields.fontStyle.value = 'خط نسخي واضح';
+      fields.numberStyle.value = 'english';
+      fields.textImportance.value = 'أولوية قصوى جدًا';
+      fields.textFormatting.value = '';
+      fields.layoutType.value = 'تخطيط عربي مرن حسب المحتوى';
+      fields.slideMode.value = 'off';
+      fields.slideSize.value = 'A4 عرضي';
+      fields.slideSourceMode.value = 'attached';
+      fields.slideCount.value = '10';
+      fields.slideImageCount.value = '10';
+      fields.slideOverflowMode.value = 'ادمج الصور أو البنود الزائدة في الشريحة الأخيرة';
+      fields.slideItems.value = '';
+      fields.slideGeneratedItems.value = '';
+      fields.storyMode.value = 'off';
+      fields.storyPageCount.value = '6';
+      fields.storyPageSize.value = 'A4 عرضي';
+      fields.storyTextPlacement.value = 'نص سردي أسفل الصورة';
+      fields.storyArtStyle.value = 'رسوم قصص أطفال عربية ناعمة وواضحة';
+      fields.storyConsistency.value = 'صارم جدًا: حافظ على نفس الشخصيات والملابس والألوان في كل الصفحات';
+      fields.storyCharacters.value = '';
+      fields.storyPages.value = '';
+      fields.enableFooter.value = 'yes';
+      fields.footerMode.value = 'auto';
+      fields.footerTeacherName.value = '';
+      fields.footerDate.value = '';
+      fields.footerLessonTopic.value = '';
+      fields.footerPosition.value = 'أسفل يمين الصورة';
+      fields.footerStyle.value = 'أنيق وخفيف وغير مزعج';
+      fields.footerLayout.value = 'سطر واحد مفصول بشرطات عمودية';
+      fields.footerText.value = '';
+      fields.strictArabic.checked = true;
+      fields.keepTashkeel.checked = true;
+      fields.rtl.checked = true;
+      fields.viewerPerspective.checked = true;
+      fields.noMirror.checked = true;
+      fields.noFakeArabic.checked = true;
+      fields.noSplitWords.checked = true;
+      fields.blankIfFail.checked = true;
+      fields.highReadability.checked = true;
+      fields.consistentDigits.checked = true;
+      fields.includeNegativePrompt.checked = true;
+      fields.autosave.checked = true;
+      fields.negativeNotes.value = '';
+      fields.specialInstructions.value = '';
+      promptOutput.textContent = 'اضغط «توليد البرومبت» بعد تعبئة الحقول.';
+      negativeOutput.textContent = 'سيظهر هنا تلقائيًا إذا كان الخيار مفعّلًا.';
+      reportBox.textContent = 'ابدأ بالكتابة وسأراجع بناء البرومبت هنا.';
+      updateScore(0);
+      metaDigits.textContent = '—';
+      metaPriority.textContent = '—';
+      metaAspect.textContent = '—';
+      metaEducation.textContent = '—';
+      metaFooter.textContent = '—';
+      footerPreview.textContent = 'معاينة التذييل ستظهر هنا بعد التركيب.';
+      statusText.textContent = 'تم مسح الحقول';
+      metaSave.textContent = 'غير محفوظ بعد';
+      localStorage.removeItem(STORAGE_KEY);
+    }
+
+    function clearTextFieldsOnly() {
+      fields.subject.value = '';
+      fields.lessonTitle.value = '';
+      fields.learningGoal.value = '';
+      fields.sceneDesc.value = '';
+      fields.extraElements.value = '';
+      fields.arabicText.value = '';
+      fields.secondaryText.value = '';
+      fields.slideItems.value = '';
+      fields.slideGeneratedItems.value = '';
+      fields.storyPages.value = '';
+      fields.negativeNotes.value = '';
+      fields.specialInstructions.value = '';
+      fields.footerLessonTopic.value = '';
+      fields.footerText.value = '';
+      updateFooterPreview(gatherData());
+      statusText.textContent = 'تم مسح النصوص فقط';
+      generate();
+      if (gatherData().autosave) saveState(true);
+    }
+
+    function fillExample() {
+      fields.imageType.value = 'ملصق دعائي';
+      fields.purpose.value = 'تعليمي';
+      fields.style.value = 'تعليمي أنيق وحديث مع عناصر ثلاثية الأبعاد مرتبة وواقعية نظيفة';
+      fields.aspectRatio.value = '16:9 أفقي';
+      fields.qualityLevel.value = 'عالية جدًا';
+      fields.outputMode.value = 'full';
+      fields.visualPromptMode.value = 'hybrid';
+      fields.subject.value = 'التحويلات المترية';
+      fields.subjectArea.value = 'رياضيات';
+      fields.gradeLevel.value = 'المرحلة الابتدائية';
+      fields.lessonTitle.value = 'التحويلات المترية';
+      fields.audienceType.value = 'طلاب المرحلة الابتدائية';
+      fields.learningGoal.value = 'تبسيط فهم الانتقال بين وحدات القياس بطريقة بصرية ممتعة وسهلة التذكر.';
+      fields.sceneDesc.value = 'لوحة تعليمية عربية حديثة داخل فصل دراسي أنيق، عنوان كبير واضح في أعلى اليمين، سلم بصري ثلاثي الأبعاد يوضح التحويلات بين الوحدات، أيقونات تعليمية جميلة، مكتب في الأسفل مع أدوات مدرسية وكأس قياس ونبتة صغيرة، تنظيم بصري ممتاز ومساحات هواء مريحة.';
+      fields.colors.value = 'أبيض نظيف مع أزرق داكن ولمسات خضراء تعليمية هادئة';
+      fields.lighting.value = 'إضاءة استوديو واضحة';
+      fields.cameraAngle.value = 'منظور ثلاثي الأبعاد';
+      fields.backgroundStyle.value = 'تعليمية منظمة';
+      fields.mainElementPosition.value = 'وسط الصورة من منظور المشاهد';
+      fields.extraElements.value = 'كرة أرضية، مسطرة، مكعب هندسي، ميزان، كأس قياس، دفتر وقلم';
+      fields.arabicText.value = 'التحويلات المترية';
+      fields.secondaryText.value = '١ م = ١٠٠ سم';
+      fields.textPosition.value = 'أعلى يمين الصورة';
+      fields.fontStyle.value = 'خط عربي حديث وواضح';
+      fields.numberStyle.value = 'eastern';
+      fields.textImportance.value = 'أولوية قصوى جدًا';
+      fields.textFormatting.value = 'عنوان رئيسي كبير وواضح، أمثلة سفلية داخل صناديق أفقية مرتبة';
+      fields.layoutType.value = 'إنفوجرافيك خطوات يبدأ من اليمين';
+      fields.enableFooter.value = 'yes';
+      fields.footerMode.value = 'mixed';
+      fields.footerTeacherName.value = 'أ. محمد';
+      fields.footerDate.value = '٢٠٢٦/٠٤/٢٣';
+      fields.footerLessonTopic.value = 'درس التحويلات المترية';
+      fields.footerPosition.value = 'شريط سفلي ممتد';
+      fields.footerStyle.value = 'تعليمي واضح داخل شريط سفلي';
+      fields.footerLayout.value = 'سطر واحد مفصول بشرطات عمودية';
+      fields.footerText.value = 'مراجعة سريعة للدرس';
+      fields.negativeNotes.value = 'لا أخطاء إملائية، لا حروف عربية مشوهة، لا ازدحام بصري، لا قص للنص، لا انعكاس أفقي';
+      fields.specialInstructions.value = 'اجعل الأمثلة التعليمية السفلية مرتبة داخل صناديق ملوّنة بأيقونات واضحة، وحافظ على محاذاة عربية صحيحة داخل جميع النصوص.';
+      generate();
+      statusText.textContent = 'تمت تعبئة مثال احترافي جاهز';
+    }
+
+    function applyPreset(type) {
+      clearFields();
+      if (type === 'edu') {
+        fields.imageType.value = 'ملصق دعائي';
+        fields.purpose.value = 'تعليمي';
+        fields.style.value = 'تعليمي أنيق وحديث وواضح';
+        fields.aspectRatio.value = '16:9 أفقي';
+        fields.backgroundStyle.value = 'تعليمية منظمة';
+        fields.textImportance.value = 'أولوية قصوى جدًا';
+        fields.layoutType.value = 'عنوان أعلى يمين مع مساحة قراءة واسعة';
+      } else if (type === 'eduInfo') {
+        fields.imageType.value = 'بوستر';
+        fields.purpose.value = 'تعليمي';
+        fields.style.value = 'إنفوجرافيك عربي حديث ومرتب';
+        fields.aspectRatio.value = 'A4 عمودي';
+        fields.backgroundStyle.value = 'تعليمية منظمة';
+        fields.cameraAngle.value = 'مباشرة وواضحة';
+        fields.textFormatting.value = 'عنوان علوي واضح، محتوى بصري متسلسل، أمثلة مرتبة أسفل التصميم';
+        fields.layoutType.value = 'إنفوجرافيك خطوات يبدأ من اليمين';
+      } else if (type === 'eduBoard') {
+        fields.imageType.value = 'بوستر';
+        fields.purpose.value = 'تعليمي';
+        fields.style.value = 'لوحة صفية حديثة ونظيفة وجذابة';
+        fields.aspectRatio.value = '16:9 أفقي';
+        fields.backgroundStyle.value = 'تعليمية منظمة';
+        fields.mainElementPosition.value = 'وسط الصورة من منظور المشاهد';
+        fields.layoutType.value = 'مخطط تعليمي عربي منظم';
+      } else if (type === 'eduMath') {
+        fields.imageType.value = 'ملصق دعائي';
+        fields.purpose.value = 'تعليمي';
+        fields.style.value = 'تعليمي واضح مع رموز رياضية وألوان هادئة';
+        fields.aspectRatio.value = '16:9 أفقي';
+        fields.subjectArea.value = 'رياضيات';
+        fields.backgroundStyle.value = 'تعليمية منظمة';
+        fields.colors.value = 'أبيض وأزرق مع لمسات خضراء تعليمية';
+        fields.layoutType.value = 'جدول عربي يبدأ عموده الأول من اليمين';
+      } else if (type === 'eduScience') {
+        fields.imageType.value = 'ملصق دعائي';
+        fields.purpose.value = 'تعليمي';
+        fields.style.value = 'علمي حديث وواضح مع أيقونات وشرح بصري مرتب';
+        fields.aspectRatio.value = '16:9 أفقي';
+        fields.subjectArea.value = 'علوم';
+        fields.backgroundStyle.value = 'تعليمية منظمة';
+        fields.colors.value = 'أبيض ونفحات تركواز وأزرق فاتح';
+        fields.layoutType.value = 'مخطط تعليمي عربي منظم';
+      } else if (type === 'social') {
+        fields.imageType.value = 'منشور سوشيال';
+        fields.purpose.value = 'سوشيال ميديا';
+        fields.style.value = 'حديث وجذاب وقابل للمشاركة';
+        fields.aspectRatio.value = '4:5 عمودي';
+        fields.backgroundStyle.value = 'معاصرة بسيطة';
+        fields.layoutType.value = 'منشور سوشيال عربي عالي الوضوح';
+      } else if (type === 'ad') {
+        fields.imageType.value = 'إعلان';
+        fields.purpose.value = 'إعلاني';
+        fields.style.value = 'فاخر وواضح وجذاب بصريًا';
+        fields.aspectRatio.value = '1:1 مربع';
+        fields.backgroundStyle.value = 'فاخرة وهادئة';
+        fields.layoutType.value = 'تصميم إعلاني عربي بعنوان بارز';
+      } else if (type === 'invite') {
+        fields.imageType.value = 'بطاقة دعوة';
+        fields.purpose.value = 'رسمي';
+        fields.style.value = 'راقي وكلاسيكي ومتوازن';
+        fields.aspectRatio.value = 'A4 عمودي';
+        fields.backgroundStyle.value = 'فاخرة وهادئة';
+        fields.layoutType.value = 'عنوان أعلى يمين مع مساحة قراءة واسعة';
+      } else if (type === 'slides') {
+        fields.imageType.value = 'شرائح متعددة مستقلة';
+        fields.purpose.value = 'تعليمي';
+        fields.style.value = 'شرائح شرح عربية احترافية، نظيفة، موحدة الهوية، مناسبة للعرض أو الطباعة';
+        fields.aspectRatio.value = 'A4 أفقي';
+        fields.backgroundStyle.value = 'نظيفة وغير مزدحمة';
+        fields.cameraAngle.value = 'مباشرة وواضحة';
+        fields.mainElementPosition.value = 'وسط الصورة من منظور المشاهد';
+        fields.layoutType.value = 'شرائح عرض عربية مستقلة من اليمين إلى اليسار';
+        fields.slideMode.value = 'on';
+        fields.slideSize.value = 'A4 عرضي';
+        fields.slideSourceMode.value = 'attached';
+        fields.slideCount.value = '10';
+        fields.slideImageCount.value = '11';
+        fields.slideOverflowMode.value = 'ادمج الصور أو البنود الزائدة في الشريحة الأخيرة';
+        fields.numberStyle.value = 'eastern';
+        fields.textPosition.value = 'أعلى يمين الصورة';
+        fields.fontStyle.value = 'خط نسخي واضح';
+        fields.subject.value = 'شرح منصة أعذار غياب الطلاب';
+        fields.arabicText.value = 'شرح منصة أعذار غياب الطلاب';
+        fields.secondaryText.value = 'دليل مصور مختصر';
+        fields.sceneDesc.value = 'صمم شرائح متعددة، كل شريحة مستقلة، وتستخدم كل شريحة صورة من الصور المرفقة مع تعليقها النصي المخصص لها. اجعل الشرائح نظيفة وغير مزدحمة، مع عنوان واضح، صورة الواجهة في الوسط، تعليق عربي قصير، وأيقونات مناسبة للحضور والغياب والطلبات والصلاحيات.';
+        fields.extraElements.value = 'أيقونات حضور وغياب، طلبات، تقويم، جدول، مستخدمون، صلاحيات، ملفات إكسل، لوحة تحكم';
+        fields.slideItems.value = [
+          'الصورة1 ( واجهة برنامج أعذار الغياب )',
+          'الصورة2 ( صفحة الطالب تعبأ من ولي الأمر )',
+          'الصورة3 ( يتم اختيار اليوم والتاريخ من إلى )',
+          'الصورة4 ( واجهة البرنامج في لوحة التحكم )',
+          'الصورة5 ( واجهة استيراد بيانات الطلاب من نظام نور عبر ملف اكسل )',
+          'الصورة6 ( أنواع الأعذار التي يختار منها ولي الأمر )',
+          'الصورة7 ( صفحة الطلبات )',
+          'الصورة8 ( تابع صفحة الطلبات وفيها جميع الخيارات التي يختارها المسؤول )',
+          'الصورة9 ( نموذج من استعراض طلب )',
+          'الصورة10 ( نموذج من استعراض بيانات طلبات الأعذار في جدول )',
+          'الصورة11 ( صفحة المستخدمون ولكل مستخدم صلاحيات بحيث يتم توثيق ماقام به )'
+        ].join('\n');
+        fields.footerMode.value = 'manual';
+        fields.footerPosition.value = 'أسفل وسط الصورة';
+        fields.footerStyle.value = 'أنيق وخفيف وغير مزعج';
+        fields.footerText.value = 'الموضوع: شرح منصة أعذار غياب الطلاب | تصميم وكيل المدرسة للشؤون التعليمية والمدرسية: أ. عبدالجبار بن سعد آل جناح الخالدي';
+        fields.negativeNotes.value = 'لا تدمج الشرائح كلها في صورة واحدة مزدحمة، لا تغيّر ترتيب الصور، لا تفصل الصورة عن تعليقها، لا تقص واجهات البرنامج، لا تجعل الأرقام أو العناوين تبدأ من اليسار';
+      } else if (type === 'slidesGenerate') {
+        fields.imageType.value = 'شرائح متعددة مستقلة';
+        fields.purpose.value = 'تعليمي';
+        fields.style.value = 'شرائح تعليمية عربية احترافية، صور مولدة مناسبة لكل فكرة، هوية موحدة ونظيفة';
+        fields.aspectRatio.value = 'A4 أفقي';
+        fields.backgroundStyle.value = 'تعليمية منظمة';
+        fields.cameraAngle.value = 'مباشرة وواضحة';
+        fields.mainElementPosition.value = 'وسط الصورة من منظور المشاهد';
+        fields.layoutType.value = 'شرائح عرض عربية مستقلة من اليمين إلى اليسار';
+        fields.slideMode.value = 'on';
+        fields.slideSize.value = 'A4 عرضي';
+        fields.slideSourceMode.value = 'generated';
+        fields.slideCount.value = '6';
+        fields.slideImageCount.value = '6';
+        fields.numberStyle.value = 'eastern';
+        fields.textPosition.value = 'أعلى يمين الصورة';
+        fields.fontStyle.value = 'خط نسخي واضح';
+        fields.subject.value = 'عرض تعليمي عن قيمة التعاون';
+        fields.arabicText.value = 'قيمة التعاون';
+        fields.secondaryText.value = 'شرائح تعليمية مصورة';
+        fields.sceneDesc.value = 'صمم شرائح تعليمية عربية مستقلة، كل شريحة تحتوي عنوانًا واضحًا، صورة مولدة مناسبة للفكرة، ونصًا قصيرًا. حافظ على هوية بصرية موحدة، خلفيات نظيفة، وأيقونات تعليمية بسيطة.';
+        fields.colors.value = 'أزرق هادئ، أبيض نظيف، أخضر ناعم، ولمسات ذهبية بسيطة';
+        fields.extraElements.value = 'أيقونات تعاون، طلاب، كتب، فصل دراسي، بطاقات تعليمية، أسهم عربية من اليمين إلى اليسار';
+        fields.slideGeneratedItems.value = [
+          'الشريحة1: العنوان: ما هو التعاون؟ | الصورة: طلاب يجلسون حول طاولة ويناقشون مشروعًا مدرسيًا | النص: التعاون يعني أن نعمل معًا لتحقيق هدف جميل.',
+          'الشريحة2: العنوان: لماذا نتعاون؟ | الصورة: أطفال يساعدون بعضهم في ترتيب الكتب داخل الفصل | النص: بالتعاون يصبح العمل أسهل وأسرع.',
+          'الشريحة3: العنوان: التعاون في المدرسة | الصورة: فريق طلابي ينفذ نشاطًا تعليميًا مع المعلمة | النص: نتعلم أكثر عندما نشارك ونتبادل الأفكار.',
+          'الشريحة4: العنوان: التعاون في البيت | الصورة: عائلة عربية ترتب المائدة معًا في جو دافئ | النص: كل فرد يساعد بما يستطيع.',
+          'الشريحة5: العنوان: ثمار التعاون | الصورة: طلاب يرفعون لوحة نجاح بعد إنجاز مشروع | النص: التعاون يصنع النجاح والفرح.',
+          'الشريحة6: العنوان: لنبدأ اليوم | الصورة: طفل يمد يده لصديقه بابتسامة داخل المدرسة | النص: ساعد غيرك، وستجد من يساعدك.'
+        ].join('\n');
+        fields.footerMode.value = 'manual';
+        fields.footerPosition.value = 'أسفل وسط الصورة';
+        fields.footerStyle.value = 'أنيق وخفيف وغير مزعج';
+        fields.footerText.value = 'عرض تعليمي عربي | قيمة التعاون';
+        fields.negativeNotes.value = 'لا تستخدم صورًا مرفقة، لا تجعل الشرائح مزدحمة، لا تولد نصًا عربيًا مشوهًا، لا تغيّر اتجاه القراءة من اليمين إلى اليسار';
+      } else if (type === 'story') {
+        fields.imageType.value = 'قصة مصورة متعددة الصفحات';
+        fields.purpose.value = 'تعليمي';
+        fields.style.value = 'قصة مصورة عربية دافئة، مشاهد واضحة، شخصيات ثابتة، مناسبة للأطفال';
+        fields.aspectRatio.value = 'A4 أفقي';
+        fields.backgroundStyle.value = 'نظيفة وغير مزدحمة';
+        fields.cameraAngle.value = 'مباشرة وواضحة';
+        fields.mainElementPosition.value = 'وسط الصورة من منظور المشاهد';
+        fields.layoutType.value = 'قصة مصورة عربية متعددة الصفحات';
+        fields.storyMode.value = 'on';
+        fields.storyPageCount.value = '6';
+        fields.storyPageSize.value = 'A4 عرضي';
+        fields.storyTextPlacement.value = 'نص سردي أسفل الصورة';
+        fields.storyArtStyle.value = 'رسوم قصص أطفال عربية ناعمة وواضحة';
+        fields.storyConsistency.value = 'صارم جدًا: حافظ على نفس الشخصيات والملابس والألوان في كل الصفحات';
+        fields.numberStyle.value = 'eastern';
+        fields.textPosition.value = 'أعلى يمين الصورة';
+        fields.fontStyle.value = 'خط نسخي واضح';
+        fields.subject.value = 'قصة مصورة عن قيمة التعاون';
+        fields.arabicText.value = 'قصة التعاون';
+        fields.secondaryText.value = 'كل صفحة تحمل مشهدًا ونصًا قصيرًا';
+        fields.sceneDesc.value = 'صمم قصة مصورة عربية متعددة الصفحات، كل صفحة مشهد مستقل من القصة، مع شخصيات ثابتة وملابس موحدة، ألوان دافئة، خلفيات بسيطة، ونص عربي قصير واضح في المكان المختار.';
+        fields.colors.value = 'ألوان دافئة ومريحة، أزرق هادئ، أخضر ناعم، ولمسات ذهبية بسيطة';
+        fields.extraElements.value = 'مدرسة، فصل دراسي، كتب، حقيبة، حديقة صغيرة، أيقونات تعاون ومساعدة';
+        fields.storyCharacters.value = 'سالم: طفل عربي عمره ٩ سنوات، شعره أسود قصير، يرتدي ثوبًا أبيض وحقيبة زرقاء. نورة: طفلة عربية عمرها ٨ سنوات، شعرها بني، ترتدي فستانًا ورديًا وحذاءً أبيض. المعلمة: امرأة عربية لطيفة ترتدي عباءة بسيطة وحجابًا بلون أزرق هادئ.';
+        fields.storyPages.value = [
+          'الصفحة1: سالم يصل إلى المدرسة وهو يحمل كتبه ويبدو متحمسًا. النص: صباح الخير، يوم جديد للتعلم.',
+          'الصفحة2: نورة تسقط بعض الدفاتر قرب باب الفصل وسالم يلاحظ ذلك. النص: رأى سالم أن نورة تحتاج إلى مساعدة.',
+          'الصفحة3: سالم يساعد نورة في جمع الدفاتر بابتسامة. النص: التعاون يجعل العمل أسهل.',
+          'الصفحة4: المعلمة تشكر سالم ونورة أمام الطلاب. النص: عندما نتعاون ننجح جميعًا.',
+          'الصفحة5: الطلاب يعملون معًا في نشاط داخل الفصل. النص: كل واحد منا يستطيع أن يساعد.',
+          'الصفحة6: سالم ونورة يخرجان من المدرسة وهما سعيدان. النص: التعاون خلق جميل يبقى أثره.'
+        ].join('\n');
+        fields.footerMode.value = 'manual';
+        fields.footerPosition.value = 'أسفل وسط الصورة';
+        fields.footerStyle.value = 'أنيق وخفيف وغير مزعج';
+        fields.footerText.value = 'قصة مصورة عربية | قيمة التعاون';
+        fields.negativeNotes.value = 'لا تغيّر ملامح الشخصيات بين الصفحات، لا تغيّر الملابس، لا تجعل فقاعات الحوار تبدأ من اليسار، لا تكتب نصًا مشوهًا، لا تزدحم الصفحة';
+      }
+      generate();
+      statusText.textContent = 'تم تطبيق القالب';
+    }
+
+    async function copyText(text, successMsg) {
+      if (!text || text.includes('اضغط «توليد البرومبت»') || text.includes('سيظهر هنا تلقائيًا')) {
+        statusText.textContent = 'لا يوجد نص جاهز للنسخ';
+        return;
+      }
+      try {
+        await navigator.clipboard.writeText(text);
+        statusText.textContent = successMsg;
+      } catch {
+        statusText.textContent = 'تعذر النسخ التلقائي';
+      }
+    }
+
+    function downloadAll() {
+      const text = `البرومبت الرئيسي:\n\n${promptOutput.textContent.trim()}\n\n==============================\n\nNegative Prompt:\n\n${negativeOutput.textContent.trim()}`;
+      const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'arabic-prompt-treasure.txt';
+      a.click();
+      URL.revokeObjectURL(a.href);
+      statusText.textContent = 'تم تنزيل الملف';
+    }
+
+    function exportJSON() {
+      const blob = new Blob([JSON.stringify(gatherData(), null, 2)], { type: 'application/json;charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'arabic-prompt-settings.json';
+      a.click();
+      URL.revokeObjectURL(a.href);
+      statusText.textContent = 'تم تصدير الإعدادات';
+    }
+
+    function importJSONFile(file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const d = JSON.parse(reader.result);
+          for (const [key, value] of Object.entries(d)) {
+            if (!fields[key]) continue;
+            if (fields[key].type === 'checkbox') fields[key].checked = Boolean(value);
+            else fields[key].value = value;
+          }
+          fields.rtl.checked = true;
+          generate();
+          statusText.textContent = 'تم استيراد الإعدادات';
+        } catch {
+          statusText.textContent = 'ملف JSON غير صالح';
+        }
+      };
+      reader.readAsText(file, 'utf-8');
+    }
+
+    function attachAutosave() {
+      Object.values(fields).forEach(el => {
+        const evt = el.tagName === 'SELECT' || el.type === 'checkbox' ? 'change' : 'input';
+        el.addEventListener(evt, () => {
+          const d = gatherData();
+          buildReport(d);
+          updateScore(computeScore(d));
+          updateMeta(d);
+          if (d.autosave) saveState(true);
+        });
+      });
+    }
+
+    $('generateBtn').addEventListener('click', generate);
+    $('exampleBtn').addEventListener('click', fillExample);
+    $('clearBtn').addEventListener('click', () => {
+      openConfirmDialog('سيتم مسح جميع الحقول والبدء من جديد. هل تريد المتابعة؟', clearFields);
+    });
+    $('newTopicBtn').addEventListener('click', () => {
+      openConfirmDialog('سيتم فتح موضوع جديد مع مسح جميع الحقول الحالية. هل تريد المتابعة؟', clearFields);
+    });
+    $('clearTextsBtn').addEventListener('click', () => {
+      openConfirmDialog('سيتم مسح النصوص والمحتوى فقط مع الإبقاء على الإعدادات العامة والقوالب. هل تريد المتابعة؟', clearTextFieldsOnly);
+    });
+    $('saveBtn').addEventListener('click', () => saveState(false));
+    $('copyPromptBtn').addEventListener('click', () => copyText(promptOutput.textContent.trim(), 'تم نسخ البرومبت'));
+    $('copyNegativeBtn').addEventListener('click', () => copyText(negativeOutput.textContent.trim(), 'تم نسخ الـ Negative Prompt'));
+    $('copyAllBtn').addEventListener('click', () => copyText(`البرومبت الرئيسي:\n\n${promptOutput.textContent.trim()}\n\nNegative Prompt:\n\n${negativeOutput.textContent.trim()}`, 'تم نسخ البرومبت كاملًا'));
+    $('downloadBtn').addEventListener('click', downloadAll);
+    $('exportBtn').addEventListener('click', exportJSON);
+    $('importBtn').addEventListener('click', () => $('importFile').click());
+    $('importFile').addEventListener('change', (e) => {
+      const file = e.target.files && e.target.files[0];
+      if (file) importJSONFile(file);
+      e.target.value = '';
+    });
+
+    $('toEnglishDigitsBtn').addEventListener('click', () => {
+      fields.arabicText.value = easternToEnglish(fields.arabicText.value);
+      fields.secondaryText.value = easternToEnglish(fields.secondaryText.value);
+      fields.footerText.value = easternToEnglish(fields.footerText.value);
+      fields.footerDate.value = easternToEnglish(fields.footerDate.value);
+      fields.lessonTitle.value = easternToEnglish(fields.lessonTitle.value);
+      fields.numberStyle.value = 'english';
+      statusText.textContent = 'تم تحويل الأرقام إلى الإنجليزية';
+      generate();
+    });
+
+    $('toEasternDigitsBtn').addEventListener('click', () => {
+      fields.arabicText.value = englishToEastern(fields.arabicText.value);
+      fields.secondaryText.value = englishToEastern(fields.secondaryText.value);
+      fields.footerText.value = englishToEastern(fields.footerText.value);
+      fields.footerDate.value = englishToEastern(fields.footerDate.value);
+      fields.lessonTitle.value = englishToEastern(fields.lessonTitle.value);
+      fields.numberStyle.value = 'eastern';
+      statusText.textContent = 'تم تحويل الأرقام إلى الهندية الشرقية';
+      generate();
+    });
+
+    $('normalizeSpacesBtn').addEventListener('click', () => {
+      fields.arabicText.value = normalizeSpaces(fields.arabicText.value);
+      fields.secondaryText.value = normalizeSpaces(fields.secondaryText.value);
+      fields.footerText.value = normalizeSpaces(fields.footerText.value);
+      statusText.textContent = 'تم تنظيف المسافات';
+      generate();
+    });
+
+    $('quoteTextBtn').addEventListener('click', () => {
+      const wrapQuote = (v) => {
+        const x = clean(v);
+        if (!x) return v;
+        if ((x.startsWith('"') && x.endsWith('"')) || (x.startsWith('“') && x.endsWith('”'))) return x;
+        return `"${x}"`;
+      };
+      fields.arabicText.value = wrapQuote(fields.arabicText.value);
+      fields.secondaryText.value = wrapQuote(fields.secondaryText.value);
+      statusText.textContent = 'تمت إضافة علامات اقتباس حول النص';
+      generate();
+    });
+
+    $('composeFooterBtn').addEventListener('click', () => {
+      const d = gatherData();
+      fields.footerText.value = composeFooterText(d) || fields.footerText.value;
+      updateFooterPreview(gatherData());
+      statusText.textContent = 'تم تركيب التذييل';
+      generate();
+    });
+
+    $('clearFooterBtn').addEventListener('click', () => {
+      fields.footerText.value = '';
+      fields.footerTeacherName.value = '';
+      fields.footerDate.value = '';
+      fields.footerLessonTopic.value = '';
+      updateFooterPreview(gatherData());
+      statusText.textContent = 'تم مسح بيانات التذييل';
+      generate();
+    });
+
+    confirmOkBtn.addEventListener('click', () => {
+      const action = pendingConfirmAction;
+      closeConfirmDialog();
+      if (typeof action === 'function') action();
+    });
+
+    confirmCancelBtn.addEventListener('click', closeConfirmDialog);
+
+    confirmOverlay.addEventListener('click', (e) => {
+      if (e.target === confirmOverlay) closeConfirmDialog();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && confirmOverlay.classList.contains('show')) closeConfirmDialog();
+    });
+
+    document.querySelectorAll('[data-preset]').forEach(btn => {
+      btn.addEventListener('click', () => applyPreset(btn.dataset.preset));
+    });
+
+    attachAutosave();
+    if (!loadState()) clearFields();
+    buildReport(gatherData());
+    updateScore(computeScore(gatherData()));
+    updateMeta(gatherData());
+    generate();
+  </script>
+</body>
+</html>
