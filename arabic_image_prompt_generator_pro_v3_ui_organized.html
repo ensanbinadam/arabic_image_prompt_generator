@@ -1362,6 +1362,14 @@
                   <option value="generated">توليد صور من وصف كل شريحة</option>
                 </select>
               </div>
+              <div class="full">
+                <label for="slideOutputType">نوع المخرج المطلوب</label>
+                <select id="slideOutputType">
+                  <option value="finalImages">صور شرائح نهائية مستقلة PNG/JPG - وليست PowerPoint</option>
+                  <option value="editableDeck">عرض تقديمي قابل للتحرير PPTX/Slides</option>
+                </select>
+                <span class="hint">اختر صور شرائح نهائية عند استخدام مولد الصور، واختر العرض القابل للتحرير عند طلب ملف PowerPoint.</span>
+              </div>
               <div>
                 <label for="slideCount">عدد الشرائح الناتجة</label>
                 <input id="slideCount" type="number" min="1" max="10" value="10" />
@@ -1713,6 +1721,7 @@
       slideMode: $('slideMode'),
       slideSize: $('slideSize'),
       slideSourceMode: $('slideSourceMode'),
+      slideOutputType: $('slideOutputType'),
       slideCount: $('slideCount'),
       slideImageCount: $('slideImageCount'),
       slideOverflowMode: $('slideOverflowMode'),
@@ -1803,6 +1812,18 @@
         .replace(/\s*\n\s*/g, '\n')
         .replace(/\n{3,}/g, '\n\n')
         .trim();
+    }
+
+    function primaryArabicText(d) {
+      const text = clean(d.arabicText || '');
+      if (!text || text === 'ضع النص هنا' || text === 'ضع النص العربي هنا') return '';
+      return text;
+    }
+
+    function noPrimaryTextInstruction(d) {
+      if (isSlideMode(d)) return '- لا يوجد نص عربي عام إلزامي؛ استخدم النصوص المذكورة داخل أوصاف الشرائح فقط، ولا تضف عبارة افتراضية مثل "ضع النص هنا".';
+      if (isStoryMode(d)) return '- لا يوجد نص عربي عام إلزامي؛ استخدم نصوص الصفحات أو فقاعات الحوار المذكورة في وصف القصة فقط، ولا تضف عبارة افتراضية مثل "ضع النص هنا".';
+      return '- لا يوجد نص عربي عام إلزامي؛ لا تضف أي عبارة افتراضية مكان النص.';
     }
 
     function numberInstruction(style, consistent) {
@@ -1910,6 +1931,21 @@
       return lines.join('\n');
     }
 
+    function slideOutputInstruction(d) {
+      if ((d.slideOutputType || 'finalImages') === 'editableDeck') {
+        return [
+          '- نوع المخرج المطلوب: عرض تقديمي قابل للتحرير PPTX/Slides، وليس صورًا نهائية فقط.',
+          '- يمكن توليد الصور أو الخلفيات بدون نص، ثم وضع النص العربي كعناصر قابلة للتحرير داخل الشرائح مع محاذاة RTL صحيحة.',
+          '- حافظ على قابلية تعديل النصوص والعناوين والتذييل داخل ملف العرض.'
+        ].join('\n');
+      }
+      return [
+        '- نوع المخرج المطلوب: صور شرائح نهائية مستقلة فقط، وليست ملف PowerPoint أو PPTX.',
+        '- أنشئ كل شريحة كصورة كاملة مستقلة بصيغة PNG/JPG أو كصورة منفصلة، بحيث تحتوي الصورة نفسها على التصميم والنص العربي والرسوم.',
+        '- لا تنشئ عرضًا تقديميًا قابلًا للتحرير، ولا تضع النص كعناصر خارج الصورة؛ المطلوب صور نهائية جاهزة.'
+      ].join('\n');
+    }
+
     function slideGenerationInstruction(d) {
       if (!isSlideMode(d)) return '';
       const sourceMode = d.slideSourceMode || 'attached';
@@ -1922,6 +1958,7 @@
       const overflow = d.slideOverflowMode || 'ادمج الصور أو البنود الزائدة في الشريحة الأخيرة';
       const lines = [
         'تعليمات خاصة بالشرائح المتعددة:',
+        slideOutputInstruction(d),
         `- أنشئ سلسلة شرائح عربية مستقلة، وليس إنفوجرافيكًا واحدًا طويلًا.`,
         `- عدد الشرائح الناتجة المطلوب في هذا الطلب: ${outputSlidesLabel} بحد أقصى ١٠ شرائح.`,
         `- مقاس كل شريحة: ${d.slideSize || 'A4 عرضي'}.`,
@@ -2098,8 +2135,13 @@
       }
       lines.push('');
       lines.push('تعليمات النص العربي الأساسي:');
-      lines.push('- انسخ النص التالي حرفيًا 100% دون حذف أو إضافة أو استبدال أو إعادة صياغة لأي حرف.');
-      lines.push(`"${d.arabicText || 'ضع النص العربي هنا'}"`);
+      const mainArabicText = primaryArabicText(d);
+      if (mainArabicText) {
+        lines.push('- انسخ النص التالي حرفيًا 100% دون حذف أو إضافة أو استبدال أو إعادة صياغة لأي حرف.');
+        lines.push(`"${mainArabicText}"`);
+      } else {
+        lines.push(noPrimaryTextInstruction(d));
+      }
       if (d.secondaryText) {
         lines.push('- أضف النص الثانوي التالي حرفيًا كما هو، بحجم أصغر وتنسيق متناسق مع النص الأساسي:');
         lines.push(`"${d.secondaryText}"`);
@@ -2174,8 +2216,13 @@
       if (d.subjectArea !== 'عام' || d.lessonTitle || d.gradeLevel || d.learningGoal) {
         lines.push(`السياق التعليمي: ${[d.subjectArea !== 'عام' ? d.subjectArea : '', d.gradeLevel, d.lessonTitle, d.learningGoal].filter(Boolean).join(' | ')}.`);
       }
-      lines.push('استخدم النص العربي التالي حرفيًا دون أي تعديل:');
-      lines.push(`"${d.arabicText || 'ضع النص هنا'}"`);
+      const mainArabicText = primaryArabicText(d);
+      if (mainArabicText) {
+        lines.push('استخدم النص العربي التالي حرفيًا دون أي تعديل:');
+        lines.push(`"${mainArabicText}"`);
+      } else {
+        lines.push(noPrimaryTextInstruction(d));
+      }
       if (d.secondaryText) lines.push(`واستخدم النص الثانوي التالي بحجم أصغر وبشكل متناسق: "${d.secondaryText}"`);
       if (d.rtl) lines.push(rtlLayoutInstruction());
       lines.push(arabicLayoutInstruction(d));
@@ -2215,7 +2262,9 @@
       const visualBrief = visualDesignBrief(d, true);
       if (visualBrief) parts.push(visualBrief);
       if (d.lessonTitle || d.subjectArea !== 'عام' || d.gradeLevel) parts.push(`السياق التعليمي: ${[d.subjectArea !== 'عام' ? d.subjectArea : '', d.gradeLevel, d.lessonTitle].filter(Boolean).join(' | ')}.`);
-      parts.push(`استخدم النص حرفيًا دون تعديل: "${d.arabicText || 'ضع النص هنا'}".`);
+      const mainArabicText = primaryArabicText(d);
+      if (mainArabicText) parts.push(`استخدم النص حرفيًا دون تعديل: "${mainArabicText}".`);
+      else parts.push(noPrimaryTextInstruction(d));
       if (d.secondaryText) parts.push(`أضف النص الثانوي: "${d.secondaryText}".`);
       if (d.rtl) parts.push(rtlLayoutInstruction());
       parts.push(arabicLayoutInstruction(d));
@@ -2338,6 +2387,8 @@
         const outputSlides = clampInt(d.slideCount, 1, 10, 10);
         const sourceImages = clampInt(d.slideImageCount, 1, 20, outputSlides);
         notes.push({ type: 'good', text: `وضع الشرائح المتعددة مفعل، وسيتم ضبط الإخراج على ${displayNumber(outputSlides, d.numberStyle)} شرائح كحد أقصى في الطلب الواحد.` });
+        if ((d.slideOutputType || 'finalImages') === 'finalImages') notes.push({ type: 'good', text: 'نوع المخرج مضبوط على صور شرائح نهائية مستقلة، وهذا مناسب لمولدات الصور.' });
+        else notes.push({ type: 'note', text: 'نوع المخرج مضبوط على عرض تقديمي قابل للتحرير؛ هذا مناسب عند طلب PPTX وليس صورًا نهائية.' });
         if (d.slideSourceMode === 'generated') {
           notes.push({ type: 'good', text: 'مصدر الشرائح مضبوط على توليد صور من وصف كل شريحة، ولا يحتاج إلى صور مرفقة.' });
           if (!d.slideGeneratedItems) notes.push({ type: 'warn', text: 'وضع توليد صور الشرائح مفعل لكن أوصاف الشرائح فارغة.' });
@@ -2501,6 +2552,7 @@
       fields.slideMode.value = 'off';
       fields.slideSize.value = 'A4 عرضي';
       fields.slideSourceMode.value = 'attached';
+      fields.slideOutputType.value = 'finalImages';
       fields.slideCount.value = '10';
       fields.slideImageCount.value = '10';
       fields.slideOverflowMode.value = 'ادمج الصور أو البنود الزائدة في الشريحة الأخيرة';
@@ -2695,6 +2747,7 @@
         fields.slideMode.value = 'on';
         fields.slideSize.value = 'A4 عرضي';
         fields.slideSourceMode.value = 'attached';
+        fields.slideOutputType.value = 'finalImages';
         fields.slideCount.value = '10';
         fields.slideImageCount.value = '11';
         fields.slideOverflowMode.value = 'ادمج الصور أو البنود الزائدة في الشريحة الأخيرة';
@@ -2736,6 +2789,7 @@
         fields.slideMode.value = 'on';
         fields.slideSize.value = 'A4 عرضي';
         fields.slideSourceMode.value = 'generated';
+        fields.slideOutputType.value = 'finalImages';
         fields.slideCount.value = '6';
         fields.slideImageCount.value = '6';
         fields.numberStyle.value = 'eastern';
