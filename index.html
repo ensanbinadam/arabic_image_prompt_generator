@@ -348,6 +348,96 @@
       font-weight: 600;
     }
 
+    .ui-guide {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 12px;
+      align-items: stretch;
+      margin-bottom: 16px;
+    }
+
+    .ui-guide-main,
+    .ui-guide-side {
+      border: 1px solid rgba(14,165,233,.18);
+      border-radius: 18px;
+      padding: 14px 16px;
+      background: linear-gradient(145deg, rgba(240,249,255,.92), rgba(236,253,245,.88));
+      box-shadow: 0 4px 18px rgba(14,165,233,.08);
+    }
+
+    .ui-guide-main strong,
+    .ui-guide-side strong {
+      display: block;
+      color: var(--sky);
+      font-size: .95rem;
+      margin-bottom: 4px;
+    }
+
+    .ui-guide-main p,
+    .ui-guide-side p {
+      margin: 0;
+      color: var(--text-2);
+      font-size: .86rem;
+      line-height: 1.8;
+      font-weight: 600;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .section-tag {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 24px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-size: .72rem;
+      font-weight: 800;
+      border: 1px solid rgba(108,61,232,.16);
+      background: rgba(108,61,232,.08);
+      color: var(--primary);
+      white-space: nowrap;
+    }
+
+    .section-tag.required {
+      border-color: rgba(14,165,233,.22);
+      background: rgba(14,165,233,.10);
+      color: #0369a1;
+    }
+
+    .section-tag.contextual {
+      border-color: rgba(16,185,129,.24);
+      background: rgba(16,185,129,.10);
+      color: #047857;
+    }
+
+    .section-tag.optional {
+      border-color: rgba(249,115,22,.24);
+      background: rgba(249,115,22,.10);
+      color: #c2410c;
+    }
+
+    .section-tag.auto {
+      border-color: rgba(124,58,237,.22);
+      background: rgba(124,58,237,.10);
+      color: #6d28d9;
+    }
+
+    .section-tag.advanced {
+      border-color: rgba(244,63,94,.22);
+      background: rgba(244,63,94,.09);
+      color: #be123c;
+    }
+
+    @media (max-width: 820px) {
+      .ui-guide { grid-template-columns: 1fr; }
+    }
+
     /* ===== FORM ELEMENTS ===== */
     .form-grid {
       display: grid;
@@ -938,9 +1028,20 @@
         </div>
         <div class="card-body">
 
+          <div class="ui-guide">
+            <div class="ui-guide-main">
+              <strong>طريقة الاستخدام المختصرة</strong>
+              <p>املأ الحقول الأساسية أولًا، ثم املأ القسم الخاص بنوع التصميم الذي اخترته فقط. بقية الحقول اختيارية لتحسين النتيجة ولا يضر تركها فارغة.</p>
+            </div>
+            <div class="ui-guide-side">
+              <strong>اطمئنان مهم</strong>
+              <p>إعدادات العربية وRTL والحماية مضبوطة مسبقًا. لا تغيّرها غالبًا إلا إذا كنت تعرف سبب التعديل.</p>
+            </div>
+          </div>
+
           <div class="section">
             <div class="section-head">
-              <h3>قوالب سريعة</h3>
+              <div class="section-title"><h3>قوالب سريعة</h3><span class="section-tag required">ابدأ هنا</span></div>
               <small>ابدأ بضغطة واحدة ثم عدّل كما تريد</small>
             </div>
             <div class="preset-row">
@@ -960,8 +1061,8 @@
 
           <div class="section">
             <div class="section-head">
-              <h3>مواصفات أساسية</h3>
-              <small>هذه الحقول تحدد هيكل البرومبت العام</small>
+              <div class="section-title"><h3>مواصفات أساسية</h3><span class="section-tag required">أساسي</span></div>
+              <small>هذه الحقول تكفي لبناء الهيكل العام للبرومبت</small>
             </div>
             <div class="form-grid">
               <div>
@@ -1042,8 +1143,8 @@
 
           <div class="section section-edu">
             <div class="section-head">
-              <h3>التخصيص التعليمي</h3>
-              <small>اختياري، لكنه يرفع جودة النماذج التعليمية كثيرًا</small>
+              <div class="section-title"><h3>التخصيص التعليمي</h3><span class="section-tag contextual">حسب النوع</span></div>
+              <small>املأه عند التصميم التعليمي فقط، ويمكن تركه فارغًا لغير ذلك</small>
             </div>
             <div class="form-grid">
               <div>
@@ -1092,8 +1193,8 @@
 
           <div class="section">
             <div class="section-head">
-              <h3>المحتوى البصري</h3>
-              <small>صف المشهد بدقة: عناصر، ألوان، إضاءة، خلفية</small>
+              <div class="section-title"><h3>المحتوى البصري</h3><span class="section-tag optional">تحسيني</span></div>
+              <small>تفاصيل اختيارية تجعل النتيجة أجمل وأدق</small>
             </div>
             <div class="form-grid">
               <div class="full">
@@ -1151,8 +1252,8 @@
 
           <div class="section">
             <div class="section-head">
-              <h3>النص العربي داخل الصورة</h3>
-              <small>هذا الجزء هو قلب القوة في الأداة</small>
+              <div class="section-title"><h3>النص العربي داخل الصورة</h3><span class="section-tag required">مهم عند وجود نص</span></div>
+              <small>املأه فقط إذا كنت تريد نصًا ظاهرًا داخل الصورة</small>
             </div>
             <div class="form-grid">
               <div class="full">
@@ -1235,8 +1336,8 @@
 
           <div class="section">
             <div class="section-head">
-              <h3>مولد الشرائح المتعددة</h3>
-              <small>لإنشاء شريحة واحدة أو سلسلة شرائح منفصلة من صور مرفقة وتعليقات مرقمة</small>
+              <div class="section-title"><h3>مولد الشرائح المتعددة</h3><span class="section-tag contextual">خاص بالشرائح</span></div>
+              <small>املأه فقط عند اختيار شرائح من صور مرفقة أو شرائح بتوليد صور</small>
             </div>
             <div class="form-grid">
               <div>
@@ -1299,8 +1400,8 @@
 
           <div class="section">
             <div class="section-head">
-              <h3>مولد القصة المصورة</h3>
-              <small>لإنشاء صفحات قصة مصورة مع تثبيت الشخصيات ونص مستقل لكل صفحة</small>
+              <div class="section-title"><h3>مولد القصة المصورة</h3><span class="section-tag contextual">خاص بالقصص</span></div>
+              <small>املأه فقط عند اختيار قصة مصورة متعددة الصفحات</small>
             </div>
             <div class="form-grid">
               <div>
@@ -1373,8 +1474,8 @@
 
           <div class="section section-edu">
             <div class="section-head">
-              <h3>التذييل الذكي</h3>
-              <small>مناسب للمعلم لوضع اسم الدرس أو الاسم أو التاريخ أو أي سطر ختامي</small>
+              <div class="section-title"><h3>التذييل الذكي</h3><span class="section-tag optional">اختياري</span></div>
+              <small>يمكن تركه فارغًا أو إيقافه إذا لم تحتج تذييلًا</small>
             </div>
             <div class="form-grid">
               <div>
@@ -1446,8 +1547,8 @@
 
           <div class="section">
             <div class="section-head">
-              <h3>الحماية اللغوية والبصرية</h3>
-              <small>كل خيار هنا يضيف قوة احترافية للبرومبت</small>
+              <div class="section-title"><h3>الحماية اللغوية والبصرية</h3><span class="section-tag auto">مضبوط تلقائيًا</span></div>
+              <small>يفضل تركها كما هي لأنها تحمي العربية والاتجاه RTL</small>
             </div>
             <div class="checks">
               <div class="check"><input type="checkbox" id="strictArabic" checked><label for="strictArabic">إعطاء أولوية قصوى لصحة النص العربي</label></div>
@@ -1467,8 +1568,8 @@
 
           <div class="section">
             <div class="section-head">
-              <h3>ممنوعات وتعليمات خاصة</h3>
-              <small>أي شيء تريد منعه أو التأكيد عليه</small>
+              <div class="section-title"><h3>ممنوعات وتعليمات خاصة</h3><span class="section-tag advanced">متقدم</span></div>
+              <small>اختياري لمن يريد ضبطًا أدق أو منع أخطاء محددة</small>
             </div>
             <div class="form-grid">
               <div class="full">
