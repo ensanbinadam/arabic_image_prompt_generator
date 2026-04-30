@@ -1287,7 +1287,7 @@
               <div class="full">
                 <label for="referenceText">مرجع وسياق لا يظهر كاملًا في التصميم</label>
                 <textarea id="referenceText" class="short-area" placeholder="ضع هنا المصدر الطويل أو السياق العام أو الملاحظات المرجعية. لا يُعرض هذا النص كاملًا داخل الصورة إلا إذا نقلت جزءًا منه إلى حاوية النصوص النهائية."></textarea>
-                <span class="hint">للشرائح والقصص استخدم حقولها الخاصة: نصوص الشرائح، أوصاف الشرائح، وصف صفحات القصة.</span>
+                <span class="hint">للشرائح والقصص استخدم حقولها الخاصة: نصوص الشرائح، أوصاف الشرائح، وصف غلاف وصفحات القصة.</span>
               </div>
               <div>
                 <label for="textPosition">موضع النص الأساسي</label>
@@ -1455,6 +1455,18 @@
                 </select>
               </div>
               <div>
+                <label for="storyCoverMode">غلاف القصة</label>
+                <select id="storyCoverMode">
+                  <option value="off">بدون غلاف مستقل</option>
+                  <option value="on">أنشئ غلافًا مستقلًا قبل الصفحات</option>
+                </select>
+                <span class="hint">الغلاف لا يُحسب ضمن عدد صفحات القصة.</span>
+              </div>
+              <div>
+                <label for="storyCoverSubtitle">عبارة تحت عنوان الغلاف</label>
+                <input id="storyCoverSubtitle" placeholder="مثال: إعداد المعلم/ عبدالله الدريبي، أو قصة تعليمية للأطفال" />
+              </div>
+              <div>
                 <label for="storyTextPlacement">موضع نص القصة</label>
                 <select id="storyTextPlacement">
                   <option>فقاعات حوار عربية داخل المشهد</option>
@@ -1490,12 +1502,12 @@
                 <span class="hint">كلما كان وصف الشخصيات أوضح، زادت فرصة ثباتها عبر الصفحات.</span>
               </div>
               <div class="full">
-                <label for="storyPages">وصف صفحات القصة</label>
+                <label for="storyPages">وصف غلاف وصفحات القصة</label>
                 <textarea id="storyPages" class="short-area" placeholder="مثال:
 الصفحة1: سالم يستيقظ مبكرًا ويستعد للمدرسة. النص: اليوم يوم جميل للتعلم.
 الصفحة2: سالم يلتقي نورة أمام المدرسة. النص: التعاون يجعل يومنا أسهل.
 الصفحة3: المعلمة تشرح الدرس داخل الفصل. النص: نسمع جيدًا ونشارك بأدب."></textarea>
-                <span class="hint">اكتب كل صفحة في سطر مستقل، مع وصف المشهد والنص المطلوب إن وجد.</span>
+                <span class="hint">اكتب الغلاف إن وجد، ثم كل صفحة في سطر مستقل، مع وصف المشهد والنص المطلوب إن وجد.</span>
               </div>
             </div>
           </div>
@@ -1550,6 +1562,16 @@
                   <option>تعليمي واضح داخل شريط سفلي</option>
                   <option>هادئ وصغير الحجم</option>
                 </select>
+              </div>
+              <div>
+                <label for="footerSize">حجم التذييل</label>
+                <select id="footerSize">
+                  <option>صغير جدًا وغير مزاحم</option>
+                  <option>صغير واضح</option>
+                  <option>متوسط واضح</option>
+                  <option>أصغر حجم ممكن مع بقاء القراءة</option>
+                </select>
+                <span class="hint">اتركه صغيرًا جدًا للقصص حتى لا يزاحم المشهد.</span>
               </div>
               <div>
                 <label for="footerLayout">تنسيق التذييل</label>
@@ -1754,6 +1776,8 @@
       storyMode: $('storyMode'),
       storyPageCount: $('storyPageCount'),
       storyPageSize: $('storyPageSize'),
+      storyCoverMode: $('storyCoverMode'),
+      storyCoverSubtitle: $('storyCoverSubtitle'),
       storyTextPlacement: $('storyTextPlacement'),
       storyArtStyle: $('storyArtStyle'),
       storyConsistency: $('storyConsistency'),
@@ -1766,6 +1790,7 @@
       footerLessonTopic: $('footerLessonTopic'),
       footerPosition: $('footerPosition'),
       footerStyle: $('footerStyle'),
+      footerSize: $('footerSize'),
       footerLayout: $('footerLayout'),
       footerText: $('footerText'),
       strictArabic: $('strictArabic'),
@@ -1926,6 +1951,8 @@
       d._lessonTitle = convertForOutput(d.lessonTitle);
       d._slideItems = convertForOutput(d.slideItems);
       d._slideGeneratedItems = convertForOutput(d.slideGeneratedItems);
+      d._storyCharacters = convertForOutput(d.storyCharacters);
+      d._storyCoverSubtitle = convertForOutput(d.storyCoverSubtitle);
       d._storyPages = convertForOutput(d.storyPages);
       d.title = convertForOutput(d.title);
       const literalText = [primaryArabicText(d), secondaryArabicText(d)].join('\n');
@@ -2055,6 +2082,42 @@
         .join('\n');
     }
 
+    function normalizedStoryCharacters(d) {
+      const raw = normalizeSpaces(d._storyCharacters ?? d.storyCharacters ?? '');
+      if (!raw) return '';
+      const seen = new Set();
+      return raw
+        .split('\n')
+        .map(line => convertDigitsByStyle(line.trim(), d.numberStyle))
+        .filter(line => {
+          if (!line) return false;
+          const key = normalizeForCompare(line);
+          if (seen.has(key)) return false;
+          seen.add(key);
+          return true;
+        })
+        .join('\n');
+    }
+
+    function storyCoverInstruction(d, characters) {
+      if (!isStoryMode(d) || d.storyCoverMode !== 'on') return '';
+      const title = d.title || projectTitle(d) || d.subject || 'عنوان القصة';
+      const subtitle = clean(d._storyCoverSubtitle ?? d.storyCoverSubtitle ?? '');
+      const lines = [
+        '- أنشئ غلافًا مستقلًا للقصة قبل صفحاتها، ولا تحسب الغلاف ضمن عدد صفحات القصة.',
+        `- عنوان الغلاف الرئيسي: "${title}".`,
+        subtitle
+          ? `- ضع تحت العنوان العبارة التالية حرفيًا: "${subtitle}".`
+          : '- إذا لم تُكتب عبارة تحت العنوان، اترك أسفل العنوان مساحة نظيفة أو ضع عبارة قصيرة مناسبة دون أسماء عشوائية.',
+        '- صمّم الغلاف اعتمادًا على عنوان القصة والشخصيات الثابتة وخلفية مناسبة لموضوعها، بأسلوب جذاب للأطفال وواضح تعليميًا.',
+        '- اجعل الشخصيات الرئيسية على الغلاف متناسقة مع وصف الشخصيات أو الصور المرفقة، ولا تغيّر ملامحها أو ملابسها.',
+        '- لا تضع حوارات الصفحات أو نصوص المشاهد داخل الغلاف؛ الغلاف يحتوي العنوان والعبارة التحتية فقط مع المشهد البصري المناسب.',
+        '- رتّب عنوان الغلاف والعبارة التحتية من اليمين إلى اليسار RTL وبمحاذاة عربية واضحة.'
+      ];
+      if (characters) lines.push('- استخدم الشخصيات نفسها المذكورة في وصف الشخصيات الثابتة على الغلاف.');
+      return lines.join('\n');
+    }
+
     function storyTextPlacementInstruction(placement) {
       if ((placement || '').includes('فقاعات')) return 'استخدم فقاعات حوار عربية واضحة داخل المشهد، واجعل ذيل الفقاعة يشير للشخصية المتحدثة، مع قراءة الفقاعة من اليمين إلى اليسار.';
       if ((placement || '').includes('أسفل الصورة')) return 'ضع النص السردي أسفل الصورة في مساحة مخصصة نظيفة، بمحاذاة يمينية واتجاه RTL.';
@@ -2071,6 +2134,8 @@
       const pageCount = clampInt(d.storyPageCount, 1, 10, 6);
       const pageCountLabel = displayNumber(pageCount, d.numberStyle);
       const pages = normalizedStoryPages(d);
+      const characters = normalizedStoryCharacters(d);
+      const coverInstruction = storyCoverInstruction(d, characters);
       const lines = [
         'تعليمات خاصة بالقصة المصورة:',
         `- أنشئ قصة مصورة عربية متعددة الصفحات بعدد ${pageCountLabel} صفحات كحد أقصى ١٠ صفحات في الطلب الواحد.`,
@@ -2086,9 +2151,13 @@
         '- اجعل النص العربي قصيرًا ومقروءًا جدًا، ولا تضعه فوق تفاصيل مزدحمة.',
         '- إذا تعذر توليد النص العربي بدقة، اترك مساحة النص فارغة بدل كتابة نص مشوه.'
       ];
-      if (d.storyCharacters) {
+      if (coverInstruction) {
+        lines.push('- تعليمات غلاف القصة:');
+        lines.push(coverInstruction);
+      }
+      if (characters) {
         lines.push('- وصف الشخصيات الثابتة التي يجب الالتزام بها حرفيًا:');
-        lines.push(d.storyCharacters);
+        lines.push(characters);
       } else {
         lines.push('- إذا لم يوصف المستخدم الشخصيات، أنشئ شخصيات عربية بسيطة وثابتة وكرر ملامحها وملابسها في كل الصفحات.');
       }
@@ -2316,6 +2385,14 @@
       return autoText || manual;
     }
 
+    function footerSizeInstruction(d) {
+      const size = d.footerSize || 'صغير جدًا وغير مزاحم';
+      if (size.includes('صغير جدًا')) return 'حجم التذييل: صغير جدًا وغير مزاحم، مثل توقيع أو سطر تعريفي دقيق، مع بقاء النص مقروءًا وعدم مزاحمة المشهد أو عناصر القصة.';
+      if (size.includes('أصغر حجم')) return 'حجم التذييل: أصغر حجم ممكن مع بقاء القراءة، ولا تجعله يلفت الانتباه أكثر من محتوى التصميم.';
+      if (size.includes('متوسط')) return 'حجم التذييل: متوسط وواضح، مناسب عند أهمية اسم المعلم أو الجهة، دون منافسة العنوان الرئيسي.';
+      return 'حجم التذييل: صغير واضح، مقروء لكنه أقل بروزًا من العنوان والمحتوى الرئيسي.';
+    }
+
     function effectiveFooterText(d) {
       const manualFooterData = clean(d._footerText || d.footerText || d.footerTeacherName || d._footerDate || d.footerDate || d._footerLessonTopic || d.footerLessonTopic || '');
       if (d.enableFooter === 'yes' || manualFooterData) return composeFooterText(d);
@@ -2416,6 +2493,7 @@
           lines.push('تعليمات التذييل:');
           lines.push(`- أضف تذييلًا عربيًا واضحًا في ${d.footerPosition}.`);
           lines.push(`- أسلوب التذييل: ${d.footerStyle}.`);
+          lines.push(`- ${footerSizeInstruction(d)}`);
           lines.push(`- تنسيق التذييل: ${d.footerLayout}.`);
           lines.push('- اجعل التذييل أقل بروزًا من العنوان الرئيسي لكنه واضح ومقروء ومحاذاته عربية صحيحة من اليمين إلى اليسار.');
           if (d.rtl) lines.push('- رتّب عناصر التذييل من اليمين إلى اليسار؛ ابدأ بالمعلومة الأولى من جهة اليمين ولا تجعل الفواصل أو التاريخ يدفعان النص لاتجاه يسار-يمين.');
@@ -2495,7 +2573,7 @@
       if (d.extraElements) lines.push(`العناصر الإضافية: ${d.extraElements}.`);
       {
         const footerTextComposed = effectiveFooterText(d);
-        if (footerTextComposed) lines.push(`أضف تذييلًا في ${d.footerPosition} بالنص التالي: "${footerTextComposed}"، بأسلوب ${d.footerStyle}، مع ترتيب ومحاذاة عربية من اليمين إلى اليسار.`);
+        if (footerTextComposed) lines.push(`أضف تذييلًا في ${d.footerPosition} بالنص التالي: "${footerTextComposed}"، بأسلوب ${d.footerStyle}. ${footerSizeInstruction(d)} مع ترتيب ومحاذاة عربية من اليمين إلى اليسار.`);
       }
       if (d.specialInstructions) lines.push(`تعليمات إضافية: ${d.specialInstructions}.`);
       if (d.negativeNotes) lines.push(`ممنوعات: ${d.negativeNotes}.`);
@@ -2541,7 +2619,7 @@
       if (d.extraElements) parts.push(`العناصر: ${d.extraElements}.`);
       {
         const footerTextComposed = effectiveFooterText(d);
-        if (footerTextComposed) parts.push(`أضف تذييلًا في ${d.footerPosition} بالنص: "${footerTextComposed}" وبأسلوب ${d.footerStyle}، مع محاذاة وترتيب عربي من اليمين إلى اليسار.`);
+        if (footerTextComposed) parts.push(`أضف تذييلًا في ${d.footerPosition} بالنص: "${footerTextComposed}" وبأسلوب ${d.footerStyle}. ${footerSizeInstruction(d)} مع محاذاة وترتيب عربي من اليمين إلى اليسار.`);
       }
       if (d.specialInstructions) parts.push(`تعليمات إضافية: ${d.specialInstructions}.`);
       if (d.negativeNotes) parts.push(`ممنوعات: ${d.negativeNotes}.`);
@@ -2582,6 +2660,7 @@
       }
       if (isStoryMode(d)) {
         parts.push('inconsistent character design', 'character identity drift', 'different clothes between story pages', 'wrong story page order', 'comic bubbles left-to-right', 'speech bubble tail pointing to wrong character', 'story text outside safe area', 'unreadable story caption');
+        if (d.storyCoverMode === 'on') parts.push('missing story cover', 'cover mixed with story pages', 'wrong cover title', 'random author name on cover');
       }
       if (d.designMode === 'editExistingImage') parts.push('unwanted full redesign', 'changed original layout', 'changed original colors');
       if (d.keepTashkeel) parts.push('missing diacritics', 'wrong diacritics');
@@ -2643,6 +2722,7 @@
         footerText: footerTextComposed,
         footerPosition: footerTextComposed ? d.footerPosition : '',
         footerStyle: footerTextComposed ? d.footerStyle : '',
+        footerSize: footerTextComposed ? d.footerSize : '',
         strictArabic: d.strictArabic ? true : '',
         keepTashkeel: d.keepTashkeel ? true : '',
         rtl: true,
@@ -2673,10 +2753,12 @@
       if (activeStory) {
         out.storyPageCount = String(clampInt(d.storyPageCount, 1, 10, 6));
         out.storyPageSize = d.storyPageSize;
+        out.storyCoverMode = d.storyCoverMode === 'on' ? 'on' : '';
+        out.storyCoverSubtitle = d.storyCoverMode === 'on' ? clean(d._storyCoverSubtitle ?? d.storyCoverSubtitle ?? '') : '';
         out.storyTextPlacement = d.storyTextPlacement;
         out.storyArtStyle = d.storyArtStyle;
         out.storyConsistency = d.storyConsistency;
-        out.storyCharacters = d.storyCharacters;
+        out.storyCharacters = normalizedStoryCharacters(d);
         out.storyPages = normalizedStoryPages(d);
       }
 
@@ -2727,6 +2809,8 @@
         ['موضوع التذييل', d.footerLessonTopic],
         ['نصوص الشرائح', d.slideItems],
         ['أوصاف الشرائح', d.slideGeneratedItems],
+        ['وصف شخصيات القصة', d.storyCharacters],
+        ['عبارة غلاف القصة', d.storyCoverSubtitle],
         ['صفحات القصة', d.storyPages]
       ].forEach(([label, text]) => {
         const conflict = detectDigitConflict(text, d.numberStyle, label);
@@ -2755,6 +2839,7 @@
       if (isStoryMode(d)) {
         const pageCount = clampInt(d.storyPageCount, 1, 10, 6);
         notes.push({ type: 'good', text: `وضع القصة المصورة مفعل، وسيتم ضبط الإخراج على ${displayNumber(pageCount, d.numberStyle)} صفحات كحد أقصى.` });
+        if (d.storyCoverMode === 'on') notes.push({ type: 'good', text: 'غلاف القصة مفعّل وسيُنشأ كصفحة مستقلة قبل صفحات القصة، اعتمادًا على العنوان والشخصيات.' });
         if (d.storyCharacters) notes.push({ type: 'good', text: 'تم إدخال وصف الشخصيات، وهذا مهم جدًا لتثبيتها عبر صفحات القصة.' });
         else notes.push({ type: 'warn', text: 'وضع القصة مفعل لكن وصف الشخصيات فارغ؛ أضف ملامح وملابس كل شخصية لزيادة الثبات.' });
         if (d.storyPages) notes.push({ type: 'good', text: 'تم إدخال وصف صفحات القصة، وهذا يساعد النموذج على بناء تسلسل واضح.' });
@@ -2919,6 +3004,8 @@
       fields.storyMode.value = 'off';
       fields.storyPageCount.value = '6';
       fields.storyPageSize.value = 'A4 عرضي';
+      fields.storyCoverMode.value = 'off';
+      fields.storyCoverSubtitle.value = '';
       fields.storyTextPlacement.value = 'نص سردي أسفل الصورة';
       fields.storyArtStyle.value = 'رسوم قصص أطفال عربية ناعمة وواضحة';
       fields.storyConsistency.value = 'صارم جدًا: حافظ على نفس الشخصيات والملابس والألوان في كل الصفحات';
@@ -2931,6 +3018,7 @@
       fields.footerLessonTopic.value = '';
       fields.footerPosition.value = 'أسفل يمين الصورة';
       fields.footerStyle.value = 'أنيق وخفيف وغير مزعج';
+      fields.footerSize.value = 'صغير جدًا وغير مزاحم';
       fields.footerLayout.value = 'سطر واحد مفصول بشرطات عمودية';
       fields.footerText.value = '';
       fields.strictArabic.checked = true;
@@ -3186,6 +3274,8 @@
         fields.storyMode.value = 'on';
         fields.storyPageCount.value = '6';
         fields.storyPageSize.value = 'A4 عرضي';
+        fields.storyCoverMode.value = 'on';
+        fields.storyCoverSubtitle.value = 'قصة تعليمية للأطفال';
         fields.storyTextPlacement.value = 'نص سردي أسفل الصورة';
         fields.storyArtStyle.value = 'رسوم قصص أطفال عربية ناعمة وواضحة';
         fields.storyConsistency.value = 'صارم جدًا: حافظ على نفس الشخصيات والملابس والألوان في كل الصفحات';
