@@ -951,7 +951,7 @@
               <button class="preset" data-preset="social">منشور سوشيال</button>
               <button class="preset" data-preset="ad">إعلان عربي</button>
               <button class="preset" data-preset="invite">بطاقة دعوة</button>
-              <button class="preset" data-preset="slides">شرائح متعددة</button>
+              <button class="preset" data-preset="slides">شرائح صور متعددة</button>
               <button class="preset" data-preset="slidesGenerate">شرائح توليد صور</button>
               <button class="preset" data-preset="story">قصة مصورة</button>
             </div>
@@ -967,6 +967,7 @@
                 <label for="imageType">نوع الصورة</label>
                 <select id="imageType">
                   <option>بوستر</option>
+                  <option>إنفوجرافيك عربي نصي</option>
                   <option>ملصق دعائي</option>
                   <option>منشور سوشيال</option>
                   <option>غلاف كتاب</option>
@@ -976,7 +977,7 @@
                   <option>لوحة فنية</option>
                   <option>بطاقة دعوة</option>
                   <option>هوية بصرية</option>
-                  <option>شرائح متعددة مستقلة</option>
+                  <option>شرائح صور متعددة مستقلة</option>
                   <option>قصة مصورة متعددة الصفحات</option>
                 </select>
               </div>
@@ -1078,6 +1079,7 @@
                   <option>طلاب المرحلة المتوسطة</option>
                   <option>طلاب المرحلة الثانوية</option>
                   <option>معلمون</option>
+                  <option>المعلمون، مديرو المدارس، المشرفون التربويون</option>
                   <option>أولياء الأمور</option>
                   <option>عام</option>
                 </select>
@@ -1098,6 +1100,23 @@
               <div class="full">
                 <label for="sceneDesc">وصف المشهد</label>
                 <textarea id="sceneDesc" placeholder="صف المشهد، ترتيب العناصر، البيئة، الشخصيات، الأدوات، الجو العام..."></textarea>
+              </div>
+              <div>
+                <label for="designMode">طريقة العمل</label>
+                <select id="designMode">
+                  <option value="designFromScratch">تصميم جديد من الصفر</option>
+                  <option value="editExistingImage">تعديل صورة موجودة فقط</option>
+                </select>
+                <span class="hint">استخدم تعديل صورة موجودة عند رفع تصميم وتريد تغيير نصوصه فقط.</span>
+              </div>
+              <div>
+                <label for="textHeavyInfographicMode">وضع الإنفوجرافيك النصي</label>
+                <select id="textHeavyInfographicMode">
+                  <option value="auto">تلقائي مع حفظ العبارات الأصلية</option>
+                  <option value="on">مفعّل: تنظيم النص الطويل دون إعادة صياغته</option>
+                  <option value="off">غير مفعّل</option>
+                </select>
+                <span class="hint">مناسب للموضوعات الطويلة مثل الجداول، الشواهد، عناصر التقويم، والمعايير.</span>
               </div>
               <div>
                 <label for="colors">الألوان والجو البصري</label>
@@ -1155,13 +1174,18 @@
             </div>
             <div class="form-grid">
               <div class="full">
-                <label for="arabicText">النص الأساسي</label>
-                <textarea id="arabicText" placeholder="اكتب النص كما تريد ظهوره حرفيًا، مع التشكيل إن كان مهمًا."></textarea>
-                <span class="hint">سيعامل هذا النص على أنه مرجع حرفي مغلق لا يجوز تغييره.</span>
+                <label for="arabicText">النصوص النهائية التي يجب أن تظهر حرفيًا</label>
+                <textarea id="arabicText" placeholder="اكتب هنا النص النهائي المطلوب ظهوره داخل التصميم حرفيًا: عنوان، جدول، بنود، إعلان، تذييل..."></textarea>
+                <span class="hint">هذه الحاوية للتصاميم العامة والإنفوجرافيك والبوستر والإعلان. سيعاملها المولد كنص ظاهر لا يجوز اختصاره أو إعادة صياغته.</span>
               </div>
               <div class="full">
                 <label for="secondaryText">نص ثانوي اختياري</label>
                 <textarea id="secondaryText" class="short-area" placeholder="مثال: سطر فرعي، شرح قصير، عنوان جانبي..."></textarea>
+              </div>
+              <div class="full">
+                <label for="referenceText">مرجع وسياق لا يظهر كاملًا في التصميم</label>
+                <textarea id="referenceText" class="short-area" placeholder="ضع هنا المصدر الطويل أو السياق العام أو الملاحظات المرجعية. لا يُعرض هذا النص كاملًا داخل الصورة إلا إذا نقلت جزءًا منه إلى حاوية النصوص النهائية."></textarea>
+                <span class="hint">للشرائح والقصص استخدم حقولها الخاصة: نصوص الشرائح، أوصاف الشرائح، وصف صفحات القصة.</span>
               </div>
               <div>
                 <label for="textPosition">موضع النص الأساسي</label>
@@ -1234,7 +1258,7 @@
 
           <div class="section">
             <div class="section-head">
-              <h3>مولد الشرائح المتعددة</h3>
+        <h3>مولد شرائح الصور المتعددة</h3>
               <small>لإنشاء شريحة واحدة أو سلسلة شرائح منفصلة من صور مرفقة وتعليقات مرقمة</small>
             </div>
             <div class="form-grid">
@@ -1242,7 +1266,7 @@
                 <label for="slideMode">وضع الشرائح</label>
                 <select id="slideMode">
                   <option value="off">غير مفعّل</option>
-                  <option value="on">مفعّل: شرائح متعددة</option>
+          <option value="on">مفعّل: شرائح صور متعددة</option>
                 </select>
               </div>
               <div>
@@ -1261,13 +1285,9 @@
                   <option value="generated">توليد صور من وصف كل شريحة</option>
                 </select>
               </div>
+              <input type="hidden" id="slideOutputType" value="finalImages" />
               <div class="full">
-                <label for="slideOutputType">نوع المخرج المطلوب</label>
-                <select id="slideOutputType">
-                  <option value="finalImages">صور شرائح نهائية مستقلة PNG/JPG - وليست PowerPoint</option>
-                  <option value="editableDeck">عرض تقديمي قابل للتحرير PPTX/Slides</option>
-                </select>
-                <span class="hint">اختر صور شرائح نهائية عند استخدام مولد الصور، واختر العرض القابل للتحرير عند طلب ملف PowerPoint.</span>
+                <span class="hint">المخرج في هذا القسم ثابت: صور شرائح نهائية مستقلة PNG/JPG، وليست PowerPoint أو PPTX.</span>
               </div>
               <div>
                 <label for="slideCount">عدد الشرائح الناتجة</label>
@@ -1458,7 +1478,7 @@
             </div>
             <div class="checks">
               <div class="check"><input type="checkbox" id="strictArabic" checked><label for="strictArabic">إعطاء أولوية قصوى لصحة النص العربي</label></div>
-              <div class="check"><input type="checkbox" id="keepTashkeel" checked><label for="keepTashkeel">الحفاظ على التشكيل كما هو تمامًا</label></div>
+              <div class="check"><input type="checkbox" id="keepTashkeel"><label for="keepTashkeel">الحفاظ على التشكيل فقط إذا كان النص الأصلي مشكولًا</label></div>
               <div class="check"><input type="checkbox" id="rtl" checked disabled><label for="rtl">إجبار اتجاه الكتابة والقوائم من اليمين إلى اليسار RTL دائمًا</label></div>
               <div class="check"><input type="checkbox" id="viewerPerspective" checked><label for="viewerPerspective">تثبيت أن اليمين واليسار من منظور المشاهد</label></div>
               <div class="check"><input type="checkbox" id="noMirror" checked><label for="noMirror">منع انعكاس الصورة أفقيًا</label></div>
@@ -1596,6 +1616,8 @@
       qualityLevel: $('qualityLevel'),
       outputMode: $('outputMode'),
       visualPromptMode: $('visualPromptMode'),
+      designMode: $('designMode'),
+      textHeavyInfographicMode: $('textHeavyInfographicMode'),
       subject: $('subject'),
       subjectArea: $('subjectArea'),
       gradeLevel: $('gradeLevel'),
@@ -1611,6 +1633,7 @@
       extraElements: $('extraElements'),
       arabicText: $('arabicText'),
       secondaryText: $('secondaryText'),
+      referenceText: $('referenceText'),
       textPosition: $('textPosition'),
       fontStyle: $('fontStyle'),
       numberStyle: $('numberStyle'),
@@ -1713,15 +1736,161 @@
         .trim();
     }
 
+    function hasArabicDiacritics(text) {
+      return /[\u064B-\u0652\u0670]/.test(text || '');
+    }
+
+    function projectTitle(d) {
+      const visibleText = primaryArabicText(d);
+      const candidates = [
+        d.lessonTitle,
+        extractTitleFromText(visibleText),
+        shortTitleCandidate(visibleText),
+        extractTitleFromText(d.referenceText),
+        extractTitleFromText(d.sceneDesc),
+        d.subject,
+        composeFooterText(d).split('|')[0]
+      ].map(clean).filter(Boolean);
+      return candidates[0] || 'موضوع بصري واضح';
+    }
+
+    function shortTitleCandidate(text) {
+      const value = clean(text || '');
+      if (!value || value.length > 90 || /[\n|]/.test(value)) return '';
+      return value;
+    }
+
+    function extractTitleFromText(text) {
+      const source = text || '';
+      const titleMatch = source.match(/العنوان\s*(?:المقترح)?\s*[:：]\s*\**\s*([^*\n]+)/);
+      if (titleMatch) return clean(titleMatch[1].replace(/[":]/g, ''));
+      const quotedMatch = source.match(/["“](.{8,90})["”]/);
+      if (quotedMatch) return clean(quotedMatch[1]);
+      return '';
+    }
+
+    function inferAudienceType(d) {
+      const explicit = clean(d.audienceType);
+      const source = [d.subject, d.lessonTitle, d.learningGoal, d.referenceText, d.sceneDesc, d.footerText].join(' ');
+      if (explicit && explicit !== 'طلاب المدرسة') return explicit;
+      if (/الأداء الوظيفي|تقويم الأداء|أداء المعلم|المعلم|المعلمين|مدير المدرسة|المشرف/.test(source)) {
+        return 'المعلمون، مديرو المدارس، المشرفون التربويون';
+      }
+      if (/ولي الأمر|أولياء الأمور|الأسرة/.test(source)) return 'أولياء الأمور';
+      if (/ابتدائي|الأطفال|طفل|الصفوف الأولية/.test(source)) return 'طلاب المرحلة الابتدائية';
+      if (/متوسط|المتوسطة/.test(source)) return 'طلاب المرحلة المتوسطة';
+      if (/ثانوي|الثانوية/.test(source)) return 'طلاب المرحلة الثانوية';
+      return explicit || 'عام';
+    }
+
+    function isTextHeavyInfographic(d) {
+      if (isSlideMode(d) || isStoryMode(d)) return false;
+      if (d.textHeavyInfographicMode === 'on') return true;
+      if (d.textHeavyInfographicMode === 'off') return false;
+      const reference = referenceContent(d);
+      const source = [d.imageType, d.layoutType, reference, d.sceneDesc].join(' ');
+      const longText = (reference || d.sceneDesc || '').length > 700;
+      const hasTable = /\|.+\|/.test(reference || d.sceneDesc || '') || /جدول|الوزن|الشواهد|عناصر التقويم|معايير|محاور/.test(source);
+      return longText && hasTable;
+    }
+
+    function prepareData(raw) {
+      const d = { ...raw };
+      d.rtl = true;
+      d.title = projectTitle(d);
+      d.audienceType = inferAudienceType(d);
+      d.textHeavyActive = isTextHeavyInfographic(d);
+      if (!isSlideMode(d)) {
+        d.slideMode = 'off';
+        d.slideSourceMode = '';
+        d.slideOutputType = '';
+      }
+      if (!isStoryMode(d)) d.storyMode = 'off';
+      if (d.textHeavyActive && d.layoutType === 'تخطيط عربي مرن حسب المحتوى') {
+        d.layoutType = 'جدول عربي يبدأ عموده الأول من اليمين';
+      }
+      if (clean(d.footerText || d.footerTeacherName || d.footerDate || d.footerLessonTopic)) {
+        d.enableFooter = 'yes';
+      }
+      const convertForOutput = (text) => d.numberStyle === 'auto'
+        ? clean(text || '')
+        : convertDigitsByStyle(clean(text || ''), d.numberStyle);
+      d._arabicText = convertForOutput(d.arabicText);
+      d._secondaryText = convertForOutput(d.secondaryText);
+      d._referenceText = convertForOutput(d.referenceText);
+      d._footerText = convertForOutput(d.footerText);
+      d._footerDate = convertForOutput(d.footerDate);
+      d._footerLessonTopic = convertForOutput(d.footerLessonTopic);
+      d._lessonTitle = convertForOutput(d.lessonTitle);
+      d._slideItems = convertForOutput(d.slideItems);
+      d._slideGeneratedItems = convertForOutput(d.slideGeneratedItems);
+      d._storyPages = convertForOutput(d.storyPages);
+      d.title = convertForOutput(d.title);
+      const literalText = [primaryArabicText(d), secondaryArabicText(d)].join('\n');
+      d.keepTashkeel = Boolean(d.keepTashkeel && hasArabicDiacritics(literalText));
+      return d;
+    }
+
     function primaryArabicText(d) {
-      const text = clean(d.arabicText || '');
+      const text = clean(d._arabicText ?? d.arabicText ?? '');
       if (!text || text === 'ضع النص هنا' || text === 'ضع النص العربي هنا') return '';
       return text;
+    }
+
+    function secondaryArabicText(d) {
+      return clean(d._secondaryText ?? d.secondaryText ?? '');
+    }
+
+    function normalizeForCompare(text) {
+      return clean(text || '')
+        .replace(/[ً-ْـ]/g, '')
+        .replace(/[^\u0600-\u06FF0-9٠-٩A-Za-z]+/g, '')
+        .toLowerCase();
+    }
+
+    function cleanVisibleDesignText(text, title) {
+      const raw = normalizeSpaces(text || '');
+      if (!raw) return '';
+      const labelPatterns = [
+        /^عنوان\s*(?:الإنفوجرافيك|الانفوجرافيك|التصميم|الصورة)?\s*[:：]?$/i,
+        /^عبارة\s*تمهيدية\s*[:：]?$/i,
+        /^محاور\s*(?:التصميم|الإنفوجرافيك|الانفوجرافيك)?\s*[:：]?$/i,
+        /^رسالة\s*ختامية\s*[:：]?$/i,
+        /^عبارات\s*قصيرة\s*(?:اختيارية)?\s*(?:داخل\s*التصميم)?\s*[:：]?$/i,
+        /^(?:التذييل|تذييل)\s*[:：]?$/i,
+        /^النصوص\s*(?:الظاهرة|النهائية).*[:：]?$/i
+      ];
+      const titleKey = normalizeForCompare(title);
+      let skipPossibleTitle = false;
+      return raw.split('\n').map(line => line.trim()).filter(line => {
+        if (!line) return false;
+        const withoutMd = line.replace(/\*\*/g, '').trim();
+        if (labelPatterns.some(pattern => pattern.test(withoutMd))) {
+          if (/^عنوان/.test(withoutMd)) skipPossibleTitle = true;
+          return false;
+        }
+        if (skipPossibleTitle) {
+          skipPossibleTitle = false;
+          if (titleKey && normalizeForCompare(withoutMd) === titleKey) return false;
+        }
+        return true;
+      }).join('\n');
+    }
+
+    function visibleDesignText(d) {
+      const text = primaryArabicText(d);
+      return d.textHeavyActive ? cleanVisibleDesignText(text, d.title || projectTitle(d)) : text;
+    }
+
+    function referenceContent(d) {
+      if (isSlideMode(d) || isStoryMode(d)) return '';
+      return clean(d._referenceText || d.referenceText || (d.textHeavyActive ? d.sceneDesc : ''));
     }
 
     function noPrimaryTextInstruction(d) {
       if (isSlideMode(d)) return '- لا يوجد نص عربي عام إلزامي؛ استخدم النصوص المذكورة داخل أوصاف الشرائح فقط، ولا تضف عبارة افتراضية مثل "ضع النص هنا".';
       if (isStoryMode(d)) return '- لا يوجد نص عربي عام إلزامي؛ استخدم نصوص الصفحات أو فقاعات الحوار المذكورة في وصف القصة فقط، ولا تضف عبارة افتراضية مثل "ضع النص هنا".';
+      if (d.textHeavyActive) return '- لا يوجد نص حرفي عام في حقل النص الأساسي؛ استخرج النصوص الظاهرة من قسم المعلومات المرجعية مع الحفاظ على العبارات الأصلية كما هي دون اختصار داخل العبارة أو إعادة صياغة.';
       return '- لا يوجد نص عربي عام إلزامي؛ لا تضف أي عبارة افتراضية مكان النص.';
     }
 
@@ -1733,7 +1902,7 @@
     }
 
     function rtlLayoutInstruction() {
-      return 'التزم دائمًا بالاتجاه العربي الطبيعي من اليمين إلى اليسار RTL في كل ما يظهر داخل الصورة: العنوان، النص الأساسي، النص الثانوي، التذييل، التسميات، البطاقات، الجداول، المخططات، الأسهم، القوائم، التعدادات، والترقيم. اجعل المحاذاة يمينًا، واجعل بداية القراءة والتنظيم من يمين التصميم إلى يساره، ولا تعكس ترتيب الكلمات أو الحروف. عند وجود نقاط أو تعداد أو ترقيم، ابدأ كل نقطة أو رقم من جهة اليمين واجعل النص بعدها يقرأ من اليمين إلى اليسار، بحيث يظهر رقم/رمز التعداد قبل النص من الجهة اليمنى. عند وجود جدول أو مخطط أو خطوات متسلسلة، اجعل العمود أو الخطوة الأولى في أقصى اليمين ثم تتتابع العناصر نحو اليسار بما يوافق العربية.';
+      return 'كل النصوص العربية من اليمين إلى اليسار RTL، بمحاذاة يمين، دون عكس الحروف أو الكلمات، ودون تقسيم الكلمة العربية بين سطرين. تبدأ القوائم والترقيم والجداول من اليمين، ويكون العمود أو الخطوة الأولى في أقصى اليمين.';
     }
 
     function clampInt(value, min, max, fallback) {
@@ -1755,7 +1924,7 @@
     }
 
     function normalizedSlideItems(d) {
-      const raw = normalizeSpaces(d.slideItems || '');
+      const raw = normalizeSpaces(d._slideItems ?? d.slideItems ?? '');
       if (!raw) return '';
       return raw
         .split('\n')
@@ -1765,7 +1934,7 @@
     }
 
     function normalizedGeneratedSlideItems(d) {
-      const raw = normalizeSpaces(d.slideGeneratedItems || '');
+      const raw = normalizeSpaces(d._slideGeneratedItems ?? d.slideGeneratedItems ?? '');
       if (!raw) return '';
       return raw
         .split('\n')
@@ -1775,7 +1944,7 @@
     }
 
     function normalizedStoryPages(d) {
-      const raw = normalizeSpaces(d.storyPages || '');
+      const raw = normalizeSpaces(d._storyPages ?? d.storyPages ?? '');
       if (!raw) return '';
       return raw
         .split('\n')
@@ -1831,13 +2000,6 @@
     }
 
     function slideOutputInstruction(d) {
-      if ((d.slideOutputType || 'finalImages') === 'editableDeck') {
-        return [
-          '- نوع المخرج المطلوب: عرض تقديمي قابل للتحرير PPTX/Slides، وليس صورًا نهائية فقط.',
-          '- يمكن توليد الصور أو الخلفيات بدون نص، ثم وضع النص العربي كعناصر قابلة للتحرير داخل الشرائح مع محاذاة RTL صحيحة.',
-          '- حافظ على قابلية تعديل النصوص والعناوين والتذييل داخل ملف العرض.'
-        ].join('\n');
-      }
       return [
         '- نوع المخرج المطلوب: صور شرائح نهائية مستقلة فقط، وليست ملف PowerPoint أو PPTX.',
         '- أنشئ كل شريحة كصورة كاملة مستقلة بصيغة PNG/JPG أو كصورة منفصلة، بحيث تحتوي الصورة نفسها على التصميم والنص العربي والرسوم.',
@@ -1856,7 +2018,7 @@
       const generatedItems = normalizedGeneratedSlideItems(d);
       const overflow = d.slideOverflowMode || 'ادمج الصور أو البنود الزائدة في الشريحة الأخيرة';
       const lines = [
-        'تعليمات خاصة بالشرائح المتعددة:',
+      'تعليمات خاصة بشرائح الصور المتعددة:',
         slideOutputInstruction(d),
         `- أنشئ سلسلة شرائح عربية مستقلة، وليس إنفوجرافيكًا واحدًا طويلًا.`,
         `- عدد الشرائح الناتجة المطلوب في هذا الطلب: ${outputSlidesLabel} بحد أقصى ١٠ شرائح.`,
@@ -1911,9 +2073,9 @@
       const layout = d.layoutType || 'تخطيط عربي مرن حسب المحتوى';
       let detail = 'اجعل الترتيب العام والمحاذاة واتجاه القراءة متوافقة مع العربية من اليمين إلى اليسار.';
       if (layout.includes('عنوان أعلى يمين')) detail = 'ضع العنوان في أعلى يمين الصورة، واجعل بقية العناصر تدعم مسار قراءة عربي واضح من اليمين إلى اليسار.';
-      else if (layout.includes('بطاقات تعليمية')) detail = 'رتّب البطاقات التعليمية من اليمين إلى اليسار، واجعل البطاقة الأولى في أقصى اليمين ثم تتدرج البطاقات نحو اليسار.';
-      else if (layout.includes('إنفوجرافيك خطوات')) detail = 'اجعل الخطوة الأولى في أقصى اليمين، ثم تتتابع الخطوات والأسهم نحو اليسار مع أرقام واضحة تبدأ من اليمين.';
-      else if (layout.includes('جدول عربي')) detail = 'اجعل العمود الأول في أقصى اليمين، واجعل عناوين الأعمدة والصفوف بمحاذاة يمينية واتجاه RTL واضح.';
+      else if (layout.includes('بطاقات تعليمية')) detail = 'رتّب البطاقات التعليمية من اليمين إلى اليسار، واجعل البطاقة الأولى في أقصى اليمين ثم تتدرج البطاقات نحو اليسار. إذا كان التخطيط بعمودين حول عنصر مركزي، فضع البطاقات ١، ٢، ٣ في العمود الأيمن من أعلى إلى أسفل، والبطاقات ٤، ٥، ٦ في العمود الأيسر من أعلى إلى أسفل من منظور المشاهد.';
+      else if (layout.includes('إنفوجرافيك خطوات')) detail = 'اجعل الخطوة الأولى في أقصى اليمين، ثم تتتابع الخطوات والأسهم نحو اليسار مع أرقام واضحة تبدأ من اليمين. إذا استخدمت بطاقات على جانبي عنصر مركزي، فضع ١، ٢، ٣ في العمود الأيمن من أعلى إلى أسفل، و٤، ٥، ٦ في العمود الأيسر من أعلى إلى أسفل من منظور المشاهد.';
+      else if (layout.includes('جدول عربي')) detail = 'رتّب أعمدة الجدول من اليمين بهذا الترتيب: رقم، عنصر التقويم، الوزن النسبي، شواهد مناسبة. اجعل الخلايا مرنة الارتفاع، ولفّ النص داخل كل خلية على سطرين أو أكثر عند الحاجة مع الحفاظ على كل الكلمات كما هي دون حذف أو اختصار.';
       else if (layout.includes('مخطط تعليمي')) detail = 'اجعل المخطط والتسميات والأسهم تعمل بمنطق عربي من اليمين إلى اليسار، مع فصل بصري واضح بين الأجزاء.';
       else if (layout.includes('تصميم إعلاني')) detail = 'اجعل العنوان أو العرض الرئيسي بارزًا في الجهة اليمنى أو أعلى اليمين، مع توازن واضح بين النص والمنتج أو العنصر البصري.';
       else if (layout.includes('منشور سوشيال')) detail = 'اجعل الجملة الجاذبة واضحة وكبيرة ومحاذاة لليمين، مع مساحات هواء كافية حتى تقرأ بسرعة على الهاتف.';
@@ -1922,9 +2084,80 @@
       return `نوع التخطيط العربي: ${layout}. ${detail}`;
     }
 
+    function tashkeelInstruction(d) {
+      if (d.keepTashkeel) return 'حافظ على التشكيل الموجود في النص الأصلي كما هو دون زيادة أو حذف.';
+      return 'لا تضف تشكيلًا جديدًا للنصوص، وحافظ على وضوح الحروف العربية واتصالها.';
+    }
+
+    function titlePlacementInstruction(d) {
+      if (d.textHeavyActive || (d.layoutType || '').includes('جدول عربي') || (d.layoutType || '').includes('إنفوجرافيك')) {
+        return `موضع العنوان الرئيسي: ${d.textPosition}. أما بقية النصوص فرتّبها ضمن أقسام واضحة وبطاقات أو جدول منظم، لا في موضع واحد ثابت.`;
+      }
+      return `موضع النص الأساسي: ${d.textPosition}.`;
+    }
+
+    function rtlCardSpatialInstruction(d) {
+      if (isSlideMode(d) || isStoryMode(d)) return '';
+      const layoutCheck = [d.layoutType, d.imageType].join(' ');
+      const visibleText = visibleDesignText(d) || primaryArabicText(d) || '';
+      const reference = referenceContent(d) || '';
+      const visualHints = [d.sceneDesc, d.extraElements].join('\n');
+      const combined = [visibleText, reference, visualHints].filter(Boolean).join('\n');
+      const likelyCards = /بطاقات|محاور|خطوات|إنفوجرافيك|انفوجرافيك/.test([layoutCheck, combined].join(' '));
+      const hasNumberedItems = /(?:^|\n)\s*(?:[1-9]|[١-٩])[\.\- ـ:]/.test(combined);
+      if (!likelyCards && !hasNumberedItems) return '';
+      return 'التخطيط المكاني للبطاقات من منظور المشاهد: لأن التصميم عربي RTL، يبدأ تسلسل البطاقات من العمود الأيمن ثم ينتقل إلى الأعمدة التي تليه يسارًا، مهما كان عدد البطاقات. رتّب البطاقات داخل كل عمود من أعلى إلى أسفل، ورتّب الأعمدة نفسها من اليمين إلى اليسار بالتتالي وفق التنسيق العربي. إذا كانت البطاقات ٦ مثلًا، فضع ١، ٢، ٣ في العمود الأيمن من أعلى إلى أسفل، ثم ٤، ٥، ٦ في العمود الأيسر من أعلى إلى أسفل. إذا زاد العدد عن ٦، فاستمر بنفس المنطق: املأ العمود الأيمن أولًا من أعلى إلى أسفل، ثم العمود التالي يسارًا، وهكذا. لا تبدأ من اليسار ولا تبدّل ترتيب الأرقام. عند ضيق النص داخل البطاقة، صغّر حجم الخط قليلًا أو زد ارتفاع البطاقة بدل اختصار النص أو حذفه.';
+    }
+
+    function infographicContentInstruction(d) {
+      if (!d.textHeavyActive) return '';
+      const title = projectTitle(d);
+      const visibleText = visibleDesignText(d);
+      const reference = referenceContent(d);
+      const lines = [
+        'فصل المحتوى للإنفوجرافيك النصي:',
+        'A. النصوص التي يجب أن تظهر في التصميم:',
+        `- العنوان الموحد: "${title}".`,
+        '- صمّم الإنفوجرافيك كله في صفحة واحدة فقط بالمقاس المختار، ولا تقسّمه إلى جزء ١ وجزء ٢، ولا تنشئ صفحتين أو صورتين منفصلتين.',
+        rtlCardSpatialInstruction(d),
+        visibleText
+          ? '- استخدم النصوص النهائية التالية داخل التصميم حرفيًا كما هي، ولا تضف عليها ولا تختصرها ولا تعيد صياغتها:'
+          : '- اعرض عناصر الجدول أو البطاقات من النص المرجعي مع نسخ أسماء العناصر والشواهد المختارة كما هي حرفيًا دون اختصار الكلمات أو إعادة صياغتها.',
+      '- لا تختصر عبارة مثل "لقاءات أولياء الأمور" إلى "لقاءات"، ولا تغيّر ترتيب الحروف أو تستبدل كلمة عربية بكلمة قريبة.',
+        '- عند طول النص داخل خلية الجدول، لفّ العبارة نفسها داخل الخلية على سطرين أو ثلاثة أو أكثر مع الحفاظ على كل الكلمات كما هي، ولا تختصرها ولا تحذف أي كلمة.',
+        '- استخدم حجم خط متوازنًا ومسافات داخلية مناسبة وارتفاع صفوف مرنًا حتى يتسع الجدول داخل صفحة واحدة دون فقد النص.',
+        '- وزّع المحتوى على جدول عربي منظم أو بطاقات مضغوطة داخل الصفحة نفسها، ولا تجعل التصميم صفحتين منفصلتين.',
+        visibleText || '',
+        '',
+        'B. معلومات مرجعية لا تُعرض حرفيًا:',
+        '- استخدم النص المرجعي التالي لاستخلاص المحتوى، ولا تعرضه كاملًا داخل التصميم:',
+        reference || 'لا توجد معلومات مرجعية مفصلة.',
+        '',
+        '- إذا كانت المادة كثيفة، اضبط حجم الخط والهوامش وارتفاع الصفوف داخل الصفحة الواحدة، ولا تقسّم الناتج إلى أجزاء إلا إذا كان وضع الشرائح مفعّلًا صراحة.'
+      ];
+      return lines.join('\n');
+    }
+
+    function sceneInstructionLines(d) {
+      if (d.textHeavyActive) return infographicContentInstruction(d).split('\n').filter(line => line !== '');
+      const lines = [`وصف المشهد: ${d.sceneDesc || 'مشهد جميل ومتوازن وواضح.'}`];
+      if (d.designMode === 'editExistingImage') {
+        lines.unshift('وضع تعديل صورة موجودة: حافظ على التخطيط والألوان والأيقونات كما هي، وعدّل النصوص أو العناصر المحددة فقط دون إعادة توليد التصميم كاملًا.');
+      }
+      return lines;
+    }
+
+    function encodingNote() {
+      return 'ملاحظة الترميز: استخدم UTF-8 في ملفات TXT و JSON. إذا ظهر النص العربي بشكل مثل "ط§ظ„..." فهذا خلل ترميز ولا يُستخدم.';
+    }
+
+    function imageTypePhrase(d) {
+      return /عربي/.test(d.imageType || '') ? d.imageType : `${d.imageType} عربيًا`;
+    }
+
     function visualDesignBrief(d, compact = false) {
       if (d.visualPromptMode === 'arabicOnly') return '';
-      const subject = d.subject || 'clear Arabic visual subject';
+      const subject = d.title || d.subject || 'clear Arabic visual subject';
       const keywords = 'clean layout, balanced composition, clear hierarchy, high readability, Arabic typography, generous whitespace, crisp text areas, polished spacing, professional design';
       let layoutCue = englishLayoutCue(d.layoutType || '');
       if (isSlideMode(d) && d.slideSourceMode === 'generated') {
@@ -1951,16 +2184,16 @@
 
     function composeFooterText(d) {
       const parts = [];
-      const topic = d.footerLessonTopic || d.lessonTitle || d.subject || '';
+      const topic = d._footerLessonTopic || d.footerLessonTopic || d._lessonTitle || d.lessonTitle || d.subject || '';
       const teacher = d.footerTeacherName || '';
-      const date = convertDigitsByStyle(d.footerDate || '', d.numberStyle);
-      const manual = clean(d.footerText || '');
+      const date = convertDigitsByStyle(d._footerDate ?? d.footerDate ?? '', d.numberStyle);
+      const manual = clean(d._footerText ?? d.footerText ?? '');
 
       if (d.footerMode === 'manual') {
         return manual;
       }
 
-      if (topic) parts.push(`الموضوع: ${topic}`);
+      if (topic) parts.push(`الموضوع: ${convertDigitsByStyle(topic, d.numberStyle)}`);
       if (teacher) parts.push(`المعلم: ${teacher}`);
       if (date) parts.push(`التاريخ: ${date}`);
 
@@ -1981,6 +2214,12 @@
       return autoText || manual;
     }
 
+    function effectiveFooterText(d) {
+      const manualFooterData = clean(d._footerText || d.footerText || d.footerTeacherName || d._footerDate || d.footerDate || d._footerLessonTopic || d.footerLessonTopic || '');
+      if (d.enableFooter === 'yes' || manualFooterData) return composeFooterText(d);
+      return '';
+    }
+
     function updateFooterPreview(d) {
       const text = composeFooterText(d);
       footerPreview.textContent = text || 'معاينة التذييل ستظهر هنا بعد التركيب.';
@@ -1999,7 +2238,7 @@
     function buildPromptFull(d) {
       d.rtl = true;
       const lines = [];
-      lines.push(`أنشئ صورة من نوع "${d.imageType}" موجهة لغرض "${d.purpose}" عن موضوع "${d.subject || 'موضوع بصري واضح'}".`);
+      lines.push(`أنشئ صورة من نوع "${d.imageType}" موجهة لغرض "${d.purpose}" عن موضوع "${d.title || d.subject || 'موضوع بصري واضح'}".`);
       lines.push(`الأسلوب العام: ${d.style}. نسبة الأبعاد: ${d.aspectRatio}. مستوى الجودة: ${d.qualityLevel}.`);
       const visualBrief = visualDesignBrief(d);
       if (visualBrief) {
@@ -2011,7 +2250,7 @@
         lines.push('سياق تعليمي إضافي:');
         if (d.subjectArea && d.subjectArea !== 'عام') lines.push(`- المادة الدراسية: ${d.subjectArea}.`);
         if (d.gradeLevel) lines.push(`- المرحلة أو الصف: ${d.gradeLevel}.`);
-        if (d.lessonTitle) lines.push(`- عنوان الدرس: ${d.lessonTitle}.`);
+        if (d.lessonTitle || d._lessonTitle) lines.push(`- عنوان الدرس: ${d._lessonTitle || d.lessonTitle}.`);
         if (d.audienceType && d.audienceType !== 'طلاب المدرسة') lines.push(`- الفئة المستهدفة: ${d.audienceType}.`);
         if (d.learningGoal) lines.push(`- الهدف التعليمي: ${d.learningGoal}.`);
       }
@@ -2032,24 +2271,27 @@
         lines.push('');
         lines.push(storyInstruction);
       }
-      lines.push('');
-      lines.push('تعليمات النص العربي الأساسي:');
-      const mainArabicText = primaryArabicText(d);
-      if (mainArabicText) {
-        lines.push('- انسخ النص التالي حرفيًا 100% دون حذف أو إضافة أو استبدال أو إعادة صياغة لأي حرف.');
-        lines.push(`"${mainArabicText}"`);
-      } else {
-        lines.push(noPrimaryTextInstruction(d));
-      }
-      if (d.secondaryText) {
-        lines.push('- أضف النص الثانوي التالي حرفيًا كما هو، بحجم أصغر وتنسيق متناسق مع النص الأساسي:');
-        lines.push(`"${d.secondaryText}"`);
+      if (!d.textHeavyActive) {
+        lines.push('');
+        lines.push('تعليمات النص العربي الأساسي:');
+        const mainArabicText = primaryArabicText(d);
+        if (mainArabicText) {
+          lines.push('- انسخ النص التالي حرفيًا 100% دون حذف أو إضافة أو استبدال أو إعادة صياغة لأي حرف.');
+          lines.push(`"${mainArabicText}"`);
+        } else {
+          lines.push(noPrimaryTextInstruction(d));
+        }
+        const secondaryText = secondaryArabicText(d);
+        if (secondaryText) {
+          lines.push('- أضف النص الثانوي التالي حرفيًا كما هو، بحجم أصغر وتنسيق متناسق مع النص الأساسي:');
+          lines.push(`"${secondaryText}"`);
+        }
       }
       if (d.rtl) lines.push('- طبّق قاعدة RTL السابقة على كل كتلة نصية داخل الصورة، ولا تسمح لأي عنوان أو تسمية أو شرح أو رقم بأن يبدأ من اليسار.');
-      if (d.keepTashkeel) lines.push('- حافظ على جميع الحركات وعلامات التشكيل كما هي، بما في ذلك الشدة والسكون والتنوين والمد والهمزات.');
+      lines.push(`- ${tashkeelInstruction(d)}`);
       if (d.noFakeArabic) lines.push('- لا تستخدم حروفًا عربية مزيفة أو رموزًا تشبه العربية أو نصًا زخرفيًا غير مقروء.');
       if (d.noSplitWords) lines.push('- لا تقسّم الكلمة العربية بين سطرين ولا تكسر ترابط الحروف بشكل خاطئ.');
-      lines.push(`- موضع النص الأساسي: ${d.textPosition}.`);
+      lines.push(`- ${titlePlacementInstruction(d)}`);
       lines.push(`- نوع الخط: ${d.fontStyle}.`);
       if (d.textFormatting) lines.push(`- تنسيق النص المطلوب: ${d.textFormatting}.`);
       lines.push(`- ${numberInstruction(d.numberStyle, d.consistentDigits)}`);
@@ -2062,11 +2304,11 @@
       lines.push(`- زاوية المشهد: ${d.cameraAngle}.`);
       lines.push(`- الإضاءة: ${d.lighting}.`);
       lines.push(`- الخلفية: ${d.backgroundStyle}.`);
-      lines.push(`- وصف المشهد: ${d.sceneDesc || 'مشهد متوازن وواضح وجميل الإضاءة.'}`);
+      sceneInstructionLines(d).forEach(line => lines.push(`- ${line}`));
       if (d.colors) lines.push(`- الألوان والجو البصري: ${d.colors}.`);
       if (d.extraElements) lines.push(`- عناصر إضافية مرغوبة: ${d.extraElements}.`);
-      if (d.enableFooter === 'yes') {
-        const footerTextComposed = composeFooterText(d);
+      {
+        const footerTextComposed = effectiveFooterText(d);
         if (footerTextComposed) {
           lines.push('');
           lines.push('تعليمات التذييل:');
@@ -2099,38 +2341,44 @@
       lines.push('مراجعة داخلية قبل الإخراج:');
       lines.push('- تأكد أن النص العربي مطابق تمامًا للنص المرجعي حرفيًا.');
       if (d.keepTashkeel) lines.push('- تأكد أن التشكيل مطابق تمامًا للنص المرجعي.');
+      else lines.push('- تأكد أنك لم تضف تشكيلًا جديدًا غير موجود في النص الأصلي.');
       if (d.rtl) lines.push('- تأكد أن اتجاه الكتابة والقوائم والتعداد والجداول والمخططات والتذييل من اليمين إلى اليسار صحيح، وأن كل رقم أو رمز تعداد يبدأ من يمين السطر.');
       if (d.viewerPerspective) lines.push('- تأكد أن اليمين واليسار محسوبان من منظور المشاهد.');
       lines.push('- تأكد أن وضوح النص وسهولة قراءته أفضل من أي زخرفة إضافية.');
+      lines.push(encodingNote());
       return lines.join('\n');
     }
 
     function buildPromptMedium(d) {
       d.rtl = true;
       const lines = [];
-      lines.push(`أنشئ ${d.imageType} عربيًا لغرض ${d.purpose} عن "${d.subject || 'موضوع بصري'}" بأسلوب ${d.style}.`);
+      lines.push(`أنشئ ${imageTypePhrase(d)} لغرض ${d.purpose} عن "${d.title || d.subject || 'موضوع بصري'}" بأسلوب ${d.style}.`);
       lines.push(`نسبة الأبعاد: ${d.aspectRatio}. الجودة: ${d.qualityLevel}.`);
       const visualBrief = visualDesignBrief(d);
       if (visualBrief) lines.push(visualBrief);
       if (d.subjectArea !== 'عام' || d.lessonTitle || d.gradeLevel || d.learningGoal) {
-        lines.push(`السياق التعليمي: ${[d.subjectArea !== 'عام' ? d.subjectArea : '', d.gradeLevel, d.lessonTitle, d.learningGoal].filter(Boolean).join(' | ')}.`);
+        lines.push(`السياق التعليمي: ${[d.subjectArea !== 'عام' ? d.subjectArea : '', d.gradeLevel, d._lessonTitle || d.lessonTitle, d.learningGoal].filter(Boolean).join(' | ')}.`);
       }
-      const mainArabicText = primaryArabicText(d);
-      if (mainArabicText) {
-        lines.push('استخدم النص العربي التالي حرفيًا دون أي تعديل:');
-        lines.push(`"${mainArabicText}"`);
-      } else {
-        lines.push(noPrimaryTextInstruction(d));
+      if (d.audienceType && d.audienceType !== 'طلاب المدرسة') lines.push(`الفئة المستهدفة: ${d.audienceType}.`);
+      if (!d.textHeavyActive) {
+        const mainArabicText = primaryArabicText(d);
+        if (mainArabicText) {
+          lines.push('استخدم النص العربي التالي حرفيًا دون أي تعديل:');
+          lines.push(`"${mainArabicText}"`);
+        } else {
+          lines.push(noPrimaryTextInstruction(d));
+        }
+        const secondaryText = secondaryArabicText(d);
+        if (secondaryText) lines.push(`واستخدم النص الثانوي التالي بحجم أصغر وبشكل متناسق: "${secondaryText}"`);
       }
-      if (d.secondaryText) lines.push(`واستخدم النص الثانوي التالي بحجم أصغر وبشكل متناسق: "${d.secondaryText}"`);
       if (d.rtl) lines.push(rtlLayoutInstruction());
       lines.push(arabicLayoutInstruction(d));
       const slideInstruction = slideGenerationInstruction(d);
       if (slideInstruction) lines.push(slideInstruction);
       const storyInstruction = storyGenerationInstruction(d);
       if (storyInstruction) lines.push(storyInstruction);
-      if (d.keepTashkeel) lines.push('حافظ على جميع الحركات والتشكيل كما هي تمامًا.');
-      lines.push(`نوع الخط: ${d.fontStyle}. موضع النص: ${d.textPosition}.`);
+      lines.push(tashkeelInstruction(d));
+      lines.push(`نوع الخط: ${d.fontStyle}. ${titlePlacementInstruction(d)}`);
       if (d.textFormatting) lines.push(`تنسيق النص: ${d.textFormatting}.`);
       lines.push(numberInstruction(d.numberStyle, d.consistentDigits));
       if (d.viewerPerspective) lines.push('اليمين واليسار من منظور المشاهد.');
@@ -2139,40 +2387,45 @@
       if (d.noFakeArabic) lines.push('لا تولد حروفًا مزيفة أو نصًا عربيًا مشوهًا.');
       if (d.noSplitWords) lines.push('لا تقسّم الكلمة العربية بين سطرين.');
       if (d.blankIfFail) lines.push('إذا تعذر النص بدقة، اترك مساحة فارغة بدل نص خاطئ.');
-      lines.push(`وصف المشهد: ${d.sceneDesc || 'مشهد جميل ومتوازن وواضح.'}`);
+      sceneInstructionLines(d).forEach(line => lines.push(line));
       lines.push(`الإضاءة: ${d.lighting}. زاوية المشهد: ${d.cameraAngle}. الخلفية: ${d.backgroundStyle}.`);
       if (d.colors) lines.push(`الألوان: ${d.colors}.`);
       if (d.extraElements) lines.push(`العناصر الإضافية: ${d.extraElements}.`);
-      if (d.enableFooter === 'yes') {
-        const footerTextComposed = composeFooterText(d);
+      {
+        const footerTextComposed = effectiveFooterText(d);
         if (footerTextComposed) lines.push(`أضف تذييلًا في ${d.footerPosition} بالنص التالي: "${footerTextComposed}"، بأسلوب ${d.footerStyle}، مع ترتيب ومحاذاة عربية من اليمين إلى اليسار.`);
       }
       if (d.specialInstructions) lines.push(`تعليمات إضافية: ${d.specialInstructions}.`);
       if (d.negativeNotes) lines.push(`ممنوعات: ${d.negativeNotes}.`);
       if (d.strictArabic) lines.push('أولوية قصوى لصحة العربية وقابلية القراءة.');
+      lines.push(encodingNote());
       return lines.join('\n');
     }
 
     function buildPromptShort(d) {
       d.rtl = true;
       const parts = [];
-      parts.push(`أنشئ ${d.imageType} عربيًا عن "${d.subject || 'موضوع بصري'}" لغرض ${d.purpose} بأسلوب ${d.style}.`);
+      parts.push(`أنشئ ${imageTypePhrase(d)} عن "${d.title || d.subject || 'موضوع بصري'}" لغرض ${d.purpose} بأسلوب ${d.style}.`);
       parts.push(`النسبة: ${d.aspectRatio}. الجودة: ${d.qualityLevel}.`);
       const visualBrief = visualDesignBrief(d, true);
       if (visualBrief) parts.push(visualBrief);
-      if (d.lessonTitle || d.subjectArea !== 'عام' || d.gradeLevel) parts.push(`السياق التعليمي: ${[d.subjectArea !== 'عام' ? d.subjectArea : '', d.gradeLevel, d.lessonTitle].filter(Boolean).join(' | ')}.`);
-      const mainArabicText = primaryArabicText(d);
-      if (mainArabicText) parts.push(`استخدم النص حرفيًا دون تعديل: "${mainArabicText}".`);
-      else parts.push(noPrimaryTextInstruction(d));
-      if (d.secondaryText) parts.push(`أضف النص الثانوي: "${d.secondaryText}".`);
+      if (d.lessonTitle || d.subjectArea !== 'عام' || d.gradeLevel) parts.push(`السياق التعليمي: ${[d.subjectArea !== 'عام' ? d.subjectArea : '', d.gradeLevel, d._lessonTitle || d.lessonTitle].filter(Boolean).join(' | ')}.`);
+      if (d.audienceType && d.audienceType !== 'طلاب المدرسة') parts.push(`الفئة المستهدفة: ${d.audienceType}.`);
+      if (!d.textHeavyActive) {
+        const mainArabicText = primaryArabicText(d);
+        if (mainArabicText) parts.push(`استخدم النص حرفيًا دون تعديل: "${mainArabicText}".`);
+        else parts.push(noPrimaryTextInstruction(d));
+        const secondaryText = secondaryArabicText(d);
+        if (secondaryText) parts.push(`أضف النص الثانوي: "${secondaryText}".`);
+      }
       if (d.rtl) parts.push(rtlLayoutInstruction());
       parts.push(arabicLayoutInstruction(d));
       const slideInstruction = slideGenerationInstruction(d);
       if (slideInstruction) parts.push(slideInstruction);
       const storyInstruction = storyGenerationInstruction(d);
       if (storyInstruction) parts.push(storyInstruction);
-      if (d.keepTashkeel) parts.push('حافظ على التشكيل كاملًا كما هو.');
-      parts.push(`موضع النص: ${d.textPosition}. نوع الخط: ${d.fontStyle}.`);
+      parts.push(tashkeelInstruction(d));
+      parts.push(`${titlePlacementInstruction(d)} نوع الخط: ${d.fontStyle}.`);
       if (d.textFormatting) parts.push(`تنسيق النص: ${d.textFormatting}.`);
       parts.push(numberInstruction(d.numberStyle, d.consistentDigits));
       if (d.viewerPerspective) parts.push('اليمين واليسار من منظور المشاهد.');
@@ -2181,15 +2434,16 @@
       if (d.noMirror) parts.push('لا تعكس الصورة أفقيًا.');
       if (d.noFakeArabic) parts.push('لا تستخدم حروفًا عربية مزيفة أو مشوهة.');
       if (d.blankIfFail) parts.push('إذا تعذر النص بدقة، اترك مساحة فارغة بدل نص خاطئ.');
-      parts.push(`وصف الصورة: ${d.sceneDesc || 'مشهد واضح ومتوازن.'}`);
+      sceneInstructionLines(d).forEach(line => parts.push(line));
       if (d.colors) parts.push(`الألوان: ${d.colors}.`);
       if (d.extraElements) parts.push(`العناصر: ${d.extraElements}.`);
-      if (d.enableFooter === 'yes') {
-        const footerTextComposed = composeFooterText(d);
+      {
+        const footerTextComposed = effectiveFooterText(d);
         if (footerTextComposed) parts.push(`أضف تذييلًا في ${d.footerPosition} بالنص: "${footerTextComposed}" وبأسلوب ${d.footerStyle}، مع محاذاة وترتيب عربي من اليمين إلى اليسار.`);
       }
       if (d.specialInstructions) parts.push(`تعليمات إضافية: ${d.specialInstructions}.`);
       if (d.negativeNotes) parts.push(`ممنوعات: ${d.negativeNotes}.`);
+      parts.push(encodingNote());
       return parts.join(' ');
     }
 
@@ -2203,12 +2457,6 @@
         'bullet list starting from left',
         'numbered list starting from left',
         'reversed Arabic list order',
-        'left-to-right table order',
-        'first table column on the left',
-        'left-to-right process flow',
-        'timeline starting from left',
-        'footer aligned left',
-        'Arabic labels ordered left to right',
         'mirrored composition',
         'fake Arabic letters',
         'gibberish text',
@@ -2222,25 +2470,18 @@
         'messy layout',
         'visual clutter',
         'duplicate elements',
-        'merged slides into one crowded image',
-        'missing slide',
-        'wrong slide order',
-        'wrong image-caption pairing',
-        'missing generated slide illustration',
-        'generated slide does not match description',
-        'using attached screenshot when generated illustration was requested',
-        'inconsistent slide style',
-        'A4 slide cropped',
-        'inconsistent character design',
-        'character identity drift',
-        'different clothes between story pages',
-        'wrong story page order',
-        'comic bubbles left-to-right',
-        'speech bubble tail pointing to wrong character',
-        'story text outside safe area',
-        'unreadable story caption',
         'watermarks'
       ];
+      if (d.textHeavyActive || (d.layoutType || '').includes('جدول عربي')) {
+        parts.push('left-to-right table order', 'first table column on the left', 'wrong RTL card order', 'card 1 placed on the left', 'cards 1 2 3 in left column', 'cards 4 5 6 in right column', 'crowded Arabic table', 'overlapping table text', 'splitting one infographic into multiple pages', 'part 1 part 2 labels', 'unnecessary page split');
+      }
+      if (isSlideMode(d)) {
+        parts.push('merged slides into one crowded image', 'missing slide', 'wrong slide order', 'wrong image-caption pairing', 'missing generated slide illustration', 'generated slide does not match description', 'using attached screenshot when generated illustration was requested', 'inconsistent slide style', 'A4 slide cropped');
+      }
+      if (isStoryMode(d)) {
+        parts.push('inconsistent character design', 'character identity drift', 'different clothes between story pages', 'wrong story page order', 'comic bubbles left-to-right', 'speech bubble tail pointing to wrong character', 'story text outside safe area', 'unreadable story caption');
+      }
+      if (d.designMode === 'editExistingImage') parts.push('unwanted full redesign', 'changed original layout', 'changed original colors');
       if (d.keepTashkeel) parts.push('missing diacritics', 'wrong diacritics');
       if (d.noMirror) parts.push('horizontal flip');
       if (d.highReadability) parts.push('blurred text', 'low contrast text');
@@ -2252,6 +2493,104 @@
       if (d.outputMode === 'full') return buildPromptFull(d);
       if (d.outputMode === 'medium') return buildPromptMedium(d);
       return buildPromptShort(d);
+    }
+
+    function compactFinalJson(d) {
+      const activeSlide = isSlideMode(d);
+      const activeStory = isStoryMode(d);
+      const footerTextComposed = effectiveFooterText(d);
+      const out = {
+        encoding: 'UTF-8',
+        imageType: d.imageType,
+        purpose: d.purpose,
+        style: d.style,
+        aspectRatio: d.aspectRatio,
+        qualityLevel: d.qualityLevel,
+        outputMode: d.outputMode,
+        visualPromptMode: d.visualPromptMode,
+        designMode: d.designMode || 'designFromScratch',
+        title: d.title,
+        subject: d.subject,
+        subjectArea: d.subjectArea !== 'عام' ? d.subjectArea : '',
+        gradeLevel: d.gradeLevel,
+        lessonTitle: d._lessonTitle || d.lessonTitle,
+        audienceType: d.audienceType,
+        learningGoal: d.learningGoal,
+        textHeavyInfographicMode: d.textHeavyActive ? 'on' : '',
+        sceneDesc: d.textHeavyActive ? '' : d.sceneDesc,
+        referenceMaterial: referenceContent(d) || d._referenceText || d.referenceText,
+        visibleTextPlan: d.textHeavyActive ? 'اعرض العنوان الموحد، عناصر التقويم، الوزن النسبي، والشواهد المختارة بنصها الأصلي دون اختصار داخل العبارة أو إعادة صياغة. اجمع الإنفوجرافيك في صفحة واحدة فقط، ولفّ النص داخل الخلايا على عدة أسطر عند الحاجة بدل تقسيم التصميم.' : '',
+        colors: d.colors,
+        lighting: d.lighting,
+        cameraAngle: d.cameraAngle,
+        backgroundStyle: d.backgroundStyle,
+        mainElementPosition: d.mainElementPosition,
+        extraElements: d.extraElements,
+        arabicText: primaryArabicText(d),
+        visibleDesignText: d.textHeavyActive ? visibleDesignText(d) : '',
+        secondaryText: secondaryArabicText(d),
+        textPosition: d.textPosition,
+        fontStyle: d.fontStyle,
+        numberStyle: d.numberStyle,
+        textImportance: d.textImportance,
+        textFormatting: d.textFormatting,
+        layoutType: d.layoutType,
+        slideMode: activeSlide ? 'on' : '',
+        storyMode: activeStory ? 'on' : '',
+        enableFooter: footerTextComposed ? 'yes' : '',
+        footerText: footerTextComposed,
+        footerPosition: footerTextComposed ? d.footerPosition : '',
+        footerStyle: footerTextComposed ? d.footerStyle : '',
+        strictArabic: d.strictArabic ? true : '',
+        keepTashkeel: d.keepTashkeel ? true : '',
+        rtl: true,
+        viewerPerspective: d.viewerPerspective ? true : '',
+        noMirror: d.noMirror ? true : '',
+        noFakeArabic: d.noFakeArabic ? true : '',
+        noSplitWords: d.noSplitWords ? true : '',
+        blankIfFail: d.blankIfFail ? true : '',
+        highReadability: d.highReadability ? true : '',
+        consistentDigits: d.consistentDigits ? true : '',
+        includeNegativePrompt: d.includeNegativePrompt ? true : '',
+        negativeNotes: d.negativeNotes,
+        specialInstructions: d.specialInstructions,
+        encodingNote: encodingNote()
+      };
+
+      if (activeSlide) {
+        out.slideSize = d.slideSize;
+        out.slideSourceMode = d.slideSourceMode;
+        out.slideOutputType = 'finalImages';
+        out.slideCount = String(clampInt(d.slideCount, 1, 10, 10));
+        out.slideImageCount = d.slideSourceMode === 'attached' ? String(clampInt(d.slideImageCount, 1, 20, 10)) : '';
+        out.slideOverflowMode = d.slideSourceMode === 'attached' ? d.slideOverflowMode : '';
+        out.slideItems = d.slideSourceMode === 'attached' ? normalizedSlideItems(d) : '';
+        out.slideGeneratedItems = d.slideSourceMode === 'generated' ? normalizedGeneratedSlideItems(d) : '';
+      }
+
+      if (activeStory) {
+        out.storyPageCount = String(clampInt(d.storyPageCount, 1, 10, 6));
+        out.storyPageSize = d.storyPageSize;
+        out.storyTextPlacement = d.storyTextPlacement;
+        out.storyArtStyle = d.storyArtStyle;
+        out.storyConsistency = d.storyConsistency;
+        out.storyCharacters = d.storyCharacters;
+        out.storyPages = normalizedStoryPages(d);
+      }
+
+      for (const key of Object.keys(out)) {
+        if (out[key] === '' || out[key] === null || out[key] === undefined) delete out[key];
+      }
+      return out;
+    }
+
+    function detectDigitConflict(text, style, label) {
+      if (!text || style === 'auto') return '';
+      const hasEastern = /[٠-٩]/.test(text);
+      const hasEnglish = /[0-9]/.test(text);
+      if (style === 'english' && hasEastern) return `${label} يحتوي على أرقام هندية شرقية، بينما نمط الأرقام المختار إنجليزي. سيتم التحويل تلقائيًا في البرومبت والـ JSON دون تغيير النص داخل الحقول.`;
+      if (style === 'eastern' && hasEnglish) return `${label} يحتوي على أرقام إنجليزية، بينما نمط الأرقام المختار هندي شرقي. سيتم التحويل تلقائيًا في البرومبت والـ JSON دون تغيير النص داخل الحقول.`;
+      return '';
     }
 
     function buildReport(d) {
@@ -2270,24 +2609,39 @@
       if (d.sceneDesc && d.sceneDesc.length > 35) { notes.push({ type: 'good', text: 'وصف المشهد جيد وفيه تفاصيل كافية.' }); good++; }
       else notes.push({ type: 'warn', text: 'وصف المشهد ما يزال قصيرًا؛ أضف العناصر والخلفية والإضاءة.' });
 
-      if (d.arabicText) { notes.push({ type: 'good', text: 'تم إدخال نص عربي صريح، وهذه أهم خطوة لتقليل الأخطاء.' }); good++; }
+      if (primaryArabicText(d)) { notes.push({ type: 'good', text: 'تم إدخال نص عربي صريح، وهذه أهم خطوة لتقليل الأخطاء.' }); good++; }
+      else if (d.textHeavyActive) notes.push({ type: 'good', text: 'وضع الإنفوجرافيك النصي فعّال؛ سيستخرج المولد نصوصًا مختصرة من المرجع بدل حشر المادة كاملة داخل الصورة.' });
       else notes.push({ type: 'warn', text: 'لا يوجد نص عربي داخل الصورة حتى الآن.' });
 
       if (d.arabicText && /[0-9٠-٩]/.test(d.arabicText)) {
         notes.push({ type: 'note', text: 'النص يحتوي على أرقام؛ تم تفعيل نمط الأرقام: ' + (d.numberStyle === 'english' ? 'إنجليزية' : d.numberStyle === 'eastern' ? 'هندية شرقية' : 'تلقائي') + '.' });
       }
 
+      [
+        ['النصوص النهائية', d.arabicText],
+        ['النص الثانوي', d.secondaryText],
+        ['النص المرجعي', d.referenceText],
+        ['التذييل اليدوي', d.footerText],
+        ['موضوع التذييل', d.footerLessonTopic],
+        ['نصوص الشرائح', d.slideItems],
+        ['أوصاف الشرائح', d.slideGeneratedItems],
+        ['صفحات القصة', d.storyPages]
+      ].forEach(([label, text]) => {
+        const conflict = detectDigitConflict(text, d.numberStyle, label);
+        if (conflict) notes.push({ type: 'warn', text: conflict });
+      });
+
       if (d.secondaryText) notes.push({ type: 'good', text: 'وجود نص ثانوي يعطيك مرونة أكبر في البوسترات والعناوين الفرعية.' });
       if (d.visualPromptMode === 'hybrid') notes.push({ type: 'good', text: 'الوضع المختلط الاحترافي مفعل: إنجليزي للتصميم وعربي للنصوص، وهذا مناسب جدًا لمعظم مولدات الصور.' });
       else if (d.visualPromptMode === 'englishVisual') notes.push({ type: 'good', text: 'الوصف البصري الإنجليزي مفعل مع قواعد عربية، وهذا يساعد النموذج على فهم التصميم.' });
       else notes.push({ type: 'note', text: 'الوصف عربي كامل؛ إن احتجت نتائج تصميم أقوى جرّب الوضع المختلط الاحترافي.' });
       if (d.layoutType) notes.push({ type: 'good', text: 'تم تحديد نوع التخطيط العربي، وهذا يساعد النموذج على ترتيب العناصر بدل الاكتفاء بوصف عام.' });
+      if (d.audienceType && d.audienceType !== 'طلاب المدرسة') notes.push({ type: 'good', text: `الفئة المستهدفة مضبوطة على: ${d.audienceType}.` });
       if (isSlideMode(d)) {
         const outputSlides = clampInt(d.slideCount, 1, 10, 10);
         const sourceImages = clampInt(d.slideImageCount, 1, 20, outputSlides);
-        notes.push({ type: 'good', text: `وضع الشرائح المتعددة مفعل، وسيتم ضبط الإخراج على ${displayNumber(outputSlides, d.numberStyle)} شرائح كحد أقصى في الطلب الواحد.` });
-        if ((d.slideOutputType || 'finalImages') === 'finalImages') notes.push({ type: 'good', text: 'نوع المخرج مضبوط على صور شرائح نهائية مستقلة، وهذا مناسب لمولدات الصور.' });
-        else notes.push({ type: 'note', text: 'نوع المخرج مضبوط على عرض تقديمي قابل للتحرير؛ هذا مناسب عند طلب PPTX وليس صورًا نهائية.' });
+    notes.push({ type: 'good', text: `وضع شرائح الصور المتعددة مفعل، وسيتم ضبط الإخراج على ${displayNumber(outputSlides, d.numberStyle)} صور شرائح نهائية مستقلة كحد أقصى في الطلب الواحد.` });
+        notes.push({ type: 'good', text: 'نوع المخرج مضبوط على صور شرائح نهائية مستقلة، وهذا مناسب لمولدات الصور.' });
         if (d.slideSourceMode === 'generated') {
           notes.push({ type: 'good', text: 'مصدر الشرائح مضبوط على توليد صور من وصف كل شريحة، ولا يحتاج إلى صور مرفقة.' });
           if (!d.slideGeneratedItems) notes.push({ type: 'warn', text: 'وضع توليد صور الشرائح مفعل لكن أوصاف الشرائح فارغة.' });
@@ -2379,7 +2733,7 @@
     }
 
     function generate() {
-      const d = gatherData();
+      const d = prepareData(gatherData());
       promptOutput.textContent = buildPrompt(d);
       negativeOutput.textContent = buildNegativePrompt(d);
       buildReport(d);
@@ -2427,6 +2781,8 @@
       fields.qualityLevel.value = 'عالية جدًا';
       fields.outputMode.value = 'medium';
       fields.visualPromptMode.value = 'hybrid';
+      fields.designMode.value = 'designFromScratch';
+      fields.textHeavyInfographicMode.value = 'auto';
       fields.subject.value = '';
       fields.subjectArea.value = 'عام';
       fields.gradeLevel.value = '';
@@ -2434,6 +2790,7 @@
       fields.audienceType.value = 'طلاب المدرسة';
       fields.learningGoal.value = '';
       fields.sceneDesc.value = '';
+      fields.referenceText.value = '';
       fields.colors.value = '';
       fields.lighting.value = 'إضاءة ناعمة ومتوازنة';
       fields.cameraAngle.value = 'مباشرة وواضحة';
@@ -2475,7 +2832,7 @@
       fields.footerLayout.value = 'سطر واحد مفصول بشرطات عمودية';
       fields.footerText.value = '';
       fields.strictArabic.checked = true;
-      fields.keepTashkeel.checked = true;
+      fields.keepTashkeel.checked = false;
       fields.rtl.checked = true;
       fields.viewerPerspective.checked = true;
       fields.noMirror.checked = true;
@@ -2508,6 +2865,7 @@
       fields.lessonTitle.value = '';
       fields.learningGoal.value = '';
       fields.sceneDesc.value = '';
+      fields.referenceText.value = '';
       fields.extraElements.value = '';
       fields.arabicText.value = '';
       fields.secondaryText.value = '';
@@ -2579,10 +2937,11 @@
         fields.textImportance.value = 'أولوية قصوى جدًا';
         fields.layoutType.value = 'عنوان أعلى يمين مع مساحة قراءة واسعة';
       } else if (type === 'eduInfo') {
-        fields.imageType.value = 'بوستر';
+        fields.imageType.value = 'إنفوجرافيك عربي نصي';
         fields.purpose.value = 'تعليمي';
         fields.style.value = 'إنفوجرافيك عربي حديث ومرتب';
         fields.aspectRatio.value = 'A4 عمودي';
+        fields.textHeavyInfographicMode.value = 'auto';
         fields.backgroundStyle.value = 'تعليمية منظمة';
         fields.cameraAngle.value = 'مباشرة وواضحة';
         fields.textFormatting.value = 'عنوان علوي واضح، محتوى بصري متسلسل، أمثلة مرتبة أسفل التصميم';
@@ -2635,7 +2994,7 @@
         fields.backgroundStyle.value = 'فاخرة وهادئة';
         fields.layoutType.value = 'عنوان أعلى يمين مع مساحة قراءة واسعة';
       } else if (type === 'slides') {
-        fields.imageType.value = 'شرائح متعددة مستقلة';
+        fields.imageType.value = 'شرائح صور متعددة مستقلة';
         fields.purpose.value = 'تعليمي';
         fields.style.value = 'شرائح شرح عربية احترافية، نظيفة، موحدة الهوية، مناسبة للعرض أو الطباعة';
         fields.aspectRatio.value = 'A4 أفقي';
@@ -2656,7 +3015,7 @@
         fields.subject.value = 'شرح منصة أعذار غياب الطلاب';
         fields.arabicText.value = 'شرح منصة أعذار غياب الطلاب';
         fields.secondaryText.value = 'دليل مصور مختصر';
-        fields.sceneDesc.value = 'صمم شرائح متعددة، كل شريحة مستقلة، وتستخدم كل شريحة صورة من الصور المرفقة مع تعليقها النصي المخصص لها. اجعل الشرائح نظيفة وغير مزدحمة، مع عنوان واضح، صورة الواجهة في الوسط، تعليق عربي قصير، وأيقونات مناسبة للحضور والغياب والطلبات والصلاحيات.';
+    fields.sceneDesc.value = 'صمم شرائح صور متعددة، كل شريحة صورة نهائية مستقلة، وتستخدم كل شريحة صورة من الصور المرفقة مع تعليقها النصي المخصص لها. اجعل الشرائح نظيفة وغير مزدحمة، مع عنوان واضح، صورة الواجهة في الوسط، تعليق عربي قصير، وأيقونات مناسبة للحضور والغياب والطلبات والصلاحيات.';
         fields.extraElements.value = 'أيقونات حضور وغياب، طلبات، تقويم، جدول، مستخدمون، صلاحيات، ملفات إكسل، لوحة تحكم';
         fields.slideItems.value = [
           'الصورة1 ( واجهة برنامج أعذار الغياب )',
@@ -2677,7 +3036,7 @@
         fields.footerText.value = 'الموضوع: شرح منصة أعذار غياب الطلاب | تصميم وكيل المدرسة للشؤون التعليمية والمدرسية: أ. عبدالجبار بن سعد آل جناح الخالدي';
         fields.negativeNotes.value = 'لا تدمج الشرائح كلها في صورة واحدة مزدحمة، لا تغيّر ترتيب الصور، لا تفصل الصورة عن تعليقها، لا تقص واجهات البرنامج، لا تجعل الأرقام أو العناوين تبدأ من اليسار';
       } else if (type === 'slidesGenerate') {
-        fields.imageType.value = 'شرائح متعددة مستقلة';
+        fields.imageType.value = 'شرائح صور متعددة مستقلة';
         fields.purpose.value = 'تعليمي';
         fields.style.value = 'شرائح تعليمية عربية احترافية، صور مولدة مناسبة لكل فكرة، هوية موحدة ونظيفة';
         fields.aspectRatio.value = 'A4 أفقي';
@@ -2770,7 +3129,10 @@
     }
 
     function downloadAll() {
-      const text = `البرومبت الرئيسي:\n\n${promptOutput.textContent.trim()}\n\n==============================\n\nNegative Prompt:\n\n${negativeOutput.textContent.trim()}`;
+      const promptText = promptOutput.textContent.trim();
+      const note = encodingNote();
+      const encodingBlock = promptText.includes(note) ? '' : `\n\n==============================\n\n${note}`;
+      const text = `البرومبت الرئيسي:\n\n${promptText}\n\n==============================\n\nNegative Prompt:\n\n${negativeOutput.textContent.trim()}${encodingBlock}`;
       const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
       const a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
@@ -2781,7 +3143,7 @@
     }
 
     function exportJSON() {
-      const blob = new Blob([JSON.stringify(gatherData(), null, 2)], { type: 'application/json;charset=utf-8' });
+      const blob = new Blob([JSON.stringify(compactFinalJson(prepareData(gatherData())), null, 2)], { type: 'application/json;charset=utf-8' });
       const a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
       a.download = 'arabic-prompt-settings.json';
@@ -2795,6 +3157,7 @@
       reader.onload = () => {
         try {
           const d = JSON.parse(reader.result);
+          if (d.referenceMaterial && !d.referenceText) d.referenceText = d.referenceMaterial;
           for (const [key, value] of Object.entries(d)) {
             if (!fields[key]) continue;
             if (fields[key].type === 'checkbox') fields[key].checked = Boolean(value);
@@ -2814,7 +3177,7 @@
       Object.values(fields).forEach(el => {
         const evt = el.tagName === 'SELECT' || el.type === 'checkbox' ? 'change' : 'input';
         el.addEventListener(evt, () => {
-          const d = gatherData();
+          const d = prepareData(gatherData());
           buildReport(d);
           updateScore(computeScore(d));
           updateMeta(d);
@@ -2850,6 +3213,7 @@
     $('toEnglishDigitsBtn').addEventListener('click', () => {
       fields.arabicText.value = easternToEnglish(fields.arabicText.value);
       fields.secondaryText.value = easternToEnglish(fields.secondaryText.value);
+      fields.referenceText.value = easternToEnglish(fields.referenceText.value);
       fields.footerText.value = easternToEnglish(fields.footerText.value);
       fields.footerDate.value = easternToEnglish(fields.footerDate.value);
       fields.lessonTitle.value = easternToEnglish(fields.lessonTitle.value);
@@ -2861,6 +3225,7 @@
     $('toEasternDigitsBtn').addEventListener('click', () => {
       fields.arabicText.value = englishToEastern(fields.arabicText.value);
       fields.secondaryText.value = englishToEastern(fields.secondaryText.value);
+      fields.referenceText.value = englishToEastern(fields.referenceText.value);
       fields.footerText.value = englishToEastern(fields.footerText.value);
       fields.footerDate.value = englishToEastern(fields.footerDate.value);
       fields.lessonTitle.value = englishToEastern(fields.lessonTitle.value);
@@ -2872,6 +3237,7 @@
     $('normalizeSpacesBtn').addEventListener('click', () => {
       fields.arabicText.value = normalizeSpaces(fields.arabicText.value);
       fields.secondaryText.value = normalizeSpaces(fields.secondaryText.value);
+      fields.referenceText.value = normalizeSpaces(fields.referenceText.value);
       fields.footerText.value = normalizeSpaces(fields.footerText.value);
       statusText.textContent = 'تم تنظيف المسافات';
       generate();
