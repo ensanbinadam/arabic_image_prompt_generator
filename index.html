@@ -155,6 +155,72 @@
       gap: 8px;
     }
 
+    .directive-tools {
+      margin: 4px 0 6px;
+    }
+
+    .smart-workflow {
+      margin-bottom: 18px;
+      padding: 16px 18px;
+      border-radius: 18px;
+      border: 1.5px solid rgba(14,165,233,.18);
+      background: linear-gradient(135deg, rgba(14,165,233,.08), rgba(16,185,129,.06));
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .smart-workflow strong {
+      display: block;
+      color: var(--text-2);
+      font-size: .98rem;
+      margin-bottom: 4px;
+    }
+
+    .smart-workflow p {
+      margin: 0;
+      color: var(--text-muted);
+      font-size: .88rem;
+      line-height: 1.8;
+    }
+
+    .smart-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 13px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.88);
+      border: 1.5px solid rgba(108,61,232,.16);
+      color: var(--text-2);
+      font-size: .86rem;
+      font-weight: 800;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
+    .smart-toggle input {
+      width: auto;
+      accent-color: var(--primary);
+    }
+
+    .smart-band {
+      margin: 20px 0 12px;
+      padding: 10px 14px;
+      border-radius: 14px;
+      background: rgba(17,24,39,.045);
+      color: var(--text-2);
+      font-size: .9rem;
+      font-weight: 900;
+      border-inline-start: 4px solid var(--primary);
+    }
+
+    .smart-band.context { border-inline-start-color: var(--accent); }
+    .smart-band.final { border-inline-start-color: #f59e0b; }
+    .smart-hidden { display: none !important; }
+
     .badge {
       padding: 5px 12px;
       background: rgba(255,255,255,.18);
@@ -1039,6 +1105,19 @@
             </div>
           </div>
 
+          <div class="smart-workflow">
+            <div>
+              <strong>الواجهة الذكية الموجهة</strong>
+              <p id="smartModeText">ستظهر الحقول المناسبة تلقائيًا حسب نوع التصميم، مع بقاء كل القيم محفوظة.</p>
+            </div>
+            <label class="smart-toggle" for="smartShowAll">
+              <input type="checkbox" id="smartShowAll">
+              عرض كل الحقول المتقدمة
+            </label>
+          </div>
+
+          <div class="smart-band">١. الحقول العامة الثابتة</div>
+
           <div class="section">
             <div class="section-head">
               <div class="section-title"><h3>قوالب سريعة</h3><span class="section-tag required">ابدأ هنا</span></div>
@@ -1269,6 +1348,8 @@
             </div>
           </div>
 
+          <div class="smart-band context">٢. القسم المتغير حسب نوع التصميم</div>
+
           <div class="section">
             <div class="section-head">
               <div class="section-title"><h3>النص العربي داخل الصورة</h3><span class="section-tag required">مهم عند وجود نص</span></div>
@@ -1277,11 +1358,17 @@
             <div class="form-grid">
               <div class="full">
                 <label for="arabicText">النصوص النهائية التي يجب أن تظهر حرفيًا</label>
+                <div class="mini-tools directive-tools">
+                  <button type="button" class="mini directive-btn" data-directive-target="arabicText">إدراج [[إرشاد غير ظاهر]]</button>
+                </div>
                 <textarea id="arabicText" placeholder="اكتب هنا النص النهائي المطلوب ظهوره داخل التصميم حرفيًا: عنوان، جدول، بنود، إعلان، تذييل..."></textarea>
-                <span class="hint">هذه الحاوية للتصاميم العامة والإنفوجرافيك والبوستر والإعلان. سيعاملها المولد كنص ظاهر لا يجوز اختصاره أو إعادة صياغته.</span>
+                <span class="hint">هذه الحاوية للتصاميم العامة والإنفوجرافيك والبوستر والإعلان. ما بين [[ ]] إرشاد تنسيق لا يظهر داخل الصورة.</span>
               </div>
               <div class="full">
                 <label for="secondaryText">نص ثانوي اختياري</label>
+                <div class="mini-tools directive-tools">
+                  <button type="button" class="mini directive-btn" data-directive-target="secondaryText">إدراج [[إرشاد غير ظاهر]]</button>
+                </div>
                 <textarea id="secondaryText" class="short-area" placeholder="مثال: سطر فرعي، شرح قصير، عنوان جانبي..."></textarea>
               </div>
               <div class="full">
@@ -1410,6 +1497,9 @@
               </div>
               <div class="full">
                 <label for="slideItems">نصوص الصور أو الشرائح المرقمة</label>
+                <div class="mini-tools directive-tools">
+                  <button type="button" class="mini directive-btn" data-directive-target="slideItems">إدراج [[إرشاد غير ظاهر]]</button>
+                </div>
                 <textarea id="slideItems" class="short-area" placeholder="مثال:
 الصورة1 ( واجهة برنامج أعذار الغياب )
 الصورة2 ( صفحة الطالب تعبأ من ولي الأمر )
@@ -1418,6 +1508,9 @@
               </div>
               <div class="full">
                 <label for="slideGeneratedItems">أوصاف الشرائح عند توليد الصور</label>
+                <div class="mini-tools directive-tools">
+                  <button type="button" class="mini directive-btn" data-directive-target="slideGeneratedItems">إدراج [[إرشاد غير ظاهر]]</button>
+                </div>
                 <textarea id="slideGeneratedItems" class="short-area" placeholder="مثال:
 الشريحة1: العنوان: مفهوم التعاون | الصورة: طلاب يعملون معًا داخل فصل دراسي | النص: التعاون طريق النجاح.
 الشريحة2: العنوان: فوائد التعاون | الصورة: مجموعة طلاب ينجزون مشروعًا | النص: نتعلم أسرع عندما نتعاون."></textarea>
@@ -1498,11 +1591,17 @@
               </div>
               <div class="full">
                 <label for="storyCharacters">وصف الشخصيات الثابتة</label>
+                <div class="mini-tools directive-tools">
+                  <button type="button" class="mini directive-btn" data-directive-target="storyCharacters">إدراج [[إرشاد غير ظاهر]]</button>
+                </div>
                 <textarea id="storyCharacters" class="short-area" placeholder="مثال: سالم طفل عربي عمره ٩ سنوات، شعره أسود قصير، يرتدي ثوبًا أبيض وحقيبة زرقاء. نورة طفلة عمرها ٨ سنوات، شعرها بني، ترتدي فستانًا ورديًا."></textarea>
                 <span class="hint">كلما كان وصف الشخصيات أوضح، زادت فرصة ثباتها عبر الصفحات.</span>
               </div>
               <div class="full">
                 <label for="storyPages">وصف غلاف وصفحات القصة</label>
+                <div class="mini-tools directive-tools">
+                  <button type="button" class="mini directive-btn" data-directive-target="storyPages">إدراج [[إرشاد غير ظاهر]]</button>
+                </div>
                 <textarea id="storyPages" class="short-area" placeholder="مثال:
 الصفحة1: سالم يستيقظ مبكرًا ويستعد للمدرسة. النص: اليوم يوم جميل للتعلم.
 الصفحة2: سالم يلتقي نورة أمام المدرسة. النص: التعاون يجعل يومنا أسهل.
@@ -1511,6 +1610,8 @@
               </div>
             </div>
           </div>
+
+          <div class="smart-band final">٣. الإعدادات النهائية الثابتة</div>
 
           <div class="section section-edu">
             <div class="section-head">
@@ -1962,12 +2063,60 @@
 
     function primaryArabicText(d) {
       const text = clean(d._arabicText ?? d.arabicText ?? '');
-      if (!text || text === 'ضع النص هنا' || text === 'ضع النص العربي هنا') return '';
-      return text;
+      const visibleText = stripInlineGuidance(text);
+      if (!visibleText || visibleText === 'ضع النص هنا' || visibleText === 'ضع النص العربي هنا') return '';
+      return visibleText;
     }
 
     function secondaryArabicText(d) {
-      return clean(d._secondaryText ?? d.secondaryText ?? '');
+      return stripInlineGuidance(d._secondaryText ?? d.secondaryText ?? '');
+    }
+
+    function splitInlineGuidance(text) {
+      const directives = [];
+      const visible = normalizeSpaces(String(text || '').replace(/\[\[([\s\S]*?)\]\]/g, (_, inner) => {
+        const directive = normalizeSpaces(inner || '');
+        if (directive) directives.push(directive);
+        return ' ';
+      }));
+      return { visible, directives };
+    }
+
+    function stripInlineGuidance(text) {
+      return splitInlineGuidance(text).visible;
+    }
+
+    function inlineGuidanceLines(d) {
+      const sources = [
+        ['النص الحرفي الظاهر', d._arabicText ?? d.arabicText],
+        ['النص الثانوي', d._secondaryText ?? d.secondaryText],
+        ['نصوص الصور أو الشرائح', d._slideItems ?? d.slideItems],
+        ['أوصاف الشرائح عند توليد الصور', d._slideGeneratedItems ?? d.slideGeneratedItems],
+        ['وصف شخصيات القصة', d._storyCharacters ?? d.storyCharacters],
+        ['وصف غلاف وصفحات القصة', d._storyPages ?? d.storyPages]
+      ];
+      const seen = new Set();
+      const lines = [];
+      sources.forEach(([label, value]) => {
+        splitInlineGuidance(value).directives.forEach(directive => {
+          const key = normalizeForCompare(label + directive);
+          if (seen.has(key)) return;
+          seen.add(key);
+          lines.push(`- ${label}: ${directive}.`);
+        });
+      });
+      return lines;
+    }
+
+    function inlineGuidanceInstruction(d) {
+      const lines = inlineGuidanceLines(d);
+      if (!lines.length) return '';
+      return [
+        'إرشادات تنسيق داخلية غير ظاهرة مستخرجة من العلامة [[...]]:',
+        '- لا تعرض الأقواس المعكوفة المزدوجة ولا النص الموجود داخلها في الصورة.',
+        '- استخدم هذه الإرشادات فقط لتحديد موضع النص أو رتبته أو أسلوبه البصري.',
+        ...lines
+      ].join('\n');
     }
 
     function normalizeForCompare(text) {
@@ -2053,7 +2202,7 @@
     }
 
     function normalizedSlideItems(d) {
-      const raw = normalizeSpaces(d._slideItems ?? d.slideItems ?? '');
+      const raw = stripInlineGuidance(d._slideItems ?? d.slideItems ?? '');
       if (!raw) return '';
       return raw
         .split('\n')
@@ -2063,7 +2212,7 @@
     }
 
     function normalizedGeneratedSlideItems(d) {
-      const raw = normalizeSpaces(d._slideGeneratedItems ?? d.slideGeneratedItems ?? '');
+      const raw = stripInlineGuidance(d._slideGeneratedItems ?? d.slideGeneratedItems ?? '');
       if (!raw) return '';
       return raw
         .split('\n')
@@ -2073,7 +2222,7 @@
     }
 
     function normalizedStoryPages(d) {
-      const raw = normalizeSpaces(d._storyPages ?? d.storyPages ?? '');
+      const raw = stripInlineGuidance(d._storyPages ?? d.storyPages ?? '');
       if (!raw) return '';
       return raw
         .split('\n')
@@ -2083,7 +2232,7 @@
     }
 
     function normalizedStoryCharacters(d) {
-      const raw = normalizeSpaces(d._storyCharacters ?? d.storyCharacters ?? '');
+      const raw = stripInlineGuidance(d._storyCharacters ?? d.storyCharacters ?? '');
       if (!raw) return '';
       const seen = new Set();
       return raw
@@ -2244,8 +2393,8 @@
       const layout = d.layoutType || 'تخطيط عربي مرن حسب المحتوى';
       let detail = 'اجعل الترتيب العام والمحاذاة واتجاه القراءة متوافقة مع العربية من اليمين إلى اليسار.';
       if (layout.includes('عنوان أعلى يمين')) detail = 'ضع العنوان في أعلى يمين الصورة، واجعل بقية العناصر تدعم مسار قراءة عربي واضح من اليمين إلى اليسار.';
-      else if (layout.includes('بطاقات تعليمية')) detail = 'رتّب البطاقات التعليمية من اليمين إلى اليسار، واجعل البطاقة الأولى في أقصى اليمين ثم تتدرج البطاقات نحو اليسار. إذا كان التخطيط بعمودين حول عنصر مركزي، فضع البطاقات ١، ٢، ٣ في العمود الأيمن من أعلى إلى أسفل، والبطاقات ٤، ٥، ٦ في العمود الأيسر من أعلى إلى أسفل من منظور المشاهد.';
-      else if (layout.includes('إنفوجرافيك خطوات')) detail = 'اجعل الخطوة الأولى في أقصى اليمين، ثم تتتابع الخطوات والأسهم نحو اليسار مع أرقام واضحة تبدأ من اليمين. إذا استخدمت بطاقات على جانبي عنصر مركزي، فضع ١، ٢، ٣ في العمود الأيمن من أعلى إلى أسفل، و٤، ٥، ٦ في العمود الأيسر من أعلى إلى أسفل من منظور المشاهد.';
+      else if (layout.includes('بطاقات تعليمية')) detail = 'استخدم نظامًا شبكيًا RTL للبطاقات يبدأ من أعلى اليمين. إذا كان التخطيط صفوفًا، املأ الصف الأول من اليمين إلى اليسار ثم انزل للصف التالي. وإذا كان التخطيط أعمدة، املأ العمود الأيمن من أعلى إلى أسفل ثم انتقل للعمود التالي يسارًا. استمر بنفس المنطق مهما كان عدد البطاقات.';
+      else if (layout.includes('إنفوجرافيك خطوات')) detail = 'استخدم نظام خطوات RTL يبدأ من أعلى اليمين أو أقصى اليمين، ثم يتتابع نحو اليسار. عند وجود بطاقات أو أعمدة، رتّبها بنظام شبكي عربي: الصفوف من اليمين إلى اليسار أو الأعمدة من اليمين إلى اليسار، مع أسهم وأرقام واضحة.';
       else if (layout.includes('جدول عربي')) detail = 'رتّب أعمدة الجدول من اليمين بهذا الترتيب: رقم، عنصر التقويم، الوزن النسبي، شواهد مناسبة. اجعل الخلايا مرنة الارتفاع، ولفّ النص داخل كل خلية على سطرين أو أكثر عند الحاجة مع الحفاظ على كل الكلمات كما هي دون حذف أو اختصار.';
       else if (layout.includes('مخطط تعليمي')) detail = 'اجعل المخطط والتسميات والأسهم تعمل بمنطق عربي من اليمين إلى اليسار، مع فصل بصري واضح بين الأجزاء.';
       else if (layout.includes('تصميم إعلاني')) detail = 'اجعل العنوان أو العرض الرئيسي بارزًا في الجهة اليمنى أو أعلى اليمين، مع توازن واضح بين النص والمنتج أو العنصر البصري.';
@@ -2267,6 +2416,14 @@
       return `موضع النص الأساسي: ${d.textPosition}.`;
     }
 
+    function visualHierarchyInstruction() {
+      return 'التسلسل الهرمي البصري: اجعل العنوان أكبر عنصر نصي، وعناوين الأقسام متوسطة وواضحة، والنصوص الداخلية أصغر مع تباعد مريح. استخدم إبرازًا بصريًا للقواعد والجداول دون ازدحام.';
+    }
+
+    function printQualityInstruction() {
+      return 'جودة الإخراج: اجعل التصميم عالي الدقة ومناسبًا للطباعة والعرض الرقمي، بحواف حادة ونص عربي واضح غير ضبابي، وتجنب البكسلة أو الضغط البصري أو ضعف تفاصيل الجداول والأيقونات عند التكبير.';
+    }
+
     function rtlCardSpatialInstruction(d) {
       if (isSlideMode(d) || isStoryMode(d)) return '';
       const layoutCheck = [d.layoutType, d.imageType].join(' ');
@@ -2277,7 +2434,7 @@
       const likelyCards = /بطاقات|محاور|خطوات|إنفوجرافيك|انفوجرافيك/.test([layoutCheck, combined].join(' '));
       const hasNumberedItems = /(?:^|\n)\s*(?:[1-9]|[١-٩])[\.\- ـ:]/.test(combined);
       if (!likelyCards && !hasNumberedItems) return '';
-      return 'التخطيط المكاني للبطاقات من منظور المشاهد: لأن التصميم عربي RTL، يبدأ تسلسل البطاقات من العمود الأيمن ثم ينتقل إلى الأعمدة التي تليه يسارًا، مهما كان عدد البطاقات. رتّب البطاقات داخل كل عمود من أعلى إلى أسفل، ورتّب الأعمدة نفسها من اليمين إلى اليسار بالتتالي وفق التنسيق العربي. إذا كانت البطاقات ٦ مثلًا، فضع ١، ٢، ٣ في العمود الأيمن من أعلى إلى أسفل، ثم ٤، ٥، ٦ في العمود الأيسر من أعلى إلى أسفل. إذا زاد العدد عن ٦، فاستمر بنفس المنطق: املأ العمود الأيمن أولًا من أعلى إلى أسفل، ثم العمود التالي يسارًا، وهكذا. لا تبدأ من اليسار ولا تبدّل ترتيب الأرقام. عند ضيق النص داخل البطاقة، صغّر حجم الخط قليلًا أو زد ارتفاع البطاقة بدل اختصار النص أو حذفه.';
+      return 'التخطيط المكاني للبطاقات من منظور المشاهد: استخدم نظامًا شبكيًا RTL يبدأ من أعلى اليمين. إذا كان التخطيط صفوفًا، املأ الصف الأول من اليمين إلى اليسار ثم انزل للصف التالي. وإذا كان التخطيط أعمدة، املأ العمود الأيمن من أعلى إلى أسفل ثم انتقل للعمود التالي يسارًا. استمر بنفس المنطق مهما كان عدد البطاقات، ولا تبدأ من اليسار ولا تبدّل ترتيب الأرقام. عند ضيق النص داخل البطاقة، صغّر حجم الخط قليلًا أو زد ارتفاع البطاقة بدل اختصار النص أو حذفه.';
     }
 
     function infographicContentInstruction(d) {
@@ -2294,7 +2451,7 @@
         visibleText
           ? '- استخدم النصوص النهائية التالية داخل التصميم حرفيًا كما هي، ولا تضف عليها ولا تختصرها ولا تعيد صياغتها:'
           : '- اعرض عناصر الجدول أو البطاقات من النص المرجعي مع نسخ أسماء العناصر والشواهد المختارة كما هي حرفيًا دون اختصار الكلمات أو إعادة صياغتها.',
-      '- لا تختصر عبارة مثل "لقاءات أولياء الأمور" إلى "لقاءات"، ولا تغيّر ترتيب الحروف أو تستبدل كلمة عربية بكلمة قريبة.',
+        '- لا تختصر أي عبارة ظاهرة إلى كلمة واحدة، ولا تغيّر ترتيب الحروف أو تستبدل كلمة عربية بكلمة قريبة.',
         '- عند طول النص داخل خلية الجدول، لفّ العبارة نفسها داخل الخلية على سطرين أو ثلاثة أو أكثر مع الحفاظ على كل الكلمات كما هي، ولا تختصرها ولا تحذف أي كلمة.',
         '- استخدم حجم خط متوازنًا ومسافات داخلية مناسبة وارتفاع صفوف مرنًا حتى يتسع الجدول داخل صفحة واحدة دون فقد النص.',
         '- وزّع المحتوى على جدول عربي منظم أو بطاقات مضغوطة داخل الصفحة نفسها، ولا تجعل التصميم صفحتين منفصلتين.',
@@ -2405,6 +2562,25 @@
       return text;
     }
 
+    function insertInlineGuidance(targetId) {
+      const el = fields[targetId] || $(targetId);
+      if (!el) return;
+      const token = '[[إرشاد غير ظاهر: ]]';
+      const current = el.value || '';
+      const start = typeof el.selectionStart === 'number' ? el.selectionStart : current.length;
+      const end = typeof el.selectionEnd === 'number' ? el.selectionEnd : start;
+      const prefix = start > 0 && current[start - 1] !== '\n' ? '\n' : '';
+      const insert = prefix + token;
+      el.value = current.slice(0, start) + insert + current.slice(end);
+      const cursor = start + insert.length - 2;
+      el.focus();
+      if (typeof el.setSelectionRange === 'function') el.setSelectionRange(cursor, cursor);
+      const d = prepareData(gatherData());
+      buildReport(d);
+      updateMeta(d);
+      statusText.textContent = 'تم إدراج إرشاد غير ظاهر بين [[ ]]';
+    }
+
     function gatherData() {
       const data = {};
       for (const [key, el] of Object.entries(fields)) {
@@ -2439,6 +2615,8 @@
       if (d.strictArabic) lines.push('- أولوية قصوى جدًا لصحة اللغة العربية وقابليتها للقراءة فوق أي زخرفة أو تأثير جمالي.');
       if (d.highReadability) lines.push('- اجعل النص واضحًا جدًا ومقروءًا من النظرة الأولى مع تباين كافٍ ومسافات مريحة.');
       lines.push(`- ${arabicLayoutInstruction(d)}`);
+      lines.push(`- ${visualHierarchyInstruction()}`);
+      lines.push(`- ${printQualityInstruction()}`);
       if (d.rtl) lines.push(`- ${rtlLayoutInstruction()}`);
       const slideInstruction = slideGenerationInstruction(d);
       if (slideInstruction) {
@@ -2464,6 +2642,13 @@
         if (secondaryText) {
           lines.push('- أضف النص الثانوي التالي حرفيًا كما هو، بحجم أصغر وتنسيق متناسق مع النص الأساسي:');
           lines.push(`"${secondaryText}"`);
+        }
+      }
+      {
+        const guidance = inlineGuidanceInstruction(d);
+        if (guidance) {
+          lines.push('');
+          lines.push(guidance);
         }
       }
       if (d.rtl) lines.push('- طبّق قاعدة RTL السابقة على كل كتلة نصية داخل الصورة، ولا تسمح لأي عنوان أو تسمية أو شرح أو رقم بأن يبدأ من اليسار.');
@@ -2553,10 +2738,16 @@
       }
       if (d.rtl) lines.push(rtlLayoutInstruction());
       lines.push(arabicLayoutInstruction(d));
+      lines.push(visualHierarchyInstruction());
+      lines.push(printQualityInstruction());
       const slideInstruction = slideGenerationInstruction(d);
       if (slideInstruction) lines.push(slideInstruction);
       const storyInstruction = storyGenerationInstruction(d);
       if (storyInstruction) lines.push(storyInstruction);
+      {
+        const guidance = inlineGuidanceInstruction(d);
+        if (guidance) lines.push(guidance);
+      }
       lines.push(tashkeelInstruction(d));
       lines.push(`نوع الخط: ${d.fontStyle}. ${titlePlacementInstruction(d)}`);
       if (d.textFormatting) lines.push(`تنسيق النص: ${d.textFormatting}.`);
@@ -2600,10 +2791,16 @@
       }
       if (d.rtl) parts.push(rtlLayoutInstruction());
       parts.push(arabicLayoutInstruction(d));
+      parts.push(visualHierarchyInstruction());
+      parts.push(printQualityInstruction());
       const slideInstruction = slideGenerationInstruction(d);
       if (slideInstruction) parts.push(slideInstruction);
       const storyInstruction = storyGenerationInstruction(d);
       if (storyInstruction) parts.push(storyInstruction);
+      {
+        const guidance = inlineGuidanceInstruction(d);
+        if (guidance) parts.push(guidance);
+      }
       parts.push(tashkeelInstruction(d));
       parts.push(`${titlePlacementInstruction(d)} نوع الخط: ${d.fontStyle}.`);
       if (d.textFormatting) parts.push(`تنسيق النص: ${d.textFormatting}.`);
@@ -2647,13 +2844,18 @@
         'low readability',
         'cropped text',
         'distorted typography',
+        'low resolution',
+        'pixelated image',
+        'compression artifacts',
+        'poor print quality',
+        'blurry edges',
         'messy layout',
         'visual clutter',
         'duplicate elements',
         'watermarks'
       ];
       if (d.textHeavyActive || (d.layoutType || '').includes('جدول عربي')) {
-        parts.push('left-to-right table order', 'first table column on the left', 'wrong RTL card order', 'card 1 placed on the left', 'cards 1 2 3 in left column', 'cards 4 5 6 in right column', 'crowded Arabic table', 'overlapping table text', 'splitting one infographic into multiple pages', 'part 1 part 2 labels', 'unnecessary page split');
+        parts.push('left-to-right table order', 'first table column on the left', 'wrong RTL card order', 'RTL grid starts from left', 'card sequence starts from left', 'cards ordered left-to-right', 'crowded Arabic table', 'overlapping table text', 'splitting one infographic into multiple pages', 'part 1 part 2 labels', 'unnecessary page split');
       }
       if (isSlideMode(d)) {
         parts.push('merged slides into one crowded image', 'missing slide', 'wrong slide order', 'wrong image-caption pairing', 'missing generated slide illustration', 'generated slide does not match description', 'using attached screenshot when generated illustration was requested', 'inconsistent slide style', 'A4 slide cropped');
@@ -2700,7 +2902,9 @@
         textHeavyInfographicMode: d.textHeavyActive ? 'on' : '',
         sceneDesc: d.textHeavyActive ? '' : d.sceneDesc,
         referenceMaterial: referenceContent(d) || d._referenceText || d.referenceText,
-        visibleTextPlan: d.textHeavyActive ? 'اعرض العنوان الموحد، عناصر التقويم، الوزن النسبي، والشواهد المختارة بنصها الأصلي دون اختصار داخل العبارة أو إعادة صياغة. اجمع الإنفوجرافيك في صفحة واحدة فقط، ولفّ النص داخل الخلايا على عدة أسطر عند الحاجة بدل تقسيم التصميم.' : '',
+        visibleTextPlan: d.textHeavyActive ? `اعرض النصوص النهائية الخاصة بعنوان "${d.title || d.subject || 'التصميم'}" داخل التصميم فقط، واستفد من النص المرجعي للتنظيم والمعنى دون عرضه كاملًا. حافظ على النصوص الأصلية دون اختصار، واجمع الإنفوجرافيك في صفحة واحدة مع لفّ العبارات داخل الخلايا أو البطاقات عند الحاجة.` : '',
+        visualHierarchy: visualHierarchyInstruction(),
+        outputQuality: printQualityInstruction(),
         colors: d.colors,
         lighting: d.lighting,
         cameraAngle: d.cameraAngle,
@@ -2710,6 +2914,7 @@
         arabicText: primaryArabicText(d),
         visibleDesignText: d.textHeavyActive ? visibleDesignText(d) : '',
         secondaryText: secondaryArabicText(d),
+        inlineGuidance: inlineGuidanceLines(d).join('\n'),
         textPosition: d.textPosition,
         fontStyle: d.fontStyle,
         numberStyle: d.numberStyle,
@@ -2818,6 +3023,7 @@
       });
 
       if (d.secondaryText) notes.push({ type: 'good', text: 'وجود نص ثانوي يعطيك مرونة أكبر في البوسترات والعناوين الفرعية.' });
+      if (inlineGuidanceLines(d).length) notes.push({ type: 'good', text: 'تم العثور على إرشادات داخلية بين [[ ]]، وسيستخدمها المولد كتوجيهات تنسيق غير ظاهرة.' });
       if (d.visualPromptMode === 'hybrid') notes.push({ type: 'good', text: 'الوضع المختلط الاحترافي مفعل: إنجليزي للتصميم وعربي للنصوص، وهذا مناسب جدًا لمعظم مولدات الصور.' });
       else if (d.visualPromptMode === 'englishVisual') notes.push({ type: 'good', text: 'الوصف البصري الإنجليزي مفعل مع قواعد عربية، وهذا يساعد النموذج على فهم التصميم.' });
       else notes.push({ type: 'note', text: 'الوصف عربي كامل؛ إن احتجت نتائج تصميم أقوى جرّب الوضع المختلط الاحترافي.' });
@@ -2919,6 +3125,58 @@
       updateFooterPreview(d);
     }
 
+    function sectionForField(fieldId) {
+      const el = fields[fieldId];
+      return el && typeof el.closest === 'function' ? el.closest('.section') : null;
+    }
+
+    function smartContextName(d) {
+      if (isStoryMode(d)) return 'story';
+      if (isSlideMode(d)) return 'slides';
+      if ((d.imageType || '').includes('إنفوجرافيك') || d.textHeavyActive) return 'infographic';
+      return 'general';
+    }
+
+    function smartContextLabel(context) {
+      if (context === 'story') return 'القصة المصورة';
+      if (context === 'slides') return 'شرائح الصور';
+      if (context === 'infographic') return 'الإنفوجرافيك النصي';
+      return 'التصميم العام';
+    }
+
+    function setSmartVisibility(section, visible) {
+      if (!section) return;
+      section.classList.toggle('smart-hidden', !visible);
+    }
+
+    function updateSmartSections(d = prepareData(gatherData())) {
+      const showAll = $('smartShowAll') && $('smartShowAll').checked;
+      const context = smartContextName(d);
+      const textSection = sectionForField('arabicText');
+      const slidesSection = sectionForField('slideMode');
+      const storySection = sectionForField('storyMode');
+
+      if (showAll) {
+        [textSection, slidesSection, storySection].forEach(section => setSmartVisibility(section, true));
+        if ($('smartModeText')) $('smartModeText').textContent = 'كل الحقول ظاهرة الآن للمراجعة المتقدمة، ولن تُحذف أو تُصفّر أي قيمة.';
+        return;
+      }
+
+      setSmartVisibility(textSection, context === 'general' || context === 'infographic');
+      setSmartVisibility(slidesSection, context === 'slides');
+      setSmartVisibility(storySection, context === 'story');
+
+      if ($('smartModeText')) {
+        $('smartModeText').textContent = `الوضع الحالي: ${smartContextLabel(context)}. تظهر الحقول المناسبة فقط، والقيم المخفية محفوظة كما هي.`;
+      }
+    }
+
+    function setupSmartSections() {
+      const toggle = $('smartShowAll');
+      if (toggle) toggle.addEventListener('change', () => updateSmartSections());
+      updateSmartSections();
+    }
+
     function generate() {
       const d = prepareData(gatherData());
       promptOutput.textContent = buildPrompt(d);
@@ -2926,6 +3184,7 @@
       buildReport(d);
       updateScore(computeScore(d));
       updateMeta(d);
+      updateSmartSections(d);
       statusText.textContent = 'تم توليد البرومبت بنجاح';
       if (d.autosave) saveState(true);
     }
@@ -3035,6 +3294,8 @@
       fields.autosave.checked = true;
       fields.negativeNotes.value = '';
       fields.specialInstructions.value = '';
+      const importFile = $('importFile');
+      if (importFile) importFile.value = '';
       promptOutput.textContent = 'اضغط «توليد البرومبت» بعد تعبئة الحقول.';
       negativeOutput.textContent = 'سيظهر هنا تلقائيًا إذا كان الخيار مفعّلًا.';
       reportBox.textContent = 'ابدأ بالكتابة وسأراجع بناء البرومبت هنا.';
@@ -3344,20 +3605,32 @@
       statusText.textContent = 'تم تصدير الإعدادات';
     }
 
+    function normalizeImportedSettings(d) {
+      const out = { ...(d || {}) };
+      if (out.referenceMaterial && !out.referenceText) out.referenceText = out.referenceMaterial;
+      if (out.title && !out.subject) out.subject = out.title;
+      if (out.visibleDesignText && !out.arabicText) out.arabicText = out.visibleDesignText;
+      return out;
+    }
+
+    function importedCheckboxValue(value) {
+      return value === true || value === 1 || value === 'true' || value === 'yes' || value === 'on';
+    }
+
     function importJSONFile(file) {
       const reader = new FileReader();
       reader.onload = () => {
         try {
-          const d = JSON.parse(reader.result);
-          if (d.referenceMaterial && !d.referenceText) d.referenceText = d.referenceMaterial;
+          const d = normalizeImportedSettings(JSON.parse(reader.result));
+          clearFields();
           for (const [key, value] of Object.entries(d)) {
             if (!fields[key]) continue;
-            if (fields[key].type === 'checkbox') fields[key].checked = Boolean(value);
+            if (fields[key].type === 'checkbox') fields[key].checked = importedCheckboxValue(value);
             else fields[key].value = value;
           }
           fields.rtl.checked = true;
           generate();
-          statusText.textContent = 'تم استيراد الإعدادات';
+          statusText.textContent = 'تم استيراد الإعدادات واستبدال المشروع الحالي';
         } catch {
           statusText.textContent = 'ملف JSON غير صالح';
         }
@@ -3373,6 +3646,7 @@
           buildReport(d);
           updateScore(computeScore(d));
           updateMeta(d);
+          updateSmartSections(d);
           if (d.autosave) saveState(true);
         });
       });
@@ -3486,6 +3760,11 @@
       btn.addEventListener('click', () => applyPreset(btn.dataset.preset));
     });
 
+    document.querySelectorAll('.directive-btn').forEach(btn => {
+      btn.addEventListener('click', () => insertInlineGuidance(btn.dataset.directiveTarget));
+    });
+
+    setupSmartSections();
     attachAutosave();
     if (!loadState()) clearFields();
     buildReport(gatherData());
