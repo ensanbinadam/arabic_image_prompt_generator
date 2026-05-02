@@ -1359,14 +1359,18 @@
                 <label for="arabicText">النصوص النهائية التي يجب أن تظهر حرفيًا</label>
                 <div class="mini-tools directive-tools">
                   <button type="button" class="mini directive-btn" data-directive-target="arabicText">إدراج [[إرشاد غير ظاهر]]</button>
+                  <button type="button" class="mini slash-directive-btn" data-slash-directive-target="arabicText">إدراج //إرشاد//</button>
+                  <button type="button" class="mini directive-close-btn" data-directive-close-target="arabicText">إدراج [[/]]</button>
                 </div>
                 <textarea id="arabicText" placeholder="اكتب هنا النص النهائي المطلوب ظهوره داخل التصميم حرفيًا: عنوان، جدول، بنود، إعلان، تذييل..."></textarea>
-                <span class="hint">هذه الحاوية للتصاميم العامة والإنفوجرافيك والبوستر والإعلان. ما بين [[ ]] إرشاد تنسيق لا يظهر داخل الصورة.</span>
+                <span class="hint">هذه الحاوية للتصاميم العامة والإنفوجرافيك والبوستر والإعلان. ما بين [[ ]] أو // // إرشاد تنسيق لا يظهر داخل الصورة. استخدم [[/]] لإنهاء إرشاد ممتد.</span>
               </div>
               <div class="full">
                 <label for="secondaryText">نص ثانوي اختياري</label>
                 <div class="mini-tools directive-tools">
                   <button type="button" class="mini directive-btn" data-directive-target="secondaryText">إدراج [[إرشاد غير ظاهر]]</button>
+                  <button type="button" class="mini slash-directive-btn" data-slash-directive-target="secondaryText">إدراج //إرشاد//</button>
+                  <button type="button" class="mini directive-close-btn" data-directive-close-target="secondaryText">إدراج [[/]]</button>
                 </div>
                 <textarea id="secondaryText" class="short-area" placeholder="مثال: سطر فرعي، شرح قصير، عنوان جانبي..."></textarea>
               </div>
@@ -1498,6 +1502,8 @@
                 <label for="slideItems">نصوص الصور أو الشرائح المرقمة</label>
                 <div class="mini-tools directive-tools">
                   <button type="button" class="mini directive-btn" data-directive-target="slideItems">إدراج [[إرشاد غير ظاهر]]</button>
+                  <button type="button" class="mini slash-directive-btn" data-slash-directive-target="slideItems">إدراج //إرشاد//</button>
+                  <button type="button" class="mini directive-close-btn" data-directive-close-target="slideItems">إدراج [[/]]</button>
                 </div>
                 <textarea id="slideItems" class="short-area" placeholder="مثال:
 الصورة1 ( واجهة برنامج أعذار الغياب )
@@ -1509,6 +1515,8 @@
                 <label for="slideGeneratedItems">أوصاف الشرائح عند توليد الصور</label>
                 <div class="mini-tools directive-tools">
                   <button type="button" class="mini directive-btn" data-directive-target="slideGeneratedItems">إدراج [[إرشاد غير ظاهر]]</button>
+                  <button type="button" class="mini slash-directive-btn" data-slash-directive-target="slideGeneratedItems">إدراج //إرشاد//</button>
+                  <button type="button" class="mini directive-close-btn" data-directive-close-target="slideGeneratedItems">إدراج [[/]]</button>
                 </div>
                 <textarea id="slideGeneratedItems" class="short-area" placeholder="مثال:
 الشريحة1: العنوان: مفهوم التعاون | الصورة: طلاب يعملون معًا داخل فصل دراسي | النص: التعاون طريق النجاح.
@@ -1592,6 +1600,8 @@
                 <label for="storyCharacters">وصف الشخصيات الثابتة</label>
                 <div class="mini-tools directive-tools">
                   <button type="button" class="mini directive-btn" data-directive-target="storyCharacters">إدراج [[إرشاد غير ظاهر]]</button>
+                  <button type="button" class="mini slash-directive-btn" data-slash-directive-target="storyCharacters">إدراج //إرشاد//</button>
+                  <button type="button" class="mini directive-close-btn" data-directive-close-target="storyCharacters">إدراج [[/]]</button>
                 </div>
                 <textarea id="storyCharacters" class="short-area" placeholder="مثال: سالم طفل عربي عمره ٩ سنوات، شعره أسود قصير، يرتدي ثوبًا أبيض وحقيبة زرقاء. نورة طفلة عمرها ٨ سنوات، شعرها بني، ترتدي فستانًا ورديًا."></textarea>
                 <span class="hint">كلما كان وصف الشخصيات أوضح، زادت فرصة ثباتها عبر الصفحات.</span>
@@ -1600,6 +1610,8 @@
                 <label for="storyPages">وصف غلاف وصفحات القصة</label>
                 <div class="mini-tools directive-tools">
                   <button type="button" class="mini directive-btn" data-directive-target="storyPages">إدراج [[إرشاد غير ظاهر]]</button>
+                  <button type="button" class="mini slash-directive-btn" data-slash-directive-target="storyPages">إدراج //إرشاد//</button>
+                  <button type="button" class="mini directive-close-btn" data-directive-close-target="storyPages">إدراج [[/]]</button>
                 </div>
                 <textarea id="storyPages" class="short-area" placeholder="مثال:
 الصفحة1: سالم يستيقظ مبكرًا ويستعد للمدرسة. النص: اليوم يوم جميل للتعلم.
@@ -2071,11 +2083,35 @@
       return stripInlineGuidance(d._secondaryText ?? d.secondaryText ?? '');
     }
 
+    function scopedGuidanceExcerpt(text) {
+      const visible = normalizeSpaces(String(text || '')
+        .replace(/\[\[([\s\S]*?)\]\]/g, ' ')
+        .replace(/\/\/([\s\S]*?)\/\//g, ' '));
+      if (!visible) return '';
+      return visible.length > 180 ? visible.slice(0, 180).trim() + '...' : visible;
+    }
+
     function splitInlineGuidance(text) {
       const directives = [];
-      const visible = normalizeSpaces(String(text || '').replace(/\[\[([\s\S]*?)\]\]/g, (_, inner) => {
+      let source = String(text || '');
+      source = source.replace(/\[\[(?!\/\]\])([\s\S]*?)\]\]([\s\S]*?)\[\[\/\]\]/g, (_, inner, scopedText) => {
+        const directive = normalizeSpaces(inner || '');
+        const excerpt = scopedGuidanceExcerpt(scopedText);
+        if (directive) {
+          directives.push(excerpt
+            ? `${directive} — يطبّق على النص التالي حتى وسم [[/]]: "${excerpt}"`
+            : `${directive} — يطبّق على النص التالي حتى وسم [[/]]`);
+        }
+        return scopedText;
+      });
+      source = source.replace(/\/\/([\s\S]*?)\/\//g, (_, inner) => {
         const directive = normalizeSpaces(inner || '');
         if (directive) directives.push(directive);
+        return ' ';
+      });
+      const visible = normalizeSpaces(source.replace(/\[\[([\s\S]*?)\]\]/g, (_, inner) => {
+        const directive = normalizeSpaces(inner || '');
+        if (directive && directive !== '/') directives.push(directive);
         return ' ';
       }));
       return { visible, directives };
@@ -2111,8 +2147,9 @@
       const lines = inlineGuidanceLines(d);
       if (!lines.length) return '';
       return [
-        'إرشادات تنسيق داخلية غير ظاهرة مستخرجة من العلامة [[...]]:',
-        '- لا تعرض الأقواس المعكوفة المزدوجة ولا النص الموجود داخلها في الصورة.',
+        'إرشادات تنسيق داخلية غير ظاهرة مستخرجة من العلامة [[...]] أو //...// ووسم الإغلاق [[/]]:',
+        '- لا تعرض الأقواس المعكوفة المزدوجة ولا الشرطتين المائلتين ولا النص الموجود داخلها ولا وسم [[/]] في الصورة.',
+        '- عند وجود [[/]]، طبّق الإرشاد على النص الواقع بين وسم الإرشاد ووسم الإغلاق فقط.',
         '- استخدم هذه الإرشادات فقط لتحديد موضع النص أو رتبته أو أسلوبه البصري.',
         ...lines
       ].join('\n');
@@ -2421,7 +2458,7 @@
     }
 
     function printQualityInstruction() {
-      return 'جودة الإخراج: اجعل التصميم عالي الدقة ومناسبًا للطباعة والعرض الرقمي، بحواف حادة ونص عربي واضح غير ضبابي، وتجنب البكسلة أو الضغط البصري أو ضعف تفاصيل الجداول والأيقونات عند التكبير.';
+      return 'جودة الإخراج: اجعل التصميم عالي الدقة ومناسبًا للطباعة والعرض الرقمي، بحواف حادة ونص عربي واضح غير ضبابي. اجعل الأيقونات والحدود والخطوط حادة ونظيفة بلا غبش أو هالات أو توهج حول النصوص والعناصر، وتجنب البكسلة أو الضغط البصري أو ضعف تفاصيل الجداول والأيقونات عند التكبير.';
     }
 
     function rtlCardSpatialInstruction(d) {
@@ -2580,6 +2617,45 @@
       updateMeta(d);
       statusText.textContent = 'تم إدراج إرشاد غير ظاهر بين [[ ]]';
     }
+
+    function insertSlashGuidance(targetId) {
+      const el = fields[targetId] || $(targetId);
+      if (!el) return;
+      const token = '//إرشاد غير ظاهر: //';
+      const current = el.value || '';
+      const start = typeof el.selectionStart === 'number' ? el.selectionStart : current.length;
+      const end = typeof el.selectionEnd === 'number' ? el.selectionEnd : start;
+      const prefix = start > 0 && current[start - 1] !== '\n' ? '\n' : '';
+      const insert = prefix + token;
+      el.value = current.slice(0, start) + insert + current.slice(end);
+      const cursor = start + insert.length - 2;
+      el.focus();
+      if (typeof el.setSelectionRange === 'function') el.setSelectionRange(cursor, cursor);
+      const d = prepareData(gatherData());
+      buildReport(d);
+      updateMeta(d);
+      statusText.textContent = 'تم إدراج إرشاد غير ظاهر بين // //';
+    }
+
+    function insertInlineGuidanceClose(targetId) {
+      const el = fields[targetId] || $(targetId);
+      if (!el) return;
+      const token = '[[/]]';
+      const current = el.value || '';
+      const start = typeof el.selectionStart === 'number' ? el.selectionStart : current.length;
+      const end = typeof el.selectionEnd === 'number' ? el.selectionEnd : start;
+      const prefix = start > 0 && current[start - 1] !== '\n' ? '\n' : '';
+      const insert = prefix + token;
+      el.value = current.slice(0, start) + insert + current.slice(end);
+      const cursor = start + insert.length;
+      el.focus();
+      if (typeof el.setSelectionRange === 'function') el.setSelectionRange(cursor, cursor);
+      const d = prepareData(gatherData());
+      buildReport(d);
+      updateMeta(d);
+      statusText.textContent = 'تم إدراج وسم إغلاق الإرشاد [[/]]';
+    }
+
 
     function gatherData() {
       const data = {};
@@ -2849,6 +2925,13 @@
         'compression artifacts',
         'poor print quality',
         'blurry edges',
+        'blur halo around text',
+        'glow around text',
+        'fuzzy icons',
+        'soft focus',
+        'hazy edges',
+        'smeared details',
+        'out-of-focus elements',
         'messy layout',
         'visual clutter',
         'duplicate elements',
@@ -3024,7 +3107,7 @@
       });
 
       if (d.secondaryText) notes.push({ type: 'good', text: 'وجود نص ثانوي يعطيك مرونة أكبر في البوسترات والعناوين الفرعية.' });
-      if (inlineGuidanceLines(d).length) notes.push({ type: 'good', text: 'تم العثور على إرشادات داخلية بين [[ ]]، وسيستخدمها المولد كتوجيهات تنسيق غير ظاهرة.' });
+      if (inlineGuidanceLines(d).length) notes.push({ type: 'good', text: 'تم العثور على إرشادات داخلية بين [[ ]] أو // //، وسيستخدمها المولد كتوجيهات تنسيق غير ظاهرة. ويمكن إنهاء الإرشاد الممتد بوسم [[/]].' });
       if (d.visualPromptMode === 'hybrid') notes.push({ type: 'good', text: 'الوضع المختلط الاحترافي مفعل: إنجليزي للتصميم وعربي للنصوص، وهذا مناسب جدًا لمعظم مولدات الصور.' });
       else if (d.visualPromptMode === 'englishVisual') notes.push({ type: 'good', text: 'الوصف البصري الإنجليزي مفعل مع قواعد عربية، وهذا يساعد النموذج على فهم التصميم.' });
       else notes.push({ type: 'note', text: 'الوصف عربي كامل؛ إن احتجت نتائج تصميم أقوى جرّب الوضع المختلط الاحترافي.' });
@@ -3761,9 +3844,15 @@
       btn.addEventListener('click', () => applyPreset(btn.dataset.preset));
     });
 
-    document.querySelectorAll('.directive-btn').forEach(btn => {
-      btn.addEventListener('click', () => insertInlineGuidance(btn.dataset.directiveTarget));
-    });
+      document.querySelectorAll('.directive-btn').forEach(btn => {
+        btn.addEventListener('click', () => insertInlineGuidance(btn.dataset.directiveTarget));
+      });
+      document.querySelectorAll('.slash-directive-btn').forEach(btn => {
+        btn.addEventListener('click', () => insertSlashGuidance(btn.dataset.slashDirectiveTarget));
+      });
+      document.querySelectorAll('.directive-close-btn').forEach(btn => {
+        btn.addEventListener('click', () => insertInlineGuidanceClose(btn.dataset.directiveCloseTarget));
+      });
 
     setupSmartSections();
     attachAutosave();
