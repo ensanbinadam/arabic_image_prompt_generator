@@ -1155,7 +1155,6 @@
                   <option>تصميم بطابع واقعي</option>
                   <option>مشهد سينمائي</option>
                   <option>لوحة فنية</option>
-                  <option>لوحة شعرية / اقتباس أدبي</option>
                   <option>بطاقة دعوة</option>
                   <option>هوية بصرية</option>
                   <option>شرائح صور متعددة مستقلة</option>
@@ -1306,8 +1305,6 @@
               <div>
                 <label for="lighting">الإضاءة</label>
                 <select id="lighting">
-                  <option>تلقائي حسب نوع التصميم</option>
-                  <option>بلا</option>
                   <option>إضاءة ناعمة ومتوازنة</option>
                   <option>إضاءة استوديو واضحة</option>
                   <option>إضاءة سينمائية درامية</option>
@@ -1318,8 +1315,6 @@
               <div>
                 <label for="cameraAngle">زاوية المشهد</label>
                 <select id="cameraAngle">
-                  <option>تلقائي حسب نوع التصميم</option>
-                  <option>بلا</option>
                   <option>مباشرة وواضحة</option>
                   <option>منظور ثلاثي الأبعاد</option>
                   <option>زاوية علوية خفيفة</option>
@@ -1330,8 +1325,6 @@
               <div>
                 <label for="backgroundStyle">الخلفية</label>
                 <select id="backgroundStyle">
-                  <option>تلقائي حسب نوع التصميم</option>
-                  <option>بلا</option>
                   <option>نظيفة وغير مزدحمة</option>
                   <option>تعليمية منظمة</option>
                   <option>فاخرة وهادئة</option>
@@ -1342,8 +1335,6 @@
               <div>
                 <label for="mainElementPosition">موضع العنصر الرئيسي</label>
                 <select id="mainElementPosition">
-                  <option>تلقائي حسب نوع التصميم</option>
-                  <option>بلا</option>
                   <option>يمين الصورة من منظور المشاهد</option>
                   <option>يسار الصورة من منظور المشاهد</option>
                   <option>وسط الصورة من منظور المشاهد</option>
@@ -1370,7 +1361,7 @@
                   <button type="button" class="mini slash-directive-btn" data-slash-directive-target="arabicText">إدراج //إرشاد//</button>
                 </div>
                 <textarea id="arabicText" placeholder="اكتب هنا النص النهائي المطلوب ظهوره داخل التصميم حرفيًا: عنوان، جدول، بنود، إعلان، تذييل..."></textarea>
-                <span class="hint">هذه الحاوية للتصاميم العامة والإنفوجرافيك والبوستر والإعلان. للوحة الشعرية: ضع العنوان في السطر الأول، ثم كل شطر في سطر مستقل، وكل سطرين متتاليين يمثلان بيتًا واحدًا، واجعل النسبة أو اسم الشاعر في السطر الأخير إن وجدت. الطريقة الرسمية للإرشاد غير الظاهر هي //إرشاد//، ولا يظهر ما بين الشرطتين داخل الصورة.</span>
+                <span class="hint">هذه الحاوية للتصاميم العامة والإنفوجرافيك والبوستر والإعلان. الطريقة الرسمية للإرشاد غير الظاهر هي //إرشاد//، ولا يظهر ما بين الشرطتين داخل الصورة.</span>
               </div>
               <div class="full">
                 <label for="secondaryText">نص ثانوي اختياري</label>
@@ -1387,8 +1378,6 @@
               <div>
                 <label for="textPosition">موضع النص الأساسي</label>
                 <select id="textPosition">
-                  <option>تلقائي حسب نوع التصميم</option>
-                  <option>بلا</option>
                   <option>أعلى يمين الصورة</option>
                   <option>أعلى وسط الصورة</option>
                   <option>أعلى يسار الصورة</option>
@@ -1403,8 +1392,6 @@
               <div>
                 <label for="fontStyle">نوع الخط العربي</label>
                 <select id="fontStyle">
-                  <option>تلقائي مناسب للتصميم</option>
-                  <option>بلا</option>
                   <option>خط نسخي واضح</option>
                   <option>خط ثلث فخم</option>
                   <option>خط كوفي أنيق</option>
@@ -1436,8 +1423,6 @@
               <div class="full">
                 <label for="layoutType">نوع التخطيط العربي</label>
                 <select id="layoutType">
-                  <option>تلقائي حسب نوع التصميم</option>
-                  <option>بلا</option>
                   <option>تخطيط عربي مرن حسب المحتوى</option>
                   <option>عنوان أعلى يمين مع مساحة قراءة واسعة</option>
                   <option>بطاقات تعليمية مرتبة من اليمين إلى اليسار</option>
@@ -1446,7 +1431,6 @@
                   <option>مخطط تعليمي عربي منظم</option>
                   <option>تصميم إعلاني عربي بعنوان بارز</option>
                   <option>منشور سوشيال عربي عالي الوضوح</option>
-                  <option>لوحة شعرية عربية بتنسيق الشطرين</option>
                   <option>شرائح عرض عربية مستقلة من اليمين إلى اليسار</option>
                   <option>قصة مصورة عربية متعددة الصفحات</option>
                 </select>
@@ -1979,15 +1963,6 @@
         .trim();
     }
 
-    function isSilentOption(value) {
-      const v = clean(value || '');
-      return !v || v === 'بلا' || v.includes('تلقائي حسب نوع التصميم') || v.includes('تلقائي مناسب للتصميم');
-    }
-
-    function explicitOption(value) {
-      return isSilentOption(value) ? '' : clean(value || '');
-    }
-
     function hasArabicDiacritics(text) {
       return /[\u064B-\u0652\u0670]/.test(text || '');
     }
@@ -2058,7 +2033,7 @@
         d.slideOutputType = '';
       }
       if (!isStoryMode(d)) d.storyMode = 'off';
-      if (d.textHeavyActive && (d.layoutType === 'تخطيط عربي مرن حسب المحتوى' || d.layoutType === 'تلقائي حسب نوع التصميم')) {
+      if (d.textHeavyActive && d.layoutType === 'تخطيط عربي مرن حسب المحتوى') {
         d.layoutType = 'جدول عربي يبدأ عموده الأول من اليمين';
       }
       if (clean(d.footerText || d.footerTeacherName || d.footerDate || d.footerLessonTopic)) {
@@ -2081,7 +2056,7 @@
       d._storyPages = convertForOutput(d.storyPages);
       d.title = convertForOutput(d.title);
       const literalText = [primaryArabicText(d), secondaryArabicText(d)].join('\n');
-      d.keepTashkeel = Boolean((d.keepTashkeel || isPoetryDesign(d)) && hasArabicDiacritics(literalText));
+      d.keepTashkeel = Boolean(d.keepTashkeel && hasArabicDiacritics(literalText));
       return d;
     }
 
@@ -2136,7 +2111,7 @@
 
     function inlineGuidanceLines(d) {
       const sources = [
-        ['إرشاد غير ظاهر للنص المطلوب', d._arabicText ?? d.arabicText],
+        ['النص الحرفي الظاهر', d._arabicText ?? d.arabicText],
         ['النص الثانوي', d._secondaryText ?? d.secondaryText],
         ['نصوص الصور أو الشرائح', d._slideItems ?? d.slideItems],
         ['أوصاف الشرائح عند توليد الصور', d._slideGeneratedItems ?? d.slideGeneratedItems],
@@ -2147,7 +2122,6 @@
       const lines = [];
       sources.forEach(([label, value]) => {
         splitInlineGuidance(value).directives.forEach(directive => {
-          if (isPoetryDesign(d) && label === 'إرشاد غير ظاهر للنص المطلوب' && /أبيات|شطر|شطرين|عمودين|بيت|مسافة بصرية|فراغ|فاصل/.test(directive)) return;
           const key = normalizeForCompare(label + directive);
           if (seen.has(key)) return;
           seen.add(key);
@@ -2163,7 +2137,6 @@
       return [
         'إرشادات تنسيق داخلية غير ظاهرة مستخرجة من العلامة //...//:',
         '- لا تعرض الشرطتين المائلتين ولا النص الموجود داخلهما في الصورة.',
-        '- لا تعرض عبارات الإرشاد أو أسماء الحقول أو أي جملة تفسيرية داخل الصورة؛ هي أوامر تنسيق فقط.',
         '- يدعم المولد أيضًا وسوم [[...]] و[[/]] القديمة للتوافق فقط، ولا تُعرض داخل الصورة إذا وُجدت.',
         '- استخدم هذه الإرشادات فقط لتحديد موضع النص أو رتبته أو أسلوبه البصري.',
         ...lines
@@ -2243,7 +2216,6 @@
     function noPrimaryTextInstruction(d) {
       if (isSlideMode(d)) return '- لا يوجد نص عربي عام إلزامي؛ استخدم النصوص المذكورة داخل أوصاف الشرائح فقط، ولا تضف عبارة افتراضية مثل "ضع النص هنا".';
       if (isStoryMode(d)) return '- لا يوجد نص عربي عام إلزامي؛ استخدم نصوص الصفحات أو فقاعات الحوار المذكورة في وصف القصة فقط، ولا تضف عبارة افتراضية مثل "ضع النص هنا".';
-      if (isPoetryDesign(d)) return '- لم يُدخل نص شعري بعد؛ للوحة الشعرية ضع العنوان في السطر الأول، ثم اكتب كل شطر في سطر مستقل، أو اكتب كل بيت في سطر واحد وافصل بين شطريه بوسم مثل //مسافة بصرية//، واجعل اسم الشاعر أو النسبة في السطر الأخير إن وجدت.';
       if (d.textHeavyActive) return '- لا يوجد نص حرفي عام في حقل النص الأساسي؛ استخرج النصوص الظاهرة من قسم المعلومات المرجعية مع الحفاظ على العبارات الأصلية كما هي دون اختصار داخل العبارة أو إعادة صياغة.';
       if (referenceContent(d)) return '- لا يوجد نص حرفي محدد يجب نسخه كاملًا؛ استخرج من النص المرجعي عناوين قصيرة وعبارات مناسبة للتصميم، ولا تعرض النص المرجعي كاملًا، ولا تضف أفكارًا أو نصوصًا خارج معناه.';
       return '- لا يوجد نص عربي عام إلزامي؛ لا تضف أي عبارة افتراضية مكان النص.';
@@ -2272,91 +2244,6 @@
 
     function isStoryMode(d) {
       return d.storyMode === 'on' || (d.imageType || '').includes('قصة مصورة');
-    }
-
-    function isPoetryDesign(d) {
-      const source = [d.imageType, d.layoutType].join(' ');
-      return /لوحة شعرية|اقتباس أدبي|تنسيق الشطرين/.test(source);
-    }
-
-    function splitPoetryLineByInlineSeparator(line) {
-      const rawLine = String(line || '');
-      if (!rawLine.trim()) return [];
-      const parts = rawLine
-        .split(/\/\/[\s\S]*?\/\//g)
-        .map(part => stripInlineGuidance(part).trim())
-        .filter(Boolean);
-      if (parts.length > 1) return parts;
-      const visible = stripInlineGuidance(rawLine).trim();
-      return visible ? [visible] : [];
-    }
-
-    function poetryTextLines(d) {
-      const raw = clean(d._arabicText ?? d.arabicText ?? '');
-      return raw
-        .split('\n')
-        .flatMap(splitPoetryLineByInlineSeparator)
-        .map(line => line.trim())
-        .filter(Boolean);
-    }
-
-    function isPoetryAttributionLine(line) {
-      return /^(?:الناظم|الشاعر|القائل|المصدر|بقلم|نظم|من شعر)\s*[:/]|رحمه الله|رحمها الله/.test(line || '');
-    }
-
-    function poetryStructureInfo(d) {
-      const lines = poetryTextLines(d);
-      if (!lines.length) return { lines, bodyLines: [], hasTitle: false, hasAttribution: false };
-      const hasAttribution = lines.length > 2 && isPoetryAttributionLine(lines[lines.length - 1]);
-      const linesBeforeAttribution = hasAttribution ? lines.length - 1 : lines.length;
-      const firstLineKey = normalizeForCompare(lines[0]);
-      const titleKey = normalizeForCompare(d.title || d.subject || '');
-      const firstLineLooksLikeTitle = Boolean(titleKey && firstLineKey === titleKey) || lines[0].length <= 70;
-      const hasTitle = linesBeforeAttribution > 2 && linesBeforeAttribution % 2 === 1 && firstLineLooksLikeTitle;
-      const bodyStart = hasTitle ? 1 : 0;
-      const bodyEnd = hasAttribution ? lines.length - 1 : lines.length;
-      return {
-        lines,
-        bodyLines: lines.slice(bodyStart, bodyEnd),
-        hasTitle,
-        hasAttribution
-      };
-    }
-
-    function poetryVerseCount(d) {
-      const info = poetryStructureInfo(d);
-      return Math.ceil(info.bodyLines.length / 2);
-    }
-
-    function isTallAspectRatio(aspectRatio) {
-      return /عمودي|رأسي|9:16|4:5/.test(aspectRatio || '');
-    }
-
-    function poetryStructuredText(d) {
-      if (!isPoetryDesign(d)) return primaryArabicText(d);
-      const info = poetryStructureInfo(d);
-      if (!info.lines.length) return '';
-      const out = [];
-      const title = info.hasTitle ? info.lines[0] : clean(d.title || d.subject || '');
-      if (title) {
-        out.push('ضع العنوان التالي أعلى اللوحة:');
-        out.push(`"${title}"`);
-        out.push('');
-      }
-      out.push('ضع الأبيات التالية في صفوف مستقلة. كل سطر أدناه يمثل بيتًا واحدًا: الشطر الأول في العمود الأيمن، والشطر الثاني في العمود الأيسر، وبينهما مسافة بصرية فارغة غير مكتوبة.');
-      for (let i = 0; i < info.bodyLines.length; i += 2) {
-        const right = info.bodyLines[i] || '';
-        const left = info.bodyLines[i + 1] || '';
-        out.push(left
-          ? `"${right}"     "${left}"`
-          : `"${right}"`);
-      }
-      if (info.hasAttribution) {
-        out.push('');
-        out.push('ضع النسبة أو التوقيع الشعري أسفل الأبيات:');
-        out.push(`"${info.lines[info.lines.length - 1]}"`);
-      }
-      return out.join('\n');
     }
 
     function displayNumber(n, style) {
@@ -2539,7 +2426,6 @@
     }
 
     function englishLayoutCue(layoutType) {
-      if (layoutType === 'بلا') return '';
       if (layoutType.includes('عنوان أعلى يمين')) return 'large Arabic headline in the top-right, right-aligned text blocks, generous reading space';
       if (layoutType.includes('بطاقات تعليمية')) return 'educational cards arranged from right to left, first card on the far right, consistent spacing';
       if (layoutType.includes('إنفوجرافيك خطوات')) return 'step-by-step Arabic infographic flowing from right to left, first step on the far right';
@@ -2547,7 +2433,6 @@
       if (layoutType.includes('مخطط تعليمي')) return 'organized Arabic educational diagram, labels and arrows flow right to left';
       if (layoutType.includes('تصميم إعلاني')) return 'Arabic advertising layout with a strong right-aligned headline, clear offer area, balanced product space';
       if (layoutType.includes('منشور سوشيال')) return 'high-readability Arabic social post layout, bold right-aligned hook, clean visual hierarchy';
-      if (layoutType.includes('لوحة شعرية')) return 'Arabic poetry poster layout, title at top, two balanced hemistich columns, right hemistich first, left hemistich second, elegant classical spacing';
       if (layoutType.includes('شرائح عرض')) return 'separate Arabic presentation slides, A4 landscape, each slide uses one attached screenshot with its matching caption, consistent RTL slide system';
       if (layoutType.includes('قصة مصورة')) return 'multi-page Arabic illustrated story, consistent characters across all pages, clear comic/storybook page composition, RTL text placement';
       return 'flexible Arabic RTL layout, right-aligned text, clear hierarchy, balanced composition';
@@ -2555,14 +2440,6 @@
 
     function arabicLayoutInstruction(d) {
       const layout = d.layoutType || 'تخطيط عربي مرن حسب المحتوى';
-      if (layout === 'بلا') return '';
-      if (layout === 'تلقائي حسب نوع التصميم') {
-        if (isPoetryDesign(d)) return 'نوع التخطيط العربي: لوحة شعرية عربية بتنسيق الشطرين. نسّق النص الشعري بنظام شطرين عربي: العنوان في الأعلى، والأبيات في وسط اللوحة، والشطر الأول في العمود الأيمن والشطر الثاني في العمود الأيسر.';
-        if (isSlideMode(d)) return 'نوع التخطيط العربي: شرائح عرض عربية مستقلة من اليمين إلى اليسار. اجعل كل شريحة مستقلة ومنظمة وتبدأ قراءتها من اليمين.';
-        if (isStoryMode(d)) return 'نوع التخطيط العربي: قصة مصورة عربية متعددة الصفحات. اجعل كل صفحة مشهدًا قصصيًا واضحًا وحافظ على اتجاه القراءة العربي.';
-        if ((d.imageType || '').includes('إنفوجرافيك')) return 'نوع التخطيط العربي: إنفوجرافيك عربي منظم. اجعل الترتيب العام والمحاذاة واتجاه القراءة متوافقة مع العربية من اليمين إلى اليسار.';
-        return '';
-      }
       let detail = 'اجعل الترتيب العام والمحاذاة واتجاه القراءة متوافقة مع العربية من اليمين إلى اليسار.';
       if (layout.includes('عنوان أعلى يمين')) detail = 'ضع العنوان في أعلى يمين الصورة، واجعل بقية العناصر تدعم مسار قراءة عربي واضح من اليمين إلى اليسار.';
       else if (layout.includes('بطاقات تعليمية')) detail = 'استخدم نظامًا شبكيًا RTL للبطاقات يبدأ من أعلى اليمين. إذا كان التخطيط صفوفًا، املأ الصف الأول من اليمين إلى اليسار ثم انزل للصف التالي. وإذا كان التخطيط أعمدة، املأ العمود الأيمن من أعلى إلى أسفل ثم انتقل للعمود التالي يسارًا. استمر بنفس المنطق مهما كان عدد البطاقات.';
@@ -2571,7 +2448,6 @@
       else if (layout.includes('مخطط تعليمي')) detail = 'اجعل المخطط والتسميات والأسهم تعمل بمنطق عربي من اليمين إلى اليسار، مع فصل بصري واضح بين الأجزاء.';
       else if (layout.includes('تصميم إعلاني')) detail = 'اجعل العنوان أو العرض الرئيسي بارزًا في الجهة اليمنى أو أعلى اليمين، مع توازن واضح بين النص والمنتج أو العنصر البصري.';
       else if (layout.includes('منشور سوشيال')) detail = 'اجعل الجملة الجاذبة واضحة وكبيرة ومحاذاة لليمين، مع مساحات هواء كافية حتى تقرأ بسرعة على الهاتف.';
-      else if (layout.includes('لوحة شعرية')) detail = 'نسّق النص الشعري بنظام شطرين عربي: العنوان في الأعلى، الأبيات في وسط اللوحة، الشطر الأول من كل بيت في العمود الأيمن والشطر الثاني في العمود الأيسر، مع توازن عرض العمودين وفاصل بصري رصين بينهما.';
       else if (layout.includes('شرائح عرض')) detail = 'اجعل كل شريحة مستقلة ومنظمة، تبدأ قراءتها من اليمين، وتحافظ على نفس النظام البصري بين جميع الشرائح.';
       else if (layout.includes('قصة مصورة')) detail = 'اجعل كل صفحة مشهدًا قصصيًا واضحًا، وحافظ على الشخصيات نفسها واتجاه القراءة العربي بين الصفحات.';
       return `نوع التخطيط العربي: ${layout}. ${detail}`;
@@ -2583,21 +2459,13 @@
     }
 
     function titlePlacementInstruction(d) {
-      if (isPoetryDesign(d)) {
-        return 'موضع النص في اللوحة الشعرية: العنوان في أعلى اللوحة، والأبيات في الوسط بتنسيق الشطرين، والنسبة أو التوقيع في الأسفل إذا وُجد.';
-      }
-      const textPosition = explicitOption(d.textPosition);
-      if (!textPosition) return '';
       if (d.textHeavyActive || (d.layoutType || '').includes('جدول عربي') || (d.layoutType || '').includes('إنفوجرافيك')) {
-        return `موضع العنوان الرئيسي: ${textPosition}. أما بقية النصوص فرتّبها ضمن أقسام واضحة وبطاقات أو جدول منظم، لا في موضع واحد ثابت.`;
+        return `موضع العنوان الرئيسي: ${d.textPosition}. أما بقية النصوص فرتّبها ضمن أقسام واضحة وبطاقات أو جدول منظم، لا في موضع واحد ثابت.`;
       }
-      return `موضع النص الأساسي: ${textPosition}.`;
+      return `موضع النص الأساسي: ${d.textPosition}.`;
     }
 
-    function visualHierarchyInstruction(d = {}) {
-      if (isPoetryDesign(d)) {
-        return 'التسلسل الهرمي البصري للوحة الشعرية: اجعل العنوان أكبر عنصر نصي في الأعلى، واجعل الأبيات في الوسط بخط واضح ومتوازن ومسافات مريحة بين الأبيات، واجعل التذييل صغيرًا وخفيفًا في الأسفل دون أن ينافس النص الشعري.';
-      }
+    function visualHierarchyInstruction() {
       return 'التسلسل الهرمي البصري: اجعل العنوان أكبر عنصر نصي، وعناوين الأقسام متوسطة وواضحة، والنصوص الداخلية أصغر مع تباعد مريح. استخدم إبرازًا بصريًا للقواعد والجداول دون ازدحام.';
     }
 
@@ -2616,20 +2484,6 @@
       const hasNumberedItems = /(?:^|\n)\s*(?:[1-9]|[١-٩])[\.\- ـ:]/.test(combined);
       if (!likelyCards && !hasNumberedItems) return '';
       return 'التخطيط المكاني للبطاقات من منظور المشاهد: استخدم نظامًا شبكيًا RTL يبدأ من أعلى اليمين. إذا كان التخطيط صفوفًا، املأ الصف الأول من اليمين إلى اليسار ثم انزل للصف التالي. وإذا كان التخطيط أعمدة، املأ العمود الأيمن من أعلى إلى أسفل ثم انتقل للعمود التالي يسارًا. استمر بنفس المنطق مهما كان عدد البطاقات، ولا تبدأ من اليسار ولا تبدّل ترتيب الأرقام. عند ضيق النص داخل البطاقة، صغّر حجم الخط قليلًا أو زد ارتفاع البطاقة بدل اختصار النص أو حذفه.';
-    }
-
-    function poetryLayoutInstruction(d) {
-      if (!isPoetryDesign(d)) return '';
-      const lines = [
-        'تعليمات اللوحة الشعرية:',
-        '- التخطيط: نظام الشطرين الكلاسيكي؛ عمود أيمن وعمود أيسر متساويان، وبينهما مسافة بصرية فارغة متزنة.',
-        '- العنوان في أعلى اللوحة في المنتصف، والأبيات تحته في صفوف مستقلة مرتبة من الأعلى إلى الأسفل.',
-        '- كل بيت يظهر في صف مستقل: الشطر الأول في العمود الأيمن، والشطر الثاني في العمود الأيسر.',
-        '- الخط: خط نسخي عربي أصيل، واضح ومقروء بحواف حادة، مع الالتزام بالتشكيل والنقاط كما في النص.',
-        '- النص هو العنصر الأهم في التصميم؛ اجعل الزخرفة حول الهوامش فقط ولا تزاحم الأبيات.',
-        '- التذييل السفلي صغير جدًا وخفيف، ولا ينافس العنوان أو الأبيات.'
-      ];
-      return lines.join('\n');
     }
 
     function infographicContentInstruction(d) {
@@ -2663,11 +2517,10 @@
 
     function sceneInstructionLines(d) {
       if (d.textHeavyActive) return infographicContentInstruction(d).split('\n').filter(line => line !== '');
-      const lines = [];
+      const lines = [`وصف المشهد: ${d.sceneDesc || 'مشهد جميل ومتوازن وواضح.'}`];
       if (d.designMode === 'editExistingImage') {
-        lines.push('وضع تعديل صورة موجودة: حافظ على التخطيط والألوان والأيقونات كما هي، وعدّل النصوص أو العناصر المحددة فقط دون إعادة توليد التصميم كاملًا.');
+        lines.unshift('وضع تعديل صورة موجودة: حافظ على التخطيط والألوان والأيقونات كما هي، وعدّل النصوص أو العناصر المحددة فقط دون إعادة توليد التصميم كاملًا.');
       }
-      if (d.sceneDesc) lines.push(`وصف المشهد: ${d.sceneDesc}`);
       return lines;
     }
 
@@ -2688,17 +2541,16 @@
         layoutCue = 'separate Arabic educational slides, generate a custom illustration for each slide from its description, consistent RTL slide system, no attached screenshots required';
       }
       if (compact) {
-        return `English visual brief: professional Arabic-language ${d.imageType}, ${[keywords, layoutCue].filter(Boolean).join(', ')}, keep all Arabic text exactly as provided.`;
+        return `English visual brief: professional Arabic-language ${d.imageType}, ${keywords}, ${layoutCue}, keep all Arabic text exactly as provided.`;
       }
-      const lines = [
+      return [
         'English visual design brief for the image model:',
         `Create a professional Arabic-language ${d.imageType} for ${d.purpose} about "${subject}".`,
         `Visual style: ${d.style}. Aspect ratio: ${d.aspectRatio}. Quality: ${d.qualityLevel}.`,
         `Design keywords: ${keywords}.`,
+        `Layout direction: ${layoutCue}.`,
         'Keep every Arabic word exactly as provided in the Arabic text section; do not translate, rewrite, mirror, or invent Arabic text.'
-      ];
-      if (layoutCue) lines.splice(4, 0, `Layout direction: ${layoutCue}.`);
-      return lines.join('\n');
+      ].join('\n');
     }
 
     function convertDigitsByStyle(text, style) {
@@ -2741,7 +2593,6 @@
 
     function footerSizeInstruction(d) {
       const size = d.footerSize || 'صغير جدًا وغير مزاحم';
-      if (isPoetryDesign(d) && size.includes('صغير جدًا')) return 'حجم التذييل: صغير جدًا وغير مزاحم، مقروء وخفيف، ولا يكرر في أي موضع آخر.';
       if (size.includes('صغير جدًا')) return 'حجم التذييل: صغير جدًا وغير مزاحم، مثل توقيع أو سطر تعريفي دقيق، مع بقاء النص مقروءًا وعدم مزاحمة المشهد أو عناصر القصة.';
       if (size.includes('أصغر حجم')) return 'حجم التذييل: أصغر حجم ممكن مع بقاء القراءة، ولا تجعله يلفت الانتباه أكثر من محتوى التصميم.';
       if (size.includes('متوسط')) return 'حجم التذييل: متوسط وواضح، مناسب عند أهمية اسم المعلم أو الجهة، دون منافسة العنوان الرئيسي.';
@@ -2799,80 +2650,8 @@
       return data;
     }
 
-    function buildPoetryPrompt(d) {
-      d.rtl = true;
-      const lines = [];
-      const title = clean(d.title || d.subject || 'لوحة شعرية عربية');
-      const verseCount = poetryVerseCount(d);
-      const tallAspect = isTallAspectRatio(d.aspectRatio);
-      lines.push(`تصميم للوحة فنية عربية عالية الجودة بنسبة أبعاد ${d.aspectRatio} تعرض أبياتًا من الشعر العربي بعنوان "${title}".`);
-      lines.push(`الأسلوب البصري: ${d.style || 'تراثي عربي أنيق'}، مناسب للطباعة والعرض الرقمي، بجودة ${d.qualityLevel || 'عالية جدًا'}.`);
-      lines.push('الخلفية والزخرفة: خلفية هادئة أو ورقية فاخرة، إطار عربي أو إسلامي خفيف حول الهوامش فقط، وزخارف قليلة لا تزاحم النص.');
-      if (verseCount >= 4) {
-        lines.push(tallAspect
-          ? 'تنبيه تخطيطي: النص يحتوي عدة أبيات؛ في المقاس الرأسي استخدم حجم خط متوسطًا لا كبيرًا، ووسّع منطقة الشعر، وقلّل الهوامش والزخارف حتى يبقى كل بيت في صف أفقي واحد.'
-          : 'تنبيه تخطيطي: النص يحتوي عدة أبيات؛ استثمر عرض الصفحة الأفقي لإبقاء كل بيت في صف أفقي واحد مع شطرين متقابلين دون تكديس أو كسر للشطر.');
-      }
-      {
-        const sceneLines = sceneInstructionLines(d);
-        if (sceneLines.length) {
-          lines.push(`الوصف البصري الإضافي: ${sceneLines.join(' ')}`);
-        }
-      }
-      if (d.colors) lines.push(`الألوان: ${d.colors}.`);
-      if (d.extraElements) lines.push(`العناصر الإضافية: ${d.extraElements}.`);
-      {
-        const backgroundStyle = explicitOption(d.backgroundStyle);
-        if (backgroundStyle) lines.push(`الخلفية: ${backgroundStyle}.`);
-      }
-      lines.push('');
-      lines.push('التخطيط:');
-      lines.push('- العنوان في أعلى اللوحة في المنتصف، وهو أكبر عنصر نصي.');
-      lines.push('- الأبيات في وسط اللوحة بنظام الشطرين الكلاسيكي.');
-      lines.push('- العمود الأيمن مخصص للشطر الأول، والعمود الأيسر مخصص للشطر الثاني.');
-      lines.push('- كل بيت في صف أفقي مستقل بعرض كامل، والعمودان متساويان في العرض، وبينهما فراغ بصري واضح ومتزن.');
-      lines.push('- النص هو العنصر الأهم؛ إذا ضاقت المساحة فقلّل الزخرفة أو صغّر الخط قليلًا بدل ضغط الكلمات أو تكديس الشطور.');
-      lines.push('- لا تجعل الخط كبيرًا لدرجة تكسر الشطر إلى سطرين؛ الأولوية لبقاء الشطر كاملًا في موضعه داخل العمود.');
-      lines.push('');
-      lines.push('الخط والنص العربي:');
-      lines.push('- خط نسخي عربي أصيل وواضح ومقروء بحواف حادة.');
-      lines.push('- الالتزام بالتشكيل والنقاط كما في النص دون زيادة أو حذف.');
-      lines.push('- ترتيب النصوص عربي RTL من اليمين إلى اليسار، دون عكس الحروف أو الكلمات.');
-      lines.push('- لا تضف أي نص عربي غير مذكور في قسم النص المطلوب.');
-      lines.push('');
-      lines.push('النص المطلوب بدقة:');
-      const structured = poetryStructuredText(d);
-      lines.push(structured || noPrimaryTextInstruction(d));
-      {
-        const footerTextComposed = effectiveFooterText(d);
-        if (footerTextComposed) {
-          lines.push('');
-          lines.push(`التذييل: نص صغير جدًا في الزاوية السفلية اليمنى فقط يقرأ: "${footerTextComposed}".`);
-        }
-      }
-      {
-        const guidance = inlineGuidanceInstruction(d);
-        if (guidance) {
-          lines.push('');
-          lines.push(guidance);
-        }
-      }
-      if (d.specialInstructions) {
-        lines.push('');
-        lines.push(`تعليمات إضافية: ${d.specialInstructions}.`);
-      }
-      if (d.negativeNotes) {
-        lines.push(`ممنوعات خاصة: ${d.negativeNotes}.`);
-      }
-      lines.push('');
-      lines.push('أولوية قصوى: صحة العربية، وضوح التشكيل، توازن الشطرين، وعدم ضغط الكلمات أو جعل الشعر فقرة نثرية.');
-      lines.push(encodingNote());
-      return lines.join('\n');
-    }
-
     function buildPromptFull(d) {
       d.rtl = true;
-      if (isPoetryDesign(d)) return buildPoetryPrompt(d);
       const lines = [];
       lines.push(`أنشئ صورة من نوع "${d.imageType}" موجهة لغرض "${d.purpose}" عن موضوع "${d.title || d.subject || 'موضوع بصري واضح'}".`);
       lines.push(`الأسلوب العام: ${d.style}. نسبة الأبعاد: ${d.aspectRatio}. مستوى الجودة: ${d.qualityLevel}.`);
@@ -2895,11 +2674,8 @@
       lines.push(`- أهمية النص داخل الصورة: ${d.textImportance}.`);
       if (d.strictArabic) lines.push('- أولوية قصوى جدًا لصحة اللغة العربية وقابليتها للقراءة فوق أي زخرفة أو تأثير جمالي.');
       if (d.highReadability) lines.push('- اجعل النص واضحًا جدًا ومقروءًا من النظرة الأولى مع تباين كافٍ ومسافات مريحة.');
-      {
-        const layoutInstruction = arabicLayoutInstruction(d);
-        if (layoutInstruction) lines.push(`- ${layoutInstruction}`);
-      }
-      lines.push(`- ${visualHierarchyInstruction(d)}`);
+      lines.push(`- ${arabicLayoutInstruction(d)}`);
+      lines.push(`- ${visualHierarchyInstruction()}`);
       lines.push(`- ${printQualityInstruction()}`);
       if (d.rtl) lines.push(`- ${rtlLayoutInstruction()}`);
       const slideInstruction = slideGenerationInstruction(d);
@@ -2912,23 +2688,13 @@
         lines.push('');
         lines.push(storyInstruction);
       }
-      const poetryInstruction = poetryLayoutInstruction(d);
-      if (poetryInstruction) {
-        lines.push('');
-        lines.push(poetryInstruction);
-      }
       if (!d.textHeavyActive) {
         lines.push('');
         lines.push('تعليمات النص العربي الأساسي:');
         const mainArabicText = primaryArabicText(d);
         if (mainArabicText) {
-          if (isPoetryDesign(d)) {
-            lines.push('النص المطلوب بدقة:');
-            lines.push(poetryStructuredText(d));
-          } else {
-            lines.push('- انسخ النص التالي حرفيًا 100% دون حذف أو إضافة أو استبدال أو إعادة صياغة لأي حرف.');
-            lines.push(`"${mainArabicText}"`);
-          }
+          lines.push('- انسخ النص التالي حرفيًا 100% دون حذف أو إضافة أو استبدال أو إعادة صياغة لأي حرف.');
+          lines.push(`"${mainArabicText}"`);
         } else {
           lines.push(noPrimaryTextInstruction(d));
         }
@@ -2949,37 +2715,19 @@
       lines.push(`- ${tashkeelInstruction(d)}`);
       if (d.noFakeArabic) lines.push('- لا تستخدم حروفًا عربية مزيفة أو رموزًا تشبه العربية أو نصًا زخرفيًا غير مقروء.');
       if (d.noSplitWords) lines.push('- لا تقسّم الكلمة العربية بين سطرين ولا تكسر ترابط الحروف بشكل خاطئ.');
-      {
-        const titlePlacement = titlePlacementInstruction(d);
-        if (titlePlacement) lines.push(`- ${titlePlacement}`);
-      }
-      {
-        const fontStyle = explicitOption(d.fontStyle);
-        if (fontStyle) lines.push(`- نوع الخط: ${fontStyle}.`);
-      }
+      lines.push(`- ${titlePlacementInstruction(d)}`);
+      lines.push(`- نوع الخط: ${d.fontStyle}.`);
       if (d.textFormatting) lines.push(`- تنسيق النص المطلوب: ${d.textFormatting}.`);
       lines.push(`- ${numberInstruction(d.numberStyle, d.consistentDigits)}`);
       if (d.blankIfFail) lines.push('- إذا تعذر إخراج النص العربي بدقة كاملة، اترك مساحة فارغة نظيفة للنص بدل توليد نص خاطئ.');
       lines.push('');
       lines.push('تعليمات التكوين والمشهد:');
       if (d.viewerPerspective) lines.push('- المقصود باليمين واليسار هو من منظور المشاهد.');
-      {
-        const mainElementPosition = explicitOption(d.mainElementPosition);
-        if (mainElementPosition) lines.push(`- العنصر الرئيسي في ${mainElementPosition}.`);
-      }
+      lines.push(`- العنصر الرئيسي في ${d.mainElementPosition}.`);
       if (d.noMirror) lines.push('- لا تعكس الصورة أفقيًا، ولا تقلب مواقع العناصر أو النصوص.');
-      {
-        const cameraAngle = explicitOption(d.cameraAngle);
-        if (cameraAngle) lines.push(`- زاوية المشهد: ${cameraAngle}.`);
-      }
-      {
-        const lighting = explicitOption(d.lighting);
-        if (lighting) lines.push(`- الإضاءة: ${lighting}.`);
-      }
-      {
-        const backgroundStyle = explicitOption(d.backgroundStyle);
-        if (backgroundStyle) lines.push(`- الخلفية: ${backgroundStyle}.`);
-      }
+      lines.push(`- زاوية المشهد: ${d.cameraAngle}.`);
+      lines.push(`- الإضاءة: ${d.lighting}.`);
+      lines.push(`- الخلفية: ${d.backgroundStyle}.`);
       sceneInstructionLines(d).forEach(line => lines.push(`- ${line}`));
       if (d.colors) lines.push(`- الألوان والجو البصري: ${d.colors}.`);
       if (d.extraElements) lines.push(`- عناصر إضافية مرغوبة: ${d.extraElements}.`);
@@ -2988,19 +2736,14 @@
         if (footerTextComposed) {
           lines.push('');
           lines.push('تعليمات التذييل:');
-          if (isPoetryDesign(d)) {
-            lines.push(`- التذييل: نص صغير جدًا في الزاوية السفلية اليمنى فقط يقرأ: "${footerTextComposed}".`);
-          } else {
-            lines.push(`- أضف تذييلًا عربيًا واحدًا فقط في ${d.footerPosition}.`);
-            lines.push(`- أسلوب التذييل: ${d.footerStyle}.`);
-            lines.push(`- ${footerSizeInstruction(d)}`);
-            lines.push(`- تنسيق التذييل: ${d.footerLayout}.`);
-            lines.push('- اجعل التذييل أقل بروزًا من العنوان الرئيسي لكنه واضح ومقروء ومحاذاته عربية صحيحة من اليمين إلى اليسار.');
-            if (d.rtl) lines.push('- رتّب عناصر التذييل من اليمين إلى اليسار؛ ابدأ بالمعلومة الأولى من جهة اليمين ولا تجعل الفواصل أو التاريخ يدفعان النص لاتجاه يسار-يمين.');
-            lines.push('- لا تكرر نص التذييل في مكان آخر ولا تضفه كتوقيع ثان أو ختم ثان.');
-            lines.push('- استخدم النص التالي حرفيًا في التذييل:');
-            lines.push(`"${footerTextComposed}"`);
-          }
+          lines.push(`- أضف تذييلًا عربيًا واضحًا في ${d.footerPosition}.`);
+          lines.push(`- أسلوب التذييل: ${d.footerStyle}.`);
+          lines.push(`- ${footerSizeInstruction(d)}`);
+          lines.push(`- تنسيق التذييل: ${d.footerLayout}.`);
+          lines.push('- اجعل التذييل أقل بروزًا من العنوان الرئيسي لكنه واضح ومقروء ومحاذاته عربية صحيحة من اليمين إلى اليسار.');
+          if (d.rtl) lines.push('- رتّب عناصر التذييل من اليمين إلى اليسار؛ ابدأ بالمعلومة الأولى من جهة اليمين ولا تجعل الفواصل أو التاريخ يدفعان النص لاتجاه يسار-يمين.');
+          lines.push('- استخدم النص التالي حرفيًا في التذييل:');
+          lines.push(`"${footerTextComposed}"`);
         }
       }
       lines.push('');
@@ -3033,7 +2776,6 @@
 
     function buildPromptMedium(d) {
       d.rtl = true;
-      if (isPoetryDesign(d)) return buildPoetryPrompt(d);
       const lines = [];
       lines.push(`أنشئ ${imageTypePhrase(d)} لغرض ${d.purpose} عن "${d.title || d.subject || 'موضوع بصري'}" بأسلوب ${d.style}.`);
       lines.push(`نسبة الأبعاد: ${d.aspectRatio}. الجودة: ${d.qualityLevel}.`);
@@ -3046,13 +2788,8 @@
       if (!d.textHeavyActive) {
         const mainArabicText = primaryArabicText(d);
         if (mainArabicText) {
-          if (isPoetryDesign(d)) {
-            lines.push('النص المطلوب بدقة:');
-            lines.push(poetryStructuredText(d));
-          } else {
-            lines.push('استخدم النص العربي التالي حرفيًا دون أي تعديل:');
-            lines.push(`"${mainArabicText}"`);
-          }
+          lines.push('استخدم النص العربي التالي حرفيًا دون أي تعديل:');
+          lines.push(`"${mainArabicText}"`);
         } else {
           lines.push(noPrimaryTextInstruction(d));
         }
@@ -3060,53 +2797,34 @@
         if (secondaryText) lines.push(`واستخدم النص الثانوي التالي بحجم أصغر وبشكل متناسق: "${secondaryText}"`);
       }
       if (d.rtl) lines.push(rtlLayoutInstruction());
-      {
-        const layoutInstruction = arabicLayoutInstruction(d);
-        if (layoutInstruction) lines.push(layoutInstruction);
-      }
-      lines.push(visualHierarchyInstruction(d));
+      lines.push(arabicLayoutInstruction(d));
+      lines.push(visualHierarchyInstruction());
       lines.push(printQualityInstruction());
       const slideInstruction = slideGenerationInstruction(d);
       if (slideInstruction) lines.push(slideInstruction);
       const storyInstruction = storyGenerationInstruction(d);
       if (storyInstruction) lines.push(storyInstruction);
-      const poetryInstruction = poetryLayoutInstruction(d);
-      if (poetryInstruction) lines.push(poetryInstruction);
       {
         const guidance = inlineGuidanceInstruction(d);
         if (guidance) lines.push(guidance);
       }
       lines.push(tashkeelInstruction(d));
-      {
-        const textDetails = [explicitOption(d.fontStyle) ? `نوع الخط: ${explicitOption(d.fontStyle)}.` : '', titlePlacementInstruction(d)].filter(Boolean).join(' ');
-        if (textDetails) lines.push(textDetails);
-      }
+      lines.push(`نوع الخط: ${d.fontStyle}. ${titlePlacementInstruction(d)}`);
       if (d.textFormatting) lines.push(`تنسيق النص: ${d.textFormatting}.`);
       lines.push(numberInstruction(d.numberStyle, d.consistentDigits));
       if (d.viewerPerspective) lines.push('اليمين واليسار من منظور المشاهد.');
-      {
-        const mainElementPosition = explicitOption(d.mainElementPosition);
-        if (mainElementPosition) lines.push(`العنصر الرئيسي في ${mainElementPosition}.`);
-      }
+      lines.push(`العنصر الرئيسي في ${d.mainElementPosition}.`);
       if (d.noMirror) lines.push('لا تعكس الصورة أفقيًا.');
       if (d.noFakeArabic) lines.push('لا تولد حروفًا مزيفة أو نصًا عربيًا مشوهًا.');
       if (d.noSplitWords) lines.push('لا تقسّم الكلمة العربية بين سطرين.');
       if (d.blankIfFail) lines.push('إذا تعذر النص بدقة، اترك مساحة فارغة بدل نص خاطئ.');
       sceneInstructionLines(d).forEach(line => lines.push(line));
-      {
-        const env = [
-          explicitOption(d.lighting) ? `الإضاءة: ${explicitOption(d.lighting)}.` : '',
-          explicitOption(d.cameraAngle) ? `زاوية المشهد: ${explicitOption(d.cameraAngle)}.` : '',
-          explicitOption(d.backgroundStyle) ? `الخلفية: ${explicitOption(d.backgroundStyle)}.` : ''
-        ].filter(Boolean).join(' ');
-        if (env) lines.push(env);
-      }
+      lines.push(`الإضاءة: ${d.lighting}. زاوية المشهد: ${d.cameraAngle}. الخلفية: ${d.backgroundStyle}.`);
       if (d.colors) lines.push(`الألوان: ${d.colors}.`);
       if (d.extraElements) lines.push(`العناصر الإضافية: ${d.extraElements}.`);
       {
         const footerTextComposed = effectiveFooterText(d);
-        if (footerTextComposed && isPoetryDesign(d)) lines.push(`التذييل: نص صغير جدًا في الزاوية السفلية اليمنى فقط يقرأ: "${footerTextComposed}".`);
-        else if (footerTextComposed) lines.push(`أضف تذييلًا واحدًا فقط في ${d.footerPosition} بالنص التالي: "${footerTextComposed}"، بأسلوب ${d.footerStyle}. ${footerSizeInstruction(d)} لا تكرره في أي موضع آخر. مع ترتيب ومحاذاة عربية من اليمين إلى اليسار.`);
+        if (footerTextComposed) lines.push(`أضف تذييلًا في ${d.footerPosition} بالنص التالي: "${footerTextComposed}"، بأسلوب ${d.footerStyle}. ${footerSizeInstruction(d)} مع ترتيب ومحاذاة عربية من اليمين إلى اليسار.`);
       }
       if (d.specialInstructions) lines.push(`تعليمات إضافية: ${d.specialInstructions}.`);
       if (d.negativeNotes) lines.push(`ممنوعات: ${d.negativeNotes}.`);
@@ -3117,7 +2835,6 @@
 
     function buildPromptShort(d) {
       d.rtl = true;
-      if (isPoetryDesign(d)) return buildPoetryPrompt(d);
       const parts = [];
       parts.push(`أنشئ ${imageTypePhrase(d)} عن "${d.title || d.subject || 'موضوع بصري'}" لغرض ${d.purpose} بأسلوب ${d.style}.`);
       parts.push(`النسبة: ${d.aspectRatio}. الجودة: ${d.qualityLevel}.`);
@@ -3127,49 +2844,30 @@
       if (d.audienceType && d.audienceType !== 'طلاب المدرسة') parts.push(`الفئة المستهدفة: ${d.audienceType}.`);
       if (!d.textHeavyActive) {
         const mainArabicText = primaryArabicText(d);
-        if (mainArabicText && isPoetryDesign(d)) parts.push(`النص المطلوب بدقة: ${poetryStructuredText(d)}.`);
-        else if (mainArabicText) parts.push(`استخدم النص حرفيًا دون تعديل: "${mainArabicText}".`);
+        if (mainArabicText) parts.push(`استخدم النص حرفيًا دون تعديل: "${mainArabicText}".`);
         else parts.push(noPrimaryTextInstruction(d));
         const secondaryText = secondaryArabicText(d);
         if (secondaryText) parts.push(`أضف النص الثانوي: "${secondaryText}".`);
       }
       if (d.rtl) parts.push(rtlLayoutInstruction());
-      {
-        const layoutInstruction = arabicLayoutInstruction(d);
-        if (layoutInstruction) parts.push(layoutInstruction);
-      }
-      parts.push(visualHierarchyInstruction(d));
+      parts.push(arabicLayoutInstruction(d));
+      parts.push(visualHierarchyInstruction());
       parts.push(printQualityInstruction());
       const slideInstruction = slideGenerationInstruction(d);
       if (slideInstruction) parts.push(slideInstruction);
       const storyInstruction = storyGenerationInstruction(d);
       if (storyInstruction) parts.push(storyInstruction);
-      const poetryInstruction = poetryLayoutInstruction(d);
-      if (poetryInstruction) parts.push(poetryInstruction);
       {
         const guidance = inlineGuidanceInstruction(d);
         if (guidance) parts.push(guidance);
       }
       parts.push(tashkeelInstruction(d));
-      {
-        const textDetails = [titlePlacementInstruction(d), explicitOption(d.fontStyle) ? `نوع الخط: ${explicitOption(d.fontStyle)}.` : ''].filter(Boolean).join(' ');
-        if (textDetails) parts.push(textDetails);
-      }
+      parts.push(`${titlePlacementInstruction(d)} نوع الخط: ${d.fontStyle}.`);
       if (d.textFormatting) parts.push(`تنسيق النص: ${d.textFormatting}.`);
       parts.push(numberInstruction(d.numberStyle, d.consistentDigits));
       if (d.viewerPerspective) parts.push('اليمين واليسار من منظور المشاهد.');
-      {
-        const mainElementPosition = explicitOption(d.mainElementPosition);
-        if (mainElementPosition) parts.push(`العنصر الرئيسي في ${mainElementPosition}.`);
-      }
-      {
-        const env = [
-          explicitOption(d.cameraAngle) ? `زاوية المشهد: ${explicitOption(d.cameraAngle)}.` : '',
-          explicitOption(d.lighting) ? `الإضاءة: ${explicitOption(d.lighting)}.` : '',
-          explicitOption(d.backgroundStyle) ? `الخلفية: ${explicitOption(d.backgroundStyle)}.` : ''
-        ].filter(Boolean).join(' ');
-        if (env) parts.push(env);
-      }
+      parts.push(`العنصر الرئيسي في ${d.mainElementPosition}.`);
+      parts.push(`زاوية المشهد: ${d.cameraAngle}. الإضاءة: ${d.lighting}. الخلفية: ${d.backgroundStyle}.`);
       if (d.noMirror) parts.push('لا تعكس الصورة أفقيًا.');
       if (d.noFakeArabic) parts.push('لا تستخدم حروفًا عربية مزيفة أو مشوهة.');
       if (d.blankIfFail) parts.push('إذا تعذر النص بدقة، اترك مساحة فارغة بدل نص خاطئ.');
@@ -3178,8 +2876,7 @@
       if (d.extraElements) parts.push(`العناصر: ${d.extraElements}.`);
       {
         const footerTextComposed = effectiveFooterText(d);
-        if (footerTextComposed && isPoetryDesign(d)) parts.push(`التذييل: نص صغير جدًا في الزاوية السفلية اليمنى فقط يقرأ: "${footerTextComposed}".`);
-        else if (footerTextComposed) parts.push(`أضف تذييلًا واحدًا فقط في ${d.footerPosition} بالنص: "${footerTextComposed}" وبأسلوب ${d.footerStyle}. ${footerSizeInstruction(d)} لا تكرره في أي موضع آخر. مع محاذاة وترتيب عربي من اليمين إلى اليسار.`);
+        if (footerTextComposed) parts.push(`أضف تذييلًا في ${d.footerPosition} بالنص: "${footerTextComposed}" وبأسلوب ${d.footerStyle}. ${footerSizeInstruction(d)} مع محاذاة وترتيب عربي من اليمين إلى اليسار.`);
       }
       if (d.specialInstructions) parts.push(`تعليمات إضافية: ${d.specialInstructions}.`);
       if (d.negativeNotes) parts.push(`ممنوعات: ${d.negativeNotes}.`);
@@ -3206,13 +2903,7 @@
         'fake Arabic letters',
         'gibberish text',
         'misspelled Arabic',
-        'wrong Arabic dots',
-        'extra dots on Arabic letters',
-        'missing dots on Arabic letters',
-        'Arabic letters changed by dot mistakes',
         'broken letter connections',
-        'compressed Arabic words',
-        'squeezed Arabic letters',
         'split Arabic words',
         'random symbols',
         'low readability',
@@ -3235,9 +2926,6 @@
         'duplicate elements',
         'watermarks'
       ];
-      if (effectiveFooterText(d)) {
-        parts.push('duplicate footer', 'repeated signature text', 'same footer text in two places', 'extra watermark-like signature');
-      }
       if (d.textHeavyActive || (d.layoutType || '').includes('جدول عربي')) {
         parts.push('left-to-right table order', 'first table column on the left', 'wrong RTL card order', 'RTL grid starts from left', 'card sequence starts from left', 'cards ordered left-to-right', 'crowded Arabic table', 'overlapping table text', 'splitting one infographic into multiple pages', 'part 1 part 2 labels', 'unnecessary page split');
       }
@@ -3247,9 +2935,6 @@
       if (isStoryMode(d)) {
         parts.push('inconsistent character design', 'character identity drift', 'different clothes between story pages', 'wrong story page order', 'comic bubbles left-to-right', 'speech bubble tail pointing to wrong character', 'story text outside safe area', 'unreadable story caption');
         if (d.storyCoverMode === 'on') parts.push('missing story cover', 'cover mixed with story pages', 'wrong cover title', 'random author name on cover');
-      }
-      if (isPoetryDesign(d)) {
-        parts.push('poem formatted as prose paragraph', 'wrong Arabic poem hemistich order', 'mixed poem hemistiches', 'missing poem line', 'merged hemistiches', 'stacked poem hemistiches', 'hemistiches displayed vertically', 'one-column poem layout when two columns requested', 'unequal poetry columns', 'poetry starts from left');
       }
       if (d.designMode === 'editExistingImage') parts.push('unwanted full redesign', 'changed original layout', 'changed original colors');
       if (d.keepTashkeel) parts.push('missing diacritics', 'wrong diacritics');
@@ -3290,25 +2975,24 @@
         sceneDesc: d.textHeavyActive ? '' : d.sceneDesc,
         referenceMaterial: referenceContent(d) || d._referenceText || d.referenceText,
         visibleTextPlan: d.textHeavyActive ? `اعرض النصوص النهائية الخاصة بعنوان "${d.title || d.subject || 'التصميم'}" داخل التصميم فقط، واستفد من النص المرجعي للتنظيم والمعنى دون عرضه كاملًا. حافظ على النصوص الأصلية دون اختصار، واجمع الإنفوجرافيك في صفحة واحدة مع لفّ العبارات داخل الخلايا أو البطاقات عند الحاجة.` : '',
-        visualHierarchy: visualHierarchyInstruction(d),
+        visualHierarchy: visualHierarchyInstruction(),
         outputQuality: printQualityInstruction(),
         colors: d.colors,
-        lighting: explicitOption(d.lighting),
-        cameraAngle: explicitOption(d.cameraAngle),
-        backgroundStyle: explicitOption(d.backgroundStyle),
-        mainElementPosition: explicitOption(d.mainElementPosition),
+        lighting: d.lighting,
+        cameraAngle: d.cameraAngle,
+        backgroundStyle: d.backgroundStyle,
+        mainElementPosition: d.mainElementPosition,
         extraElements: d.extraElements,
-        arabicText: isPoetryDesign(d) ? poetryStructuredText(d) : primaryArabicText(d),
+        arabicText: primaryArabicText(d),
         visibleDesignText: d.textHeavyActive ? visibleDesignText(d) : '',
         secondaryText: secondaryArabicText(d),
         inlineGuidance: inlineGuidanceLines(d).join('\n'),
-        poetryLayout: isPoetryDesign(d) ? poetryLayoutInstruction(d) : '',
-        textPosition: explicitOption(d.textPosition),
-        fontStyle: explicitOption(d.fontStyle),
+        textPosition: d.textPosition,
+        fontStyle: d.fontStyle,
         numberStyle: d.numberStyle,
         textImportance: d.textImportance,
         textFormatting: d.textFormatting,
-        layoutType: (d.layoutType === 'بلا' || d.layoutType === 'تلقائي حسب نوع التصميم') ? '' : d.layoutType,
+        layoutType: d.layoutType,
         slideMode: activeSlide ? 'on' : '',
         storyMode: activeStory ? 'on' : '',
         enableFooter: footerTextComposed ? 'yes' : '',
@@ -3413,31 +3097,11 @@
 
       if (d.secondaryText) notes.push({ type: 'good', text: 'وجود نص ثانوي يعطيك مرونة أكبر في البوسترات والعناوين الفرعية.' });
       if (inlineGuidanceLines(d).length) notes.push({ type: 'good', text: 'تم العثور على إرشادات داخلية بين // //، وسيستخدمها المولد كتوجيهات تنسيق غير ظاهرة. كما يدعم وسوم [[ ]] القديمة للتوافق.' });
-      if (isPoetryDesign(d)) {
-        const poetryInfo = poetryStructureInfo(d);
-        const verseCount = Math.ceil(poetryInfo.bodyLines.length / 2);
-        notes.push({ type: 'good', text: 'وضع اللوحة الشعرية مفعل؛ سيعامل المولد كل سطر كشطر مستقل، وكل سطرين متتاليين كبيت واحد بتنسيق عمودين.' });
-        if (!poetryInfo.lines.length) {
-          notes.push({ type: 'warn', text: 'للوحة الشعرية: ضع العنوان في السطر الأول، ثم كل شطر في سطر مستقل، أو اكتب كل بيت في سطر واحد وافصل بين شطريه بوسم //مسافة بصرية//، واجعل اسم الشاعر أو النسبة في السطر الأخير إن وجدت.' });
-        } else if (poetryInfo.bodyLines.length % 2 !== 0) {
-          notes.push({ type: 'warn', text: `عدد شطور الشعر بعد استبعاد العنوان أو النسبة يبدو فرديًا (${displayNumber(poetryInfo.bodyLines.length, d.numberStyle)}). راجع النص حتى لا يبقى بيت بلا شطر مقابل.` });
-        } else if (poetryInfo.bodyLines.length >= 2) {
-          notes.push({ type: 'good', text: `عدد شطور الشعر متوازن (${displayNumber(poetryInfo.bodyLines.length, d.numberStyle)} شطرًا)، وهذا مناسب لتنسيق الأبيات في عمودين.` });
-        }
-        if (verseCount >= 4 && isTallAspectRatio(d.aspectRatio)) {
-          notes.push({ type: 'warn', text: `تنبيه مقاس شعري: لديك ${displayNumber(verseCount, d.numberStyle)} أبيات في مقاس رأسي/عمودي. لتجنب كسر الشطور وضغط الكلمات، الأفضل اختيار A4 أفقي أو تقليل عدد الأبيات.` });
-        } else if (verseCount >= 4 && /أفقي|16:9/.test(d.aspectRatio || '')) {
-          notes.push({ type: 'good', text: 'اختيار المقاس الأفقي مناسب للأبيات المتعددة؛ يعطي كل شطر مساحة كافية ويقلل كسر الكلمات.' });
-        }
-        if (poetryInfo.bodyLines.length > 8 && d.keepTashkeel) {
-          notes.push({ type: 'note', text: 'تنبيه شعري: النص طويل ومشكول، وهذا يرفع احتمال أخطاء النقاط أو ضغط الكلمات في مولدات الصور. إن ظهرت أخطاء متكررة فجرب تقليل عدد الأبيات أو توليد خلفية شعرية بلا نص ثم إضافة النص كطبقة خط حقيقية.' });
-        }
-      }
       directiveSyntaxWarnings(d).forEach(text => notes.push({ type: 'warn', text }));
       if (d.visualPromptMode === 'hybrid') notes.push({ type: 'good', text: 'الوضع المختلط الاحترافي مفعل: إنجليزي للتصميم وعربي للنصوص، وهذا مناسب جدًا لمعظم مولدات الصور.' });
       else if (d.visualPromptMode === 'englishVisual') notes.push({ type: 'good', text: 'الوصف البصري الإنجليزي مفعل مع قواعد عربية، وهذا يساعد النموذج على فهم التصميم.' });
       else notes.push({ type: 'note', text: 'الوصف عربي كامل؛ إن احتجت نتائج تصميم أقوى جرّب الوضع المختلط الاحترافي.' });
-      if (explicitOption(d.layoutType) && d.layoutType !== 'تخطيط عربي مرن حسب المحتوى') notes.push({ type: 'good', text: 'تم تحديد نوع التخطيط العربي، وهذا يساعد النموذج على ترتيب العناصر بدل الاكتفاء بوصف عام.' });
+      if (d.layoutType) notes.push({ type: 'good', text: 'تم تحديد نوع التخطيط العربي، وهذا يساعد النموذج على ترتيب العناصر بدل الاكتفاء بوصف عام.' });
       if (d.audienceType && d.audienceType !== 'طلاب المدرسة') notes.push({ type: 'good', text: `الفئة المستهدفة مضبوطة على: ${d.audienceType}.` });
       if (isSlideMode(d)) {
         const outputSlides = clampInt(d.slideCount, 1, 10, 10);
@@ -3502,7 +3166,7 @@
       if (d.textFormatting) score += 5;
       if (d.visualPromptMode === 'hybrid') score += 6;
       else if (d.visualPromptMode === 'englishVisual') score += 4;
-      if (explicitOption(d.layoutType) && d.layoutType !== 'تخطيط عربي مرن حسب المحتوى') score += 6;
+      if (d.layoutType && d.layoutType !== 'تخطيط عربي مرن حسب المحتوى') score += 6;
       if (isSlideMode(d)) score += 6;
       if (isSlideMode(d) && d.slideSourceMode === 'generated' && d.slideGeneratedItems) score += 6;
       else if (isSlideMode(d) && d.slideItems) score += 6;
@@ -3584,10 +3248,8 @@
     function syncModeFieldsFromImageType() {
       const type = fields.imageType.value || '';
       const autoLayouts = [
-        'تلقائي حسب نوع التصميم',
         'تخطيط عربي مرن حسب المحتوى',
         'إنفوجرافيك خطوات يبدأ من اليمين',
-        'لوحة شعرية عربية بتنسيق الشطرين',
         'شرائح عرض عربية مستقلة من اليمين إلى اليسار',
         'قصة مصورة عربية متعددة الصفحات'
       ];
@@ -3616,11 +3278,7 @@
       fields.storyMode.value = 'off';
 
       if (type.includes('إنفوجرافيك')) setAutoLayout('إنفوجرافيك خطوات يبدأ من اليمين');
-      else if (type.includes('لوحة شعرية') || type.includes('اقتباس أدبي')) {
-        setAutoLayout('لوحة شعرية عربية بتنسيق الشطرين');
-        if (isTallAspectRatio(fields.aspectRatio.value) || fields.aspectRatio.value === '1:1 مربع') fields.aspectRatio.value = 'A4 أفقي';
-      }
-      else setAutoLayout('تلقائي حسب نوع التصميم');
+      else setAutoLayout('تخطيط عربي مرن حسب المحتوى');
     }
 
     function setupSmartSections() {
@@ -3690,19 +3348,19 @@
       fields.sceneDesc.value = '';
       fields.referenceText.value = '';
       fields.colors.value = '';
-      fields.lighting.value = 'تلقائي حسب نوع التصميم';
-      fields.cameraAngle.value = 'تلقائي حسب نوع التصميم';
-      fields.backgroundStyle.value = 'تلقائي حسب نوع التصميم';
-      fields.mainElementPosition.value = 'تلقائي حسب نوع التصميم';
+      fields.lighting.value = 'إضاءة ناعمة ومتوازنة';
+      fields.cameraAngle.value = 'مباشرة وواضحة';
+      fields.backgroundStyle.value = 'نظيفة وغير مزدحمة';
+      fields.mainElementPosition.value = 'يسار الصورة من منظور المشاهد';
       fields.extraElements.value = '';
       fields.arabicText.value = '';
       fields.secondaryText.value = '';
-      fields.textPosition.value = 'تلقائي حسب نوع التصميم';
-      fields.fontStyle.value = 'تلقائي مناسب للتصميم';
+      fields.textPosition.value = 'أعلى يمين الصورة';
+      fields.fontStyle.value = 'خط نسخي واضح';
       fields.numberStyle.value = 'english';
       fields.textImportance.value = 'أولوية قصوى جدًا';
       fields.textFormatting.value = '';
-      fields.layoutType.value = 'تلقائي حسب نوع التصميم';
+      fields.layoutType.value = 'تخطيط عربي مرن حسب المحتوى';
       fields.slideMode.value = 'off';
       fields.slideSize.value = 'A4 عرضي';
       fields.slideSourceMode.value = 'attached';
