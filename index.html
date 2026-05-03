@@ -1157,6 +1157,7 @@
                   <option>مشهد سينمائي</option>
                   <option>لوحة فنية</option>
                   <option>لوحة شعرية / اقتباس أدبي</option>
+                  <option>أصل نصي خطي مستقل</option>
                   <option>بطاقة دعوة</option>
                   <option>هوية بصرية</option>
                   <option>شرائح صور متعددة مستقلة</option>
@@ -1448,6 +1449,7 @@
                   <option>تصميم إعلاني عربي بعنوان بارز</option>
                   <option>منشور سوشيال عربي عالي الوضوح</option>
                   <option>لوحة شعرية عربية بتنسيق الشطرين</option>
+                  <option>أصل نصي خطي مستقل قابل للإدراج</option>
                   <option>شرائح عرض عربية مستقلة من اليمين إلى اليسار</option>
                   <option>قصة مصورة عربية متعددة الصفحات</option>
                 </select>
@@ -2244,6 +2246,7 @@
     function noPrimaryTextInstruction(d) {
       if (isSlideMode(d)) return '- لا يوجد نص عربي عام إلزامي؛ استخدم النصوص المذكورة داخل أوصاف الشرائح فقط، ولا تضف عبارة افتراضية مثل "ضع النص هنا".';
       if (isStoryMode(d)) return '- لا يوجد نص عربي عام إلزامي؛ استخدم نصوص الصفحات أو فقاعات الحوار المذكورة في وصف القصة فقط، ولا تضف عبارة افتراضية مثل "ضع النص هنا".';
+      if (isTextAssetDesign(d)) return '- لم يُدخل نص الأصل الخطي بعد؛ ضع كل سطر مطلوب ظهوره في سطر مستقل، ويمكن استخدام //...// للتوجيه غير الظاهر أو //مسافة بصرية// للفصل بين شطري بيت.';
       if (isPoetryDesign(d)) return '- لم يُدخل نص شعري بعد؛ للوحة الشعرية ضع العنوان في السطر الأول، ثم اكتب كل شطر في سطر مستقل، أو اكتب كل بيت في سطر واحد وافصل بين شطريه بوسم مثل //مسافة بصرية//، واجعل اسم الشاعر أو النسبة في السطر الأخير إن وجدت.';
       if (d.textHeavyActive) return '- لا يوجد نص حرفي عام في حقل النص الأساسي؛ استخرج النصوص الظاهرة من قسم المعلومات المرجعية مع الحفاظ على العبارات الأصلية كما هي دون اختصار داخل العبارة أو إعادة صياغة.';
       if (referenceContent(d)) return '- لا يوجد نص حرفي محدد يجب نسخه كاملًا؛ استخرج من النص المرجعي عناوين قصيرة وعبارات مناسبة للتصميم، ولا تعرض النص المرجعي كاملًا، ولا تضف أفكارًا أو نصوصًا خارج معناه.';
@@ -2278,6 +2281,11 @@
     function isPoetryDesign(d) {
       const source = [d.imageType, d.layoutType].join(' ');
       return /لوحة شعرية|اقتباس أدبي|تنسيق الشطرين/.test(source);
+    }
+
+    function isTextAssetDesign(d) {
+      const source = [d.imageType, d.layoutType].join(' ');
+      return /أصل نصي|نصي خطي|قابل للإدراج|مخطوطة جرافيكية/.test(source);
     }
 
     function splitPoetryLineByInlineSeparator(line) {
@@ -2358,6 +2366,29 @@
         out.push(`"${info.lines[info.lines.length - 1]}"`);
       }
       return out.join('\n');
+    }
+
+    function textAssetLines(d) {
+      const raw = clean(d._arabicText ?? d.arabicText ?? '');
+      return raw
+        .split('\n')
+        .map(line => {
+          const rawLine = String(line || '');
+          if (!rawLine.trim()) return '';
+          const parts = rawLine
+            .split(/\/\/[\s\S]*?\/\//g)
+            .map(part => stripInlineGuidance(part).trim())
+            .filter(Boolean);
+          if (parts.length > 1) return parts.join(' | ');
+          return stripInlineGuidance(rawLine).trim();
+        })
+        .filter(Boolean);
+    }
+
+    function textAssetVisibleText(d) {
+      const lines = textAssetLines(d);
+      if (!lines.length) return '';
+      return lines.map(line => `- "${line}"`).join('\n');
     }
 
     function displayNumber(n, style) {
@@ -2549,6 +2580,7 @@
       if (layoutType.includes('تصميم إعلاني')) return 'Arabic advertising layout with a strong right-aligned headline, clear offer area, balanced product space';
       if (layoutType.includes('منشور سوشيال')) return 'high-readability Arabic social post layout, bold right-aligned hook, clean visual hierarchy';
       if (layoutType.includes('لوحة شعرية')) return 'Arabic poetry poster layout, title at top, two balanced hemistich columns, right hemistich first, left hemistich second, elegant classical spacing';
+      if (layoutType.includes('أصل نصي')) return 'standalone Arabic calligraphic text asset, reusable transparent-like clean text block, no full poster or certificate layout';
       if (layoutType.includes('شرائح عرض')) return 'separate Arabic presentation slides, A4 landscape, each slide uses one attached screenshot with its matching caption, consistent RTL slide system';
       if (layoutType.includes('قصة مصورة')) return 'multi-page Arabic illustrated story, consistent characters across all pages, clear comic/storybook page composition, RTL text placement';
       return 'flexible Arabic RTL layout, right-aligned text, clear hierarchy, balanced composition';
@@ -2559,6 +2591,7 @@
       if (layout === 'بلا') return '';
       if (layout === 'تلقائي حسب نوع التصميم') {
         if (isPoetryDesign(d)) return 'نوع التخطيط العربي: لوحة شعرية عربية بتنسيق الشطرين. نسّق النص الشعري بنظام شطرين عربي: العنوان في الأعلى، والأبيات في وسط اللوحة، والشطر الأول في العمود الأيمن والشطر الثاني في العمود الأيسر.';
+        if (isTextAssetDesign(d)) return 'نوع التخطيط العربي: أصل نصي خطي مستقل. اجعل النص نفسه هو العنصر الجرافيكي النهائي، بلا بوستر كامل أو شهادة أو بطاقة، وبلا تكرار لأي سطر.';
         if (isSlideMode(d)) return 'نوع التخطيط العربي: شرائح عرض عربية مستقلة من اليمين إلى اليسار. اجعل كل شريحة مستقلة ومنظمة وتبدأ قراءتها من اليمين.';
         if (isStoryMode(d)) return 'نوع التخطيط العربي: قصة مصورة عربية متعددة الصفحات. اجعل كل صفحة مشهدًا قصصيًا واضحًا وحافظ على اتجاه القراءة العربي.';
         if ((d.imageType || '').includes('إنفوجرافيك')) return 'نوع التخطيط العربي: إنفوجرافيك عربي منظم. اجعل الترتيب العام والمحاذاة واتجاه القراءة متوافقة مع العربية من اليمين إلى اليسار.';
@@ -2573,6 +2606,7 @@
       else if (layout.includes('تصميم إعلاني')) detail = 'اجعل العنوان أو العرض الرئيسي بارزًا في الجهة اليمنى أو أعلى اليمين، مع توازن واضح بين النص والمنتج أو العنصر البصري.';
       else if (layout.includes('منشور سوشيال')) detail = 'اجعل الجملة الجاذبة واضحة وكبيرة ومحاذاة لليمين، مع مساحات هواء كافية حتى تقرأ بسرعة على الهاتف.';
       else if (layout.includes('لوحة شعرية')) detail = 'نسّق النص الشعري بنظام شطرين عربي: العنوان في الأعلى، الأبيات في وسط اللوحة، الشطر الأول من كل بيت في العمود الأيمن والشطر الثاني في العمود الأيسر، مع توازن عرض العمودين وفاصل بصري رصين بينهما.';
+      else if (layout.includes('أصل نصي')) detail = 'أخرج النص ككتلة خطية مستقلة قابلة للإدراج داخل قالب آخر، مع هرمية واضحة بين العنوان والنسبة والمتن، ودون خلفية أو بطاقة كاملة.';
       else if (layout.includes('شرائح عرض')) detail = 'اجعل كل شريحة مستقلة ومنظمة، تبدأ قراءتها من اليمين، وتحافظ على نفس النظام البصري بين جميع الشرائح.';
       else if (layout.includes('قصة مصورة')) detail = 'اجعل كل صفحة مشهدًا قصصيًا واضحًا، وحافظ على الشخصيات نفسها واتجاه القراءة العربي بين الصفحات.';
       return `نوع التخطيط العربي: ${layout}. ${detail}`;
@@ -2871,8 +2905,53 @@
       return lines.join('\n');
     }
 
+    function buildTextAssetPrompt(d) {
+      d.rtl = true;
+      const lines = [];
+      const title = clean(d.title || d.subject || 'أصل نصي خطي عربي');
+      lines.push(`أنشئ أصلًا نصيًا عربيًا مستقلًا عن "${title}"، يعالج النص نفسه كمخطوطة جرافيكية عربية قابلة للإدراج داخل تصميم آخر.`);
+      lines.push('المطلوب ليس بوسترًا كاملًا ولا بطاقة ولا شهادة ولا دعوة؛ المطلوب كتلة نصية خطية نظيفة ومستقلة فقط.');
+      lines.push(`الأسلوب الخطي: ${d.style || 'مزيج نسخي وثلثي أنيق'}. الجودة: ${d.qualityLevel || 'عالية جدًا'}.`);
+      lines.push('رتّب الأولويات هكذا: أولًا سلامة النص والكلمات، ثانيًا القراءة العربية الواضحة، ثالثًا الجمال الخطي والهرمية البصرية.');
+      lines.push('أظهر كل سطر مرة واحدة فقط، ولا تكرر أي عبارة في أعلى أو أسفل المخرج.');
+      lines.push('اجعل الخلفية نظيفة جدًا أو شبه فارغة، والزخرفة خفيفة حول النص فقط إن طُلبت، دون إطار شهادة أو قالب بطاقة كامل.');
+      if (d.colors) lines.push(`المعالجة اللونية: ${d.colors}.`);
+      else lines.push('المعالجة اللونية: ذهبي وبني أنيق أو حبر عربي داكن حسب ما يخدم وضوح النص.');
+      {
+        const sceneLines = sceneInstructionLines(d);
+        if (sceneLines.length) lines.push(`إضافات بصرية اختيارية غير مزاحمة: ${sceneLines.join(' ')}`);
+      }
+      if (d.extraElements) lines.push(`عناصر إضافية خفيفة: ${d.extraElements}.`);
+      lines.push('');
+      lines.push('النصوص الوحيدة المسموح بإظهارها داخل الأصل النصي، وبالترتيب التالي تمامًا:');
+      const visible = textAssetVisibleText(d);
+      lines.push(visible || noPrimaryTextInstruction(d));
+      lines.push('');
+      lines.push('قواعد الأصل النصي:');
+      lines.push('- كل النصوص عربية RTL من اليمين إلى اليسار، مع محاذاة عربية صحيحة حسب موضع السطر.');
+      lines.push('- حافظ على النص كما هو، ولا تضف كلمات تخمينية أو عناوين غير مذكورة.');
+      lines.push('- لا تضف تشكيلًا جديدًا للنصوص؛ حافظ على التشكيل الموجود فقط إذا وُجد.');
+      lines.push('- إذا احتوى سطر على الرمز | فافهمه كفاصل داخلي بين شطرين أو جزأين، ولا تعرض الرمز نفسه داخل الصورة.');
+      lines.push('- اجعل العنوان أو السطر الأول أكبر وأكثر حضورًا، واجعل النسبة أو السطر الثاني أخف وزنًا إذا وُجد، ثم اجعل بقية النص واضحًا ومتوازنًا.');
+      lines.push('- لا تعرض الشرطتين // ولا أي إرشاد مكتوب داخلهما؛ هذه توجيهات تنسيق فقط وليست نصًا ظاهرًا.');
+      lines.push(`- ${numberInstruction(d.numberStyle, d.consistentDigits)}`);
+      {
+        const guidance = inlineGuidanceInstruction(d);
+        if (guidance) {
+          lines.push('');
+          lines.push(guidance);
+        }
+      }
+      if (d.specialInstructions) lines.push(`تعليمات إضافية: ${d.specialInstructions}.`);
+      lines.push('');
+      lines.push('أولوية قصوى: النص الصحيح المقروء مرة واحدة فقط، ثم الجمال الخطي.');
+      lines.push(encodingNote());
+      return lines.join('\n');
+    }
+
     function buildPromptFull(d) {
       d.rtl = true;
+      if (isTextAssetDesign(d)) return buildTextAssetPrompt(d);
       if (isPoetryDesign(d)) return buildPoetryPrompt(d);
       const lines = [];
       lines.push(`أنشئ صورة من نوع "${d.imageType}" موجهة لغرض "${d.purpose}" عن موضوع "${d.title || d.subject || 'موضوع بصري واضح'}".`);
@@ -3034,6 +3113,7 @@
 
     function buildPromptMedium(d) {
       d.rtl = true;
+      if (isTextAssetDesign(d)) return buildTextAssetPrompt(d);
       if (isPoetryDesign(d)) return buildPoetryPrompt(d);
       const lines = [];
       lines.push(`أنشئ ${imageTypePhrase(d)} لغرض ${d.purpose} عن "${d.title || d.subject || 'موضوع بصري'}" بأسلوب ${d.style}.`);
@@ -3118,6 +3198,7 @@
 
     function buildPromptShort(d) {
       d.rtl = true;
+      if (isTextAssetDesign(d)) return buildTextAssetPrompt(d);
       if (isPoetryDesign(d)) return buildPoetryPrompt(d);
       const parts = [];
       parts.push(`أنشئ ${imageTypePhrase(d)} عن "${d.title || d.subject || 'موضوع بصري'}" لغرض ${d.purpose} بأسلوب ${d.style}.`);
@@ -3238,6 +3319,9 @@
       ];
       if (effectiveFooterText(d)) {
         parts.push('duplicate footer', 'repeated signature text', 'same footer text in two places', 'extra watermark-like signature');
+      }
+      if (isTextAssetDesign(d)) {
+        parts.push('full card design', 'poster layout', 'invitation card composition', 'certificate border', 'official certificate template', 'printed sheet mockup', 'ornamental background', 'heavy frame', 'floral motifs', 'corner decorations', 'extra icons', 'invented words', 'repeated lines', 'duplicated text', 'visible delimiter symbols', 'visible slash guidance', 'list numbers', 'bullet points');
       }
       if (d.textHeavyActive || (d.layoutType || '').includes('جدول عربي')) {
         parts.push('left-to-right table order', 'first table column on the left', 'wrong RTL card order', 'RTL grid starts from left', 'card sequence starts from left', 'cards ordered left-to-right', 'crowded Arabic table', 'overlapping table text', 'splitting one infographic into multiple pages', 'part 1 part 2 labels', 'unnecessary page split');
@@ -3414,6 +3498,12 @@
 
       if (d.secondaryText) notes.push({ type: 'good', text: 'وجود نص ثانوي يعطيك مرونة أكبر في البوسترات والعناوين الفرعية.' });
       if (inlineGuidanceLines(d).length) notes.push({ type: 'good', text: 'تم العثور على إرشادات داخلية بين // //، وسيستخدمها المولد كتوجيهات تنسيق غير ظاهرة. كما يدعم وسوم [[ ]] القديمة للتوافق.' });
+      if (isTextAssetDesign(d)) {
+        const assetLines = textAssetLines(d);
+        notes.push({ type: 'good', text: 'وضع الأصل النصي الخطي مفعل؛ سيعامل النص ككتلة جرافيكية مستقلة قابلة للإدراج، وليس كبوستر أو شهادة كاملة.' });
+        if (!assetLines.length) notes.push({ type: 'warn', text: 'ضع النصوص المطلوب إظهارها في حاوية النصوص النهائية، سطرًا لكل عبارة، واستخدم //...// للإرشادات غير الظاهرة.' });
+        else notes.push({ type: 'good', text: `عدد أسطر الأصل النصي الظاهرة: ${displayNumber(assetLines.length, d.numberStyle)}، وسيُطلب عدم تكرار أي سطر.` });
+      }
       if (isPoetryDesign(d)) {
         const poetryInfo = poetryStructureInfo(d);
         const verseCount = Math.ceil(poetryInfo.bodyLines.length / 2);
@@ -3544,6 +3634,7 @@
     function smartContextName(d) {
       if (isStoryMode(d)) return 'story';
       if (isSlideMode(d)) return 'slides';
+      if (isTextAssetDesign(d)) return 'textasset';
       if ((d.imageType || '').includes('إنفوجرافيك') || d.textHeavyActive) return 'infographic';
       return 'general';
     }
@@ -3551,6 +3642,7 @@
     function smartContextLabel(context) {
       if (context === 'story') return 'القصة المصورة';
       if (context === 'slides') return 'شرائح الصور';
+      if (context === 'textasset') return 'الأصل النصي الخطي';
       if (context === 'infographic') return 'الإنفوجرافيك النصي';
       return 'التصميم العام';
     }
@@ -3573,7 +3665,7 @@
         return;
       }
 
-      setSmartVisibility(textSection, context === 'general' || context === 'infographic');
+      setSmartVisibility(textSection, context === 'general' || context === 'infographic' || context === 'textasset');
       setSmartVisibility(slidesSection, context === 'slides');
       setSmartVisibility(storySection, context === 'story');
 
@@ -3589,6 +3681,7 @@
         'تخطيط عربي مرن حسب المحتوى',
         'إنفوجرافيك خطوات يبدأ من اليمين',
         'لوحة شعرية عربية بتنسيق الشطرين',
+        'أصل نصي خطي مستقل قابل للإدراج',
         'شرائح عرض عربية مستقلة من اليمين إلى اليسار',
         'قصة مصورة عربية متعددة الصفحات'
       ];
@@ -3620,6 +3713,11 @@
       else if (type.includes('لوحة شعرية') || type.includes('اقتباس أدبي')) {
         setAutoLayout('لوحة شعرية عربية بتنسيق الشطرين');
         if (isTallAspectRatio(fields.aspectRatio.value) || fields.aspectRatio.value === '1:1 مربع') fields.aspectRatio.value = 'A4 أفقي';
+      }
+      else if (type.includes('أصل نصي')) {
+        setAutoLayout('أصل نصي خطي مستقل قابل للإدراج');
+        if (!fields.style.value || fields.style.value === 'أنيق وحديث واحترافي') fields.style.value = 'مزيج نسخي وثلثي أنيق';
+        if (!fields.colors.value) fields.colors.value = 'ذهبي وبني أنيق';
       }
       else setAutoLayout('تلقائي حسب نوع التصميم');
     }
