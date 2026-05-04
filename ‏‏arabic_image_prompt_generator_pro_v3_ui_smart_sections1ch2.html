@@ -57,6 +57,8 @@
       }
 
       body {
+        /* ... خصائص موجودة ... */
+        text-align: right; /* ضمان أن المحاذاة الافتراضية يمينية وليست يسارية */
         margin: 0;
         font-family: "Cairo", "Tajawal", "Tahoma", sans-serif;
         color: var(--text);
@@ -2595,7 +2597,7 @@
           "٨": "8",
           "٩": "9",
         };
-        return text.replace(/[٠-٩]/g, (d) => map[d] || d);
+        return text.replace(/[٠-٩]/gu, (d) => map[d] || d);
       }
 
       function englishToEastern(text) {
@@ -2611,7 +2613,7 @@
           8: "٨",
           9: "٩",
         };
-        return text.replace(/[0-9]/g, (d) => map[d] || d);
+        return text.replace(/[0-9]/gu, (d) => map[d] || d);
       }
 
       function normalizeSpaces(text) {
@@ -3756,6 +3758,10 @@
         if (!el) return;
         insertTokenAtSelection(el, "//إرشاد غير ظاهر: //", 2);
         statusText.textContent = "تم إدراج إرشاد غير ظاهر بين // //";
+        // داخل دالة insertSlashGuidance
+        el.setSelectionRange(cursor, cursor);
+        statusText.textContent =
+          "تم إدراج وسم إرشاد. اكتب تعليماتك بين // و //"; // رسالة أكثر تحديداً
       }
 
       function gatherData() {
@@ -4640,6 +4646,9 @@
       }
 
       function compactFinalJson(d) {
+        d.title = stripInlineGuidance(d.title);
+        d.subject = stripInlineGuidance(d.subject);
+        // طبق نفس الشيء على أي نص قد يصل إلى JSON
         const activeSlide = isSlideMode(d);
         const activeStory = isStoryMode(d);
         const footerTextComposed = effectiveFooterText(d);
@@ -5300,6 +5309,15 @@
       }
 
       function generate() {
+        if (!d.subject && !d.arabicText && !d.sceneDesc) {
+          promptOutput.textContent =
+            "👈 ابدأ بإدخال موضوع الصورة والنص العربي للحصول على برومبت احترافي.";
+          negativeOutput.textContent = "سيظهر هنا تلقائيًا بعد توليد البرومبت.";
+          reportBox.textContent =
+            "أهلاً بك. املأ الحقول الأساسية وسأراجع بناء البرومبت هنا خطوة بخطوة.";
+          updateScore(0); // تأكد من أن شريط التقدم 0%
+          return; // أوقف التوليد هنا
+        }
         const d = prepareData(gatherData());
         promptOutput.textContent = buildPrompt(d);
         negativeOutput.textContent = buildNegativePrompt(d);
@@ -5875,7 +5893,12 @@
       );
       $("downloadBtn").addEventListener("click", downloadAll);
       $("exportBtn").addEventListener("click", exportJSON);
-      $("importBtn").addEventListener("click", () => $("importFile").click());
+      $("importBtn").addEventListener("click", () => {
+        openConfirmDialog(
+          "سيؤدي استيراد ملف JSON إلى استبدال جميع الإعدادات الحالية. هل تريد المتابعة؟",
+          () => $("importFile").click(), // نافذة الملفات تفتح فقط بعد التأكيد
+        );
+      });
       $("importFile").addEventListener("change", (e) => {
         const file = e.target.files && e.target.files[0];
         if (file) importJSONFile(file);
