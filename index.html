@@ -4653,6 +4653,12 @@
         const activeSlide = isSlideMode(d);
         const activeStory = isStoryMode(d);
         const footerTextComposed = effectiveFooterText(d);
+        let arabicTextValue = primaryArabicText(d);
+        if (isPoetryDesign(d)) {
+          arabicTextValue = poetryStructuredText(d);
+        } else if (isTextAssetDesign(d)) {
+          arabicTextValue = textAssetLines(d).join("\n");
+        }
         const out = {
           encoding: "UTF-8",
           imageType: d.imageType,
@@ -4685,9 +4691,7 @@
           backgroundStyle: explicitOption(d.backgroundStyle),
           mainElementPosition: explicitOption(d.mainElementPosition),
           extraElements: d._extraElements || d.extraElements,
-          arabicText: isPoetryDesign(d)
-            ? poetryStructuredText(d)
-            : primaryArabicText(d),
+          arabicText: arabicTextValue,
           visibleDesignText: d.textHeavyActive ? visibleDesignText(d) : "",
           secondaryText: secondaryArabicText(d),
           inlineGuidance: inlineGuidanceLines(d).join("\n"),
