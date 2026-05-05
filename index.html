@@ -1438,7 +1438,22 @@
                     <option>رسمي</option>
                   </select>
                 </div>
+                <!-- السطر الأول: نوع الصورة + الغرض (كما هو) -->
                 <div>
+                  <label for="imageType">نوع الصورة</label>
+                  <select id="imageType">
+                    ...
+                  </select>
+                </div>
+                <div>
+                  <label for="purpose">الغرض</label>
+                  <select id="purpose">
+                    ...
+                  </select>
+                </div>
+
+                <!-- السطر الثاني: الأسلوب يأخذ العرض كامل -->
+                <div class="full">
                   <label for="style">الأسلوب</label>
                   <input
                     id="style"
@@ -1446,6 +1461,79 @@
                     placeholder="مثال: واقعي، تعليمي، سينمائي، فاخر..."
                   />
                 </div>
+                <!-- ===== أزرار الستايلات الفنية السريعة ===== -->
+                <div class="full" style="margin-top: 4px; margin-bottom: 8px">
+                  <label style="font-size: 0.82rem; margin-bottom: 4px"
+                    >🎨 ستايلات فنية سريعة (تضاف إلى حقل الأسلوب أعلاه)</label
+                  >
+                  <div class="preset-row" style="gap: 6px">
+                    <button
+                      type="button"
+                      class="mini style-preset-btn"
+                      data-style="ستايل فيكتور تعليمي احترافي"
+                    >
+                      فيكتور تعليمي
+                    </button>
+                    <button
+                      type="button"
+                      class="mini style-preset-btn"
+                      data-style="3D واقعي، أبعاد ثلاثية"
+                    >
+                      3D واقعي
+                    </button>
+                    <button
+                      type="button"
+                      class="mini style-preset-btn"
+                      data-style="كرتوني تعليمي، ألوان زاهية"
+                    >
+                      كرتوني تعليمي
+                    </button>
+                    <button
+                      type="button"
+                      class="mini style-preset-btn"
+                      data-style="واقعي فوتوغرافي، دقة عالية"
+                    >
+                      واقعي فوتوغرافي
+                    </button>
+                    <button
+                      type="button"
+                      class="mini style-preset-btn"
+                      data-style="سريالي فني، ألوان حالمة"
+                    >
+                      سريالي
+                    </button>
+                    <button
+                      type="button"
+                      class="mini style-preset-btn"
+                      data-style="باوهاوس بسيط، هندسي نظيف"
+                    >
+                      باوهاوس
+                    </button>
+                    <button
+                      type="button"
+                      class="mini style-preset-btn"
+                      data-style="ألوان مائية ناعمة، فني يدوي"
+                    >
+                      ألوان مائية
+                    </button>
+                    <button
+                      type="button"
+                      class="mini style-preset-btn"
+                      data-style="سايبربانك، نيون، مستقبلي"
+                    >
+                      سايبربانك
+                    </button>
+                    <button
+                      type="button"
+                      class="mini style-preset-btn"
+                      data-style="إضاءة سينمائية، تباين عالي"
+                    >
+                      سينمائي
+                    </button>
+                  </div>
+                </div>
+                <!-- ===== نهاية الإضافة ===== -->
+                <!-- السطر الثالث: نسبة الأبعاد + مستوى الجودة -->
                 <div>
                   <label for="aspectRatio">نسبة الأبعاد</label>
                   <select id="aspectRatio">
@@ -1466,6 +1554,8 @@
                     <option>متوازنة</option>
                   </select>
                 </div>
+
+                <!-- السطر الرابع: نمط البرومبت + لغة الوصف الفني -->
                 <div>
                   <label for="outputMode">نمط البرومبت</label>
                   <select id="outputMode">
@@ -1486,6 +1576,8 @@
                     <option value="arabicOnly">عربي كامل</option>
                   </select>
                 </div>
+
+                <!-- السطر الخامس: موضوع الصورة عرض كامل -->
                 <div class="full">
                   <label for="subject">موضوع الصورة</label>
                   <input
@@ -6308,6 +6400,27 @@
         insertTokenAtSelection(targetField, token, 0);
         sel.value = "";
         statusText.textContent = `تم إدراج "${token}"`;
+      });
+      // ===== أزرار الستايلات الفنية السريعة =====
+      document.querySelectorAll(".style-preset-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const newStyle = btn.dataset.style;
+          if (!newStyle) return;
+          const styleField = fields.style;
+          const current = clean(styleField.value);
+          if (!current) {
+            styleField.value = newStyle;
+          } else {
+            styleField.value = current + "، " + newStyle;
+          }
+          styleField.focus();
+          statusText.textContent = `تم إضافة الستايل: "${newStyle}"`;
+          // تحديث التقرير والنتيجة
+          const d = prepareData(gatherData());
+          buildReport(d);
+          updateMeta(d);
+          updateScore(computeScore(d));
+        });
       });
       setupSmartSections();
       attachAutosave();
