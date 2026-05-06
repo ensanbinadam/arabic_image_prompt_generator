@@ -4111,17 +4111,15 @@
         const d = prepareData(gatherData());
         buildReport(d);
         updateMeta(d);
+        return cursor;
       }
 
       function insertSlashGuidance(targetId) {
         const el = fields[targetId] || $(targetId);
         if (!el) return;
         insertTokenAtSelection(el, "//إرشاد غير ظاهر: //", 2);
-        statusText.textContent = "تم إدراج إرشاد غير ظاهر بين // //";
-        // داخل دالة insertSlashGuidance
-        el.setSelectionRange(cursor, cursor);
         statusText.textContent =
-          "تم إدراج وسم إرشاد. اكتب تعليماتك بين // و //"; // رسالة أكثر تحديداً
+          "تم إدراج وسم إرشاد. اكتب تعليماتك بين // و //";
       }
 
       function gatherData() {
@@ -6516,6 +6514,7 @@
       });
 
       document.querySelectorAll(".slash-directive-btn").forEach((btn) => {
+        btn.addEventListener("mousedown", (e) => e.preventDefault());
         btn.addEventListener("click", () =>
           insertSlashGuidance(btn.dataset.slashDirectiveTarget),
         );
