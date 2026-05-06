@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="ar" dir="rtl">
   <head>
@@ -735,12 +736,13 @@
       }
 
       button::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: rgba(255, 255, 255, 0);
-        transition: background 0.18s;
-      }
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit; /* أضفنا هذا السطر للحفاظ على الزوايا الدائرية الجميلة عند مرور الماوس */
+  background: rgba(255, 255, 255, 0);
+  transition: background 0.18s;
+}
 
       button:hover::before {
         background: rgba(255, 255, 255, 0.12);
@@ -1264,6 +1266,82 @@
         color: var(--text-light);
         font-weight: 500;
       }
+      /* ===== SMART TOOLTIPS ===== */
+      [data-tooltip] {
+  position: relative;
+  cursor: help;
+  overflow: visible !important; /* هذا هو السر الذي سيسمح للتلميح بالخروج عن حدود الزر */
+}
+      [data-tooltip]::after {
+        content: attr(data-tooltip);
+        position: absolute;
+        bottom: 115%;
+        left: 50%;
+        transform: translateX(-50%) translateY(10px);
+        background: rgba(15, 10, 40, 0.95);
+        color: #fff;
+        padding: 6px 14px;
+        border-radius: 8px;
+        font-size: 0.78rem;
+        font-weight: 700;
+        width: max-content;
+        max-width: min(280px, 80vw);
+        white-space: normal;
+        text-align: center;
+        line-height: 1.6;
+        opacity: 0;
+        pointer-events: none;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 100;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      [data-tooltip]:hover::after {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+
+      /* ===== MY LIBRARY BUTTONS ===== */
+      .lib-divider {
+        width: 2px;
+        background: rgba(108, 61, 232, 0.15);
+        margin: 0 4px;
+        border-radius: 2px;
+      }
+      .library-btn {
+        border-color: var(--gold);
+        color: #b45309;
+        background: #fffcf8;
+      }
+      .library-btn:hover {
+        background: #fefce8;
+        border-color: #ca8a04;
+        box-shadow: 0 4px 18px rgba(234, 179, 8, 0.15);
+      }
+      .library-select {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        width: auto;
+        font-family: "Cairo", sans-serif;
+        font-weight: 800;
+        outline: none;
+        cursor: pointer;
+        appearance: auto;
+      }
+      .build-actions {
+        align-items: center;
+      }
+      .build-actions .library-select {
+        flex: 1 1 240px;
+        max-width: 360px;
+      }
+      @media (max-width: 720px) {
+        .build-actions .library-select {
+          flex-basis: 100%;
+          max-width: none;
+          width: 100%;
+        }
+      }
     </style>
   </head>
   <body>
@@ -1324,6 +1402,8 @@
               >
                 مسح النصوص فقط
               </button>
+              <button class="secondary" id="exampleBtn">تعبئة مثال قوي</button>
+              <button class="ghost" id="clearBtn">مسح الحقول</button>
             </div>
             <div class="status" id="statusText">جاهز للعمل</div>
           </div>
@@ -1387,6 +1467,7 @@
                 </button>
                 <button class="preset" data-preset="ad">إعلان عربي</button>
                 <button class="preset" data-preset="invite">بطاقة دعوة</button>
+                <button class="preset" data-preset="brochure">مطوية</button>
                 <button class="preset" data-preset="slides">
                   شرائح صور متعددة
                 </button>
@@ -1418,6 +1499,7 @@
                     <option>تصميم بطابع واقعي</option>
                     <option>مشهد سينمائي</option>
                     <option>لوحة فنية</option>
+                    <option>مطوية / بروشور متعدد الأعمدة</option>
                     <option>لوحة شعرية / اقتباس أدبي</option>
                     <option>أصل نصي خطي مستقل</option>
                     <option>بطاقة دعوة</option>
@@ -1449,73 +1531,18 @@
                 <!-- ===== أزرار الستايلات الفنية السريعة ===== -->
                 <div class="full" style="margin-top: 4px; margin-bottom: 8px">
                   <label style="font-size: 0.82rem; margin-bottom: 4px"
-                    >🎨 ستايلات فنية سريعة (تضاف إلى حقل الأسلوب أعلاه)</label
-                  >
-                  <div class="preset-row" style="gap: 6px">
-                    <button
-                      type="button"
-                      class="mini style-preset-btn"
-                      data-style="ستايل فيكتور تعليمي احترافي"
-                    >
-                      فيكتور تعليمي
-                    </button>
-                    <button
-                      type="button"
-                      class="mini style-preset-btn"
-                      data-style="3D واقعي، أبعاد ثلاثية"
-                    >
-                      3D واقعي
-                    </button>
-                    <button
-                      type="button"
-                      class="mini style-preset-btn"
-                      data-style="كرتوني تعليمي، ألوان زاهية"
-                    >
-                      كرتوني تعليمي
-                    </button>
-                    <button
-                      type="button"
-                      class="mini style-preset-btn"
-                      data-style="واقعي فوتوغرافي، دقة عالية"
-                    >
-                      واقعي فوتوغرافي
-                    </button>
-                    <button
-                      type="button"
-                      class="mini style-preset-btn"
-                      data-style="سريالي فني، ألوان حالمة"
-                    >
-                      سريالي
-                    </button>
-                    <button
-                      type="button"
-                      class="mini style-preset-btn"
-                      data-style="باوهاوس بسيط، هندسي نظيف"
-                    >
-                      باوهاوس
-                    </button>
-                    <button
-                      type="button"
-                      class="mini style-preset-btn"
-                      data-style="ألوان مائية ناعمة، فني يدوي"
-                    >
-                      ألوان مائية
-                    </button>
-                    <button
-                      type="button"
-                      class="mini style-preset-btn"
-                      data-style="سايبربانك، نيون، مستقبلي"
-                    >
-                      سايبربانك
-                    </button>
-                    <button
-                      type="button"
-                      class="mini style-preset-btn"
-                      data-style="إضاءة سينمائية، تباين عالي"
-                    >
-                      سينمائي
-                    </button>
-                  </div>
+                    >🎨 ستايلات فنية سريعة (تضاف إلى حقل الأسلوب أعلاه)</label>
+<div class="preset-row" style="gap: 6px">
+  <button type="button" class="mini style-preset-btn" data-style="ستايل فيكتور تعليمي احترافي" data-tooltip="رسومات رقمية دقيقة خالية من التشتت (للبوسترات)">فيكتور تعليمي</button>
+  <button type="button" class="mini style-preset-btn" data-style="3D واقعي، أبعاد ثلاثية" data-tooltip="عمق واقعي مجسم (للكائنات والأشكال)">3D واقعي</button>
+  <button type="button" class="mini style-preset-btn" data-style="كرتوني تعليمي، ألوان زاهية" data-tooltip="ألوان زاهية وشخصيات محببة (للمرحلة الابتدائية)">كرتوني تعليمي</button>
+  <button type="button" class="mini style-preset-btn" data-style="واقعي فوتوغرافي، دقة عالية" data-tooltip="صور حقيقية دقيقة (للتجارب والظواهر الطبيعية)">واقعي فوتوغرافي</button>
+  <button type="button" class="mini style-preset-btn" data-style="سريالي فني، ألوان حالمة" data-tooltip="دمج خيالي وغير منطقي (للأدب والتعبير)">سريالي</button>
+  <button type="button" class="mini style-preset-btn" data-style="باوهاوس بسيط، هندسي نظيف" data-tooltip="بساطة وخطوط هندسية نظيفة (للإعلانات الرسمية)">باوهاوس</button>
+  <button type="button" class="mini style-preset-btn" data-style="ألوان مائية ناعمة، فني يدوي" data-tooltip="ملمس فني ناعم ودافئ (للقصص التربوية)">ألوان مائية</button>
+  <button type="button" class="mini style-preset-btn" data-style="سايبربانك، نيون، مستقبلي" data-tooltip="نيون وأجواء مستقبلية (للمهارات الرقمية)">سايبربانك</button>
+  <button type="button" class="mini style-preset-btn" data-style="إضاءة سينمائية، تباين عالي" data-tooltip="إضاءة وتباين عالي (للبوسترات التوعوية الفخمة)">سينمائي</button>
+</div>
                 </div>
                 <!-- ===== نهاية الإضافة ===== -->
                 <!-- السطر الثالث: نسبة الأبعاد + مستوى الجودة -->
@@ -1979,10 +2006,20 @@
                     <option>مخطط تعليمي عربي منظم</option>
                     <option>تصميم إعلاني عربي بعنوان بارز</option>
                     <option>منشور سوشيال عربي عالي الوضوح</option>
+                    <option>مطوية عربية متعددة الأعمدة بوجهين</option>
                     <option>لوحة شعرية عربية بتنسيق الشطرين</option>
                     <option>أصل نصي خطي مستقل قابل للإدراج</option>
                     <option>شرائح عرض عربية مستقلة من اليمين إلى اليسار</option>
                     <option>قصة مصورة عربية متعددة الصفحات</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="brochureOutputMode">إخراج المطوية</label>
+                  <select id="brochureOutputMode">
+                    <option>وجهان منفصلان في صورتين</option>
+                    <option>الوجه الخارجي فقط</option>
+                    <option>الوجه الداخلي فقط</option>
+                    <option>وجهان مجتمعان في صورة واحدة للمعاينة فقط</option>
                   </select>
                 </div>
               </div>
@@ -2616,20 +2653,20 @@
               </div>
             </div>
 
-            <div class="top-actions">
-              <button class="primary" id="generateBtn">توليد البرومبت</button>
-              <button class="secondary" id="exampleBtn">تعبئة مثال قوي</button>
-              <button class="ghost" id="clearBtn">مسح الحقول</button>
-              <button class="amber" id="saveBtn">حفظ الإعدادات</button>
-              <button class="ghost" id="exportBtn">تصدير الإعدادات JSON</button>
-              <button class="ghost" id="importBtn">استيراد إعدادات JSON</button>
-              <input
-                type="file"
-                id="importFile"
-                class="hidden-input"
-                accept="application/json"
-              />
-            </div>
+            <div class="top-actions build-actions">
+  <button class="primary" id="generateBtn">توليد البرومبت</button>
+  <button class="amber" id="saveBtn">حفظ الإعدادات</button>
+  <button class="ghost" id="exportBtn">تصدير الإعدادات JSON</button>
+  <button class="ghost" id="importBtn">استيراد إعدادات JSON</button>
+  <input type="file" id="importFile" class="hidden-input" accept="application/json" />
+  
+  <div class="lib-divider"></div>
+  
+  <button class="ghost library-btn" id="saveToLibraryBtn">⭐ حفظ كقالب</button>
+  <select id="myLibrarySelect" class="ghost library-btn library-select">
+    <option value="">📂 مكتبتي (قوالبي المحفوظة)</option>
+  </select>
+</div>
           </div>
         </section>
 
@@ -2790,6 +2827,7 @@
         textImportance: $("textImportance"),
         textFormatting: $("textFormatting"),
         layoutType: $("layoutType"),
+        brochureOutputMode: $("brochureOutputMode"),
         slideMode: $("slideMode"),
         slideSize: $("slideSize"),
         slideSourceMode: $("slideSourceMode"),
@@ -2992,6 +3030,7 @@
       }
 
       function isTextHeavyInfographic(d) {
+        if (isBrochureDesign(d)) return false;
         if (isSlideMode(d) || isStoryMode(d)) return false;
         if (d.textHeavyInfographicMode === "on") return true;
         if (d.textHeavyInfographicMode === "off") return false;
@@ -3337,6 +3376,25 @@
       function isTextAssetDesign(d) {
         const source = [d.imageType, d.layoutType].join(" ");
         return /أصل نصي|نصي خطي|قابل للإدراج|مخطوطة جرافيكية/.test(source);
+      }
+
+      function isBrochureDesign(d) {
+        const source = [d.imageType, d.layoutType].join(" ");
+        return /مطوية|بروشور|brochure|folded leaflet|tri-fold/i.test(source);
+      }
+
+      function brochureOutputInstruction(d) {
+        if (!isBrochureDesign(d)) return "";
+        const mode = d.brochureOutputMode || "وجهان منفصلان في صورتين";
+        const base =
+          "إخراج المطوية: لا تجمع الوجه الخارجي والوجه الداخلي في صورة واحدة إلا إذا كان وضع الإخراج هو المعاينة المشتركة صراحة.";
+        if (mode.includes("الخارجي"))
+          return `${base} أنشئ الوجه الخارجي فقط للمطوية، ولا تعرض الوجه الداخلي في الصورة. اجعل الأعمدة مرتبة من اليمين إلى اليسار، مع غلاف أو عنوان واضح في العمود الأيمن عند الحاجة.`;
+        if (mode.includes("الداخلي"))
+          return `${base} أنشئ الوجه الداخلي فقط للمطوية، ولا تعرض الوجه الخارجي في الصورة. وزّع المحتوى الداخلي على الأعمدة من اليمين إلى اليسار مع خطوط طي خفيفة وهوامش آمنة.`;
+        if (mode.includes("مجتمعان"))
+          return "إخراج المطوية: هذا وضع معاينة فقط؛ اعرض الوجه الخارجي والوجه الداخلي داخل صورة واحدة كلوحتين منفصلتين وواضحتين، مع عدم خلط أعمدة الوجهين أو دمجهما، واكتب تسمية تنظيمية خفيفة لكل وجه عند الحاجة.";
+        return `${base} أنشئ ملفين/صورتين مستقلتين: الصورة الأولى للوجه الخارجي فقط، والصورة الثانية للوجه الداخلي فقط، بنفس المقاس ونفس الهوامش ونفس اتجاه الأعمدة. لا تضع الوجهين فوق بعض أو داخل ورقة واحدة.`;
       }
 
       function splitPoetryLineByInlineSeparator(line) {
@@ -3713,6 +3771,8 @@
           return "Arabic advertising layout with a strong right-aligned headline, clear offer area, balanced product space";
         if (layoutType.includes("منشور سوشيال"))
           return "high-readability Arabic social post layout, bold right-aligned hook, clean visual hierarchy";
+        if (layoutType.includes("مطوية"))
+          return "print-ready Arabic folded brochure layout, separate front and back faces by default, three RTL panels per face, subtle fold guides, safe margins and bleed, panel order from right to left";
         if (layoutType.includes("لوحة شعرية"))
           return "Arabic poetry poster layout, title at top, two balanced hemistich columns, right hemistich first, left hemistich second, elegant classical spacing";
         if (layoutType.includes("أصل نصي"))
@@ -3736,6 +3796,8 @@
             return "نوع التخطيط العربي: شرائح عرض عربية مستقلة من اليمين إلى اليسار. اجعل كل شريحة مستقلة ومنظمة وتبدأ قراءتها من اليمين.";
           if (isStoryMode(d))
             return "نوع التخطيط العربي: قصة مصورة عربية متعددة الصفحات. اجعل كل صفحة مشهدًا قصصيًا واضحًا وحافظ على اتجاه القراءة العربي.";
+          if (isBrochureDesign(d))
+            return "نوع التخطيط العربي: مطوية عربية متعددة الأعمدة. صمّمها للطباعة كواجهة مطوية منظمة بترتيب عربي من اليمين إلى اليسار، واجعل الافتراضي مطوية ثلاثية الأعمدة. عند وجود وجهين اجعلهما منفصلين في صورتين مستقلتين ما لم يطلب المستخدم المعاينة المشتركة صراحة.";
           if ((d.imageType || "").includes("إنفوجرافيك"))
             return "نوع التخطيط العربي: إنفوجرافيك عربي منظم. اجعل الترتيب العام والمحاذاة واتجاه القراءة متوافقة مع العربية من اليمين إلى اليسار.";
           return "";
@@ -3763,6 +3825,9 @@
         else if (layout.includes("منشور سوشيال"))
           detail =
             "اجعل الجملة الجاذبة واضحة وكبيرة ومحاذاة لليمين، مع مساحات هواء كافية حتى تقرأ بسرعة على الهاتف.";
+        else if (layout.includes("مطوية"))
+          detail =
+            "صمّم مطوية عربية قابلة للطباعة. الافتراضي مطوية ثلاثية الأعمدة، وكل وجه مقسم إلى ثلاثة أعمدة متساوية. اجعل ترتيب الأعمدة والقراءة من اليمين إلى اليسار من منظور المشاهد. ضع الغلاف أو عنوان المطوية في العمود الأيمن من الوجه الخارجي عند الحاجة، ووزّع المحتوى الداخلي على الأعمدة من اليمين إلى اليسار. استخدم خطوط طي خفيفة وواضحة وغير مزاحمة، مع هوامش آمنة ومساحة نزف مناسبة للطباعة، ولا تجعلها بوسترًا واحدًا بلا أعمدة. إذا كان المطلوب وجهين فافصل الوجه الخارجي والوجه الداخلي في صورتين مستقلتين إلا إذا اختيرت المعاينة المشتركة.";
         else if (layout.includes("لوحة شعرية"))
           detail =
             "نسّق النص الشعري بنظام شطرين عربي: العنوان في الأعلى، الأبيات في وسط اللوحة، الشطر الأول من كل بيت في العمود الأيمن والشطر الثاني في العمود الأيسر، مع توازن عرض العمودين وفاصل بصري رصين بينهما.";
@@ -3882,6 +3947,12 @@
             .split("\n")
             .filter((line) => line !== "");
         const lines = [];
+        if (isBrochureDesign(d)) {
+          lines.push(
+            "تعليمات المطوية: اجعل الناتج مطوية عربية للطباعة لا بوسترًا عاديًا. إذا لم يحدد المستخدم عدد الأعمدة، استخدم مطوية ثلاثية الأعمدة. وإذا ذكر ثنائية أو رباعية الأعمدة فالتزم بها. استخدم خطوط طي خفيفة، وهوامش آمنة، وترتيب RTL للأعمدة من اليمين إلى اليسار.",
+          );
+          lines.push(brochureOutputInstruction(d));
+        }
         if (d.designMode === "editExistingImage") {
           lines.push(
             "وضع تعديل صورة موجودة: حافظ على التخطيط والألوان والأيقونات كما هي، وعدّل النصوص أو العناصر المحددة فقط دون إعادة توليد التصميم كاملًا.",
@@ -4888,6 +4959,29 @@
             "poetry starts from left",
           );
         }
+        if (isBrochureDesign(d)) {
+          parts.push(
+            "single poster layout instead of brochure",
+            "missing brochure columns",
+            "missing fold guides",
+            "wrong brochure panel order",
+            "left-to-right brochure panels",
+            "unsafe print margins",
+            "cropped brochure panels",
+            "front and back faces mixed randomly",
+          );
+          if (
+            !String(d.brochureOutputMode || "").includes("مجتمعان") &&
+            !String(d.brochureOutputMode || "").includes("الخارجي") &&
+            !String(d.brochureOutputMode || "").includes("الداخلي")
+          ) {
+            parts.push(
+              "front and back faces combined in one image",
+              "two brochure faces stacked on one sheet",
+              "brochure preview sheet when separate files requested",
+            );
+          }
+        }
         if (d.numberStyle === "eastern") {
           parts.push(
             "mixed numeral systems",
@@ -4993,6 +5087,7 @@
             d.layoutType === "بلا" || d.layoutType === "تلقائي حسب نوع التصميم"
               ? ""
               : d.layoutType,
+          brochureOutputMode: isBrochureDesign(d) ? d.brochureOutputMode : "",
           slideMode: activeSlide ? "on" : "",
           storyMode: activeStory ? "on" : "",
           enableFooter: footerTextComposed ? "yes" : "",
@@ -5201,6 +5296,22 @@
               type: "good",
               text: `عدد أسطر الأصل النصي الظاهرة: ${displayNumber(assetLines.length, d.numberStyle)}، وسيُطلب عدم تكرار أي سطر.`,
             });
+        }
+        if (isBrochureDesign(d)) {
+          notes.push({
+            type: "good",
+            text: "وضع المطوية مفعل؛ سيعامل المولد التصميم كمطوية عربية قابلة للطباعة بأعمدة وخطوط طي وهوامش آمنة، وليس كبوستر عادي.",
+          });
+          notes.push({
+            type: "good",
+            text: `إخراج المطوية مضبوط على: ${d.brochureOutputMode || "وجهان منفصلان في صورتين"}.`,
+          });
+          if (isTallAspectRatio(d.aspectRatio) || d.aspectRatio === "1:1 مربع") {
+            notes.push({
+              type: "warn",
+              text: "للمطوية متعددة الأعمدة، المقاس الأفقي مثل A4 أفقي أفضل غالبًا لأنه يعطي الأعمدة والوجهين مساحة أوضح للطباعة.",
+            });
+          }
         }
         if (isPoetryDesign(d)) {
           const poetryInfo = poetryStructureInfo(d);
@@ -5542,6 +5653,7 @@
           "تلقائي حسب نوع التصميم",
           "تخطيط عربي مرن حسب المحتوى",
           "إنفوجرافيك خطوات يبدأ من اليمين",
+          "مطوية عربية متعددة الأعمدة بوجهين",
           "لوحة شعرية عربية بتنسيق الشطرين",
           "أصل نصي خطي مستقل قابل للإدراج",
           "شرائح عرض عربية مستقلة من اليمين إلى اليسار",
@@ -5576,6 +5688,19 @@
 
         if (type.includes("إنفوجرافيك"))
           setAutoLayout("إنفوجرافيك خطوات يبدأ من اليمين");
+        else if (type.includes("مطوية") || type.includes("بروشور")) {
+          setAutoLayout("مطوية عربية متعددة الأعمدة بوجهين");
+          if (
+            isTallAspectRatio(fields.aspectRatio.value) ||
+            fields.aspectRatio.value === "1:1 مربع"
+          )
+            fields.aspectRatio.value = "A4 أفقي";
+          if (
+            !fields.style.value ||
+            fields.style.value === "أنيق وحديث واحترافي"
+          )
+            fields.style.value = "مطوية تعليمية عربية منظمة، نظيفة ومناسبة للطباعة";
+        }
         else if (type.includes("لوحة شعرية") || type.includes("اقتباس أدبي")) {
           setAutoLayout("لوحة شعرية عربية بتنسيق الشطرين");
           if (
@@ -5685,6 +5810,7 @@
         fields.textImportance.value = "أولوية قصوى جدًا";
         fields.textFormatting.value = "";
         fields.layoutType.value = "تلقائي حسب نوع التصميم";
+        fields.brochureOutputMode.value = "وجهان منفصلان في صورتين";
         fields.slideMode.value = "off";
         fields.slideSize.value = "A4 عرضي";
         fields.slideSourceMode.value = "attached";
@@ -5890,6 +6016,27 @@
           fields.aspectRatio.value = "A4 عمودي";
           fields.backgroundStyle.value = "فاخرة وهادئة";
           fields.layoutType.value = "عنوان أعلى يمين مع مساحة قراءة واسعة";
+        } else if (type === "brochure") {
+          fields.imageType.value = "مطوية / بروشور متعدد الأعمدة";
+          fields.purpose.value = "تعليمي";
+          fields.style.value =
+            "مطوية تعليمية عربية منظمة، نظيفة، مناسبة للطباعة، بأعمدة واضحة وهوامش آمنة";
+          fields.aspectRatio.value = "A4 أفقي";
+          fields.backgroundStyle.value = "نظيفة وغير مزدحمة";
+          fields.cameraAngle.value = "مباشرة وواضحة";
+          fields.textImportance.value = "أولوية قصوى جدًا";
+          fields.layoutType.value = "مطوية عربية متعددة الأعمدة بوجهين";
+          fields.brochureOutputMode.value = "وجهان منفصلان في صورتين";
+          fields.textFormatting.value =
+            "غلاف واضح، عناوين أعمدة قصيرة، نصوص داخلية موجزة، خطوط طي خفيفة، وهوامش آمنة للطباعة";
+          fields.sceneDesc.value =
+            "صمم مطوية عربية ثلاثية الأعمدة بوجه خارجي ووجه داخلي. اجعل كل وجه مقسمًا إلى ثلاثة أعمدة متساوية، مع خطوط طي خفيفة وغير مزاحمة، وترتيب قراءة عربي من اليمين إلى اليسار. اجعل العمود الأيمن من الوجه الخارجي مناسبًا للغلاف والعنوان، ووزع المحتوى الداخلي على الأعمدة من اليمين إلى اليسار. أخرج الوجهين كصورتين مستقلتين لا كلوحتين في ورقة واحدة.";
+          fields.colors.value =
+            "ألوان تعليمية هادئة، خلفية بيضاء أو فاتحة، عناوين واضحة ولمسات لونية محدودة";
+          fields.extraElements.value =
+            "أيقونات تعليمية بسيطة، فواصل أعمدة خفيفة، علامات طي دقيقة، عناصر مساعدة غير مزدحمة";
+          fields.negativeNotes.value =
+            "لا تجعلها بوسترًا واحدًا، لا تخلط ترتيب الأعمدة، لا تجعل خطوط الطي سميكة أو مزعجة، لا تقص أي عمود، لا تجعل النص مزدحمًا أو صغيرًا جدًا";
         } else if (type === "slides") {
           fields.imageType.value = "شرائح صور متعددة مستقلة";
           fields.purpose.value = "تعليمي";
@@ -6415,6 +6562,106 @@
       updateScore(computeScore(gatherData()));
       updateMeta(gatherData());
       generate();
+      // ===== نظام "مكتبتي" لحفظ القوالب المخصصة =====
+const LIBRARY_KEY = "arabicPromptTreasure_library_v1";
+const myLibrarySelect = $("myLibrarySelect");
+const saveToLibraryBtn = $("saveToLibraryBtn");
+
+function loadLibrary() {
+  if (!myLibrarySelect) return;
+  try {
+    const stored = localStorage.getItem(LIBRARY_KEY);
+    const templates = stored ? JSON.parse(stored) : {};
+    myLibrarySelect.innerHTML = '<option value="">📂 مكتبتي (قوالبي المحفوظة)</option>';
+    
+    let hasTemplates = false;
+    for (const name in templates) {
+      const opt = document.createElement("option");
+      opt.value = name;
+      opt.textContent = "📑 " + name;
+      myLibrarySelect.appendChild(opt);
+      hasTemplates = true;
+    }
+    
+    // إضافة خيار مسح المكتبة إذا كان هناك قوالب
+    if (hasTemplates) {
+      const sep = document.createElement("option");
+      sep.disabled = true;
+      sep.textContent = "──────────";
+      myLibrarySelect.appendChild(sep);
+      
+      const clearOpt = document.createElement("option");
+      clearOpt.value = "_CLEAR_ALL_";
+      clearOpt.textContent = "🗑️ مسح جميع القوالب";
+      myLibrarySelect.appendChild(clearOpt);
+    }
+  } catch (e) {
+    console.error("خطأ في تحميل المكتبة", e);
+  }
+}
+
+if (saveToLibraryBtn) {
+  saveToLibraryBtn.addEventListener("click", () => {
+    const name = prompt("أدخل اسماً مميزاً لحفظ هذا القالب (مثلاً: قالب الرياضيات):");
+    if (!name || !name.trim()) return;
+    
+    const currentData = gatherData();
+    try {
+      const stored = localStorage.getItem(LIBRARY_KEY);
+      const templates = stored ? JSON.parse(stored) : {};
+      templates[name.trim()] = currentData;
+      localStorage.setItem(LIBRARY_KEY, JSON.stringify(templates));
+      
+      statusText.textContent = `تم حفظ القالب: "${name.trim()}" في مكتبتك`;
+      loadLibrary();
+      myLibrarySelect.value = name.trim();
+    } catch (e) {
+      statusText.textContent = "تعذر حفظ القالب في المكتبة";
+    }
+  });
+}
+
+if (myLibrarySelect) {
+  myLibrarySelect.addEventListener("change", (e) => {
+    const name = e.target.value;
+    if (!name) return;
+    
+    if (name === "_CLEAR_ALL_") {
+      openConfirmDialog("هل أنت متأكد من مسح جميع القوالب المحفوظة في مكتبتك؟", () => {
+        localStorage.removeItem(LIBRARY_KEY);
+        loadLibrary();
+        statusText.textContent = "تم إفراغ المكتبة بالكامل";
+      });
+      e.target.value = "";
+      return;
+    }
+
+    try {
+      const stored = localStorage.getItem(LIBRARY_KEY);
+      const templates = stored ? JSON.parse(stored) : {};
+      if (templates[name]) {
+         const d = normalizeImportedSettings(templates[name]);
+         clearFields();
+         for (const [key, value] of Object.entries(d)) {
+           if (!fields[key]) continue;
+           if (fields[key].type === "checkbox") fields[key].checked = importedCheckboxValue(value);
+           else fields[key].value = value;
+         }
+         fields.rtl.checked = true;
+         syncModeFieldsFromImageType();
+         generate();
+         statusText.textContent = `تم استدعاء القالب: "${name}"`;
+      }
+    } catch (e) {
+         statusText.textContent = "خطأ في استدعاء القالب";
+    }
+    // إرجاع القائمة للوضع الافتراضي بعد الاستدعاء لتكرار الاستخدام
+    setTimeout(() => { e.target.value = ""; }, 500);
+  });
+}
+
+// تحميل المكتبة عند تشغيل الصفحة
+loadLibrary();
     </script>
   </body>
 </html>
