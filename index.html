@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="ar" dir="rtl">
   <head>
@@ -2662,6 +2663,9 @@
   <div class="lib-divider"></div>
   
   <button class="ghost library-btn" id="saveToLibraryBtn">⭐ حفظ كقالب</button>
+  <button class="ghost library-btn" id="exportLibraryBtn">تصدير مكتبتي</button>
+  <button class="ghost library-btn" id="importLibraryBtn">استيراد مكتبتي</button>
+  <input type="file" id="importLibraryFile" class="hidden-input" accept="application/json" />
   <select id="myLibrarySelect" class="ghost library-btn library-select">
     <option value="">📂 مكتبتي (قوالبي المحفوظة)</option>
   </select>
@@ -5879,6 +5883,8 @@
         fields.specialInstructions.value = "";
         const importFile = $("importFile");
         if (importFile) importFile.value = "";
+        const importLibraryFile = $("importLibraryFile");
+        if (importLibraryFile) importLibraryFile.value = "";
         promptOutput.textContent = "اضغط «توليد البرومبت» بعد تعبئة الحقول.";
         negativeOutput.textContent =
           "سيظهر هنا تلقائيًا إذا كان الخيار مفعّلًا.";
@@ -6588,12 +6594,81 @@
 const LIBRARY_KEY = "arabicPromptTreasure_library_v1";
 const myLibrarySelect = $("myLibrarySelect");
 const saveToLibraryBtn = $("saveToLibraryBtn");
+const exportLibraryBtn = $("exportLibraryBtn");
+const importLibraryBtn = $("importLibraryBtn");
+const importLibraryFile = $("importLibraryFile");
+
+function readLibraryTemplates() {
+  try {
+    const stored = localStorage.getItem(LIBRARY_KEY);
+    const templates = stored ? JSON.parse(stored) : {};
+    return templates && typeof templates === "object" && !Array.isArray(templates)
+      ? templates
+      : {};
+  } catch (e) {
+    console.error("خطأ في قراءة المكتبة", e);
+    return {};
+  }
+}
+
+function writeLibraryTemplates(templates) {
+  localStorage.setItem(LIBRARY_KEY, JSON.stringify(templates || {}));
+}
+
+function stableStringify(value) {
+  if (Array.isArray(value))
+    return `[${value.map((item) => stableStringify(item)).join(",")}]`;
+  if (value && typeof value === "object") {
+    return `{${Object.keys(value)
+      .sort()
+      .map((key) => `${JSON.stringify(key)}:${stableStringify(value[key])}`)
+      .join(",")}}`;
+  }
+  return JSON.stringify(value);
+}
+
+function hasRecognizedTemplateField(template) {
+  return (
+    template &&
+    typeof template === "object" &&
+    !Array.isArray(template) &&
+    Object.keys(template).some((key) => fields[key])
+  );
+}
+
+function isLibraryTemplateMap(value) {
+  return (
+    value &&
+    typeof value === "object" &&
+    !Array.isArray(value) &&
+    Object.values(value).every((item) => hasRecognizedTemplateField(item))
+  );
+}
+
+function extractLibraryTemplates(payload) {
+  if (!payload || typeof payload !== "object") return null;
+  if (isLibraryTemplateMap(payload.templates)) return payload.templates;
+  if (isLibraryTemplateMap(payload.library)) return payload.library;
+  if (isLibraryTemplateMap(payload)) return payload;
+  return null;
+}
+
+function uniqueLibraryName(baseName, templates) {
+  const base = clean(baseName) || "قالب مستورد";
+  if (!templates[base]) return base;
+  let index = 1;
+  let candidate = `${base} (مستورد)`;
+  while (templates[candidate]) {
+    index += 1;
+    candidate = `${base} (مستورد ${index})`;
+  }
+  return candidate;
+}
 
 function loadLibrary() {
   if (!myLibrarySelect) return;
   try {
-    const stored = localStorage.getItem(LIBRARY_KEY);
-    const templates = stored ? JSON.parse(stored) : {};
+    const templates = readLibraryTemplates();
     myLibrarySelect.innerHTML = '<option value="">📂 مكتبتي (قوالبي المحفوظة)</option>';
     
     let hasTemplates = false;
@@ -6629,10 +6704,9 @@ if (saveToLibraryBtn) {
     
     const currentData = gatherData();
     try {
-      const stored = localStorage.getItem(LIBRARY_KEY);
-      const templates = stored ? JSON.parse(stored) : {};
+      const templates = readLibraryTemplates();
       templates[name.trim()] = currentData;
-      localStorage.setItem(LIBRARY_KEY, JSON.stringify(templates));
+      writeLibraryTemplates(templates);
       
       statusText.textContent = `تم حفظ القالب: "${name.trim()}" في مكتبتك`;
       loadLibrary();
@@ -6640,6 +6714,88 @@ if (saveToLibraryBtn) {
     } catch (e) {
       statusText.textContent = "تعذر حفظ القالب في المكتبة";
     }
+  });
+}
+
+if (exportLibraryBtn) {
+  exportLibraryBtn.addEventListener("click", () => {
+    const templates = readLibraryTemplates();
+    const count = Object.keys(templates).length;
+    if (!count) {
+      statusText.textContent = "لا توجد قوالب محفوظة لتصديرها";
+      return;
+    }
+    const payload = {
+      type: "arabic-prompt-treasure-library",
+      version: 1,
+      exportedAt: new Date().toISOString(),
+      templates,
+    };
+    const blob = new Blob([JSON.stringify(payload, null, 2)], {
+      type: "application/json;charset=utf-8",
+    });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "arabic-prompt-library.json";
+    a.click();
+    URL.revokeObjectURL(a.href);
+    statusText.textContent = `تم تصدير مكتبتك وفيها ${count} قالب`;
+  });
+}
+
+function importLibraryFromFile(file) {
+  const reader = new FileReader();
+  reader.onload = () => {
+    try {
+      const incoming = extractLibraryTemplates(JSON.parse(reader.result));
+      if (!incoming) {
+        statusText.textContent = "ملف المكتبة غير صالح أو لا يحتوي قوالب قابلة للاستيراد";
+        return;
+      }
+      const templates = readLibraryTemplates();
+      let added = 0;
+      let renamed = 0;
+      let skipped = 0;
+      for (const [rawName, rawTemplate] of Object.entries(incoming)) {
+        if (!hasRecognizedTemplateField(rawTemplate)) {
+          skipped += 1;
+          continue;
+        }
+        const normalized = normalizeImportedSettings(rawTemplate);
+        const name = clean(rawName) || "قالب مستورد";
+        if (templates[name]) {
+          if (stableStringify(normalizeImportedSettings(templates[name])) === stableStringify(normalized)) {
+            skipped += 1;
+            continue;
+          }
+          const uniqueName = uniqueLibraryName(name, templates);
+          templates[uniqueName] = normalized;
+          added += 1;
+          renamed += 1;
+        } else {
+          templates[name] = normalized;
+          added += 1;
+        }
+      }
+      writeLibraryTemplates(templates);
+      loadLibrary();
+      statusText.textContent =
+        `تم استيراد ${added} قالب إلى مكتبتك` +
+        (renamed ? `، وأعيدت تسمية ${renamed} لتجنب التكرار` : "") +
+        (skipped ? `، وتم تجاهل ${skipped} مكرر/غير صالح` : "");
+    } catch (e) {
+      statusText.textContent = "تعذر استيراد مكتبة القوالب";
+    }
+  };
+  reader.readAsText(file, "utf-8");
+}
+
+if (importLibraryBtn && importLibraryFile) {
+  importLibraryBtn.addEventListener("click", () => importLibraryFile.click());
+  importLibraryFile.addEventListener("change", (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (file) importLibraryFromFile(file);
+    e.target.value = "";
   });
 }
 
@@ -6659,8 +6815,7 @@ if (myLibrarySelect) {
     }
 
     try {
-      const stored = localStorage.getItem(LIBRARY_KEY);
-      const templates = stored ? JSON.parse(stored) : {};
+      const templates = readLibraryTemplates();
       if (templates[name]) {
          const d = normalizeImportedSettings(templates[name]);
          clearFields();
