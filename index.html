@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="ar" dir="rtl">
   <head>
@@ -1700,7 +1699,7 @@
                     فقط.</span
                   >
                 </div>
-                <div>
+                <div id="textHeavyModeGroup" class="contextual-field">
                   <label for="textHeavyInfographicMode"
                     >وضع الإنفوجرافيك النصي</label
                   >
@@ -2013,7 +2012,7 @@
                     <option>قصة مصورة عربية متعددة الصفحات</option>
                   </select>
                 </div>
-                <div>
+                <div id="brochureOutputGroup" class="contextual-field">
                   <label for="brochureOutputMode">إخراج المطوية</label>
                   <select id="brochureOutputMode">
                     <option>وجهان منفصلان في صورتين</option>
@@ -3381,6 +3380,11 @@
       function isBrochureDesign(d) {
         const source = [d.imageType, d.layoutType].join(" ");
         return /مطوية|بروشور|brochure|folded leaflet|tri-fold/i.test(source);
+      }
+
+      function isInfographicDesign(d) {
+        const source = [d.imageType, d.layoutType].join(" ");
+        return /إنفوجرافيك|انفوجرافيك|infographic/i.test(source);
       }
 
       function brochureOutputInstruction(d) {
@@ -5595,7 +5599,7 @@
         if (isStoryMode(d)) return "story";
         if (isSlideMode(d)) return "slides";
         if (isTextAssetDesign(d)) return "textasset";
-        if ((d.imageType || "").includes("إنفوجرافيك") || d.textHeavyActive)
+        if (isInfographicDesign(d) || d.textHeavyActive)
           return "infographic";
         return "general";
       }
@@ -5613,6 +5617,23 @@
         section.classList.toggle("smart-hidden", !visible);
       }
 
+      function setElementVisibilityById(id, visible) {
+        const el = $(id);
+        if (!el) return;
+        el.classList.toggle("smart-hidden", !visible);
+      }
+
+      function updateContextualFields(d, showAll) {
+        setElementVisibilityById(
+          "brochureOutputGroup",
+          showAll || isBrochureDesign(d),
+        );
+        setElementVisibilityById(
+          "textHeavyModeGroup",
+          showAll || isInfographicDesign(d) || d.textHeavyActive,
+        );
+      }
+
       function updateSmartSections(d = prepareData(gatherData())) {
         const showAll = $("smartShowAll") && $("smartShowAll").checked;
         const context = smartContextName(d);
@@ -5624,6 +5645,7 @@
           [textSection, slidesSection, storySection].forEach((section) =>
             setSmartVisibility(section, true),
           );
+          updateContextualFields(d, true);
           if ($("smartModeText"))
             $("smartModeText").textContent =
               "كل الحقول ظاهرة الآن للمراجعة المتقدمة، ولن تُحذف أو تُصفّر أي قيمة.";
@@ -5638,6 +5660,7 @@
         );
         setSmartVisibility(slidesSection, context === "slides");
         setSmartVisibility(storySection, context === "story");
+        updateContextualFields(d, false);
 
         if ($("smartModeText")) {
           $("smartModeText").textContent =
