@@ -1968,6 +1968,15 @@
                     <option>خط عربي حديث وواضح</option>
                     <option>خط دعائي عريض</option>
                     <option>خط مخطوط احترافي</option>
+                    <option>Cairo للعناوين والنصوص الواضحة</option>
+                    <option>Tajawal للواجهات التعليمية الحديثة</option>
+                    <option>Noto Kufi Arabic للعناوين والبطاقات</option>
+                    <option>Noto Naskh Arabic للنصوص الطويلة والقراءة</option>
+                    <option>Amiri للشعر والتراث والمخطوطات</option>
+                    <option>Readex Pro للإنفوجرافيك والشرائح</option>
+                    <option>IBM Plex Sans Arabic للجداول والتقارير</option>
+                    <option>Almarai للتصميم التعليمي الهادئ</option>
+                    <option>Reem Kufi للعناوين الزخرفية المعتدلة</option>
                   </select>
                 </div>
                 <div>
@@ -3880,6 +3889,19 @@
         return "التسلسل الهرمي البصري: اجعل العنوان أكبر عنصر نصي، وعناوين الأقسام متوسطة وواضحة، والنصوص الداخلية أصغر مع تباعد مريح. استخدم إبرازًا بصريًا للقواعد والجداول دون ازدحام.";
       }
 
+      function fontSystemInstruction(d = {}) {
+        const selected = clean(d.fontStyle || "");
+        if (selected === "بلا") return "";
+        const explicitFont = explicitOption(selected);
+        if (explicitFont) {
+          return `نظام الخط العربي: استخدم ${explicitFont}. إذا لم يتوفر الخط بالاسم نفسه لدى مولد الصور، فاستخدم أقرب خط عربي واضح يحافظ على القراءة واتصال الحروف.`;
+        }
+        if (isPoetryDesign(d) || isTextAssetDesign(d)) {
+          return "نظام الخطوط العربية المقترح: للعنوان استخدم Amiri أو خط ثلث/نسخي فخم قريب، وللأبيات أو الكتلة النصية استخدم Noto Naskh Arabic أو Amiri مع وضوح التشكيل والنقاط، وللتذييل استخدم Cairo أو Tajawal بحجم صغير وخفيف. اجعل النص الحقيقي أوضح من الزخرفة، ولا تضغط الكلمات أو الحركات.";
+        }
+        return "نظام الخطوط العربية المقترح: استخدم خطوطًا عربية متاحة على الويب مثل Google Fonts عند الإمكان. العنوان الرئيسي: Noto Kufi Arabic أو Cairo Black أو Reem Kufi. العنوان الفرعي: Tajawal Bold أو IBM Plex Sans Arabic. عناوين البطاقات والكتل: Readex Pro أو Almarai أو Noto Kufi Arabic. النصوص الداخلية الطويلة: Noto Naskh Arabic أو Cairo أو Tajawal. الجداول والأرقام: IBM Plex Sans Arabic أو Cairo. إذا لم يتوفر خط محدد، استخدم أقرب خط عربي واضح وحديث مع تباين قوي وقابلية قراءة عالية.";
+      }
+
       function printQualityInstruction() {
         return "جودة الإخراج الاحترافية: اعتمد معيار الطباعة الرقمية كمرجع أعلى للجودة، مع تهيئة التصميم في الوقت نفسه للعرض الرقمي دون فقدان وضوح أو تناسق. اجعل التصميم عالي الدقة ومناسبًا للطباعة الورقية والعرض على الشاشات معًا. للطباعة الرقمية الورقية: حافظ على دقة احترافية 300 DPI قدر الإمكان، وتكوين نظيف قابل للطباعة، وهوامش آمنة حول النصوص والعناصر المهمة، وBleed بمقدار 3mm عند امتداد الخلفية أو العناصر إلى حافة الورق، وتوافق لوني مناسب للطباعة CMYK قدر الإمكان. للعرض الرقمي: اجعل التصميم مناسبًا للشاشات بألوان RGB، وتباين واضح، ووضوح عالٍ للنصوص على الجوال والكمبيوتر. اجعل الحواف والأيقونات والحدود والخطوط حادة ونظيفة بلا غبش أو هالات أو توهج حول النصوص والعناصر، وتجنب البكسلة أو الضغط البصري أو ضعف تفاصيل الجداول والأيقونات عند التكبير.";
       }
@@ -4448,8 +4470,8 @@
           if (titlePlacement) lines.push(`- ${titlePlacement}`);
         }
         {
-          const fontStyle = explicitOption(d.fontStyle);
-          if (fontStyle) lines.push(`- نوع الخط: ${fontStyle}.`);
+          const fontInstruction = fontSystemInstruction(d);
+          if (fontInstruction) lines.push(`- ${fontInstruction}`);
         }
         if (d._textFormatting || d.textFormatting)
           lines.push(
@@ -4634,9 +4656,7 @@
         lines.push(tashkeelInstruction(d));
         {
           const textDetails = [
-            explicitOption(d.fontStyle)
-              ? `نوع الخط: ${explicitOption(d.fontStyle)}.`
-              : "",
+            fontSystemInstruction(d),
             titlePlacementInstruction(d),
           ]
             .filter(Boolean)
@@ -4761,9 +4781,7 @@
         {
           const textDetails = [
             titlePlacementInstruction(d),
-            explicitOption(d.fontStyle)
-              ? `نوع الخط: ${explicitOption(d.fontStyle)}.`
-              : "",
+            fontSystemInstruction(d),
           ]
             .filter(Boolean)
             .join(" ");
