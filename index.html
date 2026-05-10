@@ -4741,7 +4741,6 @@
           d.lessonTitle ||
           d.subjectArea !== "عام" ||
           d._gradeLevel ||
-          d._gradeLevel ||
           d.gradeLevel
         )
           parts.push(
@@ -6255,7 +6254,7 @@
         a.href = URL.createObjectURL(blob);
         a.download = "arabic-prompt-treasure.txt";
         a.click();
-        URL.revokeObjectURL(a.href);
+        setTimeout(() => URL.revokeObjectURL(a.href), 1500);
         statusText.textContent = "تم تنزيل الملف";
       }
 
@@ -6274,7 +6273,7 @@
         a.href = URL.createObjectURL(blob);
         a.download = "arabic-prompt-settings.json";
         a.click();
-        URL.revokeObjectURL(a.href);
+        setTimeout(() => URL.revokeObjectURL(a.href), 1500);
         statusText.textContent = "تم تصدير الإعدادات";
       }
 
@@ -6756,7 +6755,7 @@ if (exportLibraryBtn) {
     a.href = URL.createObjectURL(blob);
     a.download = "arabic-prompt-library.json";
     a.click();
-    URL.revokeObjectURL(a.href);
+    setTimeout(() => URL.revokeObjectURL(a.href), 1500);
     statusText.textContent = `تم تصدير مكتبتك وفيها ${count} قالب`;
   });
 }
