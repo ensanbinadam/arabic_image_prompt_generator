@@ -177,7 +177,7 @@
         margin: 0 0 8px;
         font-size: 1.75rem;
         font-weight: 900;
-        letter-spacing: 0;
+        letter-spacing: -0.4px;
         text-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
         background: linear-gradient(135deg, #ffffff, #d9f9f3);
         -webkit-background-clip: text;
@@ -364,9 +364,6 @@
       @media (max-width: 860px) {
         .hero-top {
           grid-template-columns: 1fr 1fr;
-        }
-        .hero h1 {
-          white-space: normal;
         }
         .score-box {
           width: auto;
@@ -663,16 +660,6 @@
       .short-area {
         min-height: 82px;
       }
-      .content-request-output {
-        min-height: 420px;
-        direction: rtl;
-        line-height: 1.85;
-        white-space: pre-wrap;
-        font-family: inherit;
-      }
-      .content-request-panel[hidden] {
-        display: none;
-      }
 
       /* ===== CHECKBOXES ===== */
       .checks {
@@ -748,13 +735,13 @@
       }
 
       button::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        border-radius: inherit;
-        background: rgba(255, 255, 255, 0);
-        transition: background 0.18s;
-      }
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit; /* أضفنا هذا السطر للحفاظ على الزوايا الدائرية الجميلة عند مرور الماوس */
+  background: rgba(255, 255, 255, 0);
+  transition: background 0.18s;
+}
 
       button:hover::before {
         background: rgba(255, 255, 255, 0.12);
@@ -878,7 +865,10 @@
       .status {
         font-size: 0.92rem;
         font-weight: 800;
-        color: var(--primary);
+        background: linear-gradient(135deg, var(--primary), var(--accent));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
         padding: 4px 10px;
         border-radius: 999px;
         background-color: rgba(108, 61, 232, 0.06);
@@ -917,7 +907,7 @@
       .report {
         background: linear-gradient(
           145deg,
-          var(--surface-dark),
+          rgba(15, 10, 40, 0.9),
           rgba(30, 15, 60, 0.92)
         );
         border: 1.5px solid rgba(108, 61, 232, 0.3);
@@ -1412,13 +1402,6 @@
                 مسح النصوص فقط
               </button>
               <button class="secondary" id="exampleBtn">تعبئة مثال قوي</button>
-              <button
-                class="amber"
-                id="contentRequestBtn"
-                title="توليد طلب جاهز لإرساله إلى الذكاء حتى يعد محتوى الحاويات"
-              >
-                توليد طلب المحتوى
-              </button>
               <button class="ghost" id="clearBtn">مسح الحقول</button>
             </div>
             <div class="status" id="statusText">جاهز للعمل</div>
@@ -1616,33 +1599,6 @@
               </div>
             </div>
 
-            <div class="section content-request-panel" id="contentRequestPanel" hidden>
-              <div class="section-head">
-                <div class="section-title">
-                  <h3>طلب المحتوى الذكي</h3>
-                  <span class="section-tag optional">مساعد</span>
-                </div>
-                <small
-                  >انسخه وأرسله إلى ChatGPT أو أي ذكاء آخر ليجهز محتوى الحاويات
-                  قبل بناء البرومبت النهائي</small
-                >
-              </div>
-              <textarea
-                id="smartContentRequestOutput"
-                class="content-request-output"
-                readonly
-                aria-label="طلب المحتوى الذكي"
-              ></textarea>
-              <div class="mini-tools" style="margin-top: 12px">
-                <button class="secondary mini" id="copyContentRequestBtn">
-                  نسخ الطلب
-                </button>
-                <button class="ghost mini" id="closeContentRequestBtn">
-                  إغلاق
-                </button>
-              </div>
-            </div>
-
             <div class="section section-edu">
               <div class="section-head">
                 <div class="section-title">
@@ -1800,16 +1756,7 @@
                     <option>فاخرة وهادئة</option>
                     <option>معاصرة بسيطة</option>
                     <option>تفصيلية لكنها متوازنة</option>
-                    <option>وصف مخصص</option>
                   </select>
-                </div>
-                <div class="full custom-option-field smart-hidden">
-                  <label for="backgroundStyleCustom">وصف الخلفية المخصص</label>
-                  <textarea
-                    id="backgroundStyleCustom"
-                    class="short-area"
-                    placeholder="اكتب وصفًا خاصًا للخلفية عند اختيار وصف مخصص، مثل: خلفية فاتحة بملمس ورقي ناعم، زخارف تعليمية باهتة في الأطراف فقط، دون ازدحام خلف النصوص."
-                  ></textarea>
                 </div>
                 <div>
                   <label for="mainElementPosition">موضع العنصر الرئيسي</label>
@@ -1819,18 +1766,7 @@
                     <option>يمين الصورة من منظور المشاهد</option>
                     <option>يسار الصورة من منظور المشاهد</option>
                     <option>وسط الصورة من منظور المشاهد</option>
-                    <option>وصف مخصص</option>
                   </select>
-                </div>
-                <div class="full custom-option-field smart-hidden">
-                  <label for="mainElementPositionCustom"
-                    >وصف موضع العنصر الرئيسي المخصص</label
-                  >
-                  <textarea
-                    id="mainElementPositionCustom"
-                    class="short-area"
-                    placeholder="مثال: ضع في منتصف التصميم مشهدًا رئيسيًا لمعلم أو معلمة مع طالب وطالبة حول طاولة تعلم، وتوزع البطاقات حوله بشكل دائري منظم."
-                  ></textarea>
                 </div>
                 <div class="full">
                   <label for="extraElements">عناصر إضافية</label>
@@ -2018,16 +1954,7 @@
                     <option>أسفل يمين الصورة</option>
                     <option>أسفل وسط الصورة</option>
                     <option>أسفل يسار الصورة</option>
-                    <option>وصف مخصص</option>
                   </select>
-                </div>
-                <div class="full custom-option-field smart-hidden">
-                  <label for="textPositionCustom">وصف موضع النص المخصص</label>
-                  <textarea
-                    id="textPositionCustom"
-                    class="short-area"
-                    placeholder="مثال: العنوان في الأعلى، البطاقة التمهيدية تحته، بطاقات الخطوات حول العنصر المركزي، ثم المقارنة والملاحظة والتذييل في الأسفل."
-                  ></textarea>
                 </div>
                 <div>
                   <label for="fontStyle">نوع الخط العربي</label>
@@ -2049,16 +1976,7 @@
                     <option>IBM Plex Sans Arabic للجداول والتقارير</option>
                     <option>Almarai للتصميم التعليمي الهادئ</option>
                     <option>Reem Kufi للعناوين الزخرفية المعتدلة</option>
-                    <option>وصف مخصص</option>
                   </select>
-                </div>
-                <div class="full custom-option-field smart-hidden">
-                  <label for="fontStyleCustom">وصف الخط المخصص</label>
-                  <textarea
-                    id="fontStyleCustom"
-                    class="short-area"
-                    placeholder="مثال: استخدم Cairo Black للعنوان، Tajawal Bold لعناوين البطاقات، وNoto Naskh Arabic للنصوص الطويلة."
-                  ></textarea>
                 </div>
                 <div>
                   <label for="numberStyle">نمط الأرقام</label>
@@ -2078,11 +1996,10 @@
                 </div>
                 <div class="full">
                   <label for="textFormatting">تعليمات تنسيق النص</label>
-                  <textarea
+                  <input
                     id="textFormatting"
-                    class="short-area"
                     placeholder="مثال: سطر واحد عريض، سطران متوازنان، عنوان كبير وسطر فرعي أصغر..."
-                  ></textarea>
+                  />
                 </div>
                 <div class="full">
                   <label for="layoutType">نوع التخطيط العربي</label>
@@ -2888,8 +2805,6 @@
     <script>
       const $ = (id) => document.getElementById(id);
       const STORAGE_KEY = "arabicPromptTreasure_v2";
-      const MAX_SLIDES = 10;
-      const MAX_STORY_PAGES = 10;
 
       const fields = {
         imageType: $("imageType"),
@@ -2912,17 +2827,13 @@
         lighting: $("lighting"),
         cameraAngle: $("cameraAngle"),
         backgroundStyle: $("backgroundStyle"),
-        backgroundStyleCustom: $("backgroundStyleCustom"),
         mainElementPosition: $("mainElementPosition"),
-        mainElementPositionCustom: $("mainElementPositionCustom"),
         extraElements: $("extraElements"),
         arabicText: $("arabicText"),
         secondaryText: $("secondaryText"),
         referenceText: $("referenceText"),
         textPosition: $("textPosition"),
-        textPositionCustom: $("textPositionCustom"),
         fontStyle: $("fontStyle"),
-        fontStyleCustom: $("fontStyleCustom"),
         numberStyle: $("numberStyle"),
         textImportance: $("textImportance"),
         textFormatting: $("textFormatting"),
@@ -2991,7 +2902,6 @@
       const confirmMessage = $("confirmMessage");
       const confirmOkBtn = $("confirmOkBtn");
       const confirmCancelBtn = $("confirmCancelBtn");
-      const appWrap = document.querySelector(".wrap");
       let pendingConfirmAction = null;
 
       function openConfirmDialog(message, action) {
@@ -2999,28 +2909,17 @@
         confirmMessage.textContent = message;
         confirmOverlay.classList.add("show");
         confirmOverlay.setAttribute("aria-hidden", "false");
-        if (appWrap) appWrap.setAttribute("inert", "");
         confirmOkBtn.focus();
       }
 
       function closeConfirmDialog() {
         confirmOverlay.classList.remove("show");
         confirmOverlay.setAttribute("aria-hidden", "true");
-        if (appWrap) appWrap.removeAttribute("inert");
         pendingConfirmAction = null;
       }
 
       function clean(v) {
         return (v || "").trim();
-      }
-
-      function escapeHtml(value) {
-        return String(value || "")
-          .replace(/&/g, "&amp;")
-          .replace(/</g, "&lt;")
-          .replace(/>/g, "&gt;")
-          .replace(/"/g, "&quot;")
-          .replace(/'/g, "&#039;");
       }
 
       function easternToEnglish(text) {
@@ -3075,10 +2974,6 @@
 
       function explicitOption(value) {
         return isSilentOption(value) ? "" : clean(value || "");
-      }
-
-      function isCustomOption(value) {
-        return clean(value || "") === "وصف مخصص";
       }
 
       function hasArabicDiacritics(text) {
@@ -3164,12 +3059,6 @@
       function prepareData(raw) {
         const d = { ...raw };
         d.rtl = true;
-        if (
-          isBrochureDesign(d) &&
-          (isTallAspectRatio(d.aspectRatio) || d.aspectRatio === "1:1 مربع")
-        ) {
-          d.aspectRatio = "A4 أفقي";
-        }
         d.title = projectTitle(d);
         d.audienceType = inferAudienceType(d);
         d.textHeavyActive = isTextHeavyInfographic(d);
@@ -3223,24 +3112,6 @@
         d._footerTeacherName = convertForOutput(d.footerTeacherName);
         d._colors = convertForOutput(d.colors);
         d._textFormatting = convertForOutput(d.textFormatting);
-        d._backgroundStyleCustom = convertForOutput(d.backgroundStyleCustom);
-        d._mainElementPositionCustom = convertForOutput(
-          d.mainElementPositionCustom,
-        );
-        d._textPositionCustom = convertForOutput(d.textPositionCustom);
-        d._fontStyleCustom = convertForOutput(d.fontStyleCustom);
-        if (isCustomOption(d.backgroundStyle)) {
-          d.backgroundStyle = d._backgroundStyleCustom;
-        }
-        if (isCustomOption(d.mainElementPosition)) {
-          d.mainElementPosition = d._mainElementPositionCustom;
-        }
-        if (isCustomOption(d.textPosition)) {
-          d.textPosition = d._textPositionCustom;
-        }
-        if (isCustomOption(d.fontStyle)) {
-          d.fontStyle = d._fontStyleCustom;
-        }
         const literalText = [primaryArabicText(d), secondaryArabicText(d)].join(
           "\n",
         );
@@ -3283,7 +3154,7 @@
         const directives = [];
         let source = String(text || "");
         source = source.replace(
-          /\[\[(?!\/\]\])([\s\S]{1,2000}?)\]\]([\s\S]{0,5000}?)\[\[\/\]\]/g,
+          /\[\[(?!\/\]\])([\s\S]*?)\]\]([\s\S]*?)\[\[\/\]\]/g,
           (_, inner, scopedText) => {
             const directive = normalizeSpaces(inner || "");
             const excerpt = scopedGuidanceExcerpt(scopedText);
@@ -3297,13 +3168,13 @@
             return scopedText;
           },
         );
-        source = source.replace(/\/\/([\s\S]{1,2000}?)\/\//g, (_, inner) => {
+        source = source.replace(/\/\/([\s\S]*?)\/\//g, (_, inner) => {
           const directive = normalizeSpaces(inner || "");
           if (directive) directives.push(directive);
           return " ";
         });
         const visible = normalizeSpaces(
-          source.replace(/\[\[([\s\S]{1,2000}?)\]\]/g, (_, inner) => {
+          source.replace(/\[\[([\s\S]*?)\]\]/g, (_, inner) => {
             const directive = normalizeSpaces(inner || "");
             if (directive && directive !== "/") directives.push(directive);
             return " ";
@@ -3564,7 +3435,7 @@
       }
 
       function isPoetryAttributionLine(line) {
-        return /^(?:الناظم|الشاعر|القائل|المصدر|بقلم|نظم|نظمه|من شعر|للشاعر|للإمام|صدر عن|من كلام|اقتباس)\s*[:/،-]?|رحمه الله|رحمها الله/.test(
+        return /^(?:الناظم|الشاعر|القائل|المصدر|بقلم|نظم|من شعر)\s*[:/]|رحمه الله|رحمها الله/.test(
           line || "",
         );
       }
@@ -3587,7 +3458,7 @@
         const titleKey = normalizeForCompare(d.title || d.subject || "");
         const firstLineLooksLikeTitle =
           Boolean(titleKey && firstLineKey === titleKey) ||
-          lines[0].length <= 40;
+          lines[0].length <= 70;
         const hasTitle =
           linesBeforeAttribution > 2 &&
           linesBeforeAttribution % 2 === 1 &&
@@ -3762,7 +3633,7 @@
 
       function storyGenerationInstruction(d) {
         if (!isStoryMode(d)) return "";
-        const pageCount = clampInt(d.storyPageCount, 1, MAX_STORY_PAGES, 6);
+        const pageCount = clampInt(d.storyPageCount, 1, 10, 6);
         const pageCountLabel = displayNumber(pageCount, d.numberStyle);
         const maxStoryPagesLabel = displayNumber(10, d.numberStyle);
         const pages = normalizedStoryPages(d);
@@ -3817,7 +3688,7 @@
       function slideGenerationInstruction(d) {
         if (!isSlideMode(d)) return "";
         const sourceMode = d.slideSourceMode || "attached";
-        const outputSlides = clampInt(d.slideCount, 1, MAX_SLIDES, MAX_SLIDES);
+        const outputSlides = clampInt(d.slideCount, 1, 10, 10);
         const sourceImages = clampInt(d.slideImageCount, 1, 20, outputSlides);
         const outputSlidesLabel = displayNumber(outputSlides, d.numberStyle);
         const sourceImagesLabel = displayNumber(sourceImages, d.numberStyle);
@@ -4261,20 +4132,9 @@
         const end =
           typeof el.selectionEnd === "number" ? el.selectionEnd : start;
         const insert = insertionPrefix(current, start, token) + token;
-        let inserted = false;
-        el.focus();
-        if (typeof el.setSelectionRange === "function")
-          el.setSelectionRange(start, end);
-        try {
-          inserted = document.execCommand("insertText", false, insert);
-        } catch {
-          inserted = false;
-        }
-        if (!inserted) {
-          el.value = current.slice(0, start) + insert + current.slice(end);
-          el.dispatchEvent(new InputEvent("input", { bubbles: true, inputType: "insertText", data: insert }));
-        }
+        el.value = current.slice(0, start) + insert + current.slice(end);
         const cursor = start + insert.length - cursorBack;
+        el.focus();
         if (typeof el.setSelectionRange === "function")
           el.setSelectionRange(cursor, cursor);
         const d = prepareData(gatherData());
@@ -5278,13 +5138,13 @@
           out.slideSourceMode = d.slideSourceMode;
           out.slideOutputType = "finalImages";
           out.slideCount = displayNumber(
-          clampInt(d.slideCount, 1, MAX_SLIDES, MAX_SLIDES),
+            clampInt(d.slideCount, 1, 10, 10),
             d.numberStyle,
           );
           out.slideImageCount =
             d.slideSourceMode === "attached"
               ? displayNumber(
-          clampInt(d.slideImageCount, 1, 20, MAX_SLIDES),
+                  clampInt(d.slideImageCount, 1, 20, 10),
                   d.numberStyle,
                 )
               : "";
@@ -5300,7 +5160,7 @@
 
         if (activeStory) {
           out.storyPageCount = displayNumber(
-          clampInt(d.storyPageCount, 1, MAX_STORY_PAGES, 6),
+            clampInt(d.storyPageCount, 1, 10, 6),
             d.numberStyle,
           );
           out.storyPageSize = d.storyPageSize;
@@ -5316,11 +5176,11 @@
           out.storyPages = normalizedStoryPages(d);
         }
 
-        return Object.fromEntries(
-          Object.entries(out).filter(
-            ([, value]) => value !== "" && value !== null && value !== undefined,
-          ),
-        );
+        for (const key of Object.keys(out)) {
+          if (out[key] === "" || out[key] === null || out[key] === undefined)
+            delete out[key];
+        }
+        return out;
       }
 
       function detectDigitConflict(text, style, label) {
@@ -5548,7 +5408,7 @@
             text: `الفئة المستهدفة مضبوطة على: ${d.audienceType}.`,
           });
         if (isSlideMode(d)) {
-          const outputSlides = clampInt(d.slideCount, 1, MAX_SLIDES, MAX_SLIDES);
+          const outputSlides = clampInt(d.slideCount, 1, 10, 10);
           const sourceImages = clampInt(d.slideImageCount, 1, 20, outputSlides);
           notes.push({
             type: "good",
@@ -5582,7 +5442,7 @@
           }
         }
         if (isStoryMode(d)) {
-          const pageCount = clampInt(d.storyPageCount, 1, MAX_STORY_PAGES, 6);
+          const pageCount = clampInt(d.storyPageCount, 1, 10, 6);
           notes.push({
             type: "good",
             text: `وضع القصة المصورة مفعل، وسيتم ضبط الإخراج على ${displayNumber(pageCount, d.numberStyle)} صفحات كحد أقصى.`,
@@ -5660,7 +5520,7 @@
               : n.type === "warn"
                 ? "report-warn"
                 : "report-note";
-          html.push(`<li class="${cls}">${escapeHtml(n.text)}</li>`);
+          html.push(`<li class="${cls}">${n.text}</li>`);
         });
         html.push("</ul>");
         reportBox.innerHTML = html.join("");
@@ -5794,24 +5654,7 @@
         );
       }
 
-      function updateCustomOptionFields() {
-        [
-          ["backgroundStyle", "backgroundStyleCustom"],
-          ["mainElementPosition", "mainElementPositionCustom"],
-          ["textPosition", "textPositionCustom"],
-          ["fontStyle", "fontStyleCustom"],
-        ].forEach(([selectKey, customKey]) => {
-          const select = fields[selectKey];
-          const custom = fields[customKey];
-          if (!select || !custom) return;
-          const wrapper = custom.closest(".custom-option-field");
-          const shouldShow = isCustomOption(select.value);
-          if (wrapper) wrapper.classList.toggle("smart-hidden", !shouldShow);
-        });
-      }
-
       function updateSmartSections(d = prepareData(gatherData())) {
-        updateCustomOptionFields();
         const showAll = $("smartShowAll") && $("smartShowAll").checked;
         const context = smartContextName(d);
         const textSection = sectionForField("arabicText");
@@ -5929,19 +5772,13 @@
         if (!d.subject && !d.arabicText && !d.sceneDesc) {
           promptOutput.textContent =
             "👈 ابدأ بإدخال موضوع الصورة والنص العربي للحصول على برومبت احترافي.";
-          promptOutput.style.opacity = "";
-          promptOutput.title = "";
           negativeOutput.textContent = "سيظهر هنا تلقائيًا بعد توليد البرومبت.";
           reportBox.textContent =
             "أهلاً بك. املأ الحقول الأساسية وسأراجع بناء البرومبت هنا خطوة بخطوة.";
           updateScore(0); // تأكد من أن شريط التقدم 0%
-          updateMeta(d);
-          updateSmartSections(d);
           return; // أوقف التوليد هنا
         }
         promptOutput.textContent = buildPrompt(d);
-        promptOutput.style.opacity = "";
-        promptOutput.title = "";
         negativeOutput.textContent = buildNegativePrompt(d);
         buildReport(d);
         updateScore(computeScore(d));
@@ -5968,11 +5805,10 @@
           const raw = localStorage.getItem(STORAGE_KEY);
           if (!raw) return false;
           const d = JSON.parse(raw);
-          for (const key of Object.keys(fields)) {
-            if (d[key] === undefined) continue;
-            const value = d[key];
+          for (const [key, value] of Object.entries(d)) {
+            if (!fields[key]) continue;
             if (fields[key].type === "checkbox")
-              fields[key].checked = importedCheckboxValue(value);
+              fields[key].checked = Boolean(value);
             else fields[key].value = value;
           }
           fields.rtl.checked = true;
@@ -6005,16 +5841,12 @@
         fields.lighting.value = "تلقائي حسب نوع التصميم";
         fields.cameraAngle.value = "تلقائي حسب نوع التصميم";
         fields.backgroundStyle.value = "تلقائي حسب نوع التصميم";
-        fields.backgroundStyleCustom.value = "";
         fields.mainElementPosition.value = "تلقائي حسب نوع التصميم";
-        fields.mainElementPositionCustom.value = "";
         fields.extraElements.value = "";
         fields.arabicText.value = "";
         fields.secondaryText.value = "";
         fields.textPosition.value = "تلقائي حسب نوع التصميم";
-        fields.textPositionCustom.value = "";
         fields.fontStyle.value = "تلقائي مناسب للتصميم";
-        fields.fontStyleCustom.value = "";
         fields.numberStyle.value = "english";
         fields.textImportance.value = "أولوية قصوى جدًا";
         fields.textFormatting.value = "";
@@ -6409,199 +6241,6 @@
         }
       }
 
-      function contentNumberInstruction(d) {
-        if (d.numberStyle === "eastern")
-          return "استخدم الأرقام الهندية الشرقية فقط عند الحاجة: ٠ ١ ٢ ٣ ٤ ٥ ٦ ٧ ٨ ٩.";
-        if (d.numberStyle === "english")
-          return "استخدم الأرقام الإنجليزية فقط عند الحاجة: 0 1 2 3 4 5 6 7 8 9.";
-        return "استخدم نمط أرقام واحدًا ومتسقًا داخل كل النصوص، ويفضل ما يناسب العربية.";
-      }
-
-      function buildSmartContentRequest() {
-        const d = gatherData();
-        const shown = (value) => clean(value) || "غير محدد";
-        const specs = [
-          `- نوع الصورة: ${shown(d.imageType)}`,
-          `- الغرض: ${shown(d.purpose)}`,
-          `- الأسلوب: ${shown(d.style)}`,
-          `- نسبة الأبعاد: ${shown(d.aspectRatio)}`,
-          `- مستوى الجودة: ${shown(d.qualityLevel)}`,
-          `- موضوع الصورة: ${shown(d.subject)}`,
-        ];
-
-        const optionalSpecs = [
-          ["المادة الدراسية", d.subjectArea && d.subjectArea !== "عام" ? d.subjectArea : ""],
-          ["المرحلة أو الصف", d.gradeLevel],
-          ["عنوان الدرس", d.lessonTitle],
-          ["الفئة المستهدفة", d.audienceType],
-          ["هدف الدرس أو الرسالة التعليمية", d.learningGoal],
-        ];
-
-        optionalSpecs.forEach(([label, value]) => {
-          const v = clean(value);
-          if (v) specs.push(`- ${label}: ${v}`);
-        });
-
-        const typeNotes = [];
-        const type = clean(d.imageType);
-        if (type.includes("مطوية") || type.includes("بروشور")) {
-          typeNotes.push(
-            "- إذا كان المحتوى مطوية، اقترح توزيع الوجه الخارجي والوجه الداخلي بوضوح، ولا تجمعهما في نص واحد إلا إذا كان ذلك مطلوبًا.",
-          );
-        }
-        if (type.includes("شرائح")) {
-          typeNotes.push(
-            "- إذا كان المحتوى شرائح، اجعل كل شريحة مرقمة بعنوان قصير ووصف مشهد ونص ظاهر موجز.",
-          );
-        }
-        if (type.includes("قصة مصورة")) {
-          typeNotes.push(
-            "- إذا كان المحتوى قصة مصورة، اقترح الشخصيات ووصف كل صفحة ومكان النص مع الحفاظ على ثبات الشخصيات.",
-          );
-        }
-        if (type.includes("لوحة شعرية") || type.includes("اقتباس أدبي")) {
-          typeNotes.push(
-            "- إذا كان المحتوى لوحة شعرية، قسّم الأبيات إلى شطر أيمن وشطر أيسر أو اقترح صيغة واضحة للشعر العربي.",
-          );
-        }
-
-        return `أريد منك إعداد محتوى عربي جاهز لمولد الصور العربي الخاص بي.
-
-اعتمد على المواصفات التالية:
-${specs.join("\n")}
-
-المطلوب:
-قسّم الإجابة إلى الحاويات التالية بنفس أسمائها تمامًا، حتى أنسخ كل جزء إلى الحاوية المناسبة في المولد.
-انتبه: بعض البنود في المولد حقول اختيار، لكنها تدعم خيار "وصف مخصص" عند الحاجة. اكتب لها اختيارًا قصيرًا، وإذا كان الوصف الطويل ضروريًا فاكتب بوضوح: "اختيار الحقل: وصف مخصص" ثم "الوصف المخصص: ...".
-
-١. وصف المشهد
-٢. عناصر إضافية
-٣. النصوص النهائية التي يجب أن تظهر حرفيًا
-٤. نص ثانوي اختياري
-٥. مرجع وسياق لا يظهر كاملًا في التصميم
-٦. الألوان والجو البصري
-٧. الخلفية (اختيار قصير، أو وصف مخصص عند الحاجة)
-٨. موضع العنصر الرئيسي (اختيار قصير، أو وصف مخصص عند الحاجة)
-٩. موضع النص الأساسي (اختيار قصير، أو وصف مخصص عند الحاجة)
-١٠. نوع الخط العربي (اختيار قصير، أو وصف مخصص عند الحاجة)
-١١. تعليمات تنسيق النص (مختصر، أو وصف مخصص عند الحاجة)
-١٢. التذييل
-١٣. ممنوعات خاصة
-١٤. تعليمات إضافية دقيقة
-
-قاعدة حقول الاختيار والوصف المخصص:
-- البنود: "الخلفية"، "موضع العنصر الرئيسي"، "موضع النص الأساسي"، "نوع الخط العربي" هي حقول اختيار في المولد، لكنها تقبل خيار "وصف مخصص" إذا احتاج التصميم شرحًا طويلًا.
-- إذا كان الاختيار القصير يكفي، فاكتب تحت البند سطرًا واحدًا مثل: "اختيار الحقل: نظيفة وغير مزدحمة" أو "اختيار الحقل: وسط الصورة من منظور المشاهد".
-- إذا كان الوصف الطويل ضروريًا، فاكتب تحت البند بهذا الشكل فقط:
-  اختيار الحقل: وصف مخصص
-  الوصف المخصص: [اكتب الوصف الطويل هنا]
-- لا تضع فقرة طويلة مباشرة تحت حقل اختيار دون سطر "اختيار الحقل: وصف مخصص"، حتى يعرف المستخدم أين يلصقها.
-- إذا كان التفصيل الطويل عامًا ويؤثر على التكوين كله، فضعه في "وصف المشهد" أو "تعليمات إضافية دقيقة" بدل حقل الاختيار.
-- اجعل "تعليمات تنسيق النص" مختصرة عند الإمكان، مثل: "RTL، محاذاة يمين، لا تقسيم للكلمات، أرقام هندية شرقية عند الحاجة". وإذا احتاجت تفصيلًا طويلًا فاكتبها أيضًا بصيغة "اختيار الحقل: وصف مخصص" ثم "الوصف المخصص: ...".
-- لا تكرر النص نفسه في حقل الاختيار ثم في التعليمات الإضافية؛ اجعل الاختيار مختصرًا، والتفصيل في موضع واحد فقط.
-
-قاعدة صارمة لضبط المصداقية ومنع خلط النصوص:
-- النصوص التي ستظهر داخل التصميم يجب أن يكون مصدرها الوحيد هو حاوية "النصوص النهائية التي يجب أن تظهر حرفيًا".
-- لا تكرر النصوص الظاهرة، ولا عبارات قريبة منها، داخل حاويات "وصف المشهد" أو "نص ثانوي اختياري" أو "مرجع وسياق" أو "تعليمات إضافية دقيقة".
-- اجعل "وصف المشهد" وصفًا بصريًا عامًا للتكوين فقط، ولا تجعله مصدرًا بديلًا لأي نص ظاهر.
-- اجعل "مرجع وسياق لا يظهر كاملًا في التصميم" مرجعًا لفهم المعنى فقط، واكتب فيه صراحة أنه ليس مصدرًا مباشرًا للنص الظاهر.
-- إذا كانت حاوية النصوص النهائية ممتلئة، فاجعل "نص ثانوي اختياري" فارغًا أو اكتب فيه: "لا يوجد نص ثانوي ظاهر؛ اعتمد فقط على حاوية النصوص النهائية."
-- تحقق من صحة المادة التعليمية قبل صياغة النصوص النهائية، ولا تسقط تعريفًا أو خاصية أساسية يحتاجها الطالب لفهم الموضوع.
-- إذا كان الموضوع تعليميًا أو مفاهيميًا، فلا تكتف بعرض الأسماء والرسومات. ابنِ المحتوى على ثلاث طبقات: أفهم التعريف، أميّز الصحيح من غير الصحيح مع السبب، ثم أقارن بين الأنواع المتشابهة عند الحاجة.
-- عند وجود أمثلة صحيحة وغير صحيحة، اكتب سببًا تعليميًا قصيرًا لكل مثال غير صحيح إذا كان ذلك يساعد الفهم.
-- عند وجود أنواع متشابهة، أضف مقارنة قصيرة توضّح وجه الشبه والاختلاف، ولا تجعل التصميم مجرد قائمة أسماء.
-- إن كان العنوان الأصلي عامًا، فاقترح عنوانًا تعليميًا أدق يوضح هدف الفهم، مثل: "أفهم، أميّز، أقارن" عندما يناسب الموضوع.
-
-قاعدة صرامة لضبط العلاقة بين الرسم والنص:
-- لا تكتفِ بذكر اسم العنصر؛ اربطه برسمه أو موضعه الصحيح داخل التوجيه المحلي //...//.
-- إذا كان الموضوع هندسيًا أو تشريحيًا أو علميًا أو يعتمد على مواضع دقيقة، فصف الرسم بدقة داخل التوجيه المحلي قبل النص الحرفي.
-- لا تستخدم توجيهًا عامًا فقط مثل "ضع البطاقة قرب الرسم" إذا كان الرسم قد يلتبس؛ حدّد نوع الرسم أو خصيصته المميزة.
-- أمثلة على الصياغة المطلوبة داخل //...//: ارسم مستطيلًا واضحًا غير مربع، ارسم معينًا مائلًا واضحًا، ارسم شبه منحرف له زوج واحد فقط من الأضلاع المتقابلة المتوازية، ضع التسمية قرب العضو المحدد، اربط السهم بالجزء الصحيح من الخريطة أو المخطط.
-
-قاعدة قابلية التنفيذ وتقليل الازدحام:
-- اكتب الإجابة كمسودة تنفيذية مختصرة قابلة للنقل إلى الحاويات، لا كشرح طويل أو تقرير تحليلي.
-- لا تكرر تعليمات RTL أو جودة الطباعة أو الخطوط أو الممنوعات في أكثر من حاوية؛ ضع كل نوع من التعليمات في موضعه مرة واحدة فقط.
-- اجعل حاوية "النصوص النهائية التي يجب أن تظهر حرفيًا" هي الأطول عند الحاجة، واجعل باقي الحاويات موجزة وداعمة لها.
-- إذا كانت النصوص الظاهرة كثيرة على تصميم واحد، فاكتب في "تعليمات إضافية دقيقة" تنبيهًا مختصرًا يقترح تقليل عدد العناصر أو استخدام A4 أفقي أو تقسيم المحتوى إلى شرائح، ولا تحذف من النص الحرفي من تلقاء نفسك.
-- عند إعداد إنفوجرافيك تعليمي، اجعل كل بطاقة نصية قصيرة بقدر الإمكان: عنوان قصير، وسطر أو سطران فقط للشرح، إلا إذا كان النص الحرفي ضروريًا للفهم.
-
-مهم جدًا:
-داخل حاوية "النصوص النهائية التي يجب أن تظهر حرفيًا"، ضع قبل كل نص مهم توجيهًا محليًا بين علامتي //...//.
-وفي بداية حاوية "النصوص النهائية التي يجب أن تظهر حرفيًا" أضف هذا التوجيه العام أولًا:
-//التزم بالنصوص التالية حرفيًا كما هي. لا تعدل الصياغة، لا تستبدل كلمة، لا تختصر، لا تضف نصوصًا من الحاويات الأخرى، ولا تُظهر أي نص غير موجود هنا//
-
-ما بين //...// هو توجيه للمولد فقط ولا يظهر داخل التصميم.
-أما النص الذي بعده فهو النص الحرفي الذي يجب أن يظهر في الصورة.
-إذا أردت ظهور عبارة مثل "إرشاد سريع" أو "ملاحظة" أو "تنبيه" داخل التصميم، فلا تضعها بين //...//، بل اكتب قبلها توجيهًا بين //...// ثم اكتب العبارة الظاهرة في السطر التالي.
-لا تضع النصوص النهائية داخل كتل Markdown مثل \`\`\`text، واجعلها نصًا عاديًا قابلًا للنسخ مباشرة.
-
-استخدم هذا الأسلوب خصوصًا في:
-- تحديد موضع العنوان.
-- تحديد موضع البطاقات.
-- ربط كل نص بالرسم المناسب.
-- تلوين كلمة معينة داخل النصوص عند الحاجة.
-- توجيه الأسهم أو الرموز.
-- وضع الملاحظات داخل صناديق.
-- ضبط المحاذاة والتوسيط.
-- منع كسر الكلمات العربية.
-
-أمثلة على التوجيهات المحلية:
-//ضع هذا العنوان في أعلى الصفحة، كبيرًا وواضحًا ومتمركزًا//
-العنوان هنا
-
-//اجعل هذه البطاقة في الجهة اليمنى وقريبة من الرسم المرتبط بها//
-النص هنا
-
-//لوّن كلمة "..." باللون الأحمر كلما ظهرت في التصميم//
-النص هنا
-
-//ضع هذه الفقرة داخل صندوق ملاحظة أسفل الصفحة//
-النص هنا
-
-//اجعل النص بمحاذاة يمين ولا تقسّم الكلمات العربية بين السطور//
-النص هنا
-
-شروط عامة:
-- اجعل المحتوى مناسبًا للتصميم العربي ونوع الصورة المحدد.
-- اجعل النصوص قصيرة وواضحة ومناسبة للإنفوجرافيك أو التصميم المختار.
-- اختصر النصوص أثناء إعدادك لها قبل وضعها في حاوية النصوص النهائية، لكن بعد اعتماد النص الحرفي لا تطلب اختصاره أو تغييره داخل التصميم.
-- لا تكتب في أي حاوية عبارة مثل "اختصر النص" أو "احذف كلمات" أو "قلّل عدد الكلمات" للنصوص الحرفية.
-- اكتب بدل ذلك: "إذا ضاق المكان، صغّر حجم الخط قليلًا أو زد مساحة البطاقة أو انقل النص إلى سطر جديد دون حذف أو تغيير النص الحرفي."
-- إذا كان التصميم هندسيًا أو تعليميًا دقيقًا، فاجعل الرسوم الأساسية واضحة ثنائية الأبعاد، ويمكن أن تكون الزخارف أو الظلال فقط بلمسة ثلاثية خفيفة.
-- استخدم العربية الفصحى الواضحة.
-- التزم بالاتجاه العربي من اليمين إلى اليسار RTL.
-- ${contentNumberInstruction(d)}
-- لا تكتب نصوصًا طويلة داخل التصميم إلا عند الضرورة.
-- اجعل كل بطاقة أو فقرة مرتبطة بعنصرها البصري.
-- لا تكرر التذييل.
-- اجعل المخرجات قابلة للنسخ مباشرة إلى حاويات المولد.
-${typeNotes.length ? "\nتوجيهات خاصة حسب نوع الصورة:\n" + typeNotes.join("\n") : ""}
-
-أعد الإجابة مرتبة وواضحة، ولا تضع شرحًا خارج الحاويات إلا إذا كان ضروريًا جدًا.`;
-      }
-
-      function showSmartContentRequest() {
-        const panel = $("contentRequestPanel");
-        const output = $("smartContentRequestOutput");
-        if (!panel || !output) return;
-        output.value = buildSmartContentRequest();
-        panel.hidden = false;
-        output.focus();
-        output.setSelectionRange(0, 0);
-        statusText.textContent = "تم توليد طلب المحتوى الذكي";
-      }
-
-      function copySmartContentRequest() {
-        const output = $("smartContentRequestOutput");
-        copyText(output ? output.value.trim() : "", "تم نسخ طلب المحتوى");
-      }
-
-      function closeSmartContentRequest() {
-        const panel = $("contentRequestPanel");
-        if (panel) panel.hidden = true;
-        statusText.textContent = "تم إغلاق طلب المحتوى";
-      }
-
       function downloadAll() {
         const promptText = promptOutput.textContent.trim();
         const note = encodingNote();
@@ -6694,25 +6333,12 @@ ${typeNotes.length ? "\nتوجيهات خاصة حسب نوع الصورة:\n" +
             updateScore(computeScore(d));
             updateMeta(d);
             updateSmartSections(d);
-            if (promptOutput.textContent && !promptOutput.textContent.startsWith("👈")) {
-              promptOutput.style.opacity = "0.62";
-              promptOutput.title = "بيانات تغيّرت؛ اضغط توليد البرومبت لتحديث الناتج";
-            }
             if (d.autosave) saveState(true);
           });
         });
       }
 
       $("generateBtn").addEventListener("click", generate);
-      $("contentRequestBtn").addEventListener("click", showSmartContentRequest);
-      $("copyContentRequestBtn").addEventListener(
-        "click",
-        copySmartContentRequest,
-      );
-      $("closeContentRequestBtn").addEventListener(
-        "click",
-        closeSmartContentRequest,
-      );
       $("exampleBtn").addEventListener("click", fillExample);
       $("clearBtn").addEventListener("click", () => {
         openConfirmDialog(
@@ -6762,57 +6388,105 @@ ${typeNotes.length ? "\nتوجيهات خاصة حسب نوع الصورة:\n" +
         e.target.value = "";
       });
 
-      function convertAllDigits(converterFn, styleName, statusMsg) {
-        [
-          "arabicText",
-          "footerLessonTopic",
-          "slideItems",
-          "slideGeneratedItems",
-          "storyCoverSubtitle",
-          "storyCharacters",
-          "storyPages",
-          "subject",
-          "gradeLevel",
-          "learningGoal",
-          "sceneDesc",
-          "footerTeacherName",
-          "colors",
-          "backgroundStyleCustom",
-          "mainElementPositionCustom",
-          "textPositionCustom",
-          "fontStyleCustom",
-          "textFormatting",
-          "extraElements",
-          "specialInstructions",
-          "negativeNotes",
-          "secondaryText",
-          "referenceText",
-          "footerText",
-          "footerDate",
-          "lessonTitle",
-        ].forEach((key) => {
-          if (fields[key]) fields[key].value = converterFn(fields[key].value);
-        });
-        fields.numberStyle.value = styleName;
-        statusText.textContent = statusMsg;
+      $("toEnglishDigitsBtn").addEventListener("click", () => {
+        fields.arabicText.value = easternToEnglish(fields.arabicText.value);
+        fields.footerLessonTopic.value = easternToEnglish(
+          fields.footerLessonTopic.value,
+        );
+        fields.slideItems.value = easternToEnglish(fields.slideItems.value);
+        fields.slideGeneratedItems.value = easternToEnglish(
+          fields.slideGeneratedItems.value,
+        );
+        fields.storyCoverSubtitle.value = easternToEnglish(
+          fields.storyCoverSubtitle.value,
+        );
+        fields.storyCharacters.value = easternToEnglish(
+          fields.storyCharacters.value,
+        );
+        fields.storyPages.value = easternToEnglish(fields.storyPages.value);
+        fields.subject.value = easternToEnglish(fields.subject.value);
+        fields.gradeLevel.value = easternToEnglish(fields.gradeLevel.value);
+        fields.learningGoal.value = easternToEnglish(fields.learningGoal.value);
+        fields.sceneDesc.value = easternToEnglish(fields.sceneDesc.value);
+        fields.footerTeacherName.value = easternToEnglish(
+          fields.footerTeacherName.value,
+        );
+        fields.colors.value = easternToEnglish(fields.colors.value);
+        fields.textFormatting.value = easternToEnglish(
+          fields.textFormatting.value,
+        );
+        fields.extraElements.value = easternToEnglish(
+          fields.extraElements.value,
+        );
+        fields.specialInstructions.value = easternToEnglish(
+          fields.specialInstructions.value,
+        );
+        fields.negativeNotes.value = easternToEnglish(
+          fields.negativeNotes.value,
+        );
+        fields.secondaryText.value = easternToEnglish(
+          fields.secondaryText.value,
+        );
+        fields.referenceText.value = easternToEnglish(
+          fields.referenceText.value,
+        );
+        fields.footerText.value = easternToEnglish(fields.footerText.value);
+        fields.footerDate.value = easternToEnglish(fields.footerDate.value);
+        fields.lessonTitle.value = easternToEnglish(fields.lessonTitle.value);
+        fields.numberStyle.value = "english";
+        statusText.textContent = "تم تحويل الأرقام إلى الإنجليزية";
         generate();
-      }
+      });
 
-      $("toEnglishDigitsBtn").addEventListener("click", () =>
-        convertAllDigits(
-          easternToEnglish,
-          "english",
-          "تم تحويل الأرقام إلى الإنجليزية",
-        ),
-      );
-
-      $("toEasternDigitsBtn").addEventListener("click", () =>
-        convertAllDigits(
-          englishToEastern,
-          "eastern",
-          "تم تحويل الأرقام إلى الهندية الشرقية",
-        ),
-      );
+      $("toEasternDigitsBtn").addEventListener("click", () => {
+        fields.arabicText.value = englishToEastern(fields.arabicText.value);
+        fields.footerLessonTopic.value = englishToEastern(
+          fields.footerLessonTopic.value,
+        );
+        fields.slideItems.value = englishToEastern(fields.slideItems.value);
+        fields.slideGeneratedItems.value = englishToEastern(
+          fields.slideGeneratedItems.value,
+        );
+        fields.storyCoverSubtitle.value = englishToEastern(
+          fields.storyCoverSubtitle.value,
+        );
+        fields.storyCharacters.value = englishToEastern(
+          fields.storyCharacters.value,
+        );
+        fields.storyPages.value = englishToEastern(fields.storyPages.value);
+        fields.subject.value = englishToEastern(fields.subject.value);
+        fields.gradeLevel.value = englishToEastern(fields.gradeLevel.value);
+        fields.learningGoal.value = englishToEastern(fields.learningGoal.value);
+        fields.sceneDesc.value = englishToEastern(fields.sceneDesc.value);
+        fields.footerTeacherName.value = englishToEastern(
+          fields.footerTeacherName.value,
+        );
+        fields.colors.value = englishToEastern(fields.colors.value);
+        fields.textFormatting.value = englishToEastern(
+          fields.textFormatting.value,
+        );
+        fields.extraElements.value = englishToEastern(
+          fields.extraElements.value,
+        );
+        fields.specialInstructions.value = englishToEastern(
+          fields.specialInstructions.value,
+        );
+        fields.negativeNotes.value = englishToEastern(
+          fields.negativeNotes.value,
+        );
+        fields.secondaryText.value = englishToEastern(
+          fields.secondaryText.value,
+        );
+        fields.referenceText.value = englishToEastern(
+          fields.referenceText.value,
+        );
+        fields.footerText.value = englishToEastern(fields.footerText.value);
+        fields.footerDate.value = englishToEastern(fields.footerDate.value);
+        fields.lessonTitle.value = englishToEastern(fields.lessonTitle.value);
+        fields.numberStyle.value = "eastern";
+        statusText.textContent = "تم تحويل الأرقام إلى الهندية الشرقية";
+        generate();
+      });
 
       $("normalizeSpacesBtn").addEventListener("click", () => {
         fields.arabicText.value = normalizeSpaces(fields.arabicText.value);
@@ -6913,15 +6587,7 @@ ${typeNotes.length ? "\nتوجيهات خاصة حسب نوع الصورة:\n" +
           if (!current) {
             styleField.value = newStyle;
           } else {
-            const styles = current
-              .split("،")
-              .map((style) => clean(style))
-              .filter(Boolean);
-            if (styles.includes(newStyle)) {
-              statusText.textContent = `الستايل موجود مسبقًا: "${newStyle}"`;
-              return;
-            }
-            styleField.value = [...styles, newStyle].join("، ");
+            styleField.value = current + "، " + newStyle;
           }
           styleField.focus();
           statusText.textContent = `تم إضافة الستايل: "${newStyle}"`;
@@ -6936,10 +6602,9 @@ ${typeNotes.length ? "\nتوجيهات خاصة حسب نوع الصورة:\n" +
       attachAutosave();
       if (!loadState()) clearFields();
       syncModeFieldsFromImageType();
-      const initialData = prepareData(gatherData());
-      buildReport(initialData);
-      updateScore(computeScore(initialData));
-      updateMeta(initialData);
+      buildReport(gatherData());
+      updateScore(computeScore(gatherData()));
+      updateMeta(gatherData());
       generate();
       // ===== نظام "مكتبتي" لحفظ القوالب المخصصة =====
 const LIBRARY_KEY = "arabicPromptTreasure_library_v1";
@@ -7051,25 +6716,17 @@ function loadLibrary() {
 if (saveToLibraryBtn) {
   saveToLibraryBtn.addEventListener("click", () => {
     const name = prompt("أدخل اسماً مميزاً لحفظ هذا القالب (مثلاً: قالب الرياضيات):");
-    const templateName = clean(name);
-    if (!templateName) return;
+    if (!name || !name.trim()) return;
     
     const currentData = gatherData();
     try {
       const templates = readLibraryTemplates();
-      if (
-        templates[templateName] &&
-        !confirm(`القالب "${templateName}" موجود بالفعل. هل تريد استبداله؟`)
-      ) {
-        statusText.textContent = "تم إلغاء حفظ القالب لتجنب استبدال قالب موجود";
-        return;
-      }
-      templates[templateName] = currentData;
+      templates[name.trim()] = currentData;
       writeLibraryTemplates(templates);
       
-      statusText.textContent = `تم حفظ القالب: "${templateName}" في مكتبتك`;
+      statusText.textContent = `تم حفظ القالب: "${name.trim()}" في مكتبتك`;
       loadLibrary();
-      myLibrarySelect.value = templateName;
+      myLibrarySelect.value = name.trim();
     } catch (e) {
       statusText.textContent = "تعذر حفظ القالب في المكتبة";
     }
