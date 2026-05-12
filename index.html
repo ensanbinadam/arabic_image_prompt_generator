@@ -3490,7 +3490,7 @@
           return (
             "استخدم الأرقام الهندية الشرقية فقط عند ظهور أي أرقام داخل النص أو التصميم: ٠ ١ ٢ ٣ ٤ ٥ ٦ ٧ ٨ ٩." +
             " ينطبق ذلك إلزاميًا على جميع المواضع دون استثناء: العنوان، البطاقات، الصناديق، الجداول، المحاور، الشارات، العدادات، أرقام الخطوات، الخلايا، الوسوم، التذييل، التواريخ، النِّسب، وأي أرقام صغيرة داخل الحاويات أو التسميات." +
-            " امنع ظهور الأرقام الإنجليزية 0 1 2 3 4 5 6 7 8 9 داخل أي عنصر ظاهر، خصوصًا داخل البطاقات والخلايا والصناديق والوسوم." +
+            " اكتب الرقم اثنين بهذه الهيئة تحديدًا: ٢، ولا تستبدله بالرقم الإنجليزي 2 أو الرقم الفارسي ۲ أو أي شكل آخر. امنع ظهور الأرقام الإنجليزية 0 1 2 3 4 5 6 7 8 9 داخل أي عنصر ظاهر، خصوصًا داخل البطاقات والخلايا والصناديق والوسوم." +
             consistency
           );
 
@@ -4232,6 +4232,20 @@
         return "حجم التذييل: صغير واضح، مقروء لكنه أقل بروزًا من العنوان والمحتوى الرئيسي.";
       }
 
+      function footerExactTextInstruction(text) {
+        const footerText = clean(text || "");
+        if (!footerText) return "";
+        const lines = [
+          "انسخ نص التذييل حرفيًا كما هو دون تبديل أي كلمة أو حرف.",
+        ];
+        if (footerText.includes("ملتقى")) {
+          lines.push(
+            'انتبه لكلمة "ملتقى": اكتبها بهذه الحروف تحديدًا "م ل ت ق ى"، ولا تستبدلها بكلمة "ملحق" أو أي كلمة قريبة.',
+          );
+        }
+        return lines.join(" ");
+      }
+
       function effectiveFooterText(d) {
         const manualFooterData = clean(
           d._footerText ||
@@ -4678,6 +4692,7 @@
               lines.push(
                 `- التذييل: نص صغير جدًا في الزاوية السفلية اليمنى فقط يقرأ: "${footerTextComposed}".`,
               );
+              lines.push(`- ${footerExactTextInstruction(footerTextComposed)}`);
             } else {
               lines.push(
                 `- أضف تذييلًا عربيًا واحدًا فقط في ${d.footerPosition}.`,
@@ -4697,6 +4712,7 @@
               );
               lines.push("- استخدم النص التالي حرفيًا في التذييل:");
               lines.push(`"${footerTextComposed}"`);
+              lines.push(`- ${footerExactTextInstruction(footerTextComposed)}`);
             }
           }
         }
@@ -4868,7 +4884,7 @@
             );
           else if (footerTextComposed)
             lines.push(
-              `أضف تذييلًا واحدًا فقط في ${d.footerPosition} بالنص التالي: "${footerTextComposed}"، بأسلوب ${d.footerStyle}. ${footerSizeInstruction(d)} لا تكرره في أي موضع آخر. مع ترتيب ومحاذاة عربية من اليمين إلى اليسار.`,
+              `أضف تذييلًا واحدًا فقط في ${d.footerPosition} بالنص التالي: "${footerTextComposed}"، بأسلوب ${d.footerStyle}. ${footerSizeInstruction(d)} لا تكرره في أي موضع آخر. ${footerExactTextInstruction(footerTextComposed)} مع ترتيب ومحاذاة عربية من اليمين إلى اليسار.`,
             );
         }
         if (d._specialInstructions || d.specialInstructions)
@@ -4992,7 +5008,7 @@
             );
           else if (footerTextComposed)
             parts.push(
-              `أضف تذييلًا واحدًا فقط في ${d.footerPosition} بالنص: "${footerTextComposed}" وبأسلوب ${d.footerStyle}. ${footerSizeInstruction(d)} لا تكرره في أي موضع آخر. مع محاذاة وترتيب عربي من اليمين إلى اليسار.`,
+              `أضف تذييلًا واحدًا فقط في ${d.footerPosition} بالنص: "${footerTextComposed}" وبأسلوب ${d.footerStyle}. ${footerSizeInstruction(d)} لا تكرره في أي موضع آخر. ${footerExactTextInstruction(footerTextComposed)} مع محاذاة وترتيب عربي من اليمين إلى اليسار.`,
             );
         }
         if (d._specialInstructions || d.specialInstructions)
@@ -5061,6 +5077,14 @@
             "same footer text in two places",
             "extra watermark-like signature",
           );
+          if (effectiveFooterText(d).includes("ملتقى")) {
+            parts.push(
+              "misspelled footer word ملتقى",
+              "ملتقى written as ملحق",
+              "wrong footer spelling",
+              "footer text changed",
+            );
+          }
         }
         if (d.rtl) {
           parts.push(
@@ -5189,6 +5213,10 @@
           parts.push(
             "mixed numeral systems",
             "English digits inside Arabic design",
+            "wrong Arabic-Indic digit 2",
+            "Latin digit 2 in Arabic sequence",
+            "Persian digit ۲ when Arabic-Indic ٢ is required",
+            "wrong digit shape for ٢",
             "Latin numerals in boxes",
             "Latin numerals in cards",
             "Latin numerals in table cells",
