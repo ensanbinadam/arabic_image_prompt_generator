@@ -1284,7 +1284,7 @@
       [data-tooltip] {
   position: relative;
   cursor: help;
-  overflow: visible !important; /* هذا هو السر الذي سيسمح للتلميح بالخروج عن حدود الزر */
+  overflow: visible;
 }
       [data-tooltip]::after {
         content: attr(data-tooltip);
@@ -2992,8 +2992,13 @@
       const confirmCancelBtn = $("confirmCancelBtn");
       const appWrap = document.querySelector(".wrap");
       let pendingConfirmAction = null;
+      let lastConfirmTrigger = null;
 
       function openConfirmDialog(message, action) {
+        lastConfirmTrigger =
+          document.activeElement instanceof HTMLElement
+            ? document.activeElement
+            : null;
         pendingConfirmAction = action;
         confirmMessage.textContent = message;
         confirmOverlay.classList.add("show");
@@ -3007,6 +3012,9 @@
         confirmOverlay.setAttribute("aria-hidden", "true");
         if (appWrap) appWrap.removeAttribute("inert");
         pendingConfirmAction = null;
+        if (lastConfirmTrigger && document.contains(lastConfirmTrigger))
+          lastConfirmTrigger.focus();
+        lastConfirmTrigger = null;
       }
 
       function clean(v) {
@@ -3056,6 +3064,8 @@
 
       function normalizeSpaces(text) {
         return text
+          .replace(/[\u200B\u200C\u200D\uFEFF]/g, "")
+          .replace(/[\u00A0\u202F\u2000-\u200A\u205F\u3000]/g, " ")
           .replace(/[ \t]+/g, " ")
           .replace(/\s*\n\s*/g, "\n")
           .replace(/\n{3,}/g, "\n\n")
@@ -4262,17 +4272,18 @@
         const insert = insertionPrefix(current, start, token) + token;
         let inserted = false;
         el.focus();
-        if (typeof el.setSelectionRange === "function")
-          el.setSelectionRange(start, end);
-        try {
-          inserted = document.execCommand("insertText", false, insert);
-        } catch {
-          inserted = false;
+        if (typeof el.setRangeText === "function") {
+          try {
+            el.setRangeText(insert, start, end, "end");
+            inserted = true;
+          } catch {
+            inserted = false;
+          }
         }
         if (!inserted) {
           el.value = current.slice(0, start) + insert + current.slice(end);
-          el.dispatchEvent(new InputEvent("input", { bubbles: true, inputType: "insertText", data: insert }));
         }
+        el.dispatchEvent(new InputEvent("input", { bubbles: true, inputType: "insertText", data: insert }));
         const cursor = start + insert.length - cursorBack;
         if (typeof el.setSelectionRange === "function")
           el.setSelectionRange(cursor, cursor);
@@ -5757,6 +5768,8 @@
       function smartContextName(d) {
         if (isStoryMode(d)) return "story";
         if (isSlideMode(d)) return "slides";
+        if (isBrochureDesign(d)) return "brochure";
+        if (isPoetryDesign(d)) return "poetry";
         if (isTextAssetDesign(d)) return "textasset";
         if (isInfographicDesign(d) || d.textHeavyActive)
           return "infographic";
@@ -5766,6 +5779,8 @@
       function smartContextLabel(context) {
         if (context === "story") return "القصة المصورة";
         if (context === "slides") return "شرائح الصور";
+        if (context === "brochure") return "المطوية";
+        if (context === "poetry") return "اللوحة الشعرية";
         if (context === "textasset") return "الأصل النصي الخطي";
         if (context === "infographic") return "الإنفوجرافيك النصي";
         return "التصميم العام";
@@ -5832,6 +5847,8 @@
           textSection,
           context === "general" ||
             context === "infographic" ||
+            context === "brochure" ||
+            context === "poetry" ||
             context === "textasset",
         );
         setSmartVisibility(slidesSection, context === "slides");
@@ -6629,7 +6646,8 @@
           if (!x) return v;
           if (
             (x.startsWith('"') && x.endsWith('"')) ||
-            (x.startsWith("“") && x.endsWith("”"))
+            (x.startsWith("“") && x.endsWith("”")) ||
+            (x.startsWith("«") && x.endsWith("»"))
           )
             return x;
           return `"${x}"`;
