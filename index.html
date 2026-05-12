@@ -3498,7 +3498,7 @@
       }
 
       function rtlLayoutInstruction() {
-        return "كل النصوص العربية من اليمين إلى اليسار RTL، بمحاذاة يمين، دون عكس الحروف أو الكلمات، ودون تقسيم الكلمة العربية بين سطرين. تبدأ القوائم والترقيم والجداول من اليمين، ويكون العمود أو الخطوة الأولى في أقصى اليمين.";
+        return "كل النصوص العربية من اليمين إلى اليسار RTL، بمحاذاة يمين، دون عكس الحروف أو الكلمات، ودون تقسيم الكلمة العربية بين سطرين. قاعدة الترتيب الافتراضية لكل العناصر العربية: ابدأ القوائم والترقيم والجداول والبطاقات والصناديق والحاويات والأنشطة والأسئلة والخطوات من أعلى اليمين. داخل الصف الواحد رتّب العناصر من اليمين إلى اليسار، ثم انتقل إلى الصف التالي تحته. داخل الأعمدة ابدأ بالعمود الأيمن من أعلى إلى أسفل ثم انتقل إلى العمود التالي يسارًا. اجعل الرقم أو البطاقة أو السؤال أو الخطوة ١ في أقصى اليمين أو أعلى اليمين، ولا تبدأ أي مجموعة من اليسار.";
       }
 
       function clampInt(value, min, max, fallback) {
@@ -3957,7 +3957,7 @@
           return "";
         }
         let detail =
-          "اجعل الترتيب العام والمحاذاة واتجاه القراءة متوافقة مع العربية من اليمين إلى اليسار.";
+          "اجعل الترتيب العام والمحاذاة واتجاه القراءة متوافقة مع العربية من اليمين إلى اليسار. عند وجود بطاقات أو أسئلة أو أنشطة أو صناديق، استخدم ترتيبًا شبكيًا عربيًا يبدأ من أعلى اليمين، ثم يسير داخل الصف نحو اليسار، ثم ينزل للصف التالي.";
         if (layout.includes("عنوان أعلى يمين"))
           detail =
             "ضع العنوان في أعلى يمين الصورة، واجعل بقية العناصر تدعم مسار قراءة عربي واضح من اليمين إلى اليسار.";
@@ -4051,18 +4051,21 @@
         const visualHints = [
           d._sceneDesc || d.sceneDesc,
           d._extraElements || d.extraElements,
+          d._textFormatting || d.textFormatting,
+          d._specialInstructions || d.specialInstructions,
         ].join("\n");
         const combined = [visibleText, reference, visualHints]
           .filter(Boolean)
           .join("\n");
-        const likelyCards = /بطاقات|محاور|خطوات|إنفوجرافيك|انفوجرافيك/.test(
+        const likelyCards =
+          /بطاقات|بطاقة|حاويات|حاوية|صناديق|صندوق|محاور|خطوات|إنفوجرافيك|انفوجرافيك|أنشطة|نشاط|أسئلة|سؤال|جريدة|مجلة|جدول|جداول|قائمة|قوائم|خلايا|شارات|أعمدة|عمود/.test(
           [layoutCheck, combined].join(" "),
-        );
-        const hasNumberedItems = /(?:^|\n)\s*(?:[1-9]|[١-٩])[\.\- ـ:]/.test(
+          );
+        const hasNumberedItems = /(?:^|\n)\s*(?:[0-9]+|[٠-٩]+|[۰-۹]+)\s*[\.\- ـ:\)]/.test(
           combined,
         );
         if (!likelyCards && !hasNumberedItems) return "";
-        return "التخطيط المكاني للبطاقات من منظور المشاهد: استخدم نظامًا شبكيًا RTL يبدأ من أعلى اليمين. إذا كان التخطيط صفوفًا، املأ الصف الأول من اليمين إلى اليسار ثم انزل للصف التالي. وإذا كان التخطيط أعمدة، املأ العمود الأيمن من أعلى إلى أسفل ثم انتقل للعمود التالي يسارًا. استمر بنفس المنطق مهما كان عدد البطاقات، ولا تبدأ من اليسار ولا تبدّل ترتيب الأرقام. عند ضيق النص داخل البطاقة، صغّر حجم الخط قليلًا أو زد ارتفاع البطاقة بدل اختصار النص أو حذفه.";
+        return "التخطيط المكاني للبطاقات والحاويات من منظور المشاهد: استخدم نظامًا شبكيًا RTL يبدأ من أعلى اليمين. رتّب البطاقة أو النشاط أو السؤال رقم ١ في أعلى يمين المجموعة، ثم ٢ إلى يساره، ثم ٣ إلى يساره، وبعد اكتمال الصف انزل إلى الصف التالي وابدأه من اليمين أيضًا. إذا كان التخطيط أعمدة، املأ العمود الأيمن من أعلى إلى أسفل ثم انتقل للعمود التالي يسارًا. طبّق ذلك على البطاقات، الأنشطة، الأسئلة، الشارات، الجداول، والصناديق، ولا تبدأ من اليسار ولا تبدّل ترتيب الأرقام. عند ضيق النص داخل البطاقة، صغّر حجم الخط قليلًا أو زد ارتفاع البطاقة بدل اختصار النص أو حذفه.";
       }
 
       function poetryLayoutInstruction(d) {
@@ -4089,7 +4092,6 @@
           "A. النصوص التي يجب أن تظهر في التصميم:",
           `- العنوان الموحد: "${title}".`,
           "- صمّم الإنفوجرافيك كله في صفحة واحدة فقط بالمقاس المختار، ولا تقسّمه إلى جزء ١ وجزء ٢، ولا تنشئ صفحتين أو صورتين منفصلتين.",
-          rtlCardSpatialInstruction(d),
           visibleText
             ? "- استخدم النصوص النهائية التالية داخل التصميم حرفيًا كما هي، ولا تضف عليها ولا تختصرها ولا تعيد صياغتها:"
             : "- اعرض عناصر الجدول أو البطاقات من النص المرجعي مع نسخ أسماء العناصر والشواهد المختارة كما هي حرفيًا دون اختصار الكلمات أو إعادة صياغتها.",
@@ -4551,6 +4553,10 @@
           const layoutInstruction = arabicLayoutInstruction(d);
           if (layoutInstruction) lines.push(`- ${layoutInstruction}`);
         }
+        {
+          const spatialInstruction = rtlCardSpatialInstruction(d);
+          if (spatialInstruction) lines.push(`- ${spatialInstruction}`);
+        }
         lines.push(`- ${visualHierarchyInstruction(d)}`);
         lines.push(`- ${printQualityInstruction()}`);
         if (d.rtl) lines.push(`- ${rtlLayoutInstruction()}`);
@@ -4790,6 +4796,10 @@
           const layoutInstruction = arabicLayoutInstruction(d);
           if (layoutInstruction) lines.push(layoutInstruction);
         }
+        {
+          const spatialInstruction = rtlCardSpatialInstruction(d);
+          if (spatialInstruction) lines.push(spatialInstruction);
+        }
         lines.push(visualHierarchyInstruction(d));
         lines.push(printQualityInstruction());
         const slideInstruction = slideGenerationInstruction(d);
@@ -4912,6 +4922,10 @@
         {
           const layoutInstruction = arabicLayoutInstruction(d);
           if (layoutInstruction) parts.push(layoutInstruction);
+        }
+        {
+          const spatialInstruction = rtlCardSpatialInstruction(d);
+          if (spatialInstruction) parts.push(spatialInstruction);
         }
         parts.push(visualHierarchyInstruction(d));
         parts.push(printQualityInstruction());
@@ -5046,6 +5060,23 @@
             "repeated signature text",
             "same footer text in two places",
             "extra watermark-like signature",
+          );
+        }
+        if (d.rtl) {
+          parts.push(
+            "left-to-right card order",
+            "cards ordered left-to-right",
+            "card sequence starts from left",
+            "first card on the left",
+            "first step on the left",
+            "activity boxes start from left",
+            "question boxes start from left",
+            "RTL grid starts from left",
+            "grid filled from left to right",
+            "wrong RTL card order",
+            "columns ordered left-to-right",
+            "left-to-right table order",
+            "first table column on the left",
           );
         }
         if (isTextAssetDesign(d)) {
@@ -5191,7 +5222,7 @@
         if (d.highReadability) parts.push("blurred text", "low contrast text");
         if (d._negativeNotes || d.negativeNotes)
           parts.push(d._negativeNotes || d.negativeNotes);
-        return parts.join(", ");
+        return [...new Set(parts)].join(", ");
       }
 
       function buildPrompt(d) {
