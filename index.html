@@ -59,7 +59,6 @@
       }
 
       body {
-        /* ... خصائص موجودة ... */
         text-align: right; /* ضمان أن المحاذاة الافتراضية يمينية وليست يسارية */
         margin: 0;
         font-family: "Cairo", "Tajawal", "Tahoma", sans-serif;
@@ -180,6 +179,7 @@
         font-weight: 900;
         letter-spacing: 0;
         text-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+        color: #ffffff;
         background: linear-gradient(135deg, #ffffff, #d9f9f3);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -483,7 +483,6 @@
         box-shadow: 0 8px 28px rgba(16, 185, 129, 0.15);
       }
 
-      .section-edu .section h3,
       .section-edu h3 {
         color: var(--emerald) !important;
       }
@@ -6626,12 +6625,16 @@
             generate();
             statusText.textContent =
               "تم استيراد الإعدادات واستبدال المشروع الحالي";
-          } catch {
-            statusText.textContent = "ملف JSON غير صالح";
-          }
-        };
-        reader.readAsText(file, "utf-8");
-      }
+        } catch {
+          statusText.textContent = "ملف JSON غير صالح";
+        }
+      };
+      reader.onerror = () => {
+        statusText.textContent =
+          "تعذرت قراءة الملف، تأكد من صلاحيات الوصول إليه.";
+      };
+      reader.readAsText(file, "utf-8");
+    }
 
       function attachAutosave() {
         Object.values(fields).forEach((el) => {
@@ -7087,6 +7090,10 @@ function importLibraryFromFile(file) {
     } catch (e) {
       statusText.textContent = "تعذر استيراد مكتبة القوالب";
     }
+  };
+  reader.onerror = () => {
+    statusText.textContent =
+      "تعذرت قراءة ملف المكتبة، تأكد من صلاحيات الوصول إليه.";
   };
   reader.readAsText(file, "utf-8");
 }
