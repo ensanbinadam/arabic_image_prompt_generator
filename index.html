@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="ar" dir="rtl">
   <head>
@@ -2209,7 +2210,7 @@
                     >الحد الأقصى ١٠ شرائح في الطلب الواحد.</span
                   >
                 </div>
-                <div>
+                <div data-slide-source="attached">
                   <label for="slideImageCount">عدد الصور المرفقة</label>
                   <input
                     id="slideImageCount"
@@ -2219,7 +2220,7 @@
                     value="10"
                   />
                 </div>
-                <div class="full">
+                <div class="full" data-slide-source="attached">
                   <label for="slideOverflowMode"
                     >عند زيادة الصور أو البنود عن عدد الشرائح</label
                   >
@@ -2233,7 +2234,7 @@
                     </option>
                   </select>
                 </div>
-                <div class="full">
+                <div class="full" data-slide-source="attached">
                   <label for="slideItems">نصوص الصور أو الشرائح المرقمة</label>
                   <div class="mini-tools directive-tools">
                     <button
@@ -2287,7 +2288,7 @@
                     بصورته وتعليقه.</span
                   >
                 </div>
-                <div class="full">
+                <div class="full smart-hidden" data-slide-source="generated">
                   <label for="slideGeneratedItems"
                     >أوصاف الشرائح عند توليد الصور</label
                   >
@@ -5921,6 +5922,17 @@
         );
       }
 
+      function updateSlideSourceFields(d) {
+        const sourceMode =
+          d.slideSourceMode || fields.slideSourceMode.value || "attached";
+        document.querySelectorAll("[data-slide-source]").forEach((el) => {
+          el.classList.toggle(
+            "smart-hidden",
+            el.dataset.slideSource !== sourceMode,
+          );
+        });
+      }
+
       function updateCustomOptionFields() {
         [
           ["lighting", "lightingCustom"],
@@ -5941,6 +5953,7 @@
 
       function updateSmartSections(d = prepareData(gatherData())) {
         updateCustomOptionFields();
+        updateSlideSourceFields(d);
         const showAll = $("smartShowAll") && $("smartShowAll").checked;
         const context = smartContextName(d);
         const textSection = sectionForField("arabicText");
