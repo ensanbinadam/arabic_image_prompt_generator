@@ -2818,7 +2818,7 @@
                 <small>النص الجاهز لمولد الصور</small>
               </div>
               <div class="output-box" id="promptOutput">
-                اضغط «توليد البرومبت» بعد تعبئة الحقول.
+                👈 اضغط «توليد البرومبت» بعد تعبئة الحقول.
               </div>
               <div class="footer-note">
                 هذا النص يركز على سلامة العربية، مواضع العناصر، ومعالجة اتجاه
@@ -4382,7 +4382,6 @@
       }
 
       function buildPoetryPrompt(d) {
-        d.rtl = true;
         const lines = [];
         const title = clean(d.title || d.subject || "لوحة شعرية عربية");
         const verseCount = poetryVerseCount(d);
@@ -4481,7 +4480,6 @@
       }
 
       function buildTextAssetPrompt(d) {
-        d.rtl = true;
         const lines = [];
         const title = clean(d.title || d.subject || "أصل نصي خطي عربي");
         lines.push(
@@ -4568,7 +4566,6 @@
       }
 
       function buildPromptFull(d) {
-        d.rtl = true;
         if (isTextAssetDesign(d)) return buildTextAssetPrompt(d);
         if (isPoetryDesign(d)) return buildPoetryPrompt(d);
         const lines = [];
@@ -4817,7 +4814,6 @@
       }
 
       function buildPromptMedium(d) {
-        d.rtl = true;
         if (isTextAssetDesign(d)) return buildTextAssetPrompt(d);
         if (isPoetryDesign(d)) return buildPoetryPrompt(d);
         const lines = [];
@@ -4957,7 +4953,6 @@
       }
 
       function buildPromptShort(d) {
-        d.rtl = true;
         if (isTextAssetDesign(d)) return buildTextAssetPrompt(d);
         if (isPoetryDesign(d)) return buildPoetryPrompt(d);
         const parts = [];
@@ -5799,7 +5794,7 @@
         if (d.lessonTitle) score += 5;
         if (d.gradeLevel) score += 4;
         if (d.learningGoal) score += 5;
-        if (d.sceneDesc.length >= 35) score += 18;
+        if ((d.sceneDesc || "").length > 35) score += 18;
         else if (d.sceneDesc) score += 9;
         if (d.arabicText) score += 18;
         if (d.secondaryText) score += 5;
@@ -6213,9 +6208,10 @@
         fields.specialInstructions.value = "";
         const importFile = $("importFile");
         if (importFile) importFile.value = "";
-        const importLibraryFile = $("importLibraryFile");
-        if (importLibraryFile) importLibraryFile.value = "";
-        promptOutput.textContent = "اضغط «توليد البرومبت» بعد تعبئة الحقول.";
+        const importLibraryFileEl = $("importLibraryFile");
+        if (importLibraryFileEl) importLibraryFileEl.value = "";
+        promptOutput.textContent =
+          "👈 اضغط «توليد البرومبت» بعد تعبئة الحقول.";
         negativeOutput.textContent =
           "سيظهر هنا تلقائيًا إذا كان الخيار مفعّلًا.";
         reportBox.textContent = "ابدأ بالكتابة وسأراجع بناء البرومبت هنا.";
@@ -6301,6 +6297,7 @@
           "لا أخطاء إملائية، لا حروف عربية مشوهة، لا ازدحام بصري، لا قص للنص، لا انعكاس أفقي";
         fields.specialInstructions.value =
           "اجعل الأمثلة التعليمية السفلية مرتبة داخل صناديق ملوّنة بأيقونات واضحة، وحافظ على محاذاة عربية صحيحة داخل جميع النصوص.";
+        syncModeFieldsFromImageType();
         generate();
         statusText.textContent = "تمت تعبئة مثال احترافي جاهز";
       }
@@ -6410,7 +6407,7 @@
           fields.slideSourceMode.value = "attached";
           fields.slideOutputType.value = "finalImages";
           fields.slideCount.value = "10";
-          fields.slideImageCount.value = "11";
+          fields.slideImageCount.value = "10";
           fields.slideOverflowMode.value =
             "ادمج الصور أو البنود الزائدة في الشريحة الأخيرة";
           fields.numberStyle.value = "eastern";
@@ -6554,6 +6551,17 @@
           statusText.textContent = "تعذر النسخ التلقائي";
         }
       }
+
+      function downloadBlob(blob, filename) {
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(() => URL.revokeObjectURL(a.href), 1500);
+      }
+
       function downloadAll() {
         const promptText = promptOutput.textContent.trim();
         const note = encodingNote();
@@ -6562,11 +6570,7 @@
           : `\n\n==============================\n\n${note}`;
         const text = `البرومبت الرئيسي:\n\n${promptText}\n\n==============================\n\nNegative Prompt:\n\n${negativeOutput.textContent.trim()}${encodingBlock}`;
         const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
-        const a = document.createElement("a");
-        a.href = URL.createObjectURL(blob);
-        a.download = "arabic-prompt-treasure.txt";
-        a.click();
-        setTimeout(() => URL.revokeObjectURL(a.href), 1500);
+        downloadBlob(blob, "arabic-prompt-treasure.txt");
         statusText.textContent = "تم تنزيل الملف";
       }
 
@@ -6581,11 +6585,7 @@
           ],
           { type: "application/json;charset=utf-8" },
         );
-        const a = document.createElement("a");
-        a.href = URL.createObjectURL(blob);
-        a.download = "arabic-prompt-settings.json";
-        a.click();
-        setTimeout(() => URL.revokeObjectURL(a.href), 1500);
+        downloadBlob(blob, "arabic-prompt-settings.json");
         statusText.textContent = "تم تصدير الإعدادات";
       }
 
@@ -7039,11 +7039,7 @@ if (exportLibraryBtn) {
     const blob = new Blob([JSON.stringify(payload, null, 2)], {
       type: "application/json;charset=utf-8",
     });
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = "arabic-prompt-library.json";
-    a.click();
-    setTimeout(() => URL.revokeObjectURL(a.href), 1500);
+    downloadBlob(blob, "arabic-prompt-library.json");
     statusText.textContent = `تم تصدير مكتبتك وفيها ${count} قالب`;
   });
 }
