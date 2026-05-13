@@ -878,6 +878,86 @@
         box-shadow: 0 4px 14px rgba(108, 61, 232, 0.12);
       }
 
+      /* ===== CONTENT REQUEST HELPER ===== */
+      .content-request-row {
+        margin-top: 6px;
+      }
+
+      .content-request-card {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 14px;
+        padding: 14px 18px;
+        border-radius: 18px;
+        border: 1.5px dashed rgba(0, 210, 180, 0.45);
+        background: linear-gradient(
+          135deg,
+          rgba(0, 210, 180, 0.09) 0%,
+          rgba(108, 61, 232, 0.07) 100%
+        );
+        box-shadow: 0 4px 18px rgba(0, 210, 180, 0.08);
+      }
+
+      .content-request-info {
+        flex: 1 1 330px;
+        min-width: 220px;
+      }
+
+      .content-request-info strong {
+        display: block;
+        font-size: 1rem;
+        font-weight: 900;
+        color: var(--text);
+        margin-bottom: 4px;
+      }
+
+      .content-request-info p {
+        margin: 0;
+        color: var(--text-muted);
+        font-size: 0.86rem;
+        line-height: 1.75;
+      }
+
+      .content-request-info .content-request-target {
+        display: inline-block;
+        padding: 2px 10px;
+        margin-inline-start: 6px;
+        border-radius: 999px;
+        background: rgba(108, 61, 232, 0.14);
+        color: var(--primary);
+        font-size: 0.78rem;
+        font-weight: 800;
+      }
+
+      .content-request-btn {
+        background: linear-gradient(135deg, var(--accent) 0%, var(--primary) 100%);
+        color: #fff;
+        border: none;
+        padding: 12px 22px;
+        font-size: 0.95rem;
+        font-weight: 900;
+        border-radius: 14px;
+        cursor: pointer;
+        box-shadow: 0 8px 24px rgba(0, 210, 180, 0.35);
+        white-space: nowrap;
+        transition:
+          transform 0.18s,
+          box-shadow 0.18s,
+          background 0.25s;
+        font-family: inherit;
+      }
+
+      .content-request-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(0, 210, 180, 0.45);
+      }
+
+      .content-request-btn.copied {
+        background: linear-gradient(135deg, var(--emerald) 0%, var(--accent) 100%);
+      }
+
       /* ===== STATUS TEXT ===== */
       .status {
         font-size: 0.92rem;
@@ -1584,6 +1664,7 @@
                 <div>
                   <label for="purpose">الغرض</label>
                   <select id="purpose">
+                    <option>عام</option>
                     <option>تعليمي</option>
                     <option>إعلاني</option>
                     <option>سوشيال ميديا</option>
@@ -1670,6 +1751,33 @@
                     placeholder="مثال: التحويلات المترية، القهوة العربية، القراءة، التراث الإسلامي..."
                   />
                 </div>
+
+                <div class="full content-request-row">
+                  <div class="content-request-card">
+                    <div class="content-request-info">
+                      <strong>
+                        طلب محتوى للحاويات
+                        <span id="contentRequestTarget" class="content-request-target"
+                          >حسب نوع التصميم</span
+                        >
+                      </strong>
+                      <p>
+                        ينسخ طلبًا ترسله للذكاء الاصطناعي ليُعد محتوى مقسمًا
+                        على حاويات هذا المولد. الناتج ليس برومبت صور ولا يُستخدم
+                        مباشرة في مولد الصور؛ الصق الرد داخل الحاويات ثم ولّد
+                        البرومبت النهائي من هنا.
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      id="copyContentRequestBtn"
+                      class="content-request-btn"
+                      aria-label="نسخ طلب محتوى الحاويات"
+                    >
+                      نسخ طلب المحتوى
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -1719,6 +1827,7 @@
                 <div>
                   <label for="audienceType">الفئة المستهدفة</label>
                   <select id="audienceType">
+                    <option>عام</option>
                     <option>طلاب المدرسة</option>
                     <option>طلاب المرحلة الابتدائية</option>
                     <option>طلاب المرحلة المتوسطة</option>
@@ -1726,7 +1835,6 @@
                     <option>معلمون</option>
                     <option>المعلمون، مديرو المدارس، المشرفون التربويون</option>
                     <option>أولياء الأمور</option>
-                    <option>عام</option>
                   </select>
                 </div>
                 <div class="full">
@@ -3189,6 +3297,24 @@
         return clean(value || "") === "وصف مخصص";
       }
 
+      function isEducationalPurpose(value) {
+        return clean(value || "") === "تعليمي";
+      }
+
+      function hasSpecificAudience(value) {
+        const v = clean(value || "");
+        return Boolean(v && v !== "عام" && v !== "طلاب المدرسة");
+      }
+
+      function neutralizeEducationFields(d) {
+        if (isEducationalPurpose(d.purpose)) return;
+        d.subjectArea = "عام";
+        d.gradeLevel = "";
+        d.lessonTitle = "";
+        d.audienceType = "عام";
+        d.learningGoal = "";
+      }
+
       function hasArabicDiacritics(text) {
         return /[\u064B-\u0652\u0670]/.test(text || "");
       }
@@ -3278,6 +3404,7 @@
         ) {
           d.aspectRatio = "A4 أفقي";
         }
+        neutralizeEducationFields(d);
         d.title = projectTitle(d);
         d.audienceType = inferAudienceType(d);
         d.textHeavyActive = isTextHeavyInfographic(d);
@@ -4658,7 +4785,7 @@
           d.lessonTitle ||
           d._learningGoal ||
           d.learningGoal ||
-          d.audienceType !== "طلاب المدرسة"
+          hasSpecificAudience(d.audienceType)
         ) {
           lines.push("");
           lines.push("سياق تعليمي إضافي:");
@@ -4668,7 +4795,7 @@
             lines.push(`- المرحلة أو الصف: ${d._gradeLevel || d.gradeLevel}.`);
           if (d.lessonTitle || d._lessonTitle)
             lines.push(`- عنوان الدرس: ${d._lessonTitle || d.lessonTitle}.`);
-          if (d.audienceType && d.audienceType !== "طلاب المدرسة")
+          if (hasSpecificAudience(d.audienceType))
             lines.push(`- الفئة المستهدفة: ${d.audienceType}.`);
           if (d._learningGoal || d.learningGoal)
             lines.push(
@@ -4908,7 +5035,7 @@
             `السياق التعليمي: ${[d.subjectArea !== "عام" ? d.subjectArea : "", d._gradeLevel || d.gradeLevel, d._lessonTitle || d.lessonTitle, d._learningGoal || d.learningGoal].filter(Boolean).join(" | ")}.`,
           );
         }
-        if (d.audienceType && d.audienceType !== "طلاب المدرسة")
+        if (hasSpecificAudience(d.audienceType))
           lines.push(`الفئة المستهدفة: ${d.audienceType}.`);
         if (!d.textHeavyActive) {
           const mainArabicText = primaryArabicText(d);
@@ -5042,7 +5169,7 @@
           parts.push(
             `السياق التعليمي: ${[d.subjectArea !== "عام" ? d.subjectArea : "", d._gradeLevel || d.gradeLevel, d._lessonTitle || d.lessonTitle].filter(Boolean).join(" | ")}.`,
           );
-        if (d.audienceType && d.audienceType !== "طلاب المدرسة")
+        if (hasSpecificAudience(d.audienceType))
           parts.push(`الفئة المستهدفة: ${d.audienceType}.`);
         if (!d.textHeavyActive) {
           const mainArabicText = primaryArabicText(d);
@@ -5732,7 +5859,7 @@
             type: "good",
             text: "تم تحديد نوع التخطيط العربي، وهذا يساعد النموذج على ترتيب العناصر بدل الاكتفاء بوصف عام.",
           });
-        if (d.audienceType && d.audienceType !== "طلاب المدرسة")
+        if (hasSpecificAudience(d.audienceType))
           notes.push({
             type: "good",
             text: `الفئة المستهدفة مضبوطة على: ${d.audienceType}.`,
@@ -6195,7 +6322,7 @@
 
       function clearFields() {
         fields.imageType.value = "بوستر";
-        fields.purpose.value = "تعليمي";
+        fields.purpose.value = "عام";
         fields.style.value = "أنيق وحديث واحترافي";
         fields.aspectRatio.value = "1:1 مربع";
         fields.qualityLevel.value = "عالية جدًا";
@@ -6207,7 +6334,7 @@
         fields.subjectArea.value = "عام";
         fields.gradeLevel.value = "";
         fields.lessonTitle.value = "";
-        fields.audienceType.value = "طلاب المدرسة";
+        fields.audienceType.value = "عام";
         fields.learningGoal.value = "";
         fields.sceneDesc.value = "";
         fields.referenceText.value = "";
@@ -7281,6 +7408,444 @@ if (myLibrarySelect) {
     setTimeout(() => { e.target.value = ""; }, 500);
   });
 }
+
+function initContentRequestHelper() {
+  const copyBtn = $("copyContentRequestBtn");
+  const targetBadge = $("contentRequestTarget");
+  if (!copyBtn || !targetBadge || !fields.imageType) return;
+
+  function classifyContentRequestType(value) {
+    const text = clean(value);
+    if (/إنفوجرافيك|انفوجرافيك|infographic/i.test(text)) return "infographic";
+    if (/قصة\s*مصورة|قصص|قصة/i.test(text)) return "story";
+    if (/شرائح/i.test(text)) return "slides";
+    if (/مطوية|بروشور|brochure/i.test(text)) return "brochure";
+    if (/غلاف\s*كتاب|book\s*cover/i.test(text)) return "bookCover";
+    if (/بطاقة\s*دعوة|دعوة/i.test(text)) return "invitation";
+    if (/شعرية|شعري|اقتباس|أدبي/i.test(text)) return "poetry";
+    if (/أصل\s*نصي|خطي|مخطوطة/i.test(text)) return "textAsset";
+    if (/هوية\s*بصرية/i.test(text)) return "identity";
+    if (/سوشيال|منشور/i.test(text)) return "social";
+    if (/إعلان|اعلان|دعائي/i.test(text)) return "ad";
+    return "general";
+  }
+
+  const contentRequestLabels = {
+    infographic: "إنفوجرافيك عربي",
+    story: "قصة مصورة عربية",
+    slides: "شرائح تعليمية",
+    brochure: "مطوية عربية",
+    bookCover: "غلاف كتاب عربي",
+    invitation: "بطاقة دعوة عربية",
+    poetry: "لوحة شعرية",
+    textAsset: "أصل نصي خطي",
+    identity: "هوية بصرية عربية",
+    social: "منشور سوشيال عربي",
+    ad: "إعلان عربي",
+    general: "تصميم عربي عام",
+  };
+
+  function placeholder(value) {
+    return clean(value) || "[............]";
+  }
+
+  function contentRequestHeader(typeLabel) {
+    const isEducational = isEducationalPurpose(fields.purpose && fields.purpose.value);
+    const subjectValue = placeholder(fields.subject && fields.subject.value);
+    const purposeValue = placeholder(fields.purpose && fields.purpose.value);
+    const styleValue = placeholder(fields.style && fields.style.value);
+    const audienceValue = isEducational
+      ? placeholder(fields.audienceType && fields.audienceType.value)
+      : "عام";
+    const aspectRatioValue = placeholder(fields.aspectRatio && fields.aspectRatio.value);
+    const educationLines = isEducational
+      ? [
+          fields.subjectArea &&
+          clean(fields.subjectArea.value) &&
+          fields.subjectArea.value !== "عام"
+            ? `- المادة الدراسية: ${clean(fields.subjectArea.value)}`
+            : "",
+          fields.gradeLevel && clean(fields.gradeLevel.value)
+            ? `- المرحلة أو الصف: ${clean(fields.gradeLevel.value)}`
+            : "",
+          fields.lessonTitle && clean(fields.lessonTitle.value)
+            ? `- عنوان الدرس: ${clean(fields.lessonTitle.value)}`
+            : "",
+          fields.learningGoal && clean(fields.learningGoal.value)
+            ? `- الهدف التعليمي أو الرسالة: ${clean(fields.learningGoal.value)}`
+            : "",
+        ].filter(Boolean)
+      : [];
+    const specs = [
+      "أريد منك إعداد محتوى عربي منظم فقط لمولد برومبت الصور العربي.",
+      "",
+      "مهم جدًا:",
+      "- لا تكتب برومبت صور نهائيًا.",
+      "- لا تجعل إجابتك قابلة للإرسال مباشرة إلى مولد الصور.",
+      "- لا تكتب قسمًا باسم البرومبت النهائي.",
+      "- لا تكتب Negative Prompt.",
+      "- بعد إعداد المحتوى سأعود إلى المولد وألصق كل حاوية في مكانها، ثم أستخدم المولد لإنتاج البرومبت النهائي بضوابطه العربية.",
+      "",
+      "المواصفات المتوفرة:",
+      `- نوع التصميم: ${typeLabel}`,
+      `- موضوع الصورة: ${subjectValue}`,
+      `- الغرض: ${purposeValue}`,
+      `- الأسلوب: ${styleValue}`,
+      `- نسبة الأبعاد: ${aspectRatioValue}`,
+      `- الفئة المستهدفة: ${audienceValue}`,
+    ];
+    if (isEducational) {
+      specs.push(
+        educationLines.length
+          ? ["- السياق التعليمي:", ...educationLines].join("\n")
+          : "- السياق التعليمي: [............]",
+      );
+    }
+    return specs.join("\n");
+  }
+
+  const sharedContentRules = [
+    "قواعد الإجابة:",
+    "- قسّم الرد بنفس أسماء الحاويات المطلوبة أدناه، ولا تضف حاويات جديدة إلا للضرورة.",
+    "- اكتب تحت كل حاوية محتواها فقط، بحيث أستطيع نسخه ولصقه في المولد.",
+    "- اجعل النصوص الظاهرة داخل التصميم موجودة فقط في حاوية: النصوص النهائية التي يجب أن تظهر حرفيًا.",
+    "- لا تكرر النصوص الظاهرة داخل وصف المشهد أو المرجع أو النص الثانوي.",
+    "- اجعل باقي الحاويات وصفية وتوجيهية فقط وليست مصدرًا بديلًا للنص الظاهر.",
+    "- داخل حاوية النصوص النهائية، ضع قبل كل نص مهم توجيهًا محليًا بين //...//.",
+    "- ما بين //...// توجيه للمولد فقط ولا يظهر في التصميم، أما السطر الذي بعده فهو النص الحرفي الظاهر.",
+    "- ابدأ حاوية النصوص النهائية بهذا التوجيه:",
+    "//التزم بالنصوص التالية حرفيًا كما هي. لا تعدل الصياغة، لا تختصر، لا تضف نصوصًا من الحاويات الأخرى، ولا تُظهر أي توجيه بين //...// داخل التصميم النهائي//",
+    "- إذا كان الموضوع يعتمد على رسم دقيق، فاربط كل نص برسمه الصحيح داخل التوجيه المحلي.",
+    "- استخدم العربية الفصحى الواضحة، والاتجاه RTL، والأرقام الهندية الشرقية ٠ ١ ٢ ٣ ٤ ٥ ٦ ٧ ٨ ٩ عند الحاجة.",
+    "- اجعل المحتوى مختصرًا بقدر ما يسمح به نوع التصميم، ولا تملأ التصميم بنصوص طويلة غير ضرورية.",
+  ].join("\n");
+
+  const infographicContainers = `الحاويات المطلوبة:
+
+١. وصف المشهد
+اكتب وصفًا بصريًا عامًا للتصميم دون تكرار النصوص الظاهرة حرفيًا.
+
+٢. عناصر إضافية
+اقترح رسومات وأيقونات وعناصر مساعدة مرتبطة بالموضوع.
+
+٣. النصوص النهائية التي يجب أن تظهر حرفيًا
+ضع النصوص الظاهرة فقط، مع توجيهات //...// قبل النصوص المهمة.
+
+٤. نص ثانوي اختياري
+اكتب نصًا قصيرًا جدًا عند الحاجة، أو قل: لا يوجد نص ثانوي ظاهر.
+
+٥. مرجع وسياق لا يظهر كاملًا في التصميم
+اكتب مرجعًا لفهم الموضوع فقط، وصرح أنه ليس مصدرًا مباشرًا للنص الظاهر.
+
+٦. الألوان والجو البصري
+اكتب لوحة ألوان وجوًا بصريًا مناسبًا.
+
+٧. الخلفية
+اكتب وصفًا للخلفية.
+
+٨. الإضاءة
+اكتب وصفًا للإضاءة.
+
+٩. زاوية المشهد
+اكتب زاوية المشهد المناسبة.
+
+١٠. موضع العنصر الرئيسي
+اكتب وصفًا لموضع العنصر البصري الرئيسي.
+
+١١. موضع النص الأساسي
+اكتب وصفًا لتوزيع العنوان والبطاقات والنصوص.
+
+١٢. نوع الخط العربي
+اقترح خطوطًا عربية مناسبة للعناوين والنصوص.
+
+١٣. تعليمات تنسيق النص
+اكتب تعليمات RTL، المحاذاة، عدم كسر الكلمات، وضبط الأرقام.
+
+١٤. التذييل
+اقترح تذييلًا واحدًا فقط إن كان مناسبًا.
+
+١٥. ممنوعات خاصة
+اكتب ممنوعات مرتبطة بالموضوع والنوع.
+
+١٦. تعليمات إضافية دقيقة
+اكتب تعليمات تربط النص بالعناصر البصرية وتمنع الالتباس.`;
+
+  const storyContainers = `الحاويات المطلوبة:
+
+١. الفكرة العامة والرسالة التربوية
+لخص فكرة القصة ورسالتها.
+
+٢. الشخصيات
+اكتب لكل شخصية اسمها، عمرها، ملامحها، ملابسها، وصفة بصرية ثابتة.
+
+٣. أسلوب الرسم والاتساق البصري
+حدد أسلوب الرسم وثبات الشخصيات بين الصفحات.
+
+٤. الألوان والجو البصري
+اكتب لوحة ألوان وجوًا عاطفيًا مناسبًا.
+
+٥. الإضاءة وزاوية المشهد
+اكتب وصفًا عامًا للإضاءة والزوايا.
+
+٦. صفحة الغلاف
+اكتب عنوان الغلاف، وصف مشهده، والنصوص الظاهرة عليه مع //...//.
+
+٧. صفحات القصة
+لكل صفحة: رقم الصفحة، وصف المشهد، النص الظاهر، الإحساس العاطفي.
+
+٨. النصوص النهائية التي يجب أن تظهر حرفيًا
+اجمع كل نصوص الغلاف والصفحات بالترتيب مع توجيهات //...//.
+
+٩. موضع النص في الصفحات
+حدد هل يكون النص في شريط أسفل الصفحة أو فقاعة أو بطاقة جانبية.
+
+١٠. نوع الخط العربي
+اقترح خطًا واضحًا مناسبًا للأطفال أو الجمهور.
+
+١١. تعليمات تنسيق النص
+اكتب تعليمات RTL، عدم كسر الكلمات، وحجم النص المناسب.
+
+١٢. ممنوعات خاصة
+اكتب ممنوعات تتعلق بتغيّر الشخصيات أو ازدحام الصفحة.
+
+١٣. تعليمات إضافية دقيقة
+اكتب ما يحافظ على تسلسل القصة ووضوحها.`;
+
+  const slidesContainers = `الحاويات المطلوبة:
+
+١. هدف الشرائح
+حدد الغرض من مجموعة الشرائح.
+
+٢. أسلوب الشرائح العام
+حدد النمط البصري الموحد.
+
+٣. قائمة الشرائح
+اكتب لكل شريحة: رقم الشريحة، عنوانها، فكرتها، النص الظاهر، العناصر البصرية.
+
+٤. النصوص النهائية التي يجب أن تظهر حرفيًا
+اجمع نصوص الشرائح بالترتيب مع توجيهات //...//.
+
+٥. الألوان والجو البصري
+اكتب لوحة ألوان ثابتة.
+
+٦. الخلفية والإضاءة وزاوية المشهد
+اكتب وصفًا موحدًا للخلفية والزوايا.
+
+٧. موضع النص الأساسي
+حدد توزيع العنوان والنقاط والصور في كل شريحة.
+
+٨. نوع الخط العربي
+اقترح خطوطًا للعناوين والنصوص.
+
+٩. تعليمات تنسيق النص
+اكتب تعليمات RTL، وضوح النص، وعدم ازدحام الشرائح.
+
+١٠. التذييل أو رقم الشريحة
+حدد تذييلًا أو رقم شريحة إن احتاج التصميم.
+
+١١. ممنوعات خاصة
+اكتب ممنوعات تمنع اختلاف الأسلوب أو ازدحام النصوص.
+
+١٢. تعليمات إضافية دقيقة
+اكتب تعليمات للحفاظ على اتساق الشرائح.`;
+
+  const brochureContainers = `الحاويات المطلوبة:
+
+١. وصف المطوية
+اكتب هدف المطوية وجمهورها.
+
+٢. نوع الوجه المطلوب
+حدد هل المحتوى للوجه الخارجي فقط، الداخلي فقط، أم وجهين منفصلين.
+
+٣. توزيع الأعمدة
+اكتب ترتيب الأعمدة من اليمين إلى اليسار، وما يظهر في كل عمود.
+
+٤. النصوص النهائية التي يجب أن تظهر حرفيًا
+اكتب نصوص كل عمود مع توجيهات //...//.
+
+٥. عناصر إضافية
+اقترح أيقونات وصورًا صغيرة لكل عمود.
+
+٦. الألوان والجو البصري
+اكتب لوحة الألوان.
+
+٧. الخلفية والإضاءة
+اكتب وصفًا مناسبًا للطباعة.
+
+٨. موضع النص الأساسي
+حدد توزيع العنوان والفقرات والبطاقات داخل الأعمدة.
+
+٩. نوع الخط العربي
+اقترح خطوطًا واضحة للمطويات.
+
+١٠. تعليمات تنسيق النص
+اكتب تعليمات RTL، عدم كسر الكلمات، والهوامش.
+
+١١. التذييل وبيانات التواصل
+اقترح تذييلًا واحدًا إن كان مناسبًا.
+
+١٢. ممنوعات خاصة
+اكتب ممنوعات تمنع جمع الوجهين في صورة واحدة إلا إذا طُلب ذلك.
+
+١٣. تعليمات إضافية دقيقة
+اكتب تعليمات تجعل المطوية صالحة للقراءة والطباعة.`;
+
+  const poetryContainers = `الحاويات المطلوبة:
+
+١. وصف المشهد البصري للوحة
+اكتب وصفًا للخلفية والهوامش والزخارف دون مزاحمة النص.
+
+٢. الألوان والجو البصري
+اكتب لوحة ألوان أدبية أو تراثية مناسبة.
+
+٣. الإضاءة وزاوية المشهد
+اكتب وصفًا بسيطًا للإضاءة والتكوين.
+
+٤. النصوص النهائية التي يجب أن تظهر حرفيًا
+اكتب العنوان والأبيات والتذييل. إذا كانت قصيدة، قسّم كل بيت إلى شطر أيمن وشطر أيسر.
+
+٥. تنسيق الأبيات
+حدد إن كانت شطرين متقابلين، متوسطة، أو متداخلة، مع مراعاة المساحة.
+
+٦. نوع الخط العربي
+اقترح خطًا مناسبًا للعنوان والأبيات.
+
+٧. تعليمات تنسيق النص
+اكتب تعليمات RTL، الحفاظ على التشكيل، وعدم كسر الكلمات.
+
+٨. عناصر إضافية
+اقترح محبرة أو قلمًا أو زخرفة خفيفة.
+
+٩. التذييل
+اقترح تذييلًا واحدًا صغيرًا.
+
+١٠. ممنوعات خاصة
+اكتب ممنوعات تمنع ضغط الأبيات أو تكرار التذييل.
+
+١١. تعليمات إضافية دقيقة
+اكتب ما يحافظ على وضوح النص ووقاره.`;
+
+  const genericContainers = `الحاويات المطلوبة:
+
+١. وصف المشهد
+اكتب وصفًا بصريًا عامًا للتصميم.
+
+٢. عناصر إضافية
+اقترح عناصر مساعدة.
+
+٣. النصوص النهائية التي يجب أن تظهر حرفيًا
+اكتب النصوص الظاهرة فقط مع توجيهات //...//.
+
+٤. نص ثانوي اختياري
+اكتب نصًا قصيرًا أو قل: لا يوجد نص ثانوي ظاهر.
+
+٥. مرجع وسياق لا يظهر كاملًا في التصميم
+اكتب سياقًا داعمًا لا يستخدم كنص ظاهر.
+
+٦. الألوان والجو البصري
+اكتب لوحة ألوان مناسبة.
+
+٧. الخلفية
+اكتب وصف الخلفية.
+
+٨. الإضاءة
+اكتب وصف الإضاءة.
+
+٩. زاوية المشهد
+اكتب زاوية المشهد.
+
+١٠. موضع العنصر الرئيسي
+اكتب موضع العنصر الرئيسي.
+
+١١. موضع النص الأساسي
+اكتب توزيع النصوص.
+
+١٢. نوع الخط العربي
+اقترح خطوطًا عربية.
+
+١٣. تعليمات تنسيق النص
+اكتب تعليمات RTL وعدم كسر الكلمات وضبط الأرقام.
+
+١٤. التذييل
+اقترح تذييلًا واحدًا إن كان مناسبًا.
+
+١٥. ممنوعات خاصة
+اكتب ممنوعات مرتبطة بالموضوع.
+
+١٦. تعليمات إضافية دقيقة
+اكتب تعليمات تمنع الالتباس بين النص والرسم.`;
+
+  function containersForContentRequest(kind) {
+    if (kind === "story") return storyContainers;
+    if (kind === "slides") return slidesContainers;
+    if (kind === "brochure") return brochureContainers;
+    if (kind === "poetry" || kind === "textAsset") return poetryContainers;
+    if (kind === "infographic") return infographicContainers;
+    return genericContainers;
+  }
+
+  function buildContentRequestPrompt() {
+    const kind = classifyContentRequestType(fields.imageType.value);
+    const label = contentRequestLabels[kind] || contentRequestLabels.general;
+    return [
+      contentRequestHeader(label),
+      "",
+      sharedContentRules,
+      "",
+      containersForContentRequest(kind),
+      "",
+      "صيغة الإخراج المطلوبة:",
+      "اكتب اسم كل حاوية كعنوان واضح، ثم ضع محتواها تحته. لا تختم برد عام ولا تضف برومبتًا نهائيًا.",
+    ].join("\n");
+  }
+
+  function updateContentRequestBadge() {
+    const kind = classifyContentRequestType(fields.imageType.value);
+    targetBadge.textContent = contentRequestLabels[kind] || contentRequestLabels.general;
+  }
+
+  function openManualCopyWindow(text) {
+    const win = window.open("", "_blank", "width=780,height=660");
+    if (!win) return false;
+    const escaped = escapeHtml(text);
+    win.document.write(
+      `<pre style="direction:rtl;font-family:Tahoma,Arial,sans-serif;white-space:pre-wrap;padding:18px;font-size:14px;line-height:1.8">${escaped}</pre>`,
+    );
+    win.document.title = "طلب محتوى للحاويات";
+    return true;
+  }
+
+  async function copyContentRequestPrompt() {
+    const requestText = buildContentRequestPrompt();
+    const originalText = copyBtn.textContent;
+    try {
+      if (!navigator.clipboard || window.isSecureContext === false) {
+        throw new Error("clipboard-unavailable");
+      }
+      await navigator.clipboard.writeText(requestText);
+      copyBtn.classList.add("copied");
+      copyBtn.textContent = "تم نسخ طلب المحتوى";
+      statusText.textContent =
+        "تم نسخ طلب المحتوى. أرسله للذكاء، ثم الصق كل حاوية في مكانها داخل المولد قبل توليد البرومبت النهائي.";
+    } catch {
+      const opened = openManualCopyWindow(requestText);
+      statusText.textContent = opened
+        ? "تعذر النسخ التلقائي؛ فُتحت نافذة تحتوي طلب المحتوى لنسخه يدويًا."
+        : "تعذر النسخ التلقائي وفتح النافذة. جرّب تشغيل الصفحة عبر متصفح حديث.";
+    } finally {
+      setTimeout(() => {
+        copyBtn.classList.remove("copied");
+        copyBtn.textContent = originalText;
+      }, 2200);
+    }
+  }
+
+  copyBtn.addEventListener("click", copyContentRequestPrompt);
+  fields.imageType.addEventListener("change", updateContentRequestBadge);
+  updateContentRequestBadge();
+}
+
+initContentRequestHelper();
 
 // تحميل المكتبة عند تشغيل الصفحة
 loadLibrary();
