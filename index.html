@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="ar" dir="rtl">
   <head>
@@ -1548,7 +1547,7 @@
                     >🎨 ستايلات فنية سريعة (تضاف إلى حقل الأسلوب أعلاه)</label>
 <div class="preset-row" style="gap: 6px">
   <button type="button" class="mini style-preset-btn" data-style="ستايل فيكتور تعليمي احترافي" data-tooltip="رسومات رقمية دقيقة خالية من التشتت (للبوسترات)">فيكتور تعليمي</button>
-  <button type="button" class="mini style-preset-btn" data-style="3D واقعي، أبعاد ثلاثية" data-tooltip="عمق واقعي مجسم (للكائنات والأشكال)">3D واقعي</button>
+  <button type="button" class="mini style-preset-btn" data-style="أبعاد ثلاثية واقعية" data-tooltip="عمق واقعي مجسم (للكائنات والأشكال)">3D واقعي</button>
   <button type="button" class="mini style-preset-btn" data-style="كرتوني تعليمي، ألوان زاهية" data-tooltip="ألوان زاهية وشخصيات محببة (للمرحلة الابتدائية)">كرتوني تعليمي</button>
   <button type="button" class="mini style-preset-btn" data-style="واقعي فوتوغرافي، دقة عالية" data-tooltip="صور حقيقية دقيقة (للتجارب والظواهر الطبيعية)">واقعي فوتوغرافي</button>
   <button type="button" class="mini style-preset-btn" data-style="سريالي فني، ألوان حالمة" data-tooltip="دمج خيالي وغير منطقي (للأدب والتعبير)">سريالي</button>
@@ -1752,7 +1751,20 @@
                     <option>إضاءة سينمائية درامية</option>
                     <option>إضاءة نهارية مشرقة</option>
                     <option>إضاءة خافتة راقية</option>
+                    <option>وصف مخصص</option>
                   </select>
+                </div>
+                <div class="full custom-option-field smart-hidden">
+                  <label for="lightingCustom">وصف الإضاءة المخصص</label>
+                  <textarea
+                    id="lightingCustom"
+                    class="short-area"
+                    placeholder="مثال: إضاءة ناعمة ومشرقة ومتوازنة، تعطي وضوحًا جيدًا للنصوص والحاويات والرسومات، مع ظلال بسيطة جدًا دون إزعاج بصري."
+                  ></textarea>
+                  <span class="hint"
+                    >اختر "وصف مخصص" من حقل الإضاءة، ثم الصق هنا وصف
+                    الإضاءة التفصيلي عند الحاجة.</span
+                  >
                 </div>
                 <div>
                   <label for="cameraAngle">زاوية المشهد</label>
@@ -1764,7 +1776,20 @@
                     <option>زاوية علوية خفيفة</option>
                     <option>زاوية أمامية رسمية</option>
                     <option>منظور ديناميكي</option>
+                    <option>وصف مخصص</option>
                   </select>
+                </div>
+                <div class="full custom-option-field smart-hidden">
+                  <label for="cameraAngleCustom">وصف زاوية المشهد المخصص</label>
+                  <textarea
+                    id="cameraAngleCustom"
+                    class="short-area"
+                    placeholder="مثال: زاوية أمامية مستقيمة ومباشرة، كأننا ننظر إلى صفحة تعليمية موضوعة أمامنا بوضوح، دون منظور مائل أو معقد."
+                  ></textarea>
+                  <span class="hint"
+                    >اختر "وصف مخصص" من حقل زاوية المشهد، ثم الصق هنا
+                    الوصف التفصيلي عند الحاجة.</span
+                  >
                 </div>
                 <div>
                   <label for="backgroundStyle">الخلفية</label>
@@ -2909,7 +2934,9 @@
         sceneDesc: $("sceneDesc"),
         colors: $("colors"),
         lighting: $("lighting"),
+        lightingCustom: $("lightingCustom"),
         cameraAngle: $("cameraAngle"),
+        cameraAngleCustom: $("cameraAngleCustom"),
         backgroundStyle: $("backgroundStyle"),
         backgroundStyleCustom: $("backgroundStyleCustom"),
         mainElementPosition: $("mainElementPosition"),
@@ -3209,6 +3236,11 @@
           d.numberStyle === "auto"
             ? clean(text || "")
             : convertDigitsByStyle(clean(text || ""), d.numberStyle);
+        d.style = sanitizeTechnicalTermsForNumberStyle(d.style, d.numberStyle);
+        d.qualityLevel = sanitizeTechnicalTermsForNumberStyle(
+          d.qualityLevel,
+          d.numberStyle,
+        );
         d._arabicText = convertForOutput(d.arabicText);
         d._secondaryText = convertForOutput(d.secondaryText);
         d._referenceText = convertForOutput(d.referenceText);
@@ -3232,12 +3264,20 @@
         d._footerTeacherName = convertForOutput(d.footerTeacherName);
         d._colors = convertForOutput(d.colors);
         d._textFormatting = convertForOutput(d.textFormatting);
+        d._lightingCustom = convertForOutput(d.lightingCustom);
+        d._cameraAngleCustom = convertForOutput(d.cameraAngleCustom);
         d._backgroundStyleCustom = convertForOutput(d.backgroundStyleCustom);
         d._mainElementPositionCustom = convertForOutput(
           d.mainElementPositionCustom,
         );
         d._textPositionCustom = convertForOutput(d.textPositionCustom);
         d._fontStyleCustom = convertForOutput(d.fontStyleCustom);
+        if (isCustomOption(d.lighting)) {
+          d.lighting = d._lightingCustom;
+        }
+        if (isCustomOption(d.cameraAngle)) {
+          d.cameraAngle = d._cameraAngleCustom;
+        }
         if (isCustomOption(d.backgroundStyle)) {
           d.backgroundStyle = d._backgroundStyleCustom;
         }
@@ -3490,7 +3530,7 @@
           return (
             "استخدم الأرقام الهندية الشرقية فقط عند ظهور أي أرقام داخل النص أو التصميم: ٠ ١ ٢ ٣ ٤ ٥ ٦ ٧ ٨ ٩." +
             " ينطبق ذلك إلزاميًا على جميع المواضع دون استثناء: العنوان، البطاقات، الصناديق، الجداول، المحاور، الشارات، العدادات، أرقام الخطوات، الخلايا، الوسوم، التذييل، التواريخ، النِّسب، وأي أرقام صغيرة داخل الحاويات أو التسميات." +
-            " اكتب الرقم اثنين بهذه الهيئة تحديدًا: ٢، ولا تستبدله بالرقم الإنجليزي 2 أو الرقم الفارسي ۲ أو أي شكل آخر. امنع ظهور الأرقام الإنجليزية 0 1 2 3 4 5 6 7 8 9 داخل أي عنصر ظاهر، خصوصًا داخل البطاقات والخلايا والصناديق والوسوم." +
+            " اكتب الرقم اثنين بهذه الهيئة تحديدًا: ٢، ولا تستبدله بأي رقم لاتيني أو فارسي أو أي شكل آخر. عند عرض الكسور الرأسية أو المقارنات الرياضية، اكتب البسط والمقام بالأرقام الهندية الشرقية نفسها. امنع ظهور الأرقام اللاتينية داخل أي عنصر ظاهر، خصوصًا داخل البطاقات والخلايا والصناديق والوسوم." +
             consistency
           );
 
@@ -4040,7 +4080,7 @@
       }
 
       function printQualityInstruction() {
-        return "جودة الإخراج الاحترافية: اعتمد معيار الطباعة الرقمية كمرجع أعلى للجودة، مع تهيئة التصميم في الوقت نفسه للعرض الرقمي دون فقدان وضوح أو تناسق. اجعل التصميم عالي الدقة ومناسبًا للطباعة الورقية والعرض على الشاشات معًا. للطباعة الرقمية الورقية: حافظ على دقة احترافية 300 DPI قدر الإمكان، وتكوين نظيف قابل للطباعة، وهوامش آمنة حول النصوص والعناصر المهمة، وBleed بمقدار 3mm عند امتداد الخلفية أو العناصر إلى حافة الورق، وتوافق لوني مناسب للطباعة CMYK قدر الإمكان. للعرض الرقمي: اجعل التصميم مناسبًا للشاشات بألوان RGB، وتباين واضح، ووضوح عالٍ للنصوص على الجوال والكمبيوتر. اجعل الحواف والأيقونات والحدود والخطوط حادة ونظيفة بلا غبش أو هالات أو توهج حول النصوص والعناصر، وتجنب البكسلة أو الضغط البصري أو ضعف تفاصيل الجداول والأيقونات عند التكبير.";
+        return "جودة الإخراج الاحترافية: اعتمد معيار الطباعة الرقمية كمرجع أعلى للجودة، مع تهيئة التصميم في الوقت نفسه للعرض الرقمي دون فقدان وضوح أو تناسق. اجعل التصميم عالي الدقة ومناسبًا للطباعة الورقية والعرض على الشاشات معًا. للطباعة الرقمية الورقية: حافظ على دقة احترافية عالية قدر الإمكان، وتكوين نظيف قابل للطباعة، وهوامش آمنة حول النصوص والعناصر المهمة، ومساحة نزف طباعية مناسبة عند امتداد الخلفية أو العناصر إلى حافة الورق، وتوافق لوني مناسب للطباعة CMYK قدر الإمكان. للعرض الرقمي: اجعل التصميم مناسبًا للشاشات بألوان RGB، وتباين واضح، ووضوح عالٍ للنصوص على الجوال والكمبيوتر. اجعل الحواف والأيقونات والحدود والخطوط حادة ونظيفة بلا غبش أو هالات أو توهج حول النصوص والعناصر، وتجنب البكسلة أو الضغط البصري أو ضعف تفاصيل الجداول والأيقونات عند التكبير.";
       }
 
       function rtlCardSpatialInstruction(d) {
@@ -4133,7 +4173,7 @@
       }
 
       function encodingNote() {
-        return 'ملاحظة الترميز: استخدم UTF-8 في ملفات TXT و JSON. إذا ظهر النص العربي بشكل مثل "ط§ظ„..." فهذا خلل ترميز ولا يُستخدم.';
+        return 'ملاحظة الترميز: استخدم ترميز UTF في ملفات TXT و JSON. إذا ظهر النص العربي بشكل مثل "ط§ظ„..." فهذا خلل ترميز ولا يُستخدم.';
       }
 
       function imageTypePhrase(d) {
@@ -4158,7 +4198,7 @@
         const lines = [
           "English visual design brief for the image model:",
           `Create a professional Arabic-language ${d.imageType} for ${d.purpose} about "${subject}".`,
-          `Visual style: ${d.style}. Aspect ratio: ${d.aspectRatio}. Quality: ${d.qualityLevel}.`,
+          `Visual style: ${d.style}. Aspect ratio: ${promptAspectRatio(d)}. Quality: ${d.qualityLevel}.`,
           `Design keywords: ${keywords}.`,
           "Keep every Arabic word exactly as provided in the Arabic text section; do not translate, rewrite, mirror, or invent Arabic text.",
         ];
@@ -4170,6 +4210,20 @@
         if (style === "english") return easternToEnglish(text || "");
         if (style === "eastern") return englishToEastern(text || "");
         return text || "";
+      }
+
+      function sanitizeTechnicalTermsForNumberStyle(text, style) {
+        const value = clean(text || "");
+        if (style !== "eastern") return value;
+        return value
+          .replace(/\b3D\b/gi, "أبعاد ثلاثية")
+          .replace(/\b2D\b/gi, "ثنائي الأبعاد");
+      }
+
+      function promptAspectRatio(d) {
+        const value = d.aspectRatio || "";
+        if (d.numberStyle === "eastern") return convertDigitsByStyle(value, "eastern");
+        return value;
       }
 
       function composeFooterText(d) {
@@ -4333,7 +4387,7 @@
         const verseCount = poetryVerseCount(d);
         const tallAspect = isTallAspectRatio(d.aspectRatio);
         lines.push(
-          `تصميم للوحة فنية عربية عالية الجودة بنسبة أبعاد ${d.aspectRatio} تعرض أبياتًا من الشعر العربي بعنوان "${title}".`,
+          `تصميم للوحة فنية عربية عالية الجودة بنسبة أبعاد ${promptAspectRatio(d)} تعرض أبياتًا من الشعر العربي بعنوان "${title}".`,
         );
         lines.push(
           `الأسلوب البصري: ${d.style || "تراثي عربي أنيق"}، مناسب للطباعة والعرض الرقمي، بجودة ${d.qualityLevel || "عالية جدًا"}.`,
@@ -4521,7 +4575,7 @@
           `أنشئ صورة من نوع "${d.imageType}" موجهة لغرض "${d.purpose}" عن موضوع "${d.title || d._subject || d.subject || "موضوع بصري واضح"}".`,
         );
         lines.push(
-          `الأسلوب العام: ${d.style}. نسبة الأبعاد: ${d.aspectRatio}. مستوى الجودة: ${d.qualityLevel}.`,
+          `الأسلوب العام: ${d.style}. نسبة الأبعاد: ${promptAspectRatio(d)}. مستوى الجودة: ${d.qualityLevel}.`,
         );
         const visualBrief = visualDesignBrief(d);
         if (visualBrief) {
@@ -4599,7 +4653,7 @@
               lines.push(poetryStructuredText(d));
             } else {
               lines.push(
-                "- انسخ النص التالي حرفيًا 100% دون حذف أو إضافة أو استبدال أو إعادة صياغة لأي حرف.",
+                "- انسخ النص التالي حرفيًا تمامًا دون حذف أو إضافة أو استبدال أو إعادة صياغة لأي حرف.",
               );
               lines.push(`"${mainArabicText}"`);
             }
@@ -4770,7 +4824,7 @@
           `أنشئ ${imageTypePhrase(d)} لغرض ${d.purpose} عن "${d.title || d._subject || d.subject || "موضوع بصري"}" بأسلوب ${d.style}.`,
         );
         lines.push(
-          `نسبة الأبعاد: ${d.aspectRatio}. الجودة: ${d.qualityLevel}.`,
+          `نسبة الأبعاد: ${promptAspectRatio(d)}. الجودة: ${d.qualityLevel}.`,
         );
         const visualBrief = visualDesignBrief(d);
         if (visualBrief) lines.push(visualBrief);
@@ -4909,7 +4963,7 @@
         parts.push(
           `أنشئ ${imageTypePhrase(d)} عن "${d.title || d._subject || d.subject || "موضوع بصري"}" لغرض ${d.purpose} بأسلوب ${d.style}.`,
         );
-        parts.push(`النسبة: ${d.aspectRatio}. الجودة: ${d.qualityLevel}.`);
+        parts.push(`النسبة: ${promptAspectRatio(d)}. الجودة: ${d.qualityLevel}.`);
         const visualBrief = visualDesignBrief(d, true);
         if (visualBrief) parts.push(visualBrief);
         if (
@@ -5136,7 +5190,7 @@
             "crowded Arabic table",
             "overlapping table text",
             "splitting one infographic into multiple pages",
-            "part 1 part 2 labels",
+            "part labels",
             "unnecessary page split",
           );
         }
@@ -5150,7 +5204,7 @@
             "generated slide does not match description",
             "using attached screenshot when generated illustration was requested",
             "inconsistent slide style",
-            "A4 slide cropped",
+            "cropped A-size slide",
           );
         }
         if (isStoryMode(d)) {
@@ -5213,10 +5267,10 @@
           parts.push(
             "mixed numeral systems",
             "English digits inside Arabic design",
-            "wrong Arabic-Indic digit 2",
-            "Latin digit 2 in Arabic sequence",
-            "Persian digit ۲ when Arabic-Indic ٢ is required",
-            "wrong digit shape for ٢",
+            "wrong Arabic-Indic digit shape",
+            "Latin digit inside Arabic-Indic sequence",
+            "Persian digit when Arabic-Indic digit is required",
+            "wrong digit shape for Arabic-Indic numerals",
             "Latin numerals in boxes",
             "Latin numerals in cards",
             "Latin numerals in table cells",
@@ -5224,7 +5278,7 @@
             "Latin numerals in badges",
             "Latin numerals in counters",
             "English dates in Arabic footer",
-            "0 1 2 3 4 5 6 7 8 9 visible in Arabic labels",
+            "Latin numeral sequence visible in Arabic labels",
           );
         } else if (d.numberStyle === "english") {
           parts.push(
@@ -5869,6 +5923,8 @@
 
       function updateCustomOptionFields() {
         [
+          ["lighting", "lightingCustom"],
+          ["cameraAngle", "cameraAngleCustom"],
           ["backgroundStyle", "backgroundStyleCustom"],
           ["mainElementPosition", "mainElementPositionCustom"],
           ["textPosition", "textPositionCustom"],
@@ -6078,7 +6134,9 @@
         fields.referenceText.value = "";
         fields.colors.value = "";
         fields.lighting.value = "تلقائي حسب نوع التصميم";
+        fields.lightingCustom.value = "";
         fields.cameraAngle.value = "تلقائي حسب نوع التصميم";
+        fields.cameraAngleCustom.value = "";
         fields.backgroundStyle.value = "تلقائي حسب نوع التصميم";
         fields.backgroundStyleCustom.value = "";
         fields.mainElementPosition.value = "تلقائي حسب نوع التصميم";
@@ -6649,6 +6707,8 @@
           "sceneDesc",
           "footerTeacherName",
           "colors",
+          "lightingCustom",
+          "cameraAngleCustom",
           "backgroundStyleCustom",
           "mainElementPositionCustom",
           "textPositionCustom",
