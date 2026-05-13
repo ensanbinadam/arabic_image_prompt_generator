@@ -1348,6 +1348,66 @@
         flex: 1 1 240px;
         max-width: 360px;
       }
+      .library-manager {
+        flex: 1 1 100%;
+        display: none;
+        gap: 10px;
+        align-items: flex-start;
+        padding: 12px;
+        border: 1px solid rgba(234, 179, 8, 0.26);
+        border-radius: 16px;
+        background: #fffcf8;
+      }
+      .library-manager.show {
+        display: grid;
+      }
+      .library-manager-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .library-manager-title {
+        font-weight: 900;
+        color: #92400e;
+      }
+      .library-check-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+        gap: 8px;
+        max-height: 190px;
+        overflow: auto;
+        padding-inline-end: 4px;
+      }
+      .library-check-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        min-height: 38px;
+        padding: 8px 10px;
+        border: 1px solid rgba(146, 64, 14, 0.16);
+        border-radius: 12px;
+        background: #ffffff;
+        color: #4a2d12;
+        font-size: 0.9rem;
+        font-weight: 800;
+        cursor: pointer;
+      }
+      .library-check-item input {
+        width: auto;
+        min-height: auto;
+        accent-color: #ca8a04;
+      }
+      .library-manager-actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .library-empty-note {
+        color: var(--muted);
+        font-weight: 800;
+      }
       @media (max-width: 720px) {
         .build-actions .library-select {
           flex-basis: 100%;
@@ -2780,10 +2840,22 @@
   <button class="ghost library-btn" id="saveToLibraryBtn">⭐ حفظ كقالب</button>
   <button class="ghost library-btn" id="exportLibraryBtn">تصدير مكتبتي</button>
   <button class="ghost library-btn" id="importLibraryBtn">استيراد مكتبتي</button>
+  <button class="ghost library-btn" id="manageLibraryBtn">إدارة المكتبة</button>
   <input type="file" id="importLibraryFile" class="hidden-input" accept="application/json" />
   <select id="myLibrarySelect" class="ghost library-btn library-select">
     <option value="">📂 مكتبتي (قوالبي المحفوظة)</option>
   </select>
+  <div class="library-manager" id="libraryManager" aria-live="polite">
+    <div class="library-manager-head">
+      <div class="library-manager-title">اختر القوالب التي تريد حذفها فقط</div>
+      <div class="library-manager-actions">
+        <button type="button" class="mini" id="selectAllLibraryBtn">تحديد الكل</button>
+        <button type="button" class="mini" id="clearLibrarySelectionBtn">إلغاء التحديد</button>
+        <button type="button" class="mini rose" id="deleteSelectedLibraryBtn">حذف المحدد</button>
+      </div>
+    </div>
+    <div class="library-check-list" id="libraryCheckList"></div>
+  </div>
 </div>
           </div>
         </section>
@@ -6897,6 +6969,12 @@ const saveToLibraryBtn = $("saveToLibraryBtn");
 const exportLibraryBtn = $("exportLibraryBtn");
 const importLibraryBtn = $("importLibraryBtn");
 const importLibraryFile = $("importLibraryFile");
+const manageLibraryBtn = $("manageLibraryBtn");
+const libraryManager = $("libraryManager");
+const libraryCheckList = $("libraryCheckList");
+const selectAllLibraryBtn = $("selectAllLibraryBtn");
+const clearLibrarySelectionBtn = $("clearLibrarySelectionBtn");
+const deleteSelectedLibraryBtn = $("deleteSelectedLibraryBtn");
 
 function readLibraryTemplates() {
   try {
@@ -6965,6 +7043,36 @@ function uniqueLibraryName(baseName, templates) {
   return candidate;
 }
 
+function renderLibraryManager(templates = readLibraryTemplates()) {
+  if (!libraryCheckList) return;
+  const names = Object.keys(templates);
+  libraryCheckList.innerHTML = "";
+  if (!names.length) {
+    const note = document.createElement("div");
+    note.className = "library-empty-note";
+    note.textContent = "لا توجد قوالب محفوظة حاليًا.";
+    libraryCheckList.appendChild(note);
+    return;
+  }
+  names.forEach((name) => {
+    const label = document.createElement("label");
+    label.className = "library-check-item";
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.value = name;
+    label.appendChild(checkbox);
+    label.appendChild(document.createTextNode(name));
+    libraryCheckList.appendChild(label);
+  });
+}
+
+function selectedLibraryNames() {
+  if (!libraryCheckList) return [];
+  return Array.from(
+    libraryCheckList.querySelectorAll('input[type="checkbox"]:checked'),
+  ).map((input) => input.value);
+}
+
 function loadLibrary() {
   if (!myLibrarySelect) return;
   try {
@@ -6979,19 +7087,8 @@ function loadLibrary() {
       myLibrarySelect.appendChild(opt);
       hasTemplates = true;
     }
-    
-    // إضافة خيار مسح المكتبة إذا كان هناك قوالب
-    if (hasTemplates) {
-      const sep = document.createElement("option");
-      sep.disabled = true;
-      sep.textContent = "──────────";
-      myLibrarySelect.appendChild(sep);
-      
-      const clearOpt = document.createElement("option");
-      clearOpt.value = "_CLEAR_ALL_";
-      clearOpt.textContent = "🗑️ مسح جميع القوالب";
-      myLibrarySelect.appendChild(clearOpt);
-    }
+    renderLibraryManager(templates);
+    if (libraryManager) libraryManager.classList.toggle("show", false);
   } catch (e) {
     console.error("خطأ في تحميل المكتبة", e);
   }
@@ -7107,20 +7204,59 @@ if (importLibraryBtn && importLibraryFile) {
   });
 }
 
+if (manageLibraryBtn && libraryManager) {
+  manageLibraryBtn.addEventListener("click", () => {
+    renderLibraryManager();
+    libraryManager.classList.toggle("show");
+  });
+}
+
+if (selectAllLibraryBtn && libraryCheckList) {
+  selectAllLibraryBtn.addEventListener("click", () => {
+    libraryCheckList
+      .querySelectorAll('input[type="checkbox"]')
+      .forEach((input) => {
+        input.checked = true;
+      });
+  });
+}
+
+if (clearLibrarySelectionBtn && libraryCheckList) {
+  clearLibrarySelectionBtn.addEventListener("click", () => {
+    libraryCheckList
+      .querySelectorAll('input[type="checkbox"]')
+      .forEach((input) => {
+        input.checked = false;
+      });
+  });
+}
+
+if (deleteSelectedLibraryBtn) {
+  deleteSelectedLibraryBtn.addEventListener("click", () => {
+    const names = selectedLibraryNames();
+    if (!names.length) {
+      statusText.textContent = "حدد قالبًا واحدًا على الأقل لحذفه من المكتبة";
+      return;
+    }
+    openConfirmDialog(
+      `سيتم حذف ${displayNumber(names.length, fields.numberStyle.value)} قالب من مكتبتك. هل تريد المتابعة؟`,
+      () => {
+        const templates = readLibraryTemplates();
+        names.forEach((name) => delete templates[name]);
+        writeLibraryTemplates(templates);
+        loadLibrary();
+        if (libraryManager) libraryManager.classList.add("show");
+        statusText.textContent =
+          `تم حذف ${displayNumber(names.length, fields.numberStyle.value)} قالب من مكتبتك`;
+      },
+    );
+  });
+}
+
 if (myLibrarySelect) {
   myLibrarySelect.addEventListener("change", (e) => {
     const name = e.target.value;
     if (!name) return;
-    
-    if (name === "_CLEAR_ALL_") {
-      openConfirmDialog("هل أنت متأكد من مسح جميع القوالب المحفوظة في مكتبتك؟", () => {
-        localStorage.removeItem(LIBRARY_KEY);
-        loadLibrary();
-        statusText.textContent = "تم إفراغ المكتبة بالكامل";
-      });
-      e.target.value = "";
-      return;
-    }
 
     try {
       const templates = readLibraryTemplates();
