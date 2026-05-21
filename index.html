@@ -2956,10 +2956,11 @@
   </select>
   <div class="library-manager" id="libraryManager" aria-live="polite">
     <div class="library-manager-head">
-      <div class="library-manager-title">اختر القوالب التي تريد حذفها فقط</div>
+      <div class="library-manager-title">اختر القوالب التي تريد حذفها أو تصديرها كقالب فقط</div>
       <div class="library-manager-actions">
         <button type="button" class="mini" id="selectAllLibraryBtn">تحديد الكل</button>
         <button type="button" class="mini" id="clearLibrarySelectionBtn">إلغاء التحديد</button>
+        <button type="button" class="mini" id="exportSelectedLibraryBtn">تصدير المحدد</button>
         <button type="button" class="mini rose" id="deleteSelectedLibraryBtn">حذف المحدد</button>
       </div>
     </div>
@@ -7102,6 +7103,7 @@ const libraryManager = $("libraryManager");
 const libraryCheckList = $("libraryCheckList");
 const selectAllLibraryBtn = $("selectAllLibraryBtn");
 const clearLibrarySelectionBtn = $("clearLibrarySelectionBtn");
+const exportSelectedLibraryBtn = $("exportSelectedLibraryBtn");
 const deleteSelectedLibraryBtn = $("deleteSelectedLibraryBtn");
 
 function readLibraryTemplates() {
@@ -7356,6 +7358,39 @@ if (clearLibrarySelectionBtn && libraryCheckList) {
       .forEach((input) => {
         input.checked = false;
       });
+  });
+}
+
+if (exportSelectedLibraryBtn) {
+  exportSelectedLibraryBtn.addEventListener("click", () => {
+    const names = selectedLibraryNames();
+    if (!names.length) {
+      statusText.textContent = "حدد قالبًا واحدًا على الأقل لتصديره من المكتبة";
+      return;
+    }
+    const templates = readLibraryTemplates();
+    const selectedTemplates = {};
+    names.forEach((name) => {
+      if (templates[name]) selectedTemplates[name] = templates[name];
+    });
+    const count = Object.keys(selectedTemplates).length;
+    if (!count) {
+      statusText.textContent = "تعذر العثور على القوالب المحددة داخل المكتبة";
+      renderLibraryManager(templates);
+      return;
+    }
+    const payload = {
+      type: "arabic-prompt-treasure-library",
+      version: 1,
+      exportedAt: new Date().toISOString(),
+      templates: selectedTemplates,
+    };
+    const blob = new Blob([JSON.stringify(payload, null, 2)], {
+      type: "application/json;charset=utf-8",
+    });
+    downloadBlob(blob, `arabic-prompt-library-selected-${Date.now()}.json`);
+    statusText.textContent =
+      `تم تصدير ${displayNumber(count, fields.numberStyle.value)} قالب من القوالب المحددة`;
   });
 }
 
