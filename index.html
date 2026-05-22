@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="ar" dir="rtl">
   <head>
@@ -3731,7 +3732,8 @@
           return (
             "استخدم الأرقام الهندية الشرقية فقط عند ظهور أي أرقام داخل النص أو التصميم: ٠ ١ ٢ ٣ ٤ ٥ ٦ ٧ ٨ ٩." +
             " ينطبق ذلك إلزاميًا على جميع المواضع دون استثناء: العنوان، البطاقات، الصناديق، الجداول، المحاور، الشارات، العدادات، أرقام الخطوات، الخلايا، الوسوم، التذييل، التواريخ، النِّسب، وأي أرقام صغيرة داخل الحاويات أو التسميات." +
-            " اكتب الرقم اثنين بهذه الهيئة تحديدًا: ٢، ولا تستبدله بأي رقم لاتيني أو فارسي أو أي شكل آخر. عند عرض الكسور الرأسية أو المقارنات الرياضية، اكتب البسط والمقام بالأرقام الهندية الشرقية نفسها. امنع ظهور الأرقام اللاتينية داخل أي عنصر ظاهر، خصوصًا داخل البطاقات والخلايا والصناديق والوسوم." +
+            " اكتب الرقم اثنين بهذه الهيئة تحديدًا: ٢، ولا تستبدله بأي رقم لاتيني أو فارسي أو أي شكل آخر. امنع الأرقام الفارسية تحديدًا: ۰ ۱ ۲ ۳ ۴ ۵ ۶ ۷ ۸ ۹، ولا تستخدم ۲ بدل ٢ أو ۵ بدل ٥ في أي موضع." +
+            " عند عرض الكسور الرأسية أو المقارنات الرياضية، اكتب البسط والمقام بالأرقام الهندية الشرقية نفسها. امنع ظهور الأرقام اللاتينية أو الفارسية داخل أي عنصر ظاهر، خصوصًا داخل البطاقات والخلايا والصناديق والوسوم." +
             consistency
           );
 
@@ -3776,6 +3778,49 @@
       function isInfographicDesign(d) {
         const source = [d.imageType, d.layoutType].join(" ");
         return /إنفوجرافيك|انفوجرافيك|infographic/i.test(source);
+      }
+
+      function isStudentActivityDesign(d) {
+        const source = [
+          d.imageType,
+          d.layoutType,
+          d.title,
+          d._subject,
+          d.subject,
+          d._lessonTitle,
+          d.lessonTitle,
+          d._learningGoal,
+          d.learningGoal,
+          d._sceneDesc,
+          d.sceneDesc,
+          d._arabicText,
+          d.arabicText,
+          d._specialInstructions,
+          d.specialInstructions,
+        ].join(" ");
+        return /ورقة\s*عمل|اختبار|قياس\s*مهارة|نشاط|أنشطة|تدريب|تدريبات|أسئلة|سؤال|اختيار\s*من\s*متعدد|أكمل\s*الفراغ|فراغات|صل|توصيل|متاهة|لوّن|لون|اكتب\s*الإجابة|أجب|worksheet|quiz|activity|test/i.test(source);
+      }
+
+      function requestsAnswerKey(d) {
+        const source = [
+          d.title,
+          d._subject,
+          d.subject,
+          d._sceneDesc,
+          d.sceneDesc,
+          d._arabicText,
+          d.arabicText,
+          d._specialInstructions,
+          d.specialInstructions,
+          d._negativeNotes,
+          d.negativeNotes,
+        ].join(" ");
+        return /نموذج\s*إجابة|مفتاح\s*الإجابة|ورقة\s*إجابة|نموذج\s*حل|حلول\s*نموذجية|مع\s*الإجابات|أظهر\s*الإجابات|حل\s*الأسئلة|إجابات\s*محلولة|answer\s*key|solved\s*worksheet|model\s*answers/i.test(source);
+      }
+
+      function studentActivityProtectionInstruction(d) {
+        if (!isStudentActivityDesign(d) || requestsAnswerKey(d)) return "";
+        return "تعليمات الأنشطة وأوراق العمل: إذا كان التصميم يحتوي على أسئلة أو نشاط للطالب، فلا تحل الأسئلة، ولا تكتب الإجابات داخل الفراغات، ولا تصل عناصر التوصيل بخطوط، ولا تجعل الإجابات مقابلة للأسئلة بشكل يكشف الحل، إلا إذا طُلب صراحة إنشاء نموذج إجابة. الهدف أن يبقى النشاط قابلًا للحل من الطالب.";
       }
 
       function brochureOutputInstruction(d) {
@@ -4899,6 +4944,10 @@
             `- تنسيق النص المطلوب: ${d._textFormatting || d.textFormatting}.`,
           );
         lines.push(`- ${numberInstruction(d.numberStyle, d.consistentDigits)}`);
+        {
+          const activityProtection = studentActivityProtectionInstruction(d);
+          if (activityProtection) lines.push(`- ${activityProtection}`);
+        }
         if (d.blankIfFail)
           lines.push(
             "- إذا تعذر إخراج النص العربي بدقة كاملة، اترك مساحة فارغة نظيفة للنص بدل توليد نص خاطئ.",
@@ -5092,6 +5141,10 @@
         if (d._textFormatting || d.textFormatting)
           lines.push(`تنسيق النص: ${d._textFormatting || d.textFormatting}.`);
         lines.push(numberInstruction(d.numberStyle, d.consistentDigits));
+        {
+          const activityProtection = studentActivityProtectionInstruction(d);
+          if (activityProtection) lines.push(activityProtection);
+        }
         if (d.viewerPerspective) lines.push("اليمين واليسار من منظور المشاهد.");
         {
           const mainElementPosition = explicitOption(d.mainElementPosition);
@@ -5218,6 +5271,10 @@
         if (d._textFormatting || d.textFormatting)
           parts.push(`تنسيق النص: ${d._textFormatting || d.textFormatting}.`);
         parts.push(numberInstruction(d.numberStyle, d.consistentDigits));
+        {
+          const activityProtection = studentActivityProtectionInstruction(d);
+          if (activityProtection) parts.push(activityProtection);
+        }
         if (d.viewerPerspective) parts.push("اليمين واليسار من منظور المشاهد.");
         {
           const mainElementPosition = explicitOption(d.mainElementPosition);
@@ -5466,6 +5523,10 @@
             "wrong Arabic-Indic digit shape",
             "Latin digit inside Arabic-Indic sequence",
             "Persian digit when Arabic-Indic digit is required",
+            "Persian numerals",
+            "Persian digits ۰ ۱ ۲ ۳ ۴ ۵ ۶ ۷ ۸ ۹",
+            "Persian digit ۲ instead of Arabic-Indic ٢",
+            "Persian digit ۵ instead of Arabic-Indic ٥",
             "wrong digit shape for Arabic-Indic numerals",
             "Latin numerals in boxes",
             "Latin numerals in cards",
@@ -5481,6 +5542,19 @@
             "mixed numeral systems",
             "Eastern Arabic digits inside English-number design",
             "٠ ١ ٢ ٣ ٤ ٥ ٦ ٧ ٨ ٩ visible when English digits are required",
+          );
+        }
+        if (isStudentActivityDesign(d) && !requestsAnswerKey(d)) {
+          parts.push(
+            "answered worksheet",
+            "solved student activity",
+            "filled answer blanks",
+            "pre-solved questions",
+            "answer key shown when not requested",
+            "matching activity already connected",
+            "connection lines revealing answers",
+            "multiple choice answer highlighted",
+            "student exercise solved",
           );
         }
         if (d.designMode === "editExistingImage")
@@ -7565,6 +7639,7 @@ function initContentRequestHelper() {
     "- لا تكتب: حافظ على نظام أرقام موحّد.",
     "- اترك اختيار نمط الأرقام لإعدادات المولد المستقلة.",
     "- اذكر الأرقام داخل النصوص النهائية فقط إذا كانت جزءًا من النص التعليمي نفسه، واكتبها كما وردت دون توجيه خاص بنمطها.",
+    "- إذا كان المحتوى ورقة عمل أو نشاطًا أو اختبارًا للطالب، فلا تضع الإجابات ولا تحل الأسئلة ولا تصل عناصر التوصيل، إلا إذا طلبتُ صراحة نموذج إجابة أو مفتاح إجابة.",
     "- اجعل المحتوى مختصرًا بقدر ما يسمح به نوع التصميم، ولا تملأ التصميم بنصوص طويلة غير ضرورية.",
   ].join("\n");
 
@@ -7783,10 +7858,10 @@ function initContentRequestHelper() {
 لا تقترح نص تذييل من عندك. اكتب هل تحتاج الورقة تذييلًا أم لا. إن احتاجت، فاكتب: يستخدم تذييل المستخدم من حاوية التذييل في المولد.
 
 ١٥. ممنوعات خاصة
-اكتب ممنوعات مرتبطة بورقة العمل، مثل منع الزخرفة الزائدة، منع ضيق مساحات الإجابة، منع الرسوم غير الدقيقة، ومنع تحويل الورقة إلى بوستر.
+اكتب ممنوعات مرتبطة بورقة العمل، مثل منع الزخرفة الزائدة، منع ضيق مساحات الإجابة، منع الرسوم غير الدقيقة، منع تحويل الورقة إلى بوستر، ومنع حل الأسئلة أو ملء الفراغات أو توصيل الإجابات ما لم أطلب نموذج إجابة صراحة.
 
 ١٦. تعليمات إضافية دقيقة
-اكتب تعليمات تضمن أن الورقة صالحة للطباعة والنسخ، وأن كل سؤال مرتبط برسومه أو مساحة إجابته دون التباس.`;
+اكتب تعليمات تضمن أن الورقة صالحة للطباعة والنسخ، وأن كل سؤال مرتبط برسومه أو مساحة إجابته دون التباس، وأن تبقى الأنشطة قابلة للحل من الطالب.`;
 
   const poetryContainers = `الحاويات المطلوبة:
 
