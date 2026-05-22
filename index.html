@@ -6887,7 +6887,31 @@
         const reader = new FileReader();
         reader.onload = () => {
           try {
-            const d = normalizeImportedSettings(JSON.parse(reader.result));
+            const payload = JSON.parse(reader.result);
+            const libraryTemplates = extractLibraryTemplates(payload);
+            if (libraryTemplates) {
+              const validEntries = Object.entries(libraryTemplates).filter(
+                ([, template]) => hasRecognizedTemplateField(template),
+              );
+              if (!validEntries.length) {
+                statusText.textContent =
+                  "ملف المكتبة لا يحتوي قالبًا صالحًا للاستيراد";
+                return;
+              }
+              if (validEntries.length > 1) {
+                const stats = mergeLibraryTemplates(libraryTemplates);
+                statusText.textContent = libraryImportStatusMessage(stats);
+                return;
+              }
+              const [templateName, templateData] = validEntries[0];
+              applyTemplateToCurrentProject(
+                templateData,
+                "",
+                `تم استيراد القالب "${clean(templateName) || "قالب مستورد"}" واستبدال المشروع الحالي`,
+              );
+              return;
+            }
+            const d = normalizeImportedSettings(payload);
             clearFields();
             for (const [key, value] of Object.entries(d)) {
               if (!fields[key]) continue;
@@ -7247,6 +7271,90 @@ function uniqueLibraryName(baseName, templates) {
   return candidate;
 }
 
+function mergeLibraryTemplates(incoming) {
+  const templates = readLibraryTemplates();
+  let added = 0;
+  let renamed = 0;
+  let duplicates = 0;
+  let invalid = 0;
+  const addedNames = [];
+  const duplicateNames = [];
+  const invalidNames = [];
+  for (const [rawName, rawTemplate] of Object.entries(incoming || {})) {
+    const name = clean(rawName) || "قالب مستورد";
+    if (!hasRecognizedTemplateField(rawTemplate)) {
+      invalid += 1;
+      invalidNames.push(name);
+      continue;
+    }
+    const normalized = normalizeImportedSettings(rawTemplate);
+    if (templates[name]) {
+      if (
+        stableStringify(normalizeImportedSettings(templates[name])) ===
+        stableStringify(normalized)
+      ) {
+        duplicates += 1;
+        duplicateNames.push(name);
+        continue;
+      }
+      const uniqueName = uniqueLibraryName(name, templates);
+      templates[uniqueName] = normalized;
+      added += 1;
+      renamed += 1;
+      addedNames.push(uniqueName);
+    } else {
+      templates[name] = normalized;
+      added += 1;
+      addedNames.push(name);
+    }
+  }
+  if (added) writeLibraryTemplates(templates);
+  loadLibrary();
+  return { added, renamed, duplicates, invalid, addedNames, duplicateNames, invalidNames };
+}
+
+function libraryImportStatusMessage(stats) {
+  const added = stats && stats.added ? stats.added : 0;
+  const renamed = stats && stats.renamed ? stats.renamed : 0;
+  const duplicates = stats && stats.duplicates ? stats.duplicates : 0;
+  const invalid = stats && stats.invalid ? stats.invalid : 0;
+  if (added) {
+    return (
+      `تم استيراد ${added} قالب إلى مكتبتك` +
+      (renamed ? `، وأعيدت تسمية ${renamed} لتجنب التكرار` : "") +
+      (duplicates ? `، ووجد ${duplicates} قالب موجود مسبقًا` : "") +
+      (invalid ? `، وتم تجاهل ${invalid} غير صالح` : "")
+    );
+  }
+  if (duplicates && !invalid)
+    return `لم يُضف قالب جديد؛ ${duplicates} قالب موجود مسبقًا بنفس الاسم والمحتوى`;
+  if (duplicates || invalid)
+    return (
+      "لم يُضف قالب جديد" +
+      (duplicates ? `؛ ${duplicates} موجود مسبقًا` : "") +
+      (invalid ? `؛ ${invalid} غير صالح` : "")
+    );
+  return "لم يُعثر على قوالب قابلة للاستيراد";
+}
+
+function applyTemplateToCurrentProject(templateData, templateName, message) {
+  const d = normalizeImportedSettings(templateData);
+  clearFields();
+  for (const [key, value] of Object.entries(d)) {
+    if (!fields[key]) continue;
+    if (fields[key].type === "checkbox")
+      fields[key].checked = importedCheckboxValue(value);
+    else fields[key].value = value;
+  }
+  fields.rtl.checked = true;
+  syncModeFieldsFromImageType();
+  updateSmartSections();
+  generate();
+  if (myLibrarySelect && templateName) myLibrarySelect.value = templateName;
+  statusText.textContent =
+    message || `تم استدعاء القالب: "${templateName || "قالب مستورد"}"`;
+}
+
 function renderLibraryManager(templates = readLibraryTemplates()) {
   if (!libraryCheckList) return;
   const names = Object.keys(templates);
@@ -7357,37 +7465,31 @@ function importLibraryFromFile(file) {
         statusText.textContent = "ملف المكتبة غير صالح أو لا يحتوي قوالب قابلة للاستيراد";
         return;
       }
-      const templates = readLibraryTemplates();
-      let added = 0;
-      let renamed = 0;
-      let skipped = 0;
-      for (const [rawName, rawTemplate] of Object.entries(incoming)) {
-        if (!hasRecognizedTemplateField(rawTemplate)) {
-          skipped += 1;
-          continue;
-        }
-        const normalized = normalizeImportedSettings(rawTemplate);
-        const name = clean(rawName) || "قالب مستورد";
-        if (templates[name]) {
-          if (stableStringify(normalizeImportedSettings(templates[name])) === stableStringify(normalized)) {
-            skipped += 1;
-            continue;
-          }
-          const uniqueName = uniqueLibraryName(name, templates);
-          templates[uniqueName] = normalized;
-          added += 1;
-          renamed += 1;
-        } else {
-          templates[name] = normalized;
-          added += 1;
+      const validEntries = Object.entries(incoming).filter(([, template]) =>
+        hasRecognizedTemplateField(template),
+      );
+      const stats = mergeLibraryTemplates(incoming);
+      if (validEntries.length === 1) {
+        const requestedName = clean(validEntries[0][0]) || "قالب مستورد";
+        const openName =
+          (stats.addedNames && stats.addedNames[0]) ||
+          (stats.duplicateNames && stats.duplicateNames[0]) ||
+          requestedName;
+        const templates = readLibraryTemplates();
+        if (templates[openName]) {
+          const wasDuplicate =
+            stats.duplicateNames && stats.duplicateNames.includes(openName);
+          applyTemplateToCurrentProject(
+            templates[openName],
+            openName,
+            wasDuplicate
+              ? `القالب "${openName}" موجود مسبقًا بنفس المحتوى، وتم فتحه من مكتبتك`
+              : `تم استيراد القالب "${openName}" وفتحه مباشرة`,
+          );
+          return;
         }
       }
-      writeLibraryTemplates(templates);
-      loadLibrary();
-      statusText.textContent =
-        `تم استيراد ${added} قالب إلى مكتبتك` +
-        (renamed ? `، وأعيدت تسمية ${renamed} لتجنب التكرار` : "") +
-        (skipped ? `، وتم تجاهل ${skipped} مكرر/غير صالح` : "");
+      statusText.textContent = libraryImportStatusMessage(stats);
     } catch (e) {
       statusText.textContent = "تعذر استيراد مكتبة القوالب";
     }
@@ -7498,18 +7600,11 @@ if (myLibrarySelect) {
     try {
       const templates = readLibraryTemplates();
       if (templates[name]) {
-         const d = normalizeImportedSettings(templates[name]);
-         clearFields();
-         for (const [key, value] of Object.entries(d)) {
-           if (!fields[key]) continue;
-           if (fields[key].type === "checkbox") fields[key].checked = importedCheckboxValue(value);
-           else fields[key].value = value;
-         }
-         fields.rtl.checked = true;
-         syncModeFieldsFromImageType();
-         updateSmartSections();
-         generate();
-         statusText.textContent = `تم استدعاء القالب: "${name}"`;
+         applyTemplateToCurrentProject(
+           templates[name],
+           name,
+           `تم استدعاء القالب: "${name}"`,
+         );
       }
     } catch (e) {
          statusText.textContent = "خطأ في استدعاء القالب";
