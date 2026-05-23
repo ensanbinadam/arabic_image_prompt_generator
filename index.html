@@ -1620,6 +1620,7 @@
                 </button>
                 <button class="preset" data-preset="ad">إعلان عربي</button>
                 <button class="preset" data-preset="invite">بطاقة دعوة</button>
+                <button class="preset" data-preset="greetingCard">بطاقة تهنئة فاخرة</button>
                 <button class="preset" data-preset="brochure">مطوية</button>
                 <button class="preset" data-preset="slides">
                   شرائح صور متعددة
@@ -1656,6 +1657,7 @@
                     <option>لوحة شعرية / اقتباس أدبي</option>
                     <option>أصل نصي خطي مستقل</option>
                     <option>بطاقة دعوة</option>
+                    <option>بطاقة تهنئة فاخرة</option>
                     <option>هوية بصرية</option>
                     <option>شرائح صور متعددة مستقلة</option>
                     <option>قصة مصورة متعددة الصفحات</option>
@@ -1697,6 +1699,7 @@
   <button type="button" class="mini style-preset-btn" data-style="ألوان مائية ناعمة، فني يدوي" data-tooltip="ملمس فني ناعم ودافئ (للقصص التربوية)">ألوان مائية</button>
   <button type="button" class="mini style-preset-btn" data-style="سايبربانك، نيون، مستقبلي" data-tooltip="نيون وأجواء مستقبلية (للمهارات الرقمية)">سايبربانك</button>
   <button type="button" class="mini style-preset-btn" data-style="إضاءة سينمائية، تباين عالي" data-tooltip="إضاءة وتباين عالي (للبوسترات التوعوية الفخمة)">سينمائي</button>
+  <button type="button" class="mini style-preset-btn" data-style="بطاقة تهنئة فاخرة، تذهيب رقائقي بارز، ورق فاخر ملموس، زخارف أرابيسك" data-tooltip="خامة ورقية فاخرة وتذهيب بارز للتهاني والمناسبات">تذهيب فاخر</button>
 </div>
                 </div>
                 <!-- ===== نهاية الإضافة ===== -->
@@ -2227,6 +2230,8 @@
                     <option>خط نسخي واضح</option>
                     <option>خط ثلث فخم</option>
                     <option>خط كوفي أنيق</option>
+                    <option>خط ديواني جلي فاخر</option>
+                    <option>خط ثلث احتفالي أصيل</option>
                     <option>خط عربي حديث وواضح</option>
                     <option>خط دعائي عريض</option>
                     <option>خط مخطوط احترافي</option>
@@ -3780,6 +3785,19 @@
         return /إنفوجرافيك|انفوجرافيك|infographic/i.test(source);
       }
 
+      function isGreetingCardDesign(d) {
+        const source = [
+          d.imageType,
+          d.layoutType,
+          d.style,
+          d._subject,
+          d.subject,
+        ].join(" ");
+        return /بطاقة\s*تهنئة|تهنئة|مباركة|عيد|أضحى|فطر|رمضان|مولود|زواج|greeting\s*card|eid/i.test(
+          source,
+        );
+      }
+
       function isStudentActivityDesign(d) {
         const source = [
           d.imageType,
@@ -4319,6 +4337,9 @@
         if (explicitFont) {
           return `نظام الخط العربي: استخدم ${explicitFont}. إذا لم يتوفر الخط بالاسم نفسه لدى مولد الصور، فاستخدم أقرب خط عربي واضح يحافظ على القراءة واتصال الحروف.`;
         }
+        if (isGreetingCardDesign(d)) {
+          return "نظام الخطوط العربية لبطاقة التهنئة: للنص الرئيسي الكبير استخدم خط الثلث الفخم أو الديواني الجلي بحسب طابع البطاقة، وللسطر القصير أو التاريخ استخدم الديواني الجلي لأنه مناسب للزخرفة الاحتفالية، وللدعاء أو العبارة الطويلة استخدم خط النسخ الفاخر لضمان القراءة، وللتذييل استخدم ثلثًا صغيرًا أو نسخًا أنيقًا. لا تستخدم الرقعة أو الكوفي كافتراض لهذا النوع. يجب أن يبدو الخط العربي كحفر أو تذهيب رقائقي حقيقي لا كخط رقمي عادي، مع بقاء النص مقروءًا وصحيحًا حرفيًا.";
+        }
         if (isPoetryDesign(d) || isTextAssetDesign(d)) {
           return "نظام الخطوط العربية المقترح: للعنوان استخدم Amiri أو خط ثلث/نسخي فخم قريب، وللأبيات أو الكتلة النصية استخدم Noto Naskh Arabic أو Amiri مع وضوح التشكيل والنقاط، وللتذييل استخدم Cairo أو Tajawal بحجم صغير وخفيف. اجعل النص الحقيقي أوضح من الزخرفة، ولا تضغط الكلمات أو الحركات.";
         }
@@ -4368,6 +4389,20 @@
         return lines.join("\n");
       }
 
+      function greetingCardInstruction(d) {
+        if (!isGreetingCardDesign(d)) return "";
+        const lines = [
+          "تعليمات بطاقة التهنئة الفاخرة:",
+          "- صمّم الناتج كبطاقة تهنئة فيزيائية فاخرة قابلة للتصوير، لا كبوستر مسطح؛ اجعل الورق أو الكرتون ذا خامة ملموسة مثل ورق زمردي أو كحلي أو عاجي فاخر.",
+          "- اجعل النص العربي محور البطاقة: تذهيب رقائقي ذهبي بارز أو حفر حراري لامع يتفاعل مع الإضاءة، مع بروز واضح وظلال دقيقة على الحروف.",
+          "- وزّع الخطوط بذكاء: النص الرئيسي الكبير بالثلث الفخم أو الديواني الجلي، السطر القصير أو التاريخ بالديواني الجلي، الدعاء أو العبارة الطويلة بالنسخ الفاخر للقراءة، والتذييل بثُلث صغير أو نسخ أنيق. لا تجعل الرقعة أو الكوفي الخيار الافتراضي لهذه البطاقات.",
+          "- زيّن الهوامش بزخارف أرابيسك أو توريق إسلامي أو فواصل ذهبية دقيقة حول الأطراف، مع ترك مساحة هادئة خلف النص حتى لا تتداخل الزخرفة مع القراءة.",
+          "- إذا كانت البطاقة مصورة بواقعية، اعرضها بزاوية خفيفة على مخمل أو سطح فاخر مع إضاءة استوديو دافئة تُظهر لمعان الذهب وملمس الورق.",
+          "- لا تكرر عبارة التهنئة، ولا تضف نصًا احتفاليًا غير موجود في حاوية النصوص النهائية أو التذييل.",
+        ];
+        return lines.join("\n");
+      }
+
       function infographicContentInstruction(d) {
         if (!d.textHeavyActive) return "";
         const title = d.title || projectTitle(d);
@@ -4402,6 +4437,13 @@
             .split("\n")
             .filter((line) => line !== "");
         const lines = [];
+        if (isGreetingCardDesign(d)) {
+          lines.push(
+            ...greetingCardInstruction(d)
+              .split("\n")
+              .filter((line) => line !== ""),
+          );
+        }
         if (isBrochureDesign(d)) {
           lines.push(
             "تعليمات المطوية: اجعل الناتج مطوية عربية للطباعة لا بوسترًا عاديًا. إذا لم يحدد المستخدم عدد الأعمدة، استخدم مطوية ثلاثية الأعمدة. وإذا ذكر ثنائية أو رباعية الأعمدة فالتزم بها. استخدم خطوط طي خفيفة، وهوامش آمنة، وترتيب RTL للأعمدة من اليمين إلى اليسار.",
@@ -4431,6 +4473,21 @@
       function visualDesignBrief(d, compact = false) {
         if (d.visualPromptMode === "arabicOnly") return "";
         const subject = d.title || d.subject || "clear Arabic visual subject";
+        if (isGreetingCardDesign(d)) {
+          const greetingKeywords =
+            "luxurious physical Arabic greeting card, premium textured cardstock, embossed polished gold foil, authentic Diwani Jali or Thuluth Arabic calligraphy, intricate Arabesque filigree border, tactile paper texture, warm directional studio lighting, photorealistic close-up, elegant depth of field";
+          if (compact) {
+            return `English visual brief: ${greetingKeywords}, about "${subject}", keep all Arabic text exactly as provided and centered as the visual hero.`;
+          }
+          return [
+            "English visual design brief for the image model:",
+            `Create a high-resolution photorealistic close-up of a luxurious physical Arabic greeting card about "${subject}".`,
+            `Visual style: ${d.style}. Aspect ratio: ${promptAspectRatio(d)}. Quality: ${d.qualityLevel}.`,
+            `Design keywords: ${greetingKeywords}.`,
+            "Treat the Arabic calligraphy as real embossed gold foil or engraved foil stamping on premium cardstock, not flat yellow text.",
+            "Keep every Arabic word exactly as provided in the Arabic text section; do not translate, rewrite, mirror, repeat, or invent Arabic text.",
+          ].join("\n");
+        }
         const keywords =
           "clean layout, balanced composition, clear hierarchy, high readability, Arabic typography, generous whitespace, crisp text areas, polished spacing, professional design";
         let layoutCue = englishLayoutCue(d.layoutType || "");
@@ -5515,6 +5572,21 @@
               "brochure preview sheet when separate files requested",
             );
           }
+        }
+        if (isGreetingCardDesign(d)) {
+          parts.push(
+            "flat yellow text instead of gold foil",
+            "cheap digital text effect",
+            "plain poster instead of physical greeting card",
+            "missing embossed foil effect",
+            "missing premium cardstock texture",
+            "wrong Arabic calligraphy style",
+            "generic font instead of Diwani Jali or Thuluth",
+            "ornament covering Arabic text",
+            "overcrowded Arabesque pattern over text",
+            "repeated greeting phrase",
+            "extra greeting text not provided",
+          );
         }
         if (d.numberStyle === "eastern") {
           parts.push(
@@ -6644,6 +6716,44 @@
           fields.aspectRatio.value = "A4 عمودي";
           fields.backgroundStyle.value = "فاخرة وهادئة";
           fields.layoutType.value = "عنوان أعلى يمين مع مساحة قراءة واسعة";
+        } else if (type === "greetingCard") {
+          fields.imageType.value = "بطاقة تهنئة فاخرة";
+          fields.purpose.value = "دعوي";
+          fields.style.value =
+            "بطاقة تهنئة فاخرة، تذهيب رقائقي ذهبي بارز، ورق فاخر ملموس، زخارف أرابيسك، تصوير واقعي قريب";
+          fields.aspectRatio.value = "16:9 أفقي";
+          fields.qualityLevel.value = "عالية جدًا";
+          fields.visualPromptMode.value = "englishVisual";
+          fields.backgroundStyle.value = "وصف مخصص";
+          fields.backgroundStyleCustom.value =
+            "كرتون فاخر عميق اللون بملمس واضح، مثل الأخضر الزمردي أو الكحلي، مع زخارف أرابيسك ذهبية دقيقة على الأطراف ومساحة هادئة خلف النص.";
+          fields.lighting.value = "وصف مخصص";
+          fields.lightingCustom.value =
+            "إضاءة استوديو دافئة موجهة تكشف لمعان التذهيب وبروز الحروف وملمس الورق، مع ظلال ناعمة لا تضعف قراءة النص.";
+          fields.cameraAngle.value = "وصف مخصص";
+          fields.cameraAngleCustom.value =
+            "لقطة قريبة واقعية بزاوية مائلة خفيفة للبطاقة وهي موضوعة على مخمل أو سطح فاخر، مع تركيز حاد على الخط العربي.";
+          fields.mainElementPosition.value = "وسط الصورة من منظور المشاهد";
+          fields.textPosition.value = "وسط الصورة";
+          fields.fontStyle.value = "خط ديواني جلي فاخر";
+          fields.textImportance.value = "أولوية قصوى جدًا";
+          fields.layoutType.value = "تصميم تهنئة عربي فاخر بخط مركزي";
+          fields.colors.value =
+            "أخضر زمردي عميق أو كحلي فاخر مع ذهب رقائقي لامع وتباين واضح ومخمل داكن في الخلفية عند الحاجة.";
+          fields.extraElements.value =
+            "زخارف أرابيسك ذهبية متشابكة، إطار ذهبي رفيع، توريق إسلامي، ملمس ورق فاخر، انعكاسات تذهيب واقعية.";
+          fields.arabicText.value =
+            "//ضع العبارة الرئيسية في وسط البطاقة بخط ثلث فخم أو ديواني جلي، تذهيب ذهبي بارز، واجعلها أكبر نص ظاهر//\nعِيدُ أَضْحَى مُبَارَكٌ\n\n//ضع السنة أسفل العبارة الرئيسية بخط ديواني جلي أصغر وبنفس التذهيب//\nلِعَامِ ١٤٤٧هـ\n\n//ضع التهنئة أسفل السنة بخط نسخ فاخر واضح ومقروء لأنها عبارة أطول//\nتَقَبَّلَ اللَّهُ مِنَّا وَمِنْكُمْ";
+          fields.enableFooter.value = "yes";
+          fields.footerMode.value = "manual";
+          fields.footerPosition.value = "أسفل وسط الصورة";
+          fields.footerStyle.value = "أنيق وخفيف وغير مزعج";
+          fields.footerSize.value = "صغير جدًا وغير مزاحم";
+          fields.footerText.value = "اسم المهنئ هنا";
+          fields.negativeNotes.value =
+            "لا تجعل النص ذهبًا مسطحًا، لا تستخدم خطًا لاتينيًا أو خطًا عربيًا رقميًا عاديًا، لا تكرر عبارة التهنئة، لا تجعل الزخرفة تغطي الحروف، لا تضف نصوصًا غير مطلوبة.";
+          fields.specialInstructions.value =
+            "اجعل الخط العربي هو البطل البصري للبطاقة، والتذهيب بارزًا ولامعًا بواقعية، مع حواف حادة ونقط وحركات صحيحة. الزخرفة حول الهوامش فقط ولا تزاحم النص.";
         } else if (type === "brochure") {
           fields.imageType.value = "مطوية / بروشور متعدد الأعمدة";
           fields.purpose.value = "تعليمي";
@@ -7628,6 +7738,8 @@ function initContentRequestHelper() {
     if (/ورقة\s*عمل|اختبار|قياس\s*مهارة|نموذج\s*اختبار|worksheet/i.test(text))
       return "worksheet";
     if (/غلاف\s*كتاب|book\s*cover/i.test(text)) return "bookCover";
+    if (/بطاقة\s*تهنئة|تهنئة|مباركة|عيد|أضحى|فطر|رمضان|مولود|زواج|greeting\s*card|eid/i.test(text))
+      return "greetingCard";
     if (/بطاقة\s*دعوة|دعوة/i.test(text)) return "invitation";
     if (/شعرية|شعري|اقتباس|أدبي/i.test(text)) return "poetry";
     if (/أصل\s*نصي|خطي|مخطوطة/i.test(text)) return "textAsset";
@@ -7644,6 +7756,7 @@ function initContentRequestHelper() {
     brochure: "مطوية عربية",
     worksheet: "ورقة عمل / اختبار قياس مهارة",
     bookCover: "غلاف كتاب عربي",
+    greetingCard: "بطاقة تهنئة عربية فاخرة",
     invitation: "بطاقة دعوة عربية",
     poetry: "لوحة شعرية",
     textAsset: "أصل نصي خطي",
@@ -7993,6 +8106,53 @@ function initContentRequestHelper() {
 ١١. تعليمات إضافية دقيقة
 اكتب ما يحافظ على وضوح النص ووقاره.`;
 
+  const greetingCardContainers = `الحاويات المطلوبة:
+
+١. وصف المشهد
+اكتب وصفًا لبطاقة تهنئة فيزيائية فاخرة، لا بوسترًا مسطحًا: خامة الورق، زاوية العرض، الإحساس الملموس، وطابع المناسبة.
+
+٢. الألوان والجو البصري
+اكتب لوحة ألوان فاخرة مناسبة للمناسبة، مثل الأخضر الزمردي والذهب أو الكحلي والذهب أو العاجي والذهب.
+
+٣. الخامة والتذهيب
+اكتب وصفًا دقيقًا للخامة: ورق فاخر، تذهيب رقائقي ذهبي بارز، حفر أو طباعة حرارية، ولمعان واقعي على الحروف.
+
+٤. الإضاءة
+اكتب إضاءة استوديو دافئة أو ناعمة تظهر لمعان الذهب وملمس البطاقة دون إضعاف قراءة النص.
+
+٥. زاوية المشهد
+اكتب زاوية تصوير البطاقة: أمامية فاخرة أو مائلة خفيفة أو لقطة قريبة على مخمل.
+
+٦. الخلفية
+اكتب وصفًا لخلفية مناسبة مثل مخمل داكن أو سطح فاخر أو خلفية نظيفة لا تزاحم البطاقة.
+
+٧. الزخرفة والإطار
+اقترح زخارف أرابيسك أو توريق إسلامي أو إطار ذهبي حول الأطراف، مع ترك مساحة هادئة خلف النص.
+
+٨. النصوص النهائية التي يجب أن تظهر حرفيًا
+اكتب نصوص التهنئة فقط مع توجيهات //...//. اجعل النص الرئيسي بخط ثلث فخم أو ديواني جلي، واجعل التاريخ أو السطر القصير بالديواني الجلي، واجعل الدعاء أو العبارة الطويلة بخط نسخ فاخر واضح، ولا تضع التذييل هنا إلا إذا زوده المستخدم صراحة.
+
+٩. نص ثانوي اختياري
+اكتب نصًا قصيرًا عند الحاجة فقط. إذا لم يحتج التصميم نصًا ثانويًا فاترك هذه الحاوية فارغة.
+
+١٠. موضع النص الأساسي
+اكتب توزيع النصوص: العبارة الرئيسية في الوسط، السنة أو العبارة الثانوية أسفلها، والتذييل في أسفل البطاقة إن احتاج.
+
+١١. نوع الخط العربي
+اقترح توزيعًا للخطوط العربية الأصيلة: ثلث فخم أو ديواني جلي للنص الرئيسي، ديواني جلي للسطر القصير أو التاريخ، نسخ فاخر للدعاء أو العبارة الطويلة، وثُلث صغير أو نسخ أنيق للتذييل. لا تجعل الرقعة أو الكوفي افتراضيًا لهذا النوع.
+
+١٢. تعليمات تنسيق النص
+اكتب تعليمات الحفاظ على صحة الحروف والنقط والحركات، وعدم ضغط الزخرفة على النص، وعدم تكرار العبارة.
+
+١٣. التذييل
+لا تقترح نص تذييل من عندك. اكتب هل تحتاج البطاقة تذييلًا أم لا. إن احتاجت، فاكتب: يستخدم تذييل المستخدم من حاوية التذييل في المولد.
+
+١٤. ممنوعات خاصة
+اكتب ممنوعات تمنع الخط الرقمي العادي، النص الذهبي المسطح، الزخرفة فوق الحروف، تكرار التهنئة، أو إضافة نصوص غير مطلوبة.
+
+١٥. تعليمات إضافية دقيقة
+اكتب تعليمات تجعل البطاقة تبدو كقطعة مطبوعة فاخرة حقيقية، مع توازن بين الخط العربي والزخرفة والخامة.`;
+
   const genericContainers = `الحاويات المطلوبة:
 
 ١. وصف المشهد
@@ -8048,6 +8208,7 @@ function initContentRequestHelper() {
     if (kind === "slides") return slidesContainers;
     if (kind === "brochure") return brochureContainers;
     if (kind === "worksheet") return worksheetContainers;
+    if (kind === "greetingCard") return greetingCardContainers;
     if (kind === "poetry" || kind === "textAsset") return poetryContainers;
     if (kind === "infographic") return infographicContainers;
     return genericContainers;
