@@ -3606,6 +3606,13 @@
       function inlineGuidanceInstruction(d) {
         const lines = inlineGuidanceLines(d);
         if (!lines.length) return "";
+        if (isGreetingCardDesign(d)) {
+          return [
+            "إرشادات داخلية غير ظاهرة للنص:",
+            "- لا تعرض الشرطتين // ولا أي نص إرشادي داخلهما؛ استخدمها فقط لضبط موضع النص وحجمه وخطه.",
+            ...lines,
+          ].join("\n");
+        }
         return [
           "إرشادات تنسيق داخلية غير ظاهرة مستخرجة من العلامة //...//:",
           "- لا تعرض الشرطتين المائلتين ولا النص الموجود داخلهما في الصورة.",
@@ -3745,8 +3752,28 @@
         return "إذا ظهرت أرقام داخل الصورة أو النص، فاختر النمط المناسب للسياق وطبقه بانتظام على جميع الأرقام، بما في ذلك البطاقات والجداول والصناديق والخلايا والعناوين والتذييل، دون خلط بين نظامين.";
       }
 
+      function designNumberInstruction(d) {
+        if (!isGreetingCardDesign(d)) {
+          return numberInstruction(d.numberStyle, d.consistentDigits);
+        }
+        if (d.numberStyle === "english") {
+          return "في بطاقة التهنئة، استخدم الأرقام الإنجليزية فقط داخل النص الظاهر أو السنة أو التذييل إن وُجدت: 0 1 2 3 4 5 6 7 8 9. لا تخلط معها أرقامًا هندية شرقية أو فارسية.";
+        }
+        if (d.numberStyle === "eastern") {
+          return "في بطاقة التهنئة، استخدم الأرقام الهندية الشرقية العربية فقط داخل النص الظاهر أو السنة أو التذييل إن وُجدت: ٠ ١ ٢ ٣ ٤ ٥ ٦ ٧ ٨ ٩. امنع الأرقام اللاتينية والفارسية، خصوصًا 2 أو ۲ بدل ٢.";
+        }
+        return "إذا ظهرت أرقام داخل بطاقة التهنئة، فطبّق نمطًا واحدًا متسقًا عليها فقط داخل النص أو السنة أو التذييل، دون خلط بين أنظمة الأرقام.";
+      }
+
       function rtlLayoutInstruction() {
         return "كل النصوص العربية من اليمين إلى اليسار RTL، بمحاذاة يمين، دون عكس الحروف أو الكلمات، ودون تقسيم الكلمة العربية بين سطرين. قاعدة الترتيب الافتراضية لكل العناصر العربية: ابدأ القوائم والترقيم والجداول والبطاقات والصناديق والحاويات والأنشطة والأسئلة والخطوات من أعلى اليمين. داخل الصف الواحد رتّب العناصر من اليمين إلى اليسار، ثم انتقل إلى الصف التالي تحته. داخل الأعمدة ابدأ بالعمود الأيمن من أعلى إلى أسفل ثم انتقل إلى العمود التالي يسارًا. اجعل الرقم أو البطاقة أو السؤال أو الخطوة ١ في أقصى اليمين أو أعلى اليمين، ولا تبدأ أي مجموعة من اليسار.";
+      }
+
+      function designRtlInstruction(d) {
+        if (isGreetingCardDesign(d)) {
+          return "اتجاه النص في بطاقة التهنئة: كل النصوص العربية RTL صحيحة، الحروف متصلة وغير معكوسة، والكلمات لا تُقسّم بين السطور. اجعل النص المركزي محاذى بصريًا في الوسط أو مضبوطًا عربيًا حسب التكوين، دون أي قواعد شبكات أو بطاقات متعددة.";
+        }
+        return rtlLayoutInstruction();
       }
 
       function clampInt(value, min, max, fallback) {
@@ -3786,15 +3813,13 @@
       }
 
       function isGreetingCardDesign(d) {
-        const source = [
-          d.imageType,
-          d.layoutType,
-          d.style,
-          d._subject,
-          d.subject,
-        ].join(" ");
-        return /بطاقة\s*تهنئة|تهنئة|مباركة|عيد|أضحى|فطر|رمضان|مولود|زواج|greeting\s*card|eid/i.test(
-          source,
+        const typeSource = [d.imageType, d.layoutType].join(" ");
+        if (/بطاقة\s*تهنئة|تهنئة\s*فاخرة|greeting\s*card/i.test(typeSource))
+          return true;
+        const subjectSource = [d.title, d._subject, d.subject].join(" ");
+        return (
+          /بطاقة|كرت|card/i.test(typeSource) &&
+          /تهنئة|مباركة|عيد|أضحى|فطر|رمضان|مولود|زواج|eid/i.test(subjectSource)
         );
       }
 
@@ -3871,6 +3896,104 @@
       function studentActivityProtectionInstruction(d) {
         if (!isStudentActivityDesign(d) || requestsAnswerKey(d)) return "";
         return "تعليمات الأنشطة وأوراق العمل: إذا كان التصميم يحتوي على أسئلة أو نشاط للطالب، فلا تحل الأسئلة، ولا تكتب الإجابات داخل الفراغات، ولا تصل عناصر التوصيل بخطوط، ولا تجعل الإجابات مقابلة للأسئلة بشكل يكشف الحل، إلا إذا طُلب صراحة إنشاء نموذج إجابة. الهدف أن يبقى النشاط قابلًا للحل من الطالب.";
+      }
+
+      function designKind(d) {
+        if (isGreetingCardDesign(d)) return "greetingCard";
+        if (isSlideMode(d)) return "slides";
+        if (isStoryMode(d)) return "story";
+        if (isBrochureDesign(d)) return "brochure";
+        if (isPoetryDesign(d)) return "poetry";
+        if (isTextAssetDesign(d)) return "textAsset";
+        if (isStudentActivityDesign(d)) return "worksheet";
+        if (isInfographicDesign(d)) return "infographic";
+        return "general";
+      }
+
+      function designScopeInstruction(d) {
+        const kind = designKind(d);
+        const shared =
+          "قاعدة نطاق التصميم: استخدم تعليمات نوع التصميم المختار فقط، ولا تسحب قواعد نوع آخر إلا إذا فعّله المستخدم صراحة.";
+        const map = {
+          greetingCard:
+            "نطاق التصميم الحالي: بطاقة تهنئة فاخرة مفردة. ركّز على بطاقة واحدة، نص مركزي، خامة ورقية، تذهيب، إطار وزخرفة حول الهوامش. لا تطبق قواعد الإنفوجرافيك أو الشبكات أو الجداول أو أوراق العمل أو الشرائح أو القصص أو المطويات.",
+          slides:
+            "نطاق التصميم الحالي: شرائح صور مستقلة. كل شريحة تصميم كامل مستقل ومتسق. لا تحوّل الناتج إلى إنفوجرافيك طويل أو بطاقة تهنئة أو مطوية أو قصة مصورة.",
+          story:
+            "نطاق التصميم الحالي: قصة مصورة عربية متعددة الصفحات. حافظ على ثبات الشخصيات وتسلسل الصفحات وفق وصف القصة. لا تستخدم قواعد الشرائح أو المطويات أو بطاقات التهنئة أو أوراق العمل.",
+          brochure:
+            "نطاق التصميم الحالي: مطوية عربية قابلة للطباعة. استخدم الأعمدة وخطوط الطي وترتيب RTL للوجوه فقط. لا تجعلها بوسترًا عاديًا أو إنفوجرافيك بطاقات أو شرائح أو بطاقة تهنئة.",
+          poetry:
+            "نطاق التصميم الحالي: لوحة شعرية أو اقتباس أدبي. النص الشعري هو العنصر الأساسي، ولا تطبق قواعد الإنفوجرافيك أو أوراق العمل أو الشرائح أو المطويات.",
+          textAsset:
+            "نطاق التصميم الحالي: أصل نصي خطي مستقل. المطلوب كتلة نص عربية قابلة للإدراج، لا بوسترًا ولا بطاقة ولا شهادة ولا إنفوجرافيك.",
+          worksheet:
+            "نطاق التصميم الحالي: ورقة عمل أو اختبار مهارة قابل للطباعة. استخدم بنية أسئلة وفراغات ومساحات إجابة واضحة، ولا تحوّله إلى بوستر زخرفي أو بطاقة تهنئة أو مطوية أو شرائح.",
+          infographic:
+            "نطاق التصميم الحالي: إنفوجرافيك عربي. يجوز استخدام بطاقات أو صناديق أو شبكة RTL عند الحاجة، لكن لا تطبق قواعد بطاقات التهنئة أو الشرائح أو القصص أو المطويات أو أوراق العمل إلا إذا فعّلها المستخدم صراحة.",
+          general:
+            "نطاق التصميم الحالي: تصميم عربي عام. استخدم فقط التعليمات العامة والحقول التي ملأها المستخدم، ولا تفترض أنه إنفوجرافيك أو ورقة عمل أو بطاقة تهنئة أو مطوية أو شرائح.",
+        };
+        return `${shared} ${map[kind]}`;
+      }
+
+      function designScopeNegativeParts(d) {
+        const kind = designKind(d);
+        const partsByKind = {
+          greetingCard: [
+            "infographic grid layout",
+            "worksheet questions",
+            "multiple educational cards",
+            "slide deck layout",
+            "comic story panels",
+            "brochure fold columns",
+            "table layout on greeting card",
+          ],
+          slides: [
+            "single long infographic instead of slides",
+            "greeting card layout",
+            "brochure fold layout",
+            "comic story pages when slides requested",
+          ],
+          story: [
+            "slide deck layout",
+            "infographic grid instead of story",
+            "greeting card composition",
+            "brochure fold layout",
+          ],
+          brochure: [
+            "single poster layout instead of brochure",
+            "greeting card layout",
+            "slide deck layout",
+            "comic story panels",
+          ],
+          worksheet: [
+            "decorative poster instead of worksheet",
+            "greeting card style worksheet",
+            "brochure columns in worksheet",
+            "slide deck layout in worksheet",
+          ],
+          infographic: [
+            "greeting card layout",
+            "brochure fold guides",
+            "comic story panels",
+            "slide deck layout",
+            "worksheet answer sheet layout unless requested",
+          ],
+          poetry: [
+            "infographic cards around poem",
+            "worksheet layout",
+            "slide deck layout",
+            "brochure fold layout",
+          ],
+          textAsset: [
+            "full poster layout",
+            "greeting card mockup",
+            "infographic layout",
+            "worksheet layout",
+          ],
+        };
+        return partsByKind[kind] || [];
       }
 
       function sacredArabicTextInstruction(d) {
@@ -4282,6 +4405,8 @@
       function arabicLayoutInstruction(d) {
         const layout = d.layoutType || "تخطيط عربي مرن حسب المحتوى";
         if (layout === "بلا") return "";
+        if (isGreetingCardDesign(d))
+          return "نوع التخطيط العربي: بطاقة تهنئة مفردة فاخرة. اجعل النص الرئيسي في مركز البطاقة، والزخرفة حول الهوامش، وأي مشهد رمزي في الخلفية أو الأطراف دون شبكات أو بطاقات متعددة أو جداول.";
         if (layout === "تلقائي حسب نوع التصميم") {
           if (isPoetryDesign(d))
             return "نوع التخطيط العربي: لوحة شعرية عربية بتنسيق الشطرين. نسّق النص الشعري بنظام شطرين عربي: العنوان في الأعلى، والأبيات في وسط اللوحة، والشطر الأول في العمود الأيمن والشطر الثاني في العمود الأيسر.";
@@ -4361,6 +4486,9 @@
       }
 
       function visualHierarchyInstruction(d = {}) {
+        if (isGreetingCardDesign(d)) {
+          return "التسلسل الهرمي البصري لبطاقة التهنئة: العبارة الرئيسية هي أكبر عنصر وأوضح نقطة تركيز في مركز البطاقة، يليها السطر القصير أو السنة، ثم العبارة الطويلة بحجم أصغر ومقروء. اجعل الزخرفة والإطار والخلفية خادمة للنص لا منافسة له.";
+        }
         if (isPoetryDesign(d)) {
           return "التسلسل الهرمي البصري للوحة الشعرية: اجعل العنوان أكبر عنصر نصي في الأعلى، واجعل الأبيات في الوسط بخط واضح ومتوازن ومسافات مريحة بين الأبيات، واجعل التذييل صغيرًا وخفيفًا في الأسفل دون أن ينافس النص الشعري.";
         }
@@ -4387,8 +4515,15 @@
         return "جودة الإخراج الاحترافية: اعتمد معيار الطباعة الرقمية كمرجع أعلى للجودة، مع تهيئة التصميم في الوقت نفسه للعرض الرقمي دون فقدان وضوح أو تناسق. اجعل التصميم عالي الدقة ومناسبًا للطباعة الورقية والعرض على الشاشات معًا. للطباعة الرقمية الورقية: حافظ على دقة احترافية عالية قدر الإمكان، وتكوين نظيف قابل للطباعة، وهوامش آمنة حول النصوص والعناصر المهمة، ومساحة نزف طباعية مناسبة عند امتداد الخلفية أو العناصر إلى حافة الورق، وتوافق لوني مناسب للطباعة CMYK قدر الإمكان. للعرض الرقمي: اجعل التصميم مناسبًا للشاشات بألوان RGB، وتباين واضح، ووضوح عالٍ للنصوص على الجوال والكمبيوتر. اجعل الحواف والأيقونات والحدود والخطوط حادة ونظيفة بلا غبش أو هالات أو توهج حول النصوص والعناصر، وتجنب البكسلة أو الضغط البصري أو ضعف تفاصيل الجداول والأيقونات عند التكبير.";
       }
 
+      function designQualityInstruction(d = {}) {
+        if (isGreetingCardDesign(d)) {
+          return "جودة الإخراج لبطاقة التهنئة: لقطة عالية الدقة لبطاقة فيزيائية فاخرة، حواف حادة، ملمس ورق واضح، تذهيب معدني بارز، إضاءة نظيفة، ونص عربي واضح بلا غبش أو هالات. حافظ على هوامش آمنة حول النص والزخرفة.";
+        }
+        return printQualityInstruction();
+      }
+
       function rtlCardSpatialInstruction(d) {
-        if (isSlideMode(d) || isStoryMode(d)) return "";
+        if (isGreetingCardDesign(d) || isSlideMode(d) || isStoryMode(d)) return "";
         const layoutCheck = [d.layoutType, d.imageType].join(" ");
         const visibleText = visibleDesignText(d) || primaryArabicText(d) || "";
         const reference = referenceContent(d) || "";
@@ -4413,6 +4548,7 @@
       }
 
       function hasCardOrStepSequence(d) {
+        if (isGreetingCardDesign(d)) return false;
         const source = [
           d.imageType,
           d.layoutType,
@@ -4440,7 +4576,7 @@
             "تعليمة حاكمة عند التعارض: أي وصف مخصص يطلب توزيعًا حرًا أو نصف دائري أو عموديًا للبطاقات لا يقدَّم على ترتيب القراءة العربي. إذا وُجدت بطاقات أو خطوات مرقمة، فالتخطيط الإلزامي هو شبكة صفوف RTL: ١ ثم ٢ ثم ٣ من اليمين إلى اليسار في الصف الأول، ثم ٤ ثم ٥ ثم ٦ في الصف التالي، ثم بقية العناصر من يمين الصف التالي. لا تبدأ من اليسار، ولا تجعل التوازن الزخرفي حول المشهد يغيّر ترتيب الأرقام.",
           );
         }
-        if (d.numberStyle === "eastern") {
+        if (d.numberStyle === "eastern" && !isGreetingCardDesign(d)) {
           rules.push(
             "أرقام الشارات والبطاقات إلزامية كنص ظاهر لا كأيقونة حرة: اكتبها بالأرقام الهندية الشرقية العربية فقط مثل ١ ٢ ٣ ٤ ٥ ٦ ٧، وامنع داخل الشارات خصوصًا الأرقام اللاتينية 1 2 3 والأرقام الفارسية ۱ ۲ ۳. لا ترسم الرقم بشكل رمزي عام ولا تستبدله بشكل قريب.",
           );
@@ -4488,6 +4624,7 @@
           "- اجعل النص العربي محور البطاقة: تذهيب رقائقي ذهبي بارز أو حفر حراري لامع يتفاعل مع الإضاءة، مع بروز واضح وظلال دقيقة على الحروف.",
           "- وزّع الخطوط بذكاء: النص الرئيسي الكبير بالثلث الفخم أو الديواني الجلي، السطر القصير أو التاريخ بالديواني الجلي، الدعاء أو العبارة الطويلة بالنسخ الفاخر للقراءة، والتذييل بثُلث صغير أو نسخ أنيق. لا تجعل الرقعة أو الكوفي الخيار الافتراضي لهذه البطاقات.",
           "- زيّن الهوامش بزخارف أرابيسك أو توريق إسلامي أو فواصل ذهبية دقيقة حول الأطراف، مع ترك مساحة هادئة خلف النص حتى لا تتداخل الزخرفة مع القراءة.",
+          "- إذا احتاجت البطاقة إلى مشهد رمزي مثل الحجاج أو المسجد أو الهلال، فاجعله خافتًا أو جانبيًا أو في شريط سفلي/علوي بعيد عن منطقة النص المركزي، ولا تجعله مشهدًا مزدحمًا خلف العبارة الرئيسية.",
           "- إذا كانت البطاقة مصورة بواقعية، اعرضها بزاوية خفيفة على مخمل أو سطح فاخر مع إضاءة استوديو دافئة تُظهر لمعان الذهب وملمس الورق.",
           "- لا تكرر عبارة التهنئة، ولا تضف نصًا احتفاليًا غير موجود في حاوية النصوص النهائية أو التذييل.",
         ];
@@ -4561,20 +4698,54 @@
           : `${d.imageType} عربيًا`;
       }
 
+      function englishNumberCue(d) {
+        if (d.numberStyle === "eastern")
+          return "Use Eastern Arabic numerals only where numbers appear: ٠ ١ ٢ ٣ ٤ ٥ ٦ ٧ ٨ ٩; do not use Latin or Persian digit shapes.";
+        if (d.numberStyle === "english")
+          return "Use Latin digits only where numbers appear: 0 1 2 3 4 5 6 7 8 9; do not mix numeral systems.";
+        return "If numbers appear, keep one consistent numeral system across the design.";
+      }
+
+      function englishDesignTypeConstraint(d) {
+        const map = {
+          greetingCard:
+            "Type-specific constraint: create one single luxury physical greeting card only; centered Arabic calligraphy is the hero; no infographic grids, worksheet sections, slide panels, story panels, or brochure folds.",
+          infographic:
+            "Type-specific constraint: create one Arabic infographic; use RTL cards, boxes, or grids only when useful; do not turn it into a greeting card, worksheet, brochure, slide deck, or story panel.",
+          worksheet:
+            "Type-specific constraint: create a printable worksheet or skill test; keep questions and answer spaces unsolved; do not turn it into a decorative poster, greeting card, brochure, or slide deck.",
+          brochure:
+            "Type-specific constraint: create a print-ready Arabic brochure with clear fold panels and RTL panel order; do not turn it into a single poster, greeting card, slide deck, or story page.",
+          slides:
+            "Type-specific constraint: create separate Arabic slide designs with consistent identity and RTL reading; do not merge them into one long infographic or brochure.",
+          story:
+            "Type-specific constraint: create an Arabic illustrated story with consistent characters and page order; do not use slide, brochure, worksheet, or greeting card composition.",
+          poetry:
+            "Type-specific constraint: create an elegant Arabic poetry or literary quote layout; the poem text is the main visual element; do not use infographic cards, worksheet boxes, or slide layout.",
+          textAsset:
+            "Type-specific constraint: create a standalone Arabic text asset only, not a full poster, card, certificate, worksheet, or infographic.",
+          general:
+            "Type-specific constraint: create the requested Arabic design only from the selected type and filled fields; do not assume another format.",
+        };
+        return `${map[designKind(d)] || map.general} ${englishNumberCue(d)}`;
+      }
+
       function visualDesignBrief(d, compact = false) {
         if (d.visualPromptMode === "arabicOnly") return "";
         const subject = d.title || d.subject || "clear Arabic visual subject";
+        const typeConstraint = englishDesignTypeConstraint(d);
         if (isGreetingCardDesign(d)) {
           const greetingKeywords =
             "luxurious physical Arabic greeting card, premium textured cardstock, embossed polished gold foil, authentic Diwani Jali or Thuluth Arabic calligraphy, intricate Arabesque filigree border, tactile paper texture, warm directional studio lighting, photorealistic close-up, elegant depth of field";
           if (compact) {
-            return `English visual brief: ${greetingKeywords}, about "${subject}", keep all Arabic text exactly as provided and centered as the visual hero.`;
+            return `English visual brief: ${greetingKeywords}, about "${subject}", keep all Arabic text exactly as provided and centered as the visual hero. ${typeConstraint}`;
           }
           return [
             "English visual design brief for the image model:",
             `Create a high-resolution photorealistic close-up of a luxurious physical Arabic greeting card about "${subject}".`,
             `Visual style: ${d.style}. Aspect ratio: ${promptAspectRatio(d)}. Quality: ${d.qualityLevel}.`,
             `Design keywords: ${greetingKeywords}.`,
+            typeConstraint,
             "Treat the Arabic calligraphy as real embossed gold foil or engraved foil stamping on premium cardstock, not flat yellow text.",
             "Keep every Arabic word exactly as provided in the Arabic text section; do not translate, rewrite, mirror, repeat, or invent Arabic text.",
           ].join("\n");
@@ -4587,13 +4758,14 @@
             "separate Arabic educational slides, generate a custom illustration for each slide from its description, consistent RTL slide system, no attached screenshots required";
         }
         if (compact) {
-          return `English visual brief: professional Arabic-language ${d.imageType}, ${[keywords, layoutCue].filter(Boolean).join(", ")}, keep all Arabic text exactly as provided.`;
+          return `English visual brief: professional Arabic-language ${d.imageType}, ${[keywords, layoutCue].filter(Boolean).join(", ")}, keep all Arabic text exactly as provided. ${typeConstraint}`;
         }
         const lines = [
           "English visual design brief for the image model:",
           `Create a professional Arabic-language ${d.imageType} for ${d.purpose} about "${subject}".`,
           `Visual style: ${d.style}. Aspect ratio: ${promptAspectRatio(d)}. Quality: ${d.qualityLevel}.`,
           `Design keywords: ${keywords}.`,
+          typeConstraint,
           "Keep every Arabic word exactly as provided in the Arabic text section; do not translate, rewrite, mirror, or invent Arabic text.",
         ];
         if (layoutCue) lines.splice(4, 0, `Layout direction: ${layoutCue}.`);
@@ -4973,6 +5145,8 @@
           lines.push("");
           lines.push(visualBrief);
         }
+        lines.push("");
+        lines.push(designScopeInstruction(d));
         if (
           d.subjectArea !== "عام" ||
           d._gradeLevel ||
@@ -5017,8 +5191,8 @@
           if (spatialInstruction) lines.push(`- ${spatialInstruction}`);
         }
         lines.push(`- ${visualHierarchyInstruction(d)}`);
-        lines.push(`- ${printQualityInstruction()}`);
-        if (d.rtl) lines.push(`- ${rtlLayoutInstruction()}`);
+        lines.push(`- ${designQualityInstruction(d)}`);
+        if (d.rtl) lines.push(`- ${designRtlInstruction(d)}`);
         const slideInstruction = slideGenerationInstruction(d);
         if (slideInstruction) {
           lines.push("");
@@ -5091,7 +5265,7 @@
           lines.push(
             `- تنسيق النص المطلوب: ${d._textFormatting || d.textFormatting}.`,
           );
-        lines.push(`- ${numberInstruction(d.numberStyle, d.consistentDigits)}`);
+        lines.push(`- ${designNumberInstruction(d)}`);
         {
           const activityProtection = studentActivityProtectionInstruction(d);
           if (activityProtection) lines.push(`- ${activityProtection}`);
@@ -5213,7 +5387,7 @@
         lines.push(
           "- تأكد أن وضوح النص وسهولة قراءته أفضل من أي زخرفة إضافية.",
         );
-        lines.push(encodingNote());
+        if (!isGreetingCardDesign(d)) lines.push(encodingNote());
         return lines.join("\n");
       }
 
@@ -5229,6 +5403,7 @@
         );
         const visualBrief = visualDesignBrief(d);
         if (visualBrief) lines.push(visualBrief);
+        lines.push(designScopeInstruction(d));
         if (
           d.subjectArea !== "عام" ||
           d.lessonTitle ||
@@ -5262,7 +5437,7 @@
               `واستخدم النص الثانوي التالي بحجم أصغر وبشكل متناسق: "${secondaryText}"`,
             );
         }
-        if (d.rtl) lines.push(rtlLayoutInstruction());
+        if (d.rtl) lines.push(designRtlInstruction(d));
         {
           const layoutInstruction = arabicLayoutInstruction(d);
           if (layoutInstruction) lines.push(layoutInstruction);
@@ -5272,7 +5447,7 @@
           if (spatialInstruction) lines.push(spatialInstruction);
         }
         lines.push(visualHierarchyInstruction(d));
-        lines.push(printQualityInstruction());
+        lines.push(designQualityInstruction(d));
         const slideInstruction = slideGenerationInstruction(d);
         if (slideInstruction) lines.push(slideInstruction);
         const storyInstruction = storyGenerationInstruction(d);
@@ -5295,7 +5470,7 @@
         }
         if (d._textFormatting || d.textFormatting)
           lines.push(`تنسيق النص: ${d._textFormatting || d.textFormatting}.`);
-        lines.push(numberInstruction(d.numberStyle, d.consistentDigits));
+        lines.push(designNumberInstruction(d));
         {
           const activityProtection = studentActivityProtectionInstruction(d);
           if (activityProtection) lines.push(activityProtection);
@@ -5360,7 +5535,7 @@
           const guard = finalArabicGuardInstruction(d);
           if (guard) lines.push(guard);
         }
-        lines.push(encodingNote());
+        if (!isGreetingCardDesign(d)) lines.push(encodingNote());
         return lines.join("\n");
       }
 
@@ -5374,6 +5549,7 @@
         parts.push(`النسبة: ${promptAspectRatio(d)}. الجودة: ${d.qualityLevel}.`);
         const visualBrief = visualDesignBrief(d, true);
         if (visualBrief) parts.push(visualBrief);
+        parts.push(designScopeInstruction(d));
         if (
           d.lessonTitle ||
           d.subjectArea !== "عام" ||
@@ -5396,7 +5572,7 @@
           if (secondaryText)
             parts.push(`أضف النص الثانوي: "${secondaryText}".`);
         }
-        if (d.rtl) parts.push(rtlLayoutInstruction());
+        if (d.rtl) parts.push(designRtlInstruction(d));
         {
           const layoutInstruction = arabicLayoutInstruction(d);
           if (layoutInstruction) parts.push(layoutInstruction);
@@ -5406,7 +5582,7 @@
           if (spatialInstruction) parts.push(spatialInstruction);
         }
         parts.push(visualHierarchyInstruction(d));
-        parts.push(printQualityInstruction());
+        parts.push(designQualityInstruction(d));
         const slideInstruction = slideGenerationInstruction(d);
         if (slideInstruction) parts.push(slideInstruction);
         const storyInstruction = storyGenerationInstruction(d);
@@ -5429,7 +5605,7 @@
         }
         if (d._textFormatting || d.textFormatting)
           parts.push(`تنسيق النص: ${d._textFormatting || d.textFormatting}.`);
-        parts.push(numberInstruction(d.numberStyle, d.consistentDigits));
+        parts.push(designNumberInstruction(d));
         {
           const activityProtection = studentActivityProtectionInstruction(d);
           if (activityProtection) parts.push(activityProtection);
@@ -5487,7 +5663,7 @@
           const guard = finalArabicGuardInstruction(d, true);
           if (guard) parts.push(guard);
         }
-        parts.push(encodingNote());
+        if (!isGreetingCardDesign(d)) parts.push(encodingNote());
         return parts.join(" ");
       }
 
@@ -5540,6 +5716,7 @@
           "duplicate elements",
           "watermarks",
         ];
+        parts.push(...designScopeNegativeParts(d));
         if (effectiveFooterText(d)) {
           parts.push(
             "duplicate footer",
@@ -5556,7 +5733,7 @@
             );
           }
         }
-        if (d.rtl) {
+        if (d.rtl && !isGreetingCardDesign(d)) {
           parts.push(
             "left-to-right card order",
             "cards ordered left-to-right",
@@ -7989,6 +8166,8 @@ function initContentRequestHelper() {
     "- اجعل النصوص الظاهرة داخل التصميم موجودة فقط في حاوية: النصوص النهائية التي يجب أن تظهر حرفيًا.",
     "- لا تكرر النصوص الظاهرة داخل وصف المشهد أو المرجع أو النص الثانوي.",
     "- اجعل باقي الحاويات وصفية وتوجيهية فقط وليست مصدرًا بديلًا للنص الظاهر.",
+    "- التزم بنوع التصميم المطلوب فقط، ولا تضف حاويات أو قواعد أو تعليمات تخص نوعًا آخر. لا تستخدم تعليمات الشرائح إلا للشرائح، ولا القصة إلا للقصة، ولا المطوية إلا للمطوية، ولا ورقة العمل إلا لورقة العمل، ولا بطاقة التهنئة إلا لبطاقة التهنئة.",
+    "- إذا كان نوع التصميم بطاقة تهنئة، فلا تكتب قواعد شبكات أو بطاقات متعددة أو جداول أو أنشطة. وإذا كان إنفوجرافيك فلا تكتب قواعد بطاقة تهنئة فاخرة إلا إذا طلبت ذلك صراحة.",
     "- لا تخترع نص تذييل من عندك؛ التذييل له حاوية مستقلة في المولد يملؤها المستخدم يدويًا أو تلقائيًا.",
     "- في حاوية التذييل اكتب فقط هل يحتاج التصميم تذييلًا أم لا، وإن احتاج فاكتب: يستخدم تذييل المستخدم من حاوية التذييل في المولد.",
     "- داخل حاوية النصوص النهائية، ضع قبل كل نص مهم توجيهًا محليًا بين //...//.",
@@ -8272,25 +8451,25 @@ function initContentRequestHelper() {
   const greetingCardContainers = `الحاويات المطلوبة:
 
 ١. وصف المشهد
-اكتب وصفًا لبطاقة تهنئة فيزيائية فاخرة، لا بوسترًا مسطحًا: خامة الورق، زاوية العرض، الإحساس الملموس، وطابع المناسبة.
+اكتب وصفًا لبطاقة تهنئة فيزيائية فاخرة، لا بوسترًا مسطحًا. اجمع هنا وصف خامة الورق أو الكرتون، الإحساس الملموس، التذهيب البارز، الطابع العام للمناسبة، وطريقة ظهور البطاقة كقطعة مطبوعة حقيقية.
 
 ٢. الألوان والجو البصري
-اكتب لوحة ألوان فاخرة مناسبة للمناسبة، مثل الأخضر الزمردي والذهب أو الكحلي والذهب أو العاجي والذهب.
+اكتب لوحة ألوان فاخرة مناسبة للمناسبة، مثل الأخضر الزمردي والذهب أو الكحلي والذهب أو العاجي والذهب، مع وصف لمعان الذهب والتباين بين النص والخلفية.
 
-٣. الخامة والتذهيب
-اكتب وصفًا دقيقًا للخامة: ورق فاخر، تذهيب رقائقي ذهبي بارز، حفر أو طباعة حرارية، ولمعان واقعي على الحروف.
-
-٤. الإضاءة
+٣. الإضاءة
 اكتب إضاءة استوديو دافئة أو ناعمة تظهر لمعان الذهب وملمس البطاقة دون إضعاف قراءة النص.
 
-٥. زاوية المشهد
+٤. زاوية المشهد
 اكتب زاوية تصوير البطاقة: أمامية فاخرة أو مائلة خفيفة أو لقطة قريبة على مخمل.
 
-٦. الخلفية
-اكتب وصفًا لخلفية مناسبة مثل مخمل داكن أو سطح فاخر أو خلفية نظيفة لا تزاحم البطاقة.
+٥. الخلفية
+اكتب وصفًا لخلفية مناسبة مثل مخمل داكن أو سطح فاخر أو خلفية نظيفة لا تزاحم البطاقة، مع ترك مساحة هادئة خلف النص الأساسي.
 
-٧. الزخرفة والإطار
-اقترح زخارف أرابيسك أو توريق إسلامي أو إطار ذهبي حول الأطراف، مع ترك مساحة هادئة خلف النص.
+٦. موضع العنصر الرئيسي
+اكتب موضع البطاقة أو النص المركزي داخل التكوين: العبارة الرئيسية في مركز البطاقة، والسطور الثانوية تحتها، مع الحفاظ على منطقة وسطية هادئة.
+
+٧. عناصر إضافية
+اقترح العناصر البصرية المساعدة فقط: إطار ذهبي رفيع، زخارف أرابيسك أو توريق إسلامي في الزوايا والأطراف، فواصل ذهبية، ملمس ورق، حفر أو ضغط بارز، دون إضافة نصوص داخل الزخارف.
 
 ٨. النصوص النهائية التي يجب أن تظهر حرفيًا
 اكتب نصوص التهنئة فقط مع توجيهات //...//. اجعل النص الرئيسي بخط ثلث فخم أو ديواني جلي، واجعل التاريخ أو السطر القصير بالديواني الجلي، واجعل الدعاء أو العبارة الطويلة بخط نسخ فاخر واضح، ولا تضع التذييل هنا إلا إذا زوده المستخدم صراحة.
@@ -8298,23 +8477,26 @@ function initContentRequestHelper() {
 ٩. نص ثانوي اختياري
 اكتب نصًا قصيرًا عند الحاجة فقط. إذا لم يحتج التصميم نصًا ثانويًا فاترك هذه الحاوية فارغة.
 
-١٠. موضع النص الأساسي
+١٠. مرجع وسياق لا يظهر كاملًا في التصميم
+اكتب سياق المناسبة وفكرة الفخامة والخامة والتذهيب كمرجع بصري فقط، وصرح أنه ليس مصدرًا مباشرًا لأي نص ظاهر داخل البطاقة.
+
+١١. موضع النص الأساسي
 اكتب توزيع النصوص: العبارة الرئيسية في الوسط، السنة أو العبارة الثانوية أسفلها، والتذييل في أسفل البطاقة إن احتاج.
 
-١١. نوع الخط العربي
+١٢. نوع الخط العربي
 اقترح توزيعًا للخطوط العربية الأصيلة: ثلث فخم أو ديواني جلي للنص الرئيسي، ديواني جلي للسطر القصير أو التاريخ، نسخ فاخر للدعاء أو العبارة الطويلة، وثُلث صغير أو نسخ أنيق للتذييل. لا تجعل الرقعة أو الكوفي افتراضيًا لهذا النوع.
 
-١٢. تعليمات تنسيق النص
+١٣. تعليمات تنسيق النص
 اكتب تعليمات الحفاظ على صحة الحروف والنقط والحركات، وعدم ضغط الزخرفة على النص، وعدم تكرار العبارة.
 
-١٣. التذييل
+١٤. التذييل
 لا تقترح نص تذييل من عندك. اكتب هل تحتاج البطاقة تذييلًا أم لا. إن احتاجت، فاكتب: يستخدم تذييل المستخدم من حاوية التذييل في المولد.
 
-١٤. ممنوعات خاصة
+١٥. ممنوعات خاصة
 اكتب ممنوعات تمنع الخط الرقمي العادي، النص الذهبي المسطح، الزخرفة فوق الحروف، تكرار التهنئة، أو إضافة نصوص غير مطلوبة.
 
-١٥. تعليمات إضافية دقيقة
-اكتب تعليمات تجعل البطاقة تبدو كقطعة مطبوعة فاخرة حقيقية، مع توازن بين الخط العربي والزخرفة والخامة.`;
+١٦. تعليمات إضافية دقيقة
+اكتب تعليمات تجعل البطاقة تبدو كقطعة مطبوعة فاخرة حقيقية، مع توازن بين الخط العربي والزخرفة والخامة. اجعل التذهيب والحفر والضغط البارز ضمن الخامة والزخرفة، لا كحاويات مستقلة.`;
 
   const genericContainers = `الحاويات المطلوبة:
 
