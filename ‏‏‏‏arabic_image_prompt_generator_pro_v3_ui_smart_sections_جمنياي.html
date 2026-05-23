@@ -931,7 +931,11 @@
       }
 
       .content-request-btn {
-        background: linear-gradient(135deg, var(--accent) 0%, var(--primary) 100%);
+        background: linear-gradient(
+          135deg,
+          var(--accent) 0%,
+          var(--primary) 100%
+        );
         color: #fff;
         border: none;
         padding: 12px 22px;
@@ -954,7 +958,11 @@
       }
 
       .content-request-btn.copied {
-        background: linear-gradient(135deg, var(--emerald) 0%, var(--accent) 100%);
+        background: linear-gradient(
+          135deg,
+          var(--emerald) 0%,
+          var(--accent) 100%
+        );
       }
 
       /* ===== STATUS TEXT ===== */
@@ -1360,10 +1368,10 @@
       }
       /* ===== SMART TOOLTIPS ===== */
       [data-tooltip] {
-  position: relative;
-  cursor: help;
-  overflow: visible;
-}
+        position: relative;
+        cursor: help;
+        overflow: visible;
+      }
       [data-tooltip]::after {
         content: attr(data-tooltip);
         position: absolute;
@@ -1619,7 +1627,9 @@
                 </button>
                 <button class="preset" data-preset="ad">إعلان عربي</button>
                 <button class="preset" data-preset="invite">بطاقة دعوة</button>
-                <button class="preset" data-preset="greetingCard">بطاقة تهنئة فاخرة</button>
+                <button class="preset" data-preset="greetingCard">
+                  بطاقة تهنئة فاخرة
+                </button>
                 <button class="preset" data-preset="brochure">مطوية</button>
                 <button class="preset" data-preset="slides">
                   شرائح صور متعددة
@@ -1687,19 +1697,90 @@
                 <!-- ===== أزرار الستايلات الفنية السريعة ===== -->
                 <div class="full" style="margin-top: 4px; margin-bottom: 8px">
                   <label style="font-size: 0.82rem; margin-bottom: 4px"
-                    >🎨 ستايلات فنية سريعة (تضاف إلى حقل الأسلوب أعلاه)</label>
-<div class="preset-row" style="gap: 6px">
-  <button type="button" class="mini style-preset-btn" data-style="ستايل فيكتور تعليمي احترافي" data-tooltip="رسومات رقمية دقيقة خالية من التشتت (للبوسترات)">فيكتور تعليمي</button>
-  <button type="button" class="mini style-preset-btn" data-style="أبعاد ثلاثية واقعية" data-tooltip="عمق واقعي مجسم (للكائنات والأشكال)">3D واقعي</button>
-  <button type="button" class="mini style-preset-btn" data-style="كرتوني تعليمي، ألوان زاهية" data-tooltip="ألوان زاهية وشخصيات محببة (للمرحلة الابتدائية)">كرتوني تعليمي</button>
-  <button type="button" class="mini style-preset-btn" data-style="واقعي فوتوغرافي، دقة عالية" data-tooltip="صور حقيقية دقيقة (للتجارب والظواهر الطبيعية)">واقعي فوتوغرافي</button>
-  <button type="button" class="mini style-preset-btn" data-style="سريالي فني، ألوان حالمة" data-tooltip="دمج خيالي وغير منطقي (للأدب والتعبير)">سريالي</button>
-  <button type="button" class="mini style-preset-btn" data-style="باوهاوس بسيط، هندسي نظيف" data-tooltip="بساطة وخطوط هندسية نظيفة (للإعلانات الرسمية)">باوهاوس</button>
-  <button type="button" class="mini style-preset-btn" data-style="ألوان مائية ناعمة، فني يدوي" data-tooltip="ملمس فني ناعم ودافئ (للقصص التربوية)">ألوان مائية</button>
-  <button type="button" class="mini style-preset-btn" data-style="سايبربانك، نيون، مستقبلي" data-tooltip="نيون وأجواء مستقبلية (للمهارات الرقمية)">سايبربانك</button>
-  <button type="button" class="mini style-preset-btn" data-style="إضاءة سينمائية، تباين عالي" data-tooltip="إضاءة وتباين عالي (للبوسترات التوعوية الفخمة)">سينمائي</button>
-  <button type="button" class="mini style-preset-btn" data-style="بطاقة تهنئة فاخرة، تذهيب رقائقي بارز، ورق فاخر ملموس، زخارف أرابيسك" data-tooltip="خامة ورقية فاخرة وتذهيب بارز للتهاني والمناسبات">تذهيب فاخر</button>
-</div>
+                    >🎨 ستايلات فنية سريعة (تضاف إلى حقل الأسلوب أعلاه)</label
+                  >
+                  <div class="preset-row" style="gap: 6px">
+                    <button
+                      type="button"
+                      class="mini style-preset-btn"
+                      data-style="ستايل فيكتور تعليمي احترافي"
+                      data-tooltip="رسومات رقمية دقيقة خالية من التشتت (للبوسترات)"
+                    >
+                      فيكتور تعليمي
+                    </button>
+                    <button
+                      type="button"
+                      class="mini style-preset-btn"
+                      data-style="أبعاد ثلاثية واقعية"
+                      data-tooltip="عمق واقعي مجسم (للكائنات والأشكال)"
+                    >
+                      3D واقعي
+                    </button>
+                    <button
+                      type="button"
+                      class="mini style-preset-btn"
+                      data-style="كرتوني تعليمي، ألوان زاهية"
+                      data-tooltip="ألوان زاهية وشخصيات محببة (للمرحلة الابتدائية)"
+                    >
+                      كرتوني تعليمي
+                    </button>
+                    <button
+                      type="button"
+                      class="mini style-preset-btn"
+                      data-style="واقعي فوتوغرافي، دقة عالية"
+                      data-tooltip="صور حقيقية دقيقة (للتجارب والظواهر الطبيعية)"
+                    >
+                      واقعي فوتوغرافي
+                    </button>
+                    <button
+                      type="button"
+                      class="mini style-preset-btn"
+                      data-style="سريالي فني، ألوان حالمة"
+                      data-tooltip="دمج خيالي وغير منطقي (للأدب والتعبير)"
+                    >
+                      سريالي
+                    </button>
+                    <button
+                      type="button"
+                      class="mini style-preset-btn"
+                      data-style="باوهاوس بسيط، هندسي نظيف"
+                      data-tooltip="بساطة وخطوط هندسية نظيفة (للإعلانات الرسمية)"
+                    >
+                      باوهاوس
+                    </button>
+                    <button
+                      type="button"
+                      class="mini style-preset-btn"
+                      data-style="ألوان مائية ناعمة، فني يدوي"
+                      data-tooltip="ملمس فني ناعم ودافئ (للقصص التربوية)"
+                    >
+                      ألوان مائية
+                    </button>
+                    <button
+                      type="button"
+                      class="mini style-preset-btn"
+                      data-style="سايبربانك، نيون، مستقبلي"
+                      data-tooltip="نيون وأجواء مستقبلية (للمهارات الرقمية)"
+                    >
+                      سايبربانك
+                    </button>
+                    <button
+                      type="button"
+                      class="mini style-preset-btn"
+                      data-style="إضاءة سينمائية، تباين عالي"
+                      data-tooltip="إضاءة وتباين عالي (للبوسترات التوعوية الفخمة)"
+                    >
+                      سينمائي
+                    </button>
+                    <button
+                      type="button"
+                      class="mini style-preset-btn"
+                      data-style="بطاقة تهنئة فاخرة، تذهيب رقائقي بارز، ورق فاخر ملموس، زخارف أرابيسك"
+                      data-tooltip="خامة ورقية فاخرة وتذهيب بارز للتهاني والمناسبات"
+                    >
+                      تذهيب فاخر
+                    </button>
+                  </div>
                 </div>
                 <!-- ===== نهاية الإضافة ===== -->
                 <!-- السطر الثالث: نسبة الأبعاد + مستوى الجودة -->
@@ -1761,13 +1842,15 @@
                     <div class="content-request-info">
                       <strong>
                         طلب محتوى للحاويات
-                        <span id="contentRequestTarget" class="content-request-target"
+                        <span
+                          id="contentRequestTarget"
+                          class="content-request-target"
                           >حسب نوع التصميم</span
                         >
                       </strong>
                       <p>
-                        ينسخ طلبًا ترسله للذكاء الاصطناعي ليُعد محتوى مقسمًا
-                        على حاويات هذا المولد. الناتج ليس برومبت صور ولا يُستخدم
+                        ينسخ طلبًا ترسله للذكاء الاصطناعي ليُعد محتوى مقسمًا على
+                        حاويات هذا المولد. الناتج ليس برومبت صور ولا يُستخدم
                         مباشرة في مولد الصور؛ الصق الرد داخل الحاويات ثم ولّد
                         البرومبت النهائي من هنا.
                       </p>
@@ -1909,8 +1992,8 @@
                     placeholder="مثال: لوحة ألوان دافئة ومريحة: أزرق تعليمي هادئ، أخضر للنمو، أصفر ذهبي للإنجاز، وخلفية كريمية نظيفة. اجعل الجو مشرقًا ومنظمًا واحترافيًا."
                   ></textarea>
                   <span class="hint"
-                    >يمكنك لصق فقرة الألوان والجو البصري التي يعدّها الذكاء
-                    هنا مباشرة.</span
+                    >يمكنك لصق فقرة الألوان والجو البصري التي يعدّها الذكاء هنا
+                    مباشرة.</span
                   >
                 </div>
                 <div>
@@ -1934,8 +2017,8 @@
                     placeholder="مثال: إضاءة ناعمة ومشرقة ومتوازنة، تعطي وضوحًا جيدًا للنصوص والحاويات والرسومات، مع ظلال بسيطة جدًا دون إزعاج بصري."
                   ></textarea>
                   <span class="hint"
-                    >اختر "وصف مخصص" من حقل الإضاءة، ثم الصق هنا وصف
-                    الإضاءة التفصيلي عند الحاجة.</span
+                    >اختر "وصف مخصص" من حقل الإضاءة، ثم الصق هنا وصف الإضاءة
+                    التفصيلي عند الحاجة.</span
                   >
                 </div>
                 <div>
@@ -1959,8 +2042,8 @@
                     placeholder="مثال: زاوية أمامية مستقيمة ومباشرة، كأننا ننظر إلى صفحة تعليمية موضوعة أمامنا بوضوح، دون منظور مائل أو معقد."
                   ></textarea>
                   <span class="hint"
-                    >اختر "وصف مخصص" من حقل زاوية المشهد، ثم الصق هنا
-                    الوصف التفصيلي عند الحاجة.</span
+                    >اختر "وصف مخصص" من حقل زاوية المشهد، ثم الصق هنا الوصف
+                    التفصيلي عند الحاجة.</span
                   >
                 </div>
                 <div>
@@ -1984,8 +2067,8 @@
                     placeholder="اكتب وصفًا خاصًا للخلفية عند اختيار وصف مخصص، مثل: خلفية فاتحة بملمس ورقي ناعم، زخارف تعليمية باهتة في الأطراف فقط، دون ازدحام خلف النصوص."
                   ></textarea>
                   <span class="hint"
-                    >اختر "وصف مخصص" من حقل الخلفية، ثم الصق هنا الوصف
-                    التفصيلي عند الحاجة.</span
+                    >اختر "وصف مخصص" من حقل الخلفية، ثم الصق هنا الوصف التفصيلي
+                    عند الحاجة.</span
                   >
                 </div>
                 <div>
@@ -2009,8 +2092,8 @@
                     placeholder="مثال: ضع في منتصف التصميم مشهدًا رئيسيًا لمعلم أو معلمة مع طالب وطالبة حول طاولة تعلم، وتوزع البطاقات حوله بشكل دائري منظم."
                   ></textarea>
                   <span class="hint"
-                    >استخدمه عندما يكون موضع العنصر الرئيسي أطول من اختيار
-                    جاهز مثل وسط أو يمين الصورة.</span
+                    >استخدمه عندما يكون موضع العنصر الرئيسي أطول من اختيار جاهز
+                    مثل وسط أو يمين الصورة.</span
                   >
                 </div>
                 <div class="full">
@@ -2037,11 +2120,11 @@
                 <small>املأه فقط إذا كنت تريد نصًا ظاهرًا داخل الصورة</small>
               </div>
               <div class="workflow-note">
-                يمكنك إعداد المحتوى في ChatGPT أو أي ذكاء اصطناعي آخر، ثم
-                لصقه هنا في الحاويات المناسبة. <strong>لا تستخدم مسودة
-                المحتوى مباشرة في مولد الصور</strong>؛ ولّد البرومبت النهائي
-                من هذه الأداة حتى تطبق ضوابط العربية، واتجاه RTL، والموانع،
-                وNegative Prompt، وجودة الإخراج.
+                يمكنك إعداد المحتوى في ChatGPT أو أي ذكاء اصطناعي آخر، ثم لصقه
+                هنا في الحاويات المناسبة.
+                <strong>لا تستخدم مسودة المحتوى مباشرة في مولد الصور</strong>؛
+                ولّد البرومبت النهائي من هذه الأداة حتى تطبق ضوابط العربية،
+                واتجاه RTL، والموانع، وNegative Prompt، وجودة الإخراج.
               </div>
               <div class="form-grid">
                 <div class="full">
@@ -2217,8 +2300,8 @@
                     placeholder="مثال: العنوان في الأعلى، البطاقة التمهيدية تحته، بطاقات الخطوات حول العنصر المركزي، ثم المقارنة والملاحظة والتذييل في الأسفل."
                   ></textarea>
                   <span class="hint"
-                    >اختر "وصف مخصص" إذا كان ترتيب النصوص يحتاج مسارًا
-                    تفصيليًا من أعلى التصميم إلى أسفله.</span
+                    >اختر "وصف مخصص" إذا كان ترتيب النصوص يحتاج مسارًا تفصيليًا
+                    من أعلى التصميم إلى أسفله.</span
                   >
                 </div>
                 <div>
@@ -2943,35 +3026,82 @@
             </div>
 
             <div class="top-actions build-actions">
-  <button class="primary" id="generateBtn">توليد البرومبت</button>
-  <button class="amber" id="saveBtn">حفظ الإعدادات</button>
-  <button class="ghost" id="exportBtn">تصدير الإعدادات JSON</button>
-  <button class="ghost" id="importBtn">استيراد إعدادات JSON</button>
-  <input type="file" id="importFile" class="hidden-input" accept="application/json" />
-  
-  <div class="lib-divider"></div>
-  
-  <button class="ghost library-btn" id="saveToLibraryBtn">⭐ حفظ كقالب</button>
-  <button class="ghost library-btn" id="exportLibraryBtn">تصدير مكتبتي</button>
-  <button class="ghost library-btn" id="importLibraryBtn">استيراد مكتبتي</button>
-  <button class="ghost library-btn" id="manageLibraryBtn">إدارة المكتبة</button>
-  <input type="file" id="importLibraryFile" class="hidden-input" accept="application/json" />
-  <select id="myLibrarySelect" class="ghost library-btn library-select">
-    <option value="">📂 مكتبتي (قوالبي المحفوظة)</option>
-  </select>
-  <div class="library-manager" id="libraryManager" aria-live="polite">
-    <div class="library-manager-head">
-      <div class="library-manager-title">اختر القوالب التي تريد حذفها أو تصديرها كقالب فقط</div>
-      <div class="library-manager-actions">
-        <button type="button" class="mini" id="selectAllLibraryBtn">تحديد الكل</button>
-        <button type="button" class="mini" id="clearLibrarySelectionBtn">إلغاء التحديد</button>
-        <button type="button" class="mini" id="exportSelectedLibraryBtn">تصدير المحدد</button>
-        <button type="button" class="mini rose" id="deleteSelectedLibraryBtn">حذف المحدد</button>
-      </div>
-    </div>
-    <div class="library-check-list" id="libraryCheckList"></div>
-  </div>
-</div>
+              <button class="primary" id="generateBtn">توليد البرومبت</button>
+              <button class="amber" id="saveBtn">حفظ الإعدادات</button>
+              <button class="ghost" id="exportBtn">تصدير الإعدادات JSON</button>
+              <button class="ghost" id="importBtn">استيراد إعدادات JSON</button>
+              <input
+                type="file"
+                id="importFile"
+                class="hidden-input"
+                accept="application/json"
+              />
+
+              <div class="lib-divider"></div>
+
+              <button class="ghost library-btn" id="saveToLibraryBtn">
+                ⭐ حفظ كقالب
+              </button>
+              <button class="ghost library-btn" id="exportLibraryBtn">
+                تصدير مكتبتي
+              </button>
+              <button class="ghost library-btn" id="importLibraryBtn">
+                استيراد مكتبتي
+              </button>
+              <button class="ghost library-btn" id="manageLibraryBtn">
+                إدارة المكتبة
+              </button>
+              <input
+                type="file"
+                id="importLibraryFile"
+                class="hidden-input"
+                accept="application/json"
+              />
+              <select
+                id="myLibrarySelect"
+                class="ghost library-btn library-select"
+              >
+                <option value="">📂 مكتبتي (قوالبي المحفوظة)</option>
+              </select>
+              <div
+                class="library-manager"
+                id="libraryManager"
+                aria-live="polite"
+              >
+                <div class="library-manager-head">
+                  <div class="library-manager-title">
+                    اختر القوالب التي تريد حذفها أو تصديرها كقالب فقط
+                  </div>
+                  <div class="library-manager-actions">
+                    <button type="button" class="mini" id="selectAllLibraryBtn">
+                      تحديد الكل
+                    </button>
+                    <button
+                      type="button"
+                      class="mini"
+                      id="clearLibrarySelectionBtn"
+                    >
+                      إلغاء التحديد
+                    </button>
+                    <button
+                      type="button"
+                      class="mini"
+                      id="exportSelectedLibraryBtn"
+                    >
+                      تصدير المحدد
+                    </button>
+                    <button
+                      type="button"
+                      class="mini rose"
+                      id="deleteSelectedLibraryBtn"
+                    >
+                      حذف المحدد
+                    </button>
+                  </div>
+                </div>
+                <div class="library-check-list" id="libraryCheckList"></div>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -3752,16 +3882,8 @@
       }
 
       function designNumberInstruction(d) {
-        if (!isGreetingCardDesign(d)) {
-          return numberInstruction(d.numberStyle, d.consistentDigits);
-        }
-        if (d.numberStyle === "english") {
-          return "في بطاقة التهنئة، استخدم الأرقام الإنجليزية فقط داخل النص الظاهر أو السنة أو التذييل إن وُجدت: 0 1 2 3 4 5 6 7 8 9. لا تخلط معها أرقامًا هندية شرقية أو فارسية.";
-        }
-        if (d.numberStyle === "eastern") {
-          return "في بطاقة التهنئة، استخدم الأرقام الهندية الشرقية العربية فقط داخل النص الظاهر أو السنة أو التذييل إن وُجدت: ٠ ١ ٢ ٣ ٤ ٥ ٦ ٧ ٨ ٩. امنع الأرقام اللاتينية والفارسية، خصوصًا 2 أو ۲ بدل ٢.";
-        }
-        return "إذا ظهرت أرقام داخل بطاقة التهنئة، فطبّق نمطًا واحدًا متسقًا عليها فقط داخل النص أو السنة أو التذييل، دون خلط بين أنظمة الأرقام.";
+        // تم تحويل مهام هذه الدالة بالكامل للكتلة الإنجليزية الصارمة
+        return "";
       }
 
       function rtlLayoutInstruction() {
@@ -3769,10 +3891,8 @@
       }
 
       function designRtlInstruction(d) {
-        if (isGreetingCardDesign(d)) {
-          return "اتجاه النص في بطاقة التهنئة: كل النصوص العربية RTL صحيحة، الحروف متصلة وغير معكوسة، والكلمات لا تُقسّم بين السطور. اجعل النص المركزي محاذى بصريًا في الوسط أو مضبوطًا عربيًا حسب التكوين، دون أي قواعد شبكات أو بطاقات متعددة.";
-        }
-        return rtlLayoutInstruction();
+        // تم تحويل مهام هذه الدالة بالكامل للكتلة الإنجليزية الصارمة
+        return "";
       }
 
       function clampInt(value, min, max, fallback) {
@@ -3844,9 +3964,8 @@
           /ورقة\s*عمل|اختبار|قياس\s*مهارة|نموذج\s*اختبار|worksheet|quiz|test/i.test(
             source,
           );
-        const activityContext = /نشاط|أنشطة|تدريب|تدريبات|تمارين|exercise|activity/i.test(
-          source,
-        );
+        const activityContext =
+          /نشاط|أنشطة|تدريب|تدريبات|تمارين|exercise|activity/i.test(source);
         const questionActions =
           /أسئلة|سؤال|اختيار\s*من\s*متعدد|أكمل\s*الفراغ|فراغات|صل|توصيل|متاهة|لوّن|لون|اكتب\s*الإجابة|أجب/i.test(
             source,
@@ -3889,7 +4008,9 @@
           d._negativeNotes,
           d.negativeNotes,
         ].join(" ");
-        return /نموذج\s*إجابة|مفتاح\s*الإجابة|ورقة\s*إجابة|نموذج\s*حل|حلول\s*نموذجية|مع\s*الإجابات|أظهر\s*الإجابات|حل\s*الأسئلة|إجابات\s*محلولة|answer\s*key|solved\s*worksheet|model\s*answers/i.test(source);
+        return /نموذج\s*إجابة|مفتاح\s*الإجابة|ورقة\s*إجابة|نموذج\s*حل|حلول\s*نموذجية|مع\s*الإجابات|أظهر\s*الإجابات|حل\s*الأسئلة|إجابات\s*محلولة|answer\s*key|solved\s*worksheet|model\s*answers/i.test(
+          source,
+        );
       }
 
       function studentActivityProtectionInstruction(d) {
@@ -4403,65 +4524,11 @@
 
       function arabicLayoutInstruction(d) {
         const layout = d.layoutType || "تخطيط عربي مرن حسب المحتوى";
-        if (layout === "بلا") return "";
-        if (isGreetingCardDesign(d))
-          return "نوع التخطيط العربي: بطاقة تهنئة مفردة فاخرة. اجعل النص الرئيسي في مركز البطاقة، والزخرفة حول الهوامش، وأي مشهد رمزي في الخلفية أو الأطراف دون شبكات أو بطاقات متعددة أو جداول.";
-        if (layout === "تلقائي حسب نوع التصميم") {
-          if (isPoetryDesign(d))
-            return "نوع التخطيط العربي: لوحة شعرية عربية بتنسيق الشطرين. نسّق النص الشعري بنظام شطرين عربي: العنوان في الأعلى، والأبيات في وسط اللوحة، والشطر الأول في العمود الأيمن والشطر الثاني في العمود الأيسر.";
-          if (isTextAssetDesign(d))
-            return "نوع التخطيط العربي: أصل نصي خطي مستقل. اجعل النص نفسه هو العنصر الجرافيكي النهائي، بلا بوستر كامل أو شهادة أو بطاقة، وبلا تكرار لأي سطر.";
-          if (isSlideMode(d))
-            return "نوع التخطيط العربي: شرائح عرض عربية مستقلة من اليمين إلى اليسار. اجعل كل شريحة مستقلة ومنظمة وتبدأ قراءتها من اليمين.";
-          if (isStoryMode(d))
-            return "نوع التخطيط العربي: قصة مصورة عربية متعددة الصفحات. اجعل كل صفحة مشهدًا قصصيًا واضحًا وحافظ على اتجاه القراءة العربي.";
-          if (isBrochureDesign(d))
-            return "نوع التخطيط العربي: مطوية عربية متعددة الأعمدة. صمّمها للطباعة كواجهة مطوية منظمة بترتيب عربي من اليمين إلى اليسار، واجعل الافتراضي مطوية ثلاثية الأعمدة. عند وجود وجهين اجعلهما منفصلين في صورتين مستقلتين ما لم يطلب المستخدم المعاينة المشتركة صراحة.";
-          if ((d.imageType || "").includes("إنفوجرافيك"))
-            return "نوع التخطيط العربي: إنفوجرافيك عربي منظم. اجعل الترتيب العام والمحاذاة واتجاه القراءة متوافقة مع العربية من اليمين إلى اليسار.";
-          return "";
-        }
-        let detail =
-          "اجعل الترتيب العام والمحاذاة واتجاه القراءة متوافقة مع العربية من اليمين إلى اليسار. عند وجود بطاقات أو أسئلة أو أنشطة أو صناديق، استخدم ترتيبًا شبكيًا عربيًا يبدأ من أعلى اليمين، ثم يسير داخل الصف نحو اليسار، ثم ينزل للصف التالي.";
-        if (layout.includes("عنوان أعلى يمين"))
-          detail =
-            "ضع العنوان في أعلى يمين الصورة، واجعل بقية العناصر تدعم مسار قراءة عربي واضح من اليمين إلى اليسار.";
-        else if (layout.includes("بطاقات تعليمية"))
-          detail =
-            "استخدم نظامًا شبكيًا RTL للبطاقات يبدأ من أعلى اليمين. إذا كان التخطيط صفوفًا، املأ الصف الأول من اليمين إلى اليسار ثم انزل للصف التالي. وإذا كان التخطيط أعمدة، املأ العمود الأيمن من أعلى إلى أسفل ثم انتقل للعمود التالي يسارًا. استمر بنفس المنطق مهما كان عدد البطاقات.";
-        else if (layout.includes("إنفوجرافيك خطوات"))
-          detail =
-            "استخدم نظام خطوات RTL يبدأ من أعلى اليمين أو أقصى اليمين، ثم يتتابع نحو اليسار. عند وجود بطاقات أو أعمدة، رتّبها بنظام شبكي عربي: الصفوف من اليمين إلى اليسار أو الأعمدة من اليمين إلى اليسار، مع أسهم وأرقام واضحة.";
-        else if (layout.includes("جدول عربي"))
-          detail =
-            "رتّب أعمدة الجدول من اليمين بهذا الترتيب: رقم، عنصر التقويم، الوزن النسبي، شواهد مناسبة. اجعل الخلايا مرنة الارتفاع، ولفّ النص داخل كل خلية على سطرين أو أكثر عند الحاجة مع الحفاظ على كل الكلمات كما هي دون حذف أو اختصار.";
-        else if (layout.includes("مخطط تعليمي"))
-          detail =
-            "اجعل المخطط والتسميات والأسهم تعمل بمنطق عربي من اليمين إلى اليسار، مع فصل بصري واضح بين الأجزاء.";
-        else if (layout.includes("تصميم إعلاني"))
-          detail =
-            "اجعل العنوان أو العرض الرئيسي بارزًا في الجهة اليمنى أو أعلى اليمين، مع توازن واضح بين النص والمنتج أو العنصر البصري.";
-        else if (layout.includes("منشور سوشيال"))
-          detail =
-            "اجعل الجملة الجاذبة واضحة وكبيرة ومحاذاة لليمين، مع مساحات هواء كافية حتى تقرأ بسرعة على الهاتف.";
-        else if (layout.includes("مطوية"))
-          detail =
-            "صمّم مطوية عربية قابلة للطباعة. الافتراضي مطوية ثلاثية الأعمدة، وكل وجه مقسم إلى ثلاثة أعمدة متساوية. اجعل ترتيب الأعمدة والقراءة من اليمين إلى اليسار من منظور المشاهد. ضع الغلاف أو عنوان المطوية في العمود الأيمن من الوجه الخارجي عند الحاجة، ووزّع المحتوى الداخلي على الأعمدة من اليمين إلى اليسار. استخدم خطوط طي خفيفة وواضحة وغير مزاحمة، مع هوامش آمنة ومساحة نزف مناسبة للطباعة، ولا تجعلها بوسترًا واحدًا بلا أعمدة. إذا كان المطلوب وجهين فافصل الوجه الخارجي والوجه الداخلي في صورتين مستقلتين إلا إذا اختيرت المعاينة المشتركة.";
-        else if (layout.includes("لوحة شعرية"))
-          detail =
-            "نسّق النص الشعري بنظام شطرين عربي: العنوان في الأعلى، الأبيات في وسط اللوحة، الشطر الأول من كل بيت في العمود الأيمن والشطر الثاني في العمود الأيسر، مع توازن عرض العمودين وفاصل بصري رصين بينهما.";
-        else if (layout.includes("أصل نصي"))
-          detail =
-            "أخرج النص ككتلة خطية مستقلة قابلة للإدراج داخل قالب آخر، مع هرمية واضحة بين العنوان والنسبة والمتن، ودون خلفية أو بطاقة كاملة.";
-        else if (layout.includes("شرائح عرض"))
-          detail =
-            "اجعل كل شريحة مستقلة ومنظمة، تبدأ قراءتها من اليمين، وتحافظ على نفس النظام البصري بين جميع الشرائح.";
-        else if (layout.includes("قصة مصورة"))
-          detail =
-            "اجعل كل صفحة مشهدًا قصصيًا واضحًا، وحافظ على الشخصيات نفسها واتجاه القراءة العربي بين الصفحات.";
-        return `نوع التخطيط العربي: ${layout}. ${detail}`;
-      }
+        if (layout === "بلا" || layout === "تلقائي حسب نوع التصميم") return "";
 
+        // نكتفي بذكر اسم التخطيط المطلوب، وتفاصيل التنفيذ تتولاها الكتلة الإنجليزية
+        return `نوع التخطيط المطلوب: ${layout}.`;
+      }
       function tashkeelInstruction(d) {
         if (d.keepTashkeel)
           return "حافظ على التشكيل الموجود في النص الأصلي كما هو دون زيادة أو حذف.";
@@ -4522,28 +4589,8 @@
       }
 
       function rtlCardSpatialInstruction(d) {
-        if (isGreetingCardDesign(d) || isSlideMode(d) || isStoryMode(d)) return "";
-        const layoutCheck = [d.layoutType, d.imageType].join(" ");
-        const visibleText = visibleDesignText(d) || primaryArabicText(d) || "";
-        const reference = referenceContent(d) || "";
-        const visualHints = [
-          d._sceneDesc || d.sceneDesc,
-          d._extraElements || d.extraElements,
-          d._textFormatting || d.textFormatting,
-          d._specialInstructions || d.specialInstructions,
-        ].join("\n");
-        const combined = [visibleText, reference, visualHints]
-          .filter(Boolean)
-          .join("\n");
-        const likelyCards =
-          /بطاقات|بطاقة|حاويات|حاوية|صناديق|صندوق|محاور|خطوات|إنفوجرافيك|انفوجرافيك|أنشطة|نشاط|أسئلة|سؤال|جريدة|مجلة|جدول|جداول|قائمة|قوائم|خلايا|شارات|أعمدة|عمود/.test(
-          [layoutCheck, combined].join(" "),
-          );
-        const hasNumberedItems = /(?:^|\n)\s*(?:[0-9]+|[٠-٩]+|[۰-۹]+)\s*[\.\- ـ:\)]/.test(
-          combined,
-        );
-        if (!likelyCards && !hasNumberedItems) return "";
-        return "التخطيط المكاني للبطاقات والحاويات من منظور المشاهد: استخدم نظامًا شبكيًا RTL يبدأ من أعلى اليمين. رتّب البطاقة أو النشاط أو السؤال رقم ١ في أعلى يمين المجموعة، ثم ٢ إلى يساره، ثم ٣ إلى يساره، وبعد اكتمال الصف انزل إلى الصف التالي وابدأه من اليمين أيضًا. إذا كان التخطيط أعمدة، املأ العمود الأيمن من أعلى إلى أسفل ثم انتقل للعمود التالي يسارًا. طبّق ذلك على البطاقات، الأنشطة، الأسئلة، الشارات، الجداول، والصناديق، ولا تبدأ من اليسار ولا تبدّل ترتيب الأرقام. عند ضيق النص داخل البطاقة، صغّر حجم الخط قليلًا أو زد ارتفاع البطاقة بدل اختصار النص أو حذفه.";
+        // تم تحويل مهام هذه الدالة بالكامل للكتلة الإنجليزية الصارمة
+        return "";
       }
 
       function hasCardOrStepSequence(d) {
@@ -4559,9 +4606,8 @@
           d.textPositionCustom,
           d._specialInstructions || d.specialInstructions,
         ].join("\n");
-        const hasNumberedLines = /(?:^|\n)\s*(?:[0-9٠-٩۰-۹]+)\s*[\.\- ـ:\)]/.test(
-          source,
-        );
+        const hasNumberedLines =
+          /(?:^|\n)\s*(?:[0-9٠-٩۰-۹]+)\s*[\.\- ـ:\)]/.test(source);
         if (hasNumberedLines) return true;
         return /بطاقات|بطاقة|حاويات|حاوية|صناديق|صندوق|خطوات|محاور|فضائل|فوائد|شبكة|جدول|قائمة|شارات|ترقيم|الصف الأول|الصف الثاني|نصف دائري|حول المشهد|حول العنصر/.test(
           source,
@@ -4569,36 +4615,30 @@
       }
 
       function finalArabicGuardInstruction(d, compact = false) {
+        // دمج الوثيقة الدستورية الصارمة باللغة الإنجليزية كحاكم نهائي لردع هلوسات النموذج
+        const masterConstraints = `
+      [Universal Arabic Design & Layout Constraints - STRICT ENFORCEMENT]
+      1. Strict RTL Flow & Spatial Layout:
+      The entire composition must follow a Right-to-Left (RTL) reading order. Grids, columns, multi-page panels, multi-slides, and numbered steps must originate from the top-right corner. Layout flow is strictly right-to-left, then top-to-bottom. Do not mirror, horizontally flip, or reverse the visual geometry.
+      2. Structural Clarity & Print Readiness:
+      Organize complex content (worksheets, infographics, brochures) using prominent headings and aligned RTL bullet points. Ensure the layout is clean, properly margined, and features comfortable spacing suitable for high-quality student or professional printing.
+      3. Typographic Perfection & Orthography:
+      Maintain flawless Arabic letter connections. Do not split words across lines. Pay strict attention to accurate dot placement and correct glyph shapes, specifically ensuring clear differentiation between "Ha" (هـ/ه) and "Ta Marbuta" (ة). No fake letters, gibberish, or disconnected characters.
+      4. Exclusive Eastern Arabic Numerals:
+      Numerals must strictly be Eastern Arabic digits: (٠, ١, ٢, ٣, ٤, ٥, ٦, ٧, ٨, ٩), flowing correctly from right to left. Absolutely prohibit Latin digits (0-9) and Persian numerals (specifically blocking ۲ and ۵). All dates, lists, metrics, and fractions must adhere to this exact set.
+      5. Clean Output & Privacy:
+      The final design must be pristine. Strictly prohibit the generation of random watermarks, unrequested signatures, arbitrary logos, or assumed organizational identifiers to maintain complete privacy and usability of the export.`;
+
         const rules = [];
-        if (hasCardOrStepSequence(d)) {
-          rules.push(
-            "تعليمة حاكمة عند التعارض: أي وصف مخصص يطلب توزيعًا حرًا أو نصف دائري أو عموديًا للبطاقات لا يقدَّم على ترتيب القراءة العربي. إذا وُجدت بطاقات أو خطوات مرقمة، فالتخطيط الإلزامي هو شبكة صفوف RTL: ١ ثم ٢ ثم ٣ من اليمين إلى اليسار في الصف الأول، ثم ٤ ثم ٥ ثم ٦ في الصف التالي، ثم بقية العناصر من يمين الصف التالي. لا تبدأ من اليسار، ولا تجعل التوازن الزخرفي حول المشهد يغيّر ترتيب الأرقام.",
-          );
-        }
-        if (d.numberStyle === "eastern" && !isGreetingCardDesign(d)) {
-          rules.push(
-            "أرقام الشارات والبطاقات إلزامية كنص ظاهر لا كأيقونة حرة: اكتبها بالأرقام الهندية الشرقية العربية فقط مثل ١ ٢ ٣ ٤ ٥ ٦ ٧، وامنع داخل الشارات خصوصًا الأرقام اللاتينية 1 2 3 والأرقام الفارسية ۱ ۲ ۳. لا ترسم الرقم بشكل رمزي عام ولا تستبدله بشكل قريب.",
-          );
-        }
-        {
-          const sacredTextGuard = sacredArabicTextInstruction(d);
-          if (sacredTextGuard) rules.push(sacredTextGuard);
-        }
-        if (
-          !isGreetingCardDesign(d) &&
-          !isPoetryDesign(d) &&
-          !isTextAssetDesign(d)
-        ) {
-          rules.push(
-            "حارس الخطوط العربية: لا تخلط مدارس خطية كثيرة داخل التصميم. اجعل العنوان بأسلوب كوفي عربي عريض وواضح أو خط عنوان عربي احترافي، واجعل عناوين البطاقات كوفيًا حديثًا متوسط السماكة، واجعل نصوص البطاقات والاقتباسات بنسخ أو خط عربي هندسي مقروء. طبّق الأسلوب الفني اليدوي أو الألوان المائية على الخلفية والمشهد والأيقونات فقط، ولا تطبقه على النصوص؛ النصوص يجب أن تكون حادة، مسطحة، عالية التباين، كأنها مطبوعة بخط عربي احترافي داخل برنامج تصميم.",
-          );
-          rules.push(
-            "ممنوع استخدام خط عربي عشوائي أو طفولي أو متموّج أو شبيه بالكتابة اليدوية الضعيفة، وممنوع الظلال الثقيلة أو التوهج أو البروز الثلاثي على الحروف إذا أضعف القراءة.",
-          );
-        }
-        if (!rules.length) return "";
-        if (compact) return `تعليمات حاكمة نهائية: ${rules.join(" ")}`;
-        return ["تعليمات حاكمة نهائية عند التعارض:", ...rules.map((rule) => `- ${rule}`)].join("\n");
+
+        // الحفاظ على حارس النصوص الشرعية لأنه بالغ الأهمية
+        const sacredTextGuard = sacredArabicTextInstruction(d);
+        if (sacredTextGuard) rules.push(sacredTextGuard);
+
+        // إعادة بناء المخرج ليكون الكتلة الإنجليزية الصارمة مضافاً إليها أي قيود شرعية
+        if (!rules.length) return masterConstraints;
+
+        return `${masterConstraints}\n\nتعليمات حاكمة نهائية إضافية:\n${rules.map((rule) => `- ${rule}`).join("\n")}`;
       }
 
       function poetryLayoutInstruction(d) {
@@ -4787,7 +4827,8 @@
 
       function promptAspectRatio(d) {
         const value = d.aspectRatio || "";
-        if (d.numberStyle === "eastern") return convertDigitsByStyle(value, "eastern");
+        if (d.numberStyle === "eastern")
+          return convertDigitsByStyle(value, "eastern");
         return value;
       }
 
@@ -4918,7 +4959,13 @@
         if (!inserted) {
           el.value = current.slice(0, start) + insert + current.slice(end);
         }
-        el.dispatchEvent(new InputEvent("input", { bubbles: true, inputType: "insertText", data: insert }));
+        el.dispatchEvent(
+          new InputEvent("input", {
+            bubbles: true,
+            inputType: "insertText",
+            data: insert,
+          }),
+        );
         const cursor = start + insert.length - cursorBack;
         if (typeof el.setSelectionRange === "function")
           el.setSelectionRange(cursor, cursor);
@@ -5361,31 +5408,16 @@
           lines.push("ممنوعات صريحة:");
           lines.push(`- ${d._negativeNotes || d.negativeNotes}`);
         }
+
         {
+          // إدراج الوثيقة الدستورية الصارمة (الحارس النهائي)
           const guard = finalArabicGuardInstruction(d);
           if (guard) {
             lines.push("");
             lines.push(guard);
           }
         }
-        lines.push("");
-        lines.push("مراجعة داخلية قبل الإخراج:");
-        lines.push("- تأكد أن النص العربي مطابق تمامًا للنص المرجعي حرفيًا.");
-        if (d.keepTashkeel)
-          lines.push("- تأكد أن التشكيل مطابق تمامًا للنص المرجعي.");
-        else
-          lines.push(
-            "- تأكد أنك لم تضف تشكيلًا جديدًا غير موجود في النص الأصلي.",
-          );
-        if (d.rtl)
-          lines.push(
-            "- تأكد أن اتجاه الكتابة والقوائم والتعداد والجداول والمخططات والتذييل من اليمين إلى اليسار صحيح، وأن كل رقم أو رمز تعداد يبدأ من يمين السطر.",
-          );
-        if (d.viewerPerspective)
-          lines.push("- تأكد أن اليمين واليسار محسوبان من منظور المشاهد.");
-        lines.push(
-          "- تأكد أن وضوح النص وسهولة قراءته أفضل من أي زخرفة إضافية.",
-        );
+
         if (!isGreetingCardDesign(d)) lines.push(encodingNote());
         return lines.join("\n");
       }
@@ -5545,7 +5577,9 @@
         parts.push(
           `أنشئ ${imageTypePhrase(d)} عن "${d.title || d._subject || d.subject || "موضوع بصري"}" لغرض ${d.purpose} بأسلوب ${d.style}.`,
         );
-        parts.push(`النسبة: ${promptAspectRatio(d)}. الجودة: ${d.qualityLevel}.`);
+        parts.push(
+          `النسبة: ${promptAspectRatio(d)}. الجودة: ${d.qualityLevel}.`,
+        );
         const visualBrief = visualDesignBrief(d, true);
         if (visualBrief) parts.push(visualBrief);
         parts.push(designScopeInstruction(d));
@@ -5669,229 +5703,96 @@
       function buildNegativePrompt(d) {
         if (!d.includeNegativePrompt)
           return "تم إيقاف توليد الـ Negative Prompt من الخيارات.";
-        const parts = [
-          "Arabic text errors",
-          "wrong RTL direction",
-          "left-to-right Arabic layout",
-          "left-aligned Arabic text",
-          "bullet list starting from left",
-          "numbered list starting from left",
-          "reversed Arabic list order",
-          "mirrored composition",
-          "geometric text flip",
-          "reversed Arabic word geometry",
-          "mirror-flipped Arabic glyphs",
-          "mirrored Arabic typography",
-          "reversed letter geometry",
-          "fake Arabic letters",
+
+        // القالب الشامل الأساسي المعتمد
+        const baseNegative = [
+          "Left-to-right (LTR) layout",
+          "reversed reading order",
+          "disconnected Arabic text",
+          "mirrored typography",
+          "geometric flip",
+          "fake Arabic glyphs",
+          "missing dots",
+          "wrong letterforms (Ha/Ta Marbuta confusion)",
+          "Latin digits (0-9)",
+          "Persian numerals (۰۱۲۳۴۵۶۷۸۹)",
+          "Persian digit 2 or 5",
+          "Messy alignment",
+          "split words",
           "gibberish text",
-          "misspelled Arabic",
-          "wrong Arabic dots",
-          "extra dots on Arabic letters",
-          "missing dots on Arabic letters",
-          "Arabic letters changed by dot mistakes",
-          "broken letter connections",
-          "compressed Arabic words",
-          "squeezed Arabic letters",
-          "split Arabic words",
-          "random symbols",
-          "low readability",
-          "cropped text",
-          "distorted typography",
-          "low resolution",
-          "pixelated image",
-          "compression artifacts",
-          "poor print quality",
-          "blurry edges",
-          "blur halo around text",
-          "glow around text",
-          "fuzzy icons",
-          "soft focus",
-          "hazy edges",
-          "smeared details",
-          "out-of-focus elements",
-          "messy layout",
-          "visual clutter",
-          "duplicate elements",
+          "Unrequested logos",
           "watermarks",
+          "signatures",
+          "organizational IDs",
+          "arbitrary branding",
+          "blurry edges",
+          "pixelation",
         ];
+
+        const parts = [...baseNegative];
+
+        // الممنوعات الهيكلية الخاصة بنوع التصميم
         parts.push(...designScopeNegativeParts(d));
+
         if (effectiveFooterText(d)) {
-          parts.push(
-            "duplicate footer",
-            "repeated signature text",
-            "same footer text in two places",
-            "extra watermark-like signature",
-          );
+          parts.push("duplicate footer", "same footer text in two places");
           if (effectiveFooterText(d).includes("ملتقى")) {
-            parts.push(
-              "misspelled footer word ملتقى",
-              "ملتقى written as ملحق",
-              "wrong footer spelling",
-              "footer text changed",
-            );
+            parts.push("misspelled footer word ملتقى", "ملتقى written as ملحق");
           }
         }
-        if (d.rtl && !isGreetingCardDesign(d)) {
-          parts.push(
-            "left-to-right card order",
-            "cards ordered left-to-right",
-            "card sequence starts from left",
-            "first card on the left",
-            "first step on the left",
-            "activity boxes start from left",
-            "question boxes start from left",
-            "RTL grid starts from left",
-            "grid filled from left to right",
-            "wrong RTL card order",
-            "columns ordered left-to-right",
-            "left-to-right table order",
-            "first table column on the left",
-          );
-        }
-        if (hasCardOrStepSequence(d)) {
-          parts.push(
-            "semicircular card order when RTL grid is required",
-            "free card layout around central scene",
-            "decorative balance overriding card sequence",
-            "wrong numbered card placement",
-            "card 4 above card 1",
-            "two independent columns with wrong reading order",
-          );
-        }
-        if (
-          !isGreetingCardDesign(d) &&
-          !isPoetryDesign(d) &&
-          !isTextAssetDesign(d)
-        ) {
-          parts.push(
-            "watercolor effect applied to Arabic text",
-            "hand-painted Arabic text",
-            "childish Arabic font",
-            "random Arabic font",
-            "pseudo-calligraphy",
-            "heavy shadow on Arabic text",
-            "3D extruded Arabic text reducing readability",
-            "mixed Arabic font schools",
-          );
-        }
+
         if (hasSacredArabicText(d)) {
           parts.push(
             "misquoted Quranic verse",
             "altered Quranic verse",
             "fake Quranic text",
-            "wrong Quran verse text",
-            "misspelled Quranic verse",
-            "Quranic verse changed",
-            "incorrect surah reference",
             "altered hadith text",
-            "misquoted hadith",
-            "fake hadith",
-            "wrong hadith wording",
-            "hadith text changed",
-            "religious quote rewritten",
-            "religious text paraphrased",
-            "distorted sacred Arabic text",
             "تحريف آية",
             "تحريف حديث",
-            "نص شرعي مشوه",
-            "تغيير نص الآية",
-            "تغيير نص الحديث",
-            "مرجع سورة خاطئ",
           );
         }
+
         if (isTextAssetDesign(d)) {
           parts.push(
             "full card design",
             "poster layout",
-            "invitation card composition",
             "certificate border",
-            "official certificate template",
-            "printed sheet mockup",
-            "ornamental background",
-            "heavy frame",
-            "floral motifs",
-            "corner decorations",
-            "extra icons",
-            "invented words",
-            "repeated lines",
-            "duplicated text",
-            "visible delimiter symbols",
             "visible slash guidance",
-            "list numbers",
-            "bullet points",
           );
         }
-        if (d.textHeavyActive || (d.layoutType || "").includes("جدول عربي")) {
-          parts.push(
-            "left-to-right table order",
-            "first table column on the left",
-            "wrong RTL card order",
-            "RTL grid starts from left",
-            "card sequence starts from left",
-            "cards ordered left-to-right",
-            "crowded Arabic table",
-            "overlapping table text",
-            "splitting one infographic into multiple pages",
-            "part labels",
-            "unnecessary page split",
-          );
-        }
+
         if (isSlideMode(d)) {
           parts.push(
             "merged slides into one crowded image",
             "missing slide",
             "wrong slide order",
             "wrong image-caption pairing",
-            "missing generated slide illustration",
-            "generated slide does not match description",
-            "using attached screenshot when generated illustration was requested",
-            "inconsistent slide style",
-            "cropped A-size slide",
           );
         }
+
         if (isStoryMode(d)) {
           parts.push(
             "inconsistent character design",
-            "character identity drift",
             "different clothes between story pages",
             "wrong story page order",
-            "comic bubbles left-to-right",
-            "speech bubble tail pointing to wrong character",
-            "story text outside safe area",
-            "unreadable story caption",
           );
           if (d.storyCoverMode === "on")
-            parts.push(
-              "missing story cover",
-              "cover mixed with story pages",
-              "wrong cover title",
-              "random author name on cover",
-            );
+            parts.push("missing story cover", "cover mixed with story pages");
         }
+
         if (isPoetryDesign(d)) {
           parts.push(
             "poem formatted as prose paragraph",
             "wrong Arabic poem hemistich order",
-            "mixed poem hemistiches",
-            "missing poem line",
             "merged hemistiches",
-            "stacked poem hemistiches",
-            "hemistiches displayed vertically",
-            "one-column poem layout when two columns requested",
-            "unequal poetry columns",
-            "poetry starts from left",
           );
         }
+
         if (isBrochureDesign(d)) {
           parts.push(
             "single poster layout instead of brochure",
             "missing brochure columns",
             "missing fold guides",
-            "wrong brochure panel order",
-            "left-to-right brochure panels",
-            "unsafe print margins",
-            "cropped brochure panels",
             "front and back faces mixed randomly",
           );
           if (
@@ -5899,86 +5800,28 @@
             !String(d.brochureOutputMode || "").includes("الخارجي") &&
             !String(d.brochureOutputMode || "").includes("الداخلي")
           ) {
-            parts.push(
-              "front and back faces combined in one image",
-              "two brochure faces stacked on one sheet",
-              "brochure preview sheet when separate files requested",
-            );
+            parts.push("front and back faces combined in one image");
           }
         }
-        if (isGreetingCardDesign(d)) {
-          parts.push(
-            "flat yellow text instead of gold foil",
-            "cheap digital text effect",
-            "plain poster instead of physical greeting card",
-            "missing embossed foil effect",
-            "missing premium cardstock texture",
-            "wrong Arabic calligraphy style",
-            "generic font instead of Diwani Jali or Thuluth",
-            "ornament covering Arabic text",
-            "overcrowded Arabesque pattern over text",
-            "repeated greeting phrase",
-            "extra greeting text not provided",
-          );
-        }
-        if (d.numberStyle === "eastern") {
-          parts.push(
-            "mixed numeral systems",
-            "English digits inside Arabic design",
-            "wrong Arabic-Indic digit shape",
-            "Latin digit inside Arabic-Indic sequence",
-            "Persian digit when Arabic-Indic digit is required",
-            "Persian numerals",
-            "Persian digits ۰ ۱ ۲ ۳ ۴ ۵ ۶ ۷ ۸ ۹",
-            "Persian digit ۲ instead of Arabic-Indic ٢",
-            "Persian digit ۵ instead of Arabic-Indic ٥",
-            "wrong digit shape for Arabic-Indic numerals",
-            "Latin numerals in boxes",
-            "Latin numerals in cards",
-            "Latin numerals in table cells",
-            "Latin numerals in labels",
-            "Latin numerals in badges",
-            "Latin numerals in counters",
-            "English dates in Arabic footer",
-            "Latin numeral sequence visible in Arabic labels",
-          );
-        } else if (d.numberStyle === "english") {
-          parts.push(
-            "mixed numeral systems",
-            "Eastern Arabic digits inside English-number design",
-            "٠ ١ ٢ ٣ ٤ ٥ ٦ ٧ ٨ ٩ visible when English digits are required",
-          );
-        }
+
         if (isStudentActivityDesign(d) && !requestsAnswerKey(d)) {
           parts.push(
             "answered worksheet",
             "solved student activity",
             "filled answer blanks",
             "pre-solved questions",
-            "answer key shown when not requested",
-            "matching activity already connected",
-            "connection lines revealing answers",
-            "multiple choice answer highlighted",
-            "student exercise solved",
+            "answer key shown",
           );
         }
-        if (d.designMode === "editExistingImage")
-          parts.push(
-            "unwanted full redesign",
-            "changed original layout",
-            "changed original colors",
-          );
-        if (d.keepTashkeel)
-          parts.push("missing diacritics", "wrong diacritics");
-        if (d.noMirror)
-          parts.push(
-            "horizontal flip",
-            "mirrored text geometry",
-            "Arabic text reflected like a mirror",
-          );
-        if (d.highReadability) parts.push("blurred text", "low contrast text");
-        if (d._negativeNotes || d.negativeNotes)
+
+        if (d.designMode === "editExistingImage") {
+          parts.push("unwanted full redesign", "changed original layout");
+        }
+
+        if (d._negativeNotes || d.negativeNotes) {
           parts.push(d._negativeNotes || d.negativeNotes);
+        }
+
         return [...new Set(parts)].join(", ");
       }
 
@@ -6076,13 +5919,13 @@
           out.slideSourceMode = d.slideSourceMode;
           out.slideOutputType = "finalImages";
           out.slideCount = displayNumber(
-          clampInt(d.slideCount, 1, MAX_SLIDES, MAX_SLIDES),
+            clampInt(d.slideCount, 1, MAX_SLIDES, MAX_SLIDES),
             d.numberStyle,
           );
           out.slideImageCount =
             d.slideSourceMode === "attached"
               ? displayNumber(
-          clampInt(d.slideImageCount, 1, 20, MAX_SLIDES),
+                  clampInt(d.slideImageCount, 1, 20, MAX_SLIDES),
                   d.numberStyle,
                 )
               : "";
@@ -6098,7 +5941,7 @@
 
         if (activeStory) {
           out.storyPageCount = displayNumber(
-          clampInt(d.storyPageCount, 1, MAX_STORY_PAGES, 6),
+            clampInt(d.storyPageCount, 1, MAX_STORY_PAGES, 6),
             d.numberStyle,
           );
           out.storyPageSize = d.storyPageSize;
@@ -6116,7 +5959,8 @@
 
         return Object.fromEntries(
           Object.entries(out).filter(
-            ([, value]) => value !== "" && value !== null && value !== undefined,
+            ([, value]) =>
+              value !== "" && value !== null && value !== undefined,
           ),
         );
       }
@@ -6266,7 +6110,10 @@
             type: "good",
             text: `إخراج المطوية مضبوط على: ${d.brochureOutputMode || "وجهان منفصلان في صورتين"}.`,
           });
-          if (isTallAspectRatio(d.aspectRatio) || d.aspectRatio === "1:1 مربع") {
+          if (
+            isTallAspectRatio(d.aspectRatio) ||
+            d.aspectRatio === "1:1 مربع"
+          ) {
             notes.push({
               type: "warn",
               text: "للمطوية متعددة الأعمدة، المقاس الأفقي مثل A4 أفقي أفضل غالبًا لأنه يعطي الأعمدة والوجهين مساحة أوضح للطباعة.",
@@ -6346,7 +6193,12 @@
             text: `الفئة المستهدفة مضبوطة على: ${d.audienceType}.`,
           });
         if (isSlideMode(d)) {
-          const outputSlides = clampInt(d.slideCount, 1, MAX_SLIDES, MAX_SLIDES);
+          const outputSlides = clampInt(
+            d.slideCount,
+            1,
+            MAX_SLIDES,
+            MAX_SLIDES,
+          );
           const sourceImages = clampInt(d.slideImageCount, 1, 20, outputSlides);
           notes.push({
             type: "good",
@@ -6559,8 +6411,7 @@
         if (isBrochureDesign(d)) return "brochure";
         if (isPoetryDesign(d)) return "poetry";
         if (isTextAssetDesign(d)) return "textasset";
-        if (isInfographicDesign(d) || d.textHeavyActive)
-          return "infographic";
+        if (isInfographicDesign(d) || d.textHeavyActive) return "infographic";
         return "general";
       }
 
@@ -6715,9 +6566,12 @@
             !fields.style.value ||
             fields.style.value === "أنيق وحديث واحترافي"
           )
-            fields.style.value = "مطوية تعليمية عربية منظمة، نظيفة ومناسبة للطباعة";
-        }
-        else if (type.includes("لوحة شعرية") || type.includes("اقتباس أدبي")) {
+            fields.style.value =
+              "مطوية تعليمية عربية منظمة، نظيفة ومناسبة للطباعة";
+        } else if (
+          type.includes("لوحة شعرية") ||
+          type.includes("اقتباس أدبي")
+        ) {
           setAutoLayout("لوحة شعرية عربية بتنسيق الشطرين");
           if (
             isTallAspectRatio(fields.aspectRatio.value) ||
@@ -6889,8 +6743,7 @@
         if (importFile) importFile.value = "";
         const importLibraryFileEl = $("importLibraryFile");
         if (importLibraryFileEl) importLibraryFileEl.value = "";
-        promptOutput.textContent =
-          "👈 اضغط «توليد البرومبت» بعد تعبئة الحقول.";
+        promptOutput.textContent = "👈 اضغط «توليد البرومبت» بعد تعبئة الحقول.";
         negativeOutput.textContent =
           "سيظهر هنا تلقائيًا إذا كان الخيار مفعّلًا.";
         reportBox.textContent = "ابدأ بالكتابة وسأراجع بناء البرومبت هنا.";
@@ -7367,16 +7220,16 @@
             generate();
             statusText.textContent =
               "تم استيراد الإعدادات واستبدال المشروع الحالي";
-        } catch {
-          statusText.textContent = "ملف JSON غير صالح";
-        }
-      };
-      reader.onerror = () => {
-        statusText.textContent =
-          "تعذرت قراءة الملف، تأكد من صلاحيات الوصول إليه.";
-      };
-      reader.readAsText(file, "utf-8");
-    }
+          } catch {
+            statusText.textContent = "ملف JSON غير صالح";
+          }
+        };
+        reader.onerror = () => {
+          statusText.textContent =
+            "تعذرت قراءة الملف، تأكد من صلاحيات الوصول إليه.";
+        };
+        reader.readAsText(file, "utf-8");
+      }
 
       function attachAutosave() {
         Object.values(fields).forEach((el) => {
@@ -7391,9 +7244,13 @@
             updateScore(computeScore(d));
             updateMeta(d);
             updateSmartSections(d);
-            if (promptOutput.textContent && !promptOutput.textContent.startsWith("👈")) {
+            if (
+              promptOutput.textContent &&
+              !promptOutput.textContent.startsWith("👈")
+            ) {
               promptOutput.style.opacity = "0.62";
-              promptOutput.title = "بيانات تغيّرت؛ اضغط توليد البرومبت لتحديث الناتج";
+              promptOutput.title =
+                "بيانات تغيّرت؛ اضغط توليد البرومبت لتحديث الناتج";
             }
             if (d.autosave) saveState(true);
           });
@@ -7633,996 +7490,1049 @@
       updateMeta(initialData);
       generate();
       // ===== نظام "مكتبتي" لحفظ القوالب المخصصة =====
-const LIBRARY_KEY = "arabicPromptTreasure_library_v1";
-const myLibrarySelect = $("myLibrarySelect");
-const saveToLibraryBtn = $("saveToLibraryBtn");
-const exportLibraryBtn = $("exportLibraryBtn");
-const importLibraryBtn = $("importLibraryBtn");
-const importLibraryFile = $("importLibraryFile");
-const manageLibraryBtn = $("manageLibraryBtn");
-const libraryManager = $("libraryManager");
-const libraryCheckList = $("libraryCheckList");
-const selectAllLibraryBtn = $("selectAllLibraryBtn");
-const clearLibrarySelectionBtn = $("clearLibrarySelectionBtn");
-const exportSelectedLibraryBtn = $("exportSelectedLibraryBtn");
-const deleteSelectedLibraryBtn = $("deleteSelectedLibraryBtn");
+      const LIBRARY_KEY = "arabicPromptTreasure_library_v1";
+      const myLibrarySelect = $("myLibrarySelect");
+      const saveToLibraryBtn = $("saveToLibraryBtn");
+      const exportLibraryBtn = $("exportLibraryBtn");
+      const importLibraryBtn = $("importLibraryBtn");
+      const importLibraryFile = $("importLibraryFile");
+      const manageLibraryBtn = $("manageLibraryBtn");
+      const libraryManager = $("libraryManager");
+      const libraryCheckList = $("libraryCheckList");
+      const selectAllLibraryBtn = $("selectAllLibraryBtn");
+      const clearLibrarySelectionBtn = $("clearLibrarySelectionBtn");
+      const exportSelectedLibraryBtn = $("exportSelectedLibraryBtn");
+      const deleteSelectedLibraryBtn = $("deleteSelectedLibraryBtn");
 
-function readLibraryTemplates() {
-  try {
-    const stored = localStorage.getItem(LIBRARY_KEY);
-    const templates = stored ? JSON.parse(stored) : {};
-    return templates && typeof templates === "object" && !Array.isArray(templates)
-      ? templates
-      : {};
-  } catch (e) {
-    console.error("خطأ في قراءة المكتبة", e);
-    return {};
-  }
-}
-
-function writeLibraryTemplates(templates) {
-  localStorage.setItem(LIBRARY_KEY, JSON.stringify(templates || {}));
-}
-
-function stableStringify(value) {
-  if (Array.isArray(value))
-    return `[${value.map((item) => stableStringify(item)).join(",")}]`;
-  if (value && typeof value === "object") {
-    return `{${Object.keys(value)
-      .sort()
-      .map((key) => `${JSON.stringify(key)}:${stableStringify(value[key])}`)
-      .join(",")}}`;
-  }
-  return JSON.stringify(value);
-}
-
-function hasRecognizedTemplateField(template) {
-  return (
-    template &&
-    typeof template === "object" &&
-    !Array.isArray(template) &&
-    Object.keys(template).some((key) => fields[key])
-  );
-}
-
-function isLibraryTemplateMap(value) {
-  return (
-    value &&
-    typeof value === "object" &&
-    !Array.isArray(value) &&
-    Object.values(value).every((item) => hasRecognizedTemplateField(item))
-  );
-}
-
-function extractLibraryTemplates(payload) {
-  if (!payload || typeof payload !== "object") return null;
-  if (isLibraryTemplateMap(payload.templates)) return payload.templates;
-  if (isLibraryTemplateMap(payload.library)) return payload.library;
-  if (isLibraryTemplateMap(payload)) return payload;
-  return null;
-}
-
-function uniqueLibraryName(baseName, templates) {
-  const base = clean(baseName) || "قالب مستورد";
-  if (!templates[base]) return base;
-  let index = 1;
-  let candidate = `${base} (مستورد)`;
-  while (templates[candidate]) {
-    index += 1;
-    candidate = `${base} (مستورد ${index})`;
-  }
-  return candidate;
-}
-
-function mergeLibraryTemplates(incoming) {
-  const templates = readLibraryTemplates();
-  let added = 0;
-  let renamed = 0;
-  let duplicates = 0;
-  let invalid = 0;
-  const addedNames = [];
-  const duplicateNames = [];
-  const invalidNames = [];
-  for (const [rawName, rawTemplate] of Object.entries(incoming || {})) {
-    const name = clean(rawName) || "قالب مستورد";
-    if (!hasRecognizedTemplateField(rawTemplate)) {
-      invalid += 1;
-      invalidNames.push(name);
-      continue;
-    }
-    const normalized = normalizeImportedSettings(rawTemplate);
-    if (templates[name]) {
-      if (
-        stableStringify(normalizeImportedSettings(templates[name])) ===
-        stableStringify(normalized)
-      ) {
-        duplicates += 1;
-        duplicateNames.push(name);
-        continue;
-      }
-      const uniqueName = uniqueLibraryName(name, templates);
-      templates[uniqueName] = normalized;
-      added += 1;
-      renamed += 1;
-      addedNames.push(uniqueName);
-    } else {
-      templates[name] = normalized;
-      added += 1;
-      addedNames.push(name);
-    }
-  }
-  if (added) writeLibraryTemplates(templates);
-  loadLibrary();
-  return { added, renamed, duplicates, invalid, addedNames, duplicateNames, invalidNames };
-}
-
-function libraryImportStatusMessage(stats) {
-  const added = stats && stats.added ? stats.added : 0;
-  const renamed = stats && stats.renamed ? stats.renamed : 0;
-  const duplicates = stats && stats.duplicates ? stats.duplicates : 0;
-  const invalid = stats && stats.invalid ? stats.invalid : 0;
-  if (added) {
-    return (
-      `تم استيراد ${added} قالب إلى مكتبتك` +
-      (renamed ? `، وأعيدت تسمية ${renamed} لتجنب التكرار` : "") +
-      (duplicates ? `، ووجد ${duplicates} قالب موجود مسبقًا` : "") +
-      (invalid ? `، وتم تجاهل ${invalid} غير صالح` : "")
-    );
-  }
-  if (duplicates && !invalid)
-    return `لم يُضف قالب جديد؛ ${duplicates} قالب موجود مسبقًا بنفس الاسم والمحتوى`;
-  if (duplicates || invalid)
-    return (
-      "لم يُضف قالب جديد" +
-      (duplicates ? `؛ ${duplicates} موجود مسبقًا` : "") +
-      (invalid ? `؛ ${invalid} غير صالح` : "")
-    );
-  return "لم يُعثر على قوالب قابلة للاستيراد";
-}
-
-function applyTemplateToCurrentProject(templateData, templateName, message) {
-  const d = normalizeImportedSettings(templateData);
-  clearFields();
-  for (const [key, value] of Object.entries(d)) {
-    if (!fields[key]) continue;
-    if (fields[key].type === "checkbox")
-      fields[key].checked = importedCheckboxValue(value);
-    else fields[key].value = value;
-  }
-  fields.rtl.checked = true;
-  syncModeFieldsFromImageType();
-  updateSmartSections();
-  generate();
-  if (myLibrarySelect && templateName) myLibrarySelect.value = templateName;
-  statusText.textContent =
-    message || `تم استدعاء القالب: "${templateName || "قالب مستورد"}"`;
-}
-
-function renderLibraryManager(templates = readLibraryTemplates()) {
-  if (!libraryCheckList) return;
-  const names = Object.keys(templates);
-  libraryCheckList.innerHTML = "";
-  if (!names.length) {
-    const note = document.createElement("div");
-    note.className = "library-empty-note";
-    note.textContent = "لا توجد قوالب محفوظة حاليًا.";
-    libraryCheckList.appendChild(note);
-    return;
-  }
-  names.forEach((name) => {
-    const label = document.createElement("label");
-    label.className = "library-check-item";
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.value = name;
-    label.appendChild(checkbox);
-    label.appendChild(document.createTextNode(name));
-    libraryCheckList.appendChild(label);
-  });
-}
-
-function selectedLibraryNames() {
-  if (!libraryCheckList) return [];
-  return Array.from(
-    libraryCheckList.querySelectorAll('input[type="checkbox"]:checked'),
-  ).map((input) => input.value);
-}
-
-function loadLibrary() {
-  if (!myLibrarySelect) return;
-  try {
-    const templates = readLibraryTemplates();
-    myLibrarySelect.innerHTML = '<option value="">📂 مكتبتي (قوالبي المحفوظة)</option>';
-    
-    let hasTemplates = false;
-    for (const name in templates) {
-      const opt = document.createElement("option");
-      opt.value = name;
-      opt.textContent = "📑 " + name;
-      myLibrarySelect.appendChild(opt);
-      hasTemplates = true;
-    }
-    renderLibraryManager(templates);
-    if (libraryManager) libraryManager.classList.toggle("show", false);
-  } catch (e) {
-    console.error("خطأ في تحميل المكتبة", e);
-  }
-}
-
-if (saveToLibraryBtn) {
-  saveToLibraryBtn.addEventListener("click", () => {
-    const name = prompt("أدخل اسماً مميزاً لحفظ هذا القالب (مثلاً: قالب الرياضيات):");
-    const templateName = clean(name);
-    if (!templateName) return;
-    
-    const currentData = gatherData();
-    try {
-      const templates = readLibraryTemplates();
-      if (
-        templates[templateName] &&
-        !confirm(`القالب "${templateName}" موجود بالفعل. هل تريد استبداله؟`)
-      ) {
-        statusText.textContent = "تم إلغاء حفظ القالب لتجنب استبدال قالب موجود";
-        return;
-      }
-      templates[templateName] = currentData;
-      writeLibraryTemplates(templates);
-      
-      statusText.textContent = `تم حفظ القالب: "${templateName}" في مكتبتك`;
-      loadLibrary();
-      myLibrarySelect.value = templateName;
-    } catch (e) {
-      statusText.textContent = "تعذر حفظ القالب في المكتبة";
-    }
-  });
-}
-
-if (exportLibraryBtn) {
-  exportLibraryBtn.addEventListener("click", () => {
-    const templates = readLibraryTemplates();
-    const count = Object.keys(templates).length;
-    if (!count) {
-      statusText.textContent = "لا توجد قوالب محفوظة لتصديرها";
-      return;
-    }
-    const payload = {
-      type: "arabic-prompt-treasure-library",
-      version: 1,
-      exportedAt: new Date().toISOString(),
-      templates,
-    };
-    const blob = new Blob([JSON.stringify(payload, null, 2)], {
-      type: "application/json;charset=utf-8",
-    });
-    downloadBlob(blob, "arabic-prompt-library.json");
-    statusText.textContent = `تم تصدير مكتبتك وفيها ${count} قالب`;
-  });
-}
-
-function importLibraryFromFile(file) {
-  const reader = new FileReader();
-  reader.onload = () => {
-    try {
-      const incoming = extractLibraryTemplates(JSON.parse(reader.result));
-      if (!incoming) {
-        statusText.textContent = "ملف المكتبة غير صالح أو لا يحتوي قوالب قابلة للاستيراد";
-        return;
-      }
-      const validEntries = Object.entries(incoming).filter(([, template]) =>
-        hasRecognizedTemplateField(template),
-      );
-      const stats = mergeLibraryTemplates(incoming);
-      if (validEntries.length === 1) {
-        const requestedName = clean(validEntries[0][0]) || "قالب مستورد";
-        const openName =
-          (stats.addedNames && stats.addedNames[0]) ||
-          (stats.duplicateNames && stats.duplicateNames[0]) ||
-          requestedName;
-        const templates = readLibraryTemplates();
-        if (templates[openName]) {
-          const wasDuplicate =
-            stats.duplicateNames && stats.duplicateNames.includes(openName);
-          applyTemplateToCurrentProject(
-            templates[openName],
-            openName,
-            wasDuplicate
-              ? `القالب "${openName}" موجود مسبقًا بنفس المحتوى، وتم فتحه من مكتبتك`
-              : `تم استيراد القالب "${openName}" وفتحه مباشرة`,
-          );
-          return;
+      function readLibraryTemplates() {
+        try {
+          const stored = localStorage.getItem(LIBRARY_KEY);
+          const templates = stored ? JSON.parse(stored) : {};
+          return templates &&
+            typeof templates === "object" &&
+            !Array.isArray(templates)
+            ? templates
+            : {};
+        } catch (e) {
+          console.error("خطأ في قراءة المكتبة", e);
+          return {};
         }
       }
-      statusText.textContent = libraryImportStatusMessage(stats);
-    } catch (e) {
-      statusText.textContent = "تعذر استيراد مكتبة القوالب";
-    }
-  };
-  reader.onerror = () => {
-    statusText.textContent =
-      "تعذرت قراءة ملف المكتبة، تأكد من صلاحيات الوصول إليه.";
-  };
-  reader.readAsText(file, "utf-8");
-}
 
-if (importLibraryBtn && importLibraryFile) {
-  importLibraryBtn.addEventListener("click", () => importLibraryFile.click());
-  importLibraryFile.addEventListener("change", (e) => {
-    const file = e.target.files && e.target.files[0];
-    if (file) importLibraryFromFile(file);
-    e.target.value = "";
-  });
-}
+      function writeLibraryTemplates(templates) {
+        localStorage.setItem(LIBRARY_KEY, JSON.stringify(templates || {}));
+      }
 
-if (manageLibraryBtn && libraryManager) {
-  manageLibraryBtn.addEventListener("click", () => {
-    renderLibraryManager();
-    libraryManager.classList.toggle("show");
-  });
-}
+      function stableStringify(value) {
+        if (Array.isArray(value))
+          return `[${value.map((item) => stableStringify(item)).join(",")}]`;
+        if (value && typeof value === "object") {
+          return `{${Object.keys(value)
+            .sort()
+            .map(
+              (key) => `${JSON.stringify(key)}:${stableStringify(value[key])}`,
+            )
+            .join(",")}}`;
+        }
+        return JSON.stringify(value);
+      }
 
-if (selectAllLibraryBtn && libraryCheckList) {
-  selectAllLibraryBtn.addEventListener("click", () => {
-    libraryCheckList
-      .querySelectorAll('input[type="checkbox"]')
-      .forEach((input) => {
-        input.checked = true;
-      });
-  });
-}
+      function hasRecognizedTemplateField(template) {
+        return (
+          template &&
+          typeof template === "object" &&
+          !Array.isArray(template) &&
+          Object.keys(template).some((key) => fields[key])
+        );
+      }
 
-if (clearLibrarySelectionBtn && libraryCheckList) {
-  clearLibrarySelectionBtn.addEventListener("click", () => {
-    libraryCheckList
-      .querySelectorAll('input[type="checkbox"]')
-      .forEach((input) => {
-        input.checked = false;
-      });
-  });
-}
+      function isLibraryTemplateMap(value) {
+        return (
+          value &&
+          typeof value === "object" &&
+          !Array.isArray(value) &&
+          Object.values(value).every((item) => hasRecognizedTemplateField(item))
+        );
+      }
 
-if (exportSelectedLibraryBtn) {
-  exportSelectedLibraryBtn.addEventListener("click", () => {
-    const names = selectedLibraryNames();
-    if (!names.length) {
-      statusText.textContent = "حدد قالبًا واحدًا على الأقل لتصديره من المكتبة";
-      return;
-    }
-    const templates = readLibraryTemplates();
-    const selectedTemplates = {};
-    names.forEach((name) => {
-      if (templates[name]) selectedTemplates[name] = templates[name];
-    });
-    const count = Object.keys(selectedTemplates).length;
-    if (!count) {
-      statusText.textContent = "تعذر العثور على القوالب المحددة داخل المكتبة";
-      renderLibraryManager(templates);
-      return;
-    }
-    const payload = {
-      type: "arabic-prompt-treasure-library",
-      version: 1,
-      exportedAt: new Date().toISOString(),
-      templates: selectedTemplates,
-    };
-    const blob = new Blob([JSON.stringify(payload, null, 2)], {
-      type: "application/json;charset=utf-8",
-    });
-    downloadBlob(blob, `arabic-prompt-library-selected-${Date.now()}.json`);
-    statusText.textContent =
-      `تم تصدير ${displayNumber(count, fields.numberStyle.value)} قالب من القوالب المحددة`;
-  });
-}
+      function extractLibraryTemplates(payload) {
+        if (!payload || typeof payload !== "object") return null;
+        if (isLibraryTemplateMap(payload.templates)) return payload.templates;
+        if (isLibraryTemplateMap(payload.library)) return payload.library;
+        if (isLibraryTemplateMap(payload)) return payload;
+        return null;
+      }
 
-if (deleteSelectedLibraryBtn) {
-  deleteSelectedLibraryBtn.addEventListener("click", () => {
-    const names = selectedLibraryNames();
-    if (!names.length) {
-      statusText.textContent = "حدد قالبًا واحدًا على الأقل لحذفه من المكتبة";
-      return;
-    }
-    openConfirmDialog(
-      `سيتم حذف ${displayNumber(names.length, fields.numberStyle.value)} قالب من مكتبتك. هل تريد المتابعة؟`,
-      () => {
+      function uniqueLibraryName(baseName, templates) {
+        const base = clean(baseName) || "قالب مستورد";
+        if (!templates[base]) return base;
+        let index = 1;
+        let candidate = `${base} (مستورد)`;
+        while (templates[candidate]) {
+          index += 1;
+          candidate = `${base} (مستورد ${index})`;
+        }
+        return candidate;
+      }
+
+      function mergeLibraryTemplates(incoming) {
         const templates = readLibraryTemplates();
-        names.forEach((name) => delete templates[name]);
-        writeLibraryTemplates(templates);
+        let added = 0;
+        let renamed = 0;
+        let duplicates = 0;
+        let invalid = 0;
+        const addedNames = [];
+        const duplicateNames = [];
+        const invalidNames = [];
+        for (const [rawName, rawTemplate] of Object.entries(incoming || {})) {
+          const name = clean(rawName) || "قالب مستورد";
+          if (!hasRecognizedTemplateField(rawTemplate)) {
+            invalid += 1;
+            invalidNames.push(name);
+            continue;
+          }
+          const normalized = normalizeImportedSettings(rawTemplate);
+          if (templates[name]) {
+            if (
+              stableStringify(normalizeImportedSettings(templates[name])) ===
+              stableStringify(normalized)
+            ) {
+              duplicates += 1;
+              duplicateNames.push(name);
+              continue;
+            }
+            const uniqueName = uniqueLibraryName(name, templates);
+            templates[uniqueName] = normalized;
+            added += 1;
+            renamed += 1;
+            addedNames.push(uniqueName);
+          } else {
+            templates[name] = normalized;
+            added += 1;
+            addedNames.push(name);
+          }
+        }
+        if (added) writeLibraryTemplates(templates);
         loadLibrary();
-        if (libraryManager) libraryManager.classList.add("show");
+        return {
+          added,
+          renamed,
+          duplicates,
+          invalid,
+          addedNames,
+          duplicateNames,
+          invalidNames,
+        };
+      }
+
+      function libraryImportStatusMessage(stats) {
+        const added = stats && stats.added ? stats.added : 0;
+        const renamed = stats && stats.renamed ? stats.renamed : 0;
+        const duplicates = stats && stats.duplicates ? stats.duplicates : 0;
+        const invalid = stats && stats.invalid ? stats.invalid : 0;
+        if (added) {
+          return (
+            `تم استيراد ${added} قالب إلى مكتبتك` +
+            (renamed ? `، وأعيدت تسمية ${renamed} لتجنب التكرار` : "") +
+            (duplicates ? `، ووجد ${duplicates} قالب موجود مسبقًا` : "") +
+            (invalid ? `، وتم تجاهل ${invalid} غير صالح` : "")
+          );
+        }
+        if (duplicates && !invalid)
+          return `لم يُضف قالب جديد؛ ${duplicates} قالب موجود مسبقًا بنفس الاسم والمحتوى`;
+        if (duplicates || invalid)
+          return (
+            "لم يُضف قالب جديد" +
+            (duplicates ? `؛ ${duplicates} موجود مسبقًا` : "") +
+            (invalid ? `؛ ${invalid} غير صالح` : "")
+          );
+        return "لم يُعثر على قوالب قابلة للاستيراد";
+      }
+
+      function applyTemplateToCurrentProject(
+        templateData,
+        templateName,
+        message,
+      ) {
+        const d = normalizeImportedSettings(templateData);
+        clearFields();
+        for (const [key, value] of Object.entries(d)) {
+          if (!fields[key]) continue;
+          if (fields[key].type === "checkbox")
+            fields[key].checked = importedCheckboxValue(value);
+          else fields[key].value = value;
+        }
+        fields.rtl.checked = true;
+        syncModeFieldsFromImageType();
+        updateSmartSections();
+        generate();
+        if (myLibrarySelect && templateName)
+          myLibrarySelect.value = templateName;
         statusText.textContent =
-          `تم حذف ${displayNumber(names.length, fields.numberStyle.value)} قالب من مكتبتك`;
-      },
-    );
-  });
-}
-
-if (myLibrarySelect) {
-  myLibrarySelect.addEventListener("change", (e) => {
-    const name = e.target.value;
-    if (!name) return;
-
-    try {
-      const templates = readLibraryTemplates();
-      if (templates[name]) {
-         applyTemplateToCurrentProject(
-           templates[name],
-           name,
-           `تم استدعاء القالب: "${name}"`,
-         );
+          message || `تم استدعاء القالب: "${templateName || "قالب مستورد"}"`;
       }
-    } catch (e) {
-         statusText.textContent = "خطأ في استدعاء القالب";
-    }
-    // إرجاع القائمة للوضع الافتراضي بعد الاستدعاء لتكرار الاستخدام
-    setTimeout(() => { e.target.value = ""; }, 500);
-  });
-}
 
-function initContentRequestHelper() {
-  const copyBtn = $("copyContentRequestBtn");
-  const targetBadge = $("contentRequestTarget");
-  if (!copyBtn || !targetBadge || !fields.imageType) return;
-
-  function classifyContentRequestType(value) {
-    const text = clean(value);
-    if (/إنفوجرافيك|انفوجرافيك|infographic/i.test(text)) return "infographic";
-    if (/قصة\s*مصورة|قصص|قصة/i.test(text)) return "story";
-    if (/شرائح/i.test(text)) return "slides";
-    if (/مطوية|بروشور|brochure/i.test(text)) return "brochure";
-    if (/ورقة\s*عمل|اختبار|قياس\s*مهارة|نموذج\s*اختبار|worksheet/i.test(text))
-      return "worksheet";
-    if (/غلاف\s*كتاب|book\s*cover/i.test(text)) return "bookCover";
-    if (/بطاقة\s*تهنئة|تهنئة|مباركة|عيد|أضحى|فطر|رمضان|مولود|زواج|greeting\s*card|eid/i.test(text))
-      return "greetingCard";
-    if (/بطاقة\s*دعوة|دعوة/i.test(text)) return "invitation";
-    if (/شعرية|شعري|اقتباس|أدبي/i.test(text)) return "poetry";
-    if (/أصل\s*نصي|خطي|مخطوطة/i.test(text)) return "textAsset";
-    if (/هوية\s*بصرية/i.test(text)) return "identity";
-    if (/سوشيال|منشور/i.test(text)) return "social";
-    if (/إعلان|اعلان|دعائي/i.test(text)) return "ad";
-    return "general";
-  }
-
-  const contentRequestLabels = {
-    infographic: "إنفوجرافيك عربي",
-    story: "قصة مصورة عربية",
-    slides: "شرائح تعليمية",
-    brochure: "مطوية عربية",
-    worksheet: "ورقة عمل / اختبار قياس مهارة",
-    bookCover: "غلاف كتاب عربي",
-    greetingCard: "بطاقة تهنئة عربية فاخرة",
-    invitation: "بطاقة دعوة عربية",
-    poetry: "لوحة شعرية",
-    textAsset: "أصل نصي خطي",
-    identity: "هوية بصرية عربية",
-    social: "منشور سوشيال عربي",
-    ad: "إعلان عربي",
-    general: "تصميم عربي عام",
-  };
-
-  function placeholder(value) {
-    return clean(value) || "[............]";
-  }
-
-  function contentRequestHeader(typeLabel) {
-    const isEducational = isEducationalPurpose(fields.purpose && fields.purpose.value);
-    const subjectValue = placeholder(fields.subject && fields.subject.value);
-    const purposeValue = placeholder(fields.purpose && fields.purpose.value);
-    const styleValue = placeholder(fields.style && fields.style.value);
-    const audienceValue = isEducational
-      ? placeholder(fields.audienceType && fields.audienceType.value)
-      : "عام";
-    const aspectRatioValue = placeholder(fields.aspectRatio && fields.aspectRatio.value);
-    const educationLines = isEducational
-      ? [
-          fields.subjectArea &&
-          clean(fields.subjectArea.value) &&
-          fields.subjectArea.value !== "عام"
-            ? `- المادة الدراسية: ${clean(fields.subjectArea.value)}`
-            : "",
-          fields.gradeLevel && clean(fields.gradeLevel.value)
-            ? `- المرحلة أو الصف: ${clean(fields.gradeLevel.value)}`
-            : "",
-          fields.lessonTitle && clean(fields.lessonTitle.value)
-            ? `- عنوان الدرس: ${clean(fields.lessonTitle.value)}`
-            : "",
-          fields.learningGoal && clean(fields.learningGoal.value)
-            ? `- الهدف التعليمي أو الرسالة: ${clean(fields.learningGoal.value)}`
-            : "",
-        ].filter(Boolean)
-      : [];
-    const specs = [
-      "أريد منك إعداد محتوى عربي منظم فقط لمولد برومبت الصور العربي.",
-      "",
-      "مهم جدًا:",
-      "- لا تكتب برومبت صور نهائيًا.",
-      "- لا تجعل إجابتك قابلة للإرسال مباشرة إلى مولد الصور.",
-      "- لا تكتب قسمًا باسم البرومبت النهائي.",
-      "- لا تكتب Negative Prompt.",
-      "- بعد إعداد المحتوى سأعود إلى المولد وألصق كل حاوية في مكانها، ثم أستخدم المولد لإنتاج البرومبت النهائي بضوابطه العربية.",
-      "",
-      "المواصفات المتوفرة:",
-      `- نوع التصميم: ${typeLabel}`,
-      `- موضوع الصورة: ${subjectValue}`,
-      `- الغرض: ${purposeValue}`,
-      `- الأسلوب: ${styleValue}`,
-      `- نسبة الأبعاد: ${aspectRatioValue}`,
-      `- الفئة المستهدفة: ${audienceValue}`,
-    ];
-    if (isEducational) {
-      specs.push(
-        educationLines.length
-          ? ["- السياق التعليمي:", ...educationLines].join("\n")
-          : "- السياق التعليمي: [............]",
-      );
-    }
-    return specs.join("\n");
-  }
-
-  const sharedContentRules = [
-    "قواعد الإجابة:",
-    "- قسّم الرد بنفس أسماء الحاويات المطلوبة أدناه، ولا تضف حاويات جديدة إلا للضرورة.",
-    "- اكتب تحت كل حاوية محتواها فقط، بحيث أستطيع نسخه ولصقه في المولد.",
-    "- اجعل النصوص الظاهرة داخل التصميم موجودة فقط في حاوية: النصوص النهائية التي يجب أن تظهر حرفيًا.",
-    "- لا تكرر النصوص الظاهرة داخل وصف المشهد أو المرجع أو النص الثانوي.",
-    "- اجعل باقي الحاويات وصفية وتوجيهية فقط وليست مصدرًا بديلًا للنص الظاهر.",
-    "- التزم بنوع التصميم المطلوب فقط، ولا تضف حاويات أو قواعد أو تعليمات تخص نوعًا آخر. لا تستخدم تعليمات الشرائح إلا للشرائح، ولا القصة إلا للقصة، ولا المطوية إلا للمطوية، ولا ورقة العمل إلا لورقة العمل، ولا بطاقة التهنئة إلا لبطاقة التهنئة.",
-    "- إذا كان نوع التصميم بطاقة تهنئة، فلا تكتب قواعد شبكات أو بطاقات متعددة أو جداول أو أنشطة. وإذا كان إنفوجرافيك فلا تكتب قواعد بطاقة تهنئة فاخرة إلا إذا طلبت ذلك صراحة.",
-    "- لا تخترع نص تذييل من عندك؛ التذييل له حاوية مستقلة في المولد يملؤها المستخدم يدويًا أو تلقائيًا.",
-    "- في حاوية التذييل اكتب فقط هل يحتاج التصميم تذييلًا أم لا، وإن احتاج فاكتب: يستخدم تذييل المستخدم من حاوية التذييل في المولد.",
-    "- داخل حاوية النصوص النهائية، ضع قبل كل نص مهم توجيهًا محليًا بين //...//.",
-    "- ما بين //...// توجيه للمولد فقط ولا يظهر في التصميم، أما السطر الذي بعده فهو النص الحرفي الظاهر.",
-    "- ابدأ حاوية النصوص النهائية بهذا التوجيه:",
-    "//التزم بالنصوص التالية حرفيًا كما هي. لا تعدل الصياغة، لا تختصر، لا تضف نصوصًا من الحاويات الأخرى، ولا تُظهر أي توجيه بين //...// داخل التصميم النهائي//",
-    "- إذا كان الموضوع يعتمد على رسم دقيق، فاربط كل نص برسمه الصحيح داخل التوجيه المحلي.",
-    "- استخدم العربية الفصحى الواضحة والاتجاه RTL.",
-    "- إذا كان المحتوى يحتوي بطاقات أو خطوات مرقمة، فلا تقترح توزيعًا نصف دائريًا أو حرًا حول المشهد. اطلب شبكة صفوف عربية RTL ثابتة: الصف الأول من اليمين إلى اليسار، ثم الصف التالي من اليمين إلى اليسار.",
-    "- لا تجعل التوازن الزخرفي حول العنصر الرئيسي يغيّر ترتيب البطاقات أو أرقامها.",
-    "- لا تضف أي تعليمات عن نمط الأرقام داخل أي حاوية.",
-    "- لا تكتب: استخدم الأرقام الإنجليزية فقط.",
-    "- لا تكتب: استخدم الأرقام الهندية الشرقية فقط.",
-    "- لا تكتب: ممنوع استخدام الأرقام الإنجليزية أو ممنوع استخدام الأرقام الهندية الشرقية.",
-    "- لا تكتب: حافظ على نظام أرقام موحّد.",
-    "- اترك اختيار نمط الأرقام لإعدادات المولد المستقلة.",
-    "- اذكر الأرقام داخل النصوص النهائية فقط إذا كانت جزءًا من النص التعليمي نفسه، واكتبها كما وردت دون توجيه خاص بنمطها.",
-    "- إذا كان المحتوى يتضمن آية أو حديثًا أو دعاءً منقولًا، فضعه في حاوية النصوص النهائية فقط كما ورد من المستخدم، ولا تعِد صياغته ولا تختصره ولا تصححه من نفسك.",
-    "- للنصوص الشرعية الحساسة، اطلب مساحة نصية واسعة وخطًا مقروءًا وزخرفة قليلة حول النص، ولا تجعل الأيقونات أو المشهد يزاحم الآية أو الحديث.",
-    "- لا تفرض أسماء خطوط كثيرة داخل الحاويات، ولا تخلط مدارس خطية متباعدة. اترك اختيار الخط لإعدادات المولد، أو اكتب وصفًا عامًا فقط: عنوان عربي واضح، عناوين بطاقات واضحة، ونصوص داخلية مقروءة.",
-    "- إذا كان الأسلوب فنيًا أو ألوانًا مائية أو يدويًا، فاجعله للخلفية والمشهد والأيقونات فقط، ولا تطبقه على النصوص. النصوص يجب أن تكون طباعية حادة وواضحة.",
-    "- إذا كان المحتوى ورقة عمل أو نشاطًا أو اختبارًا للطالب، فلا تضع الإجابات ولا تحل الأسئلة ولا تصل عناصر التوصيل، إلا إذا طلبتُ صراحة نموذج إجابة أو مفتاح إجابة.",
-    "- اجعل المحتوى مختصرًا بقدر ما يسمح به نوع التصميم، ولا تملأ التصميم بنصوص طويلة غير ضرورية.",
-  ].join("\n");
-
-  const infographicContainers = `الحاويات المطلوبة:
-
-١. وصف المشهد
-اكتب وصفًا بصريًا عامًا للتصميم دون تكرار النصوص الظاهرة حرفيًا.
-
-٢. الألوان والجو البصري
-اكتب لوحة ألوان وجوًا بصريًا مناسبًا.
-
-٣. الإضاءة
-اكتب وصفًا للإضاءة.
-
-٤. زاوية المشهد
-اكتب زاوية المشهد المناسبة.
-
-٥. الخلفية
-اكتب وصفًا للخلفية.
-
-٦. موضع العنصر الرئيسي
-اكتب وصفًا لموضع العنصر البصري الرئيسي.
-
-٧. عناصر إضافية
-اقترح رسومات وأيقونات وعناصر مساعدة مرتبطة بالموضوع.
-
-٨. النصوص النهائية التي يجب أن تظهر حرفيًا
-ضع النصوص الظاهرة فقط، مع توجيهات //...// قبل النصوص المهمة.
-
-٩. نص ثانوي اختياري
-اكتب نصًا قصيرًا جدًا عند الحاجة فقط. إذا لم يحتج التصميم نصًا ثانويًا فاترك هذه الحاوية فارغة.
-
-١٠. مرجع وسياق لا يظهر كاملًا في التصميم
-اكتب مرجعًا لفهم الموضوع فقط، وصرح أنه ليس مصدرًا مباشرًا للنص الظاهر.
-
-١١. موضع النص الأساسي
-اكتب وصفًا لتوزيع العنوان والبطاقات والنصوص.
-
-١٢. نوع الخط العربي
-اكتب وصفًا عامًا فقط لنمط الخط، ولا تفرض أسماء خطوط كثيرة. اترك الاختيار التفصيلي لإعدادات المولد.
-
-١٣. تعليمات تنسيق النص
-اكتب تعليمات RTL، المحاذاة، وعدم كسر الكلمات.
-
-١٤. التذييل
-لا تقترح نص تذييل من عندك. اكتب هل يحتاج التصميم تذييلًا أم لا. إن احتاج، فاكتب: يستخدم تذييل المستخدم من حاوية التذييل في المولد.
-
-١٥. ممنوعات خاصة
-اكتب ممنوعات مرتبطة بالموضوع والنوع.
-
-١٦. تعليمات إضافية دقيقة
-اكتب تعليمات تربط النص بالعناصر البصرية وتمنع الالتباس.`;
-
-  const storyContainers = `الحاويات المطلوبة:
-
-١. الفكرة العامة والرسالة التربوية
-لخص فكرة القصة ورسالتها.
-
-٢. الشخصيات
-اكتب لكل شخصية اسمها، عمرها، ملامحها، ملابسها، وصفة بصرية ثابتة.
-
-٣. أسلوب الرسم والاتساق البصري
-حدد أسلوب الرسم وثبات الشخصيات بين الصفحات.
-
-٤. الألوان والجو البصري
-اكتب لوحة ألوان وجوًا عاطفيًا مناسبًا.
-
-٥. الإضاءة وزاوية المشهد
-اكتب وصفًا عامًا للإضاءة والزوايا.
-
-٦. صفحة الغلاف
-اكتب عنوان الغلاف، وصف مشهده، والنصوص الظاهرة عليه مع //...//.
-
-٧. صفحات القصة
-لكل صفحة: رقم الصفحة، وصف المشهد، النص الظاهر، الإحساس العاطفي.
-
-٨. النصوص النهائية التي يجب أن تظهر حرفيًا
-اجمع كل نصوص الغلاف والصفحات بالترتيب مع توجيهات //...//.
-
-٩. موضع النص في الصفحات
-حدد هل يكون النص في شريط أسفل الصفحة أو فقاعة أو بطاقة جانبية.
-
-١٠. نوع الخط العربي
-اكتب وصفًا عامًا فقط لنمط الخط المناسب للجمهور، ولا تفرض أسماء خطوط كثيرة. اترك الاختيار التفصيلي لإعدادات المولد.
-
-١١. تعليمات تنسيق النص
-اكتب تعليمات RTL، عدم كسر الكلمات، وحجم النص المناسب.
-
-١٢. ممنوعات خاصة
-اكتب ممنوعات تتعلق بتغيّر الشخصيات أو ازدحام الصفحة.
-
-١٣. تعليمات إضافية دقيقة
-اكتب ما يحافظ على تسلسل القصة ووضوحها.`;
-
-  const slidesContainers = `الحاويات المطلوبة:
-
-١. هدف الشرائح
-حدد الغرض من مجموعة الشرائح.
-
-٢. أسلوب الشرائح العام
-حدد النمط البصري الموحد.
-
-٣. قائمة الشرائح
-اكتب لكل شريحة: رقم الشريحة، عنوانها، فكرتها، النص الظاهر، العناصر البصرية.
-
-٤. النصوص النهائية التي يجب أن تظهر حرفيًا
-اجمع نصوص الشرائح بالترتيب مع توجيهات //...//.
-
-٥. الألوان والجو البصري
-اكتب لوحة ألوان ثابتة.
-
-٦. الخلفية والإضاءة وزاوية المشهد
-اكتب وصفًا موحدًا للخلفية والزوايا.
-
-٧. موضع النص الأساسي
-حدد توزيع العنوان والنقاط والصور في كل شريحة.
-
-٨. نوع الخط العربي
-اكتب وصفًا عامًا فقط لنمط الخط للعناوين والنصوص، ولا تفرض أسماء خطوط كثيرة. اترك الاختيار التفصيلي لإعدادات المولد.
-
-٩. تعليمات تنسيق النص
-اكتب تعليمات RTL، وضوح النص، وعدم ازدحام الشرائح.
-
-١٠. التذييل أو رقم الشريحة
-حدد هل تحتاج الشرائح رقم شريحة أو تذييلًا. لا تقترح نص تذييل من عندك؛ نص التذييل يؤخذ من حاوية التذييل في المولد فقط.
-
-١١. ممنوعات خاصة
-اكتب ممنوعات تمنع اختلاف الأسلوب أو ازدحام النصوص.
-
-١٢. تعليمات إضافية دقيقة
-اكتب تعليمات للحفاظ على اتساق الشرائح.`;
-
-  const brochureContainers = `الحاويات المطلوبة:
-
-١. وصف المطوية
-اكتب هدف المطوية وجمهورها.
-
-٢. نوع الوجه المطلوب
-حدد هل المحتوى للوجه الخارجي فقط، الداخلي فقط، أم وجهين منفصلين.
-
-٣. توزيع الأعمدة
-اكتب ترتيب الأعمدة من اليمين إلى اليسار، وما يظهر في كل عمود.
-
-٤. النصوص النهائية التي يجب أن تظهر حرفيًا
-اكتب نصوص كل عمود مع توجيهات //...//.
-
-٥. عناصر إضافية
-اقترح أيقونات وصورًا صغيرة لكل عمود.
-
-٦. الألوان والجو البصري
-اكتب لوحة الألوان.
-
-٧. الخلفية والإضاءة
-اكتب وصفًا مناسبًا للطباعة.
-
-٨. موضع النص الأساسي
-حدد توزيع العنوان والفقرات والبطاقات داخل الأعمدة.
-
-٩. نوع الخط العربي
-اكتب وصفًا عامًا فقط لنمط الخط الواضح للمطويات، ولا تفرض أسماء خطوط كثيرة. اترك الاختيار التفصيلي لإعدادات المولد.
-
-١٠. تعليمات تنسيق النص
-اكتب تعليمات RTL، عدم كسر الكلمات، والهوامش.
-
-١١. التذييل وبيانات التواصل
-لا تقترح نص تذييل من عندك. إن احتاجت المطوية بيانات تواصل أو تذييلًا، فاكتب أن المستخدم يضعها في حاوية التذييل داخل المولد.
-
-١٢. ممنوعات خاصة
-اكتب ممنوعات تمنع جمع الوجهين في صورة واحدة إلا إذا طُلب ذلك.
-
-١٣. تعليمات إضافية دقيقة
-اكتب تعليمات تجعل المطوية صالحة للقراءة والطباعة.`;
-
-  const worksheetContainers = `الحاويات المطلوبة:
-
-١. وصف المشهد
-اكتب وصفًا بصريًا عامًا لورقة العمل أو اختبار قياس المهارة: هل هي صفحة اختبار قصيرة، تدريب، مراجعة، أو نشاط قابل للطباعة.
-
-٢. الألوان والجو البصري
-حدد هل الورقة بالأبيض والأسود للطباعة الورقية أو ملونة. لا تضف ألوانًا إذا ذكر المستخدم أنها للطباعة بالأبيض والأسود.
-
-٣. الإضاءة
-اكتب وصفًا مناسبًا لتصميم ورقي مسطح وواضح دون مؤثرات مشتتة.
-
-٤. زاوية المشهد
-اكتب زاوية صفحة أمامية مباشرة مناسبة للقراءة والطباعة.
-
-٥. الخلفية
-اكتب وصفًا لخلفية الورقة، ويفضل أن تكون بيضاء أو نظيفة بما يناسب الطباعة.
-
-٦. موضع العنصر الرئيسي
-اكتب بنية الورقة: رأس الصفحة، بيانات الطالب، خط فاصل، ثم أقسام الأسئلة ومساحات الإجابة.
-
-٧. عناصر إضافية
-اقترح عناصر تعليمية مساعدة مثل خطوط إجابة، مربعات اختيار، جداول صغيرة، رسومات خطية، أو مساحات رسم، بحسب موضوع الورقة.
-
-٨. النصوص النهائية التي يجب أن تظهر حرفيًا
-اكتب نصوص ورقة العمل فقط مع توجيهات //...// قبل كل قسم أو سؤال مهم. اجعل النصوص قابلة للنسخ إلى حاوية النصوص النهائية.
-
-٩. نص ثانوي اختياري
-اكتب نصًا قصيرًا عند الحاجة فقط. إذا لم تحتج الورقة نصًا ثانويًا فاترك هذه الحاوية فارغة.
-
-١٠. مرجع وسياق لا يظهر كاملًا في التصميم
-اكتب سياق الدرس والمهارة المقاسة، وما يجب على الورقة أن تختبره، دون استخدامه كنص ظاهر.
-
-١١. موضع النص الأساسي
-اكتب توزيع النصوص من أعلى الورقة إلى أسفلها: العنوان، بيانات الطالب، التعليمات، الأسئلة، مساحات الإجابة.
-
-١٢. نوع الخط العربي
-اكتب وصفًا عامًا فقط لنمط خط عربي واضح مناسب للطباعة المدرسية، ولا تفرض أسماء خطوط كثيرة. اترك الاختيار التفصيلي لإعدادات المولد.
-
-١٣. تعليمات تنسيق النص
-اكتب تعليمات RTL، وضوح الأسئلة، عدم كسر الكلمات، ترك مساحات كافية للإجابة، وعدم ازدحام الورقة.
-
-١٤. التذييل
-لا تقترح نص تذييل من عندك. اكتب هل تحتاج الورقة تذييلًا أم لا. إن احتاجت، فاكتب: يستخدم تذييل المستخدم من حاوية التذييل في المولد.
-
-١٥. ممنوعات خاصة
-اكتب ممنوعات مرتبطة بورقة العمل، مثل منع الزخرفة الزائدة، منع ضيق مساحات الإجابة، منع الرسوم غير الدقيقة، منع تحويل الورقة إلى بوستر، ومنع حل الأسئلة أو ملء الفراغات أو توصيل الإجابات ما لم أطلب نموذج إجابة صراحة.
-
-١٦. تعليمات إضافية دقيقة
-اكتب تعليمات تضمن أن الورقة صالحة للطباعة والنسخ، وأن كل سؤال مرتبط برسومه أو مساحة إجابته دون التباس، وأن تبقى الأنشطة قابلة للحل من الطالب.`;
-
-  const poetryContainers = `الحاويات المطلوبة:
-
-١. وصف المشهد البصري للوحة
-اكتب وصفًا للخلفية والهوامش والزخارف دون مزاحمة النص.
-
-٢. الألوان والجو البصري
-اكتب لوحة ألوان أدبية أو تراثية مناسبة.
-
-٣. الإضاءة وزاوية المشهد
-اكتب وصفًا بسيطًا للإضاءة والتكوين.
-
-٤. النصوص النهائية التي يجب أن تظهر حرفيًا
-اكتب العنوان والأبيات فقط. إذا كانت قصيدة، قسّم كل بيت إلى شطر أيمن وشطر أيسر. لا تكتب التذييل ضمن النصوص النهائية إلا إذا زوده المستخدم صراحة، لأن التذييل له حاوية مستقلة في المولد.
-
-٥. تنسيق الأبيات
-حدد إن كانت شطرين متقابلين، متوسطة، أو متداخلة، مع مراعاة المساحة.
-
-٦. نوع الخط العربي
-اقترح توزيعًا عامًا للخط بين العنوان والأبيات دون الإكثار من أسماء الخطوط، واترك التفصيل لإعدادات المولد.
-
-٧. تعليمات تنسيق النص
-اكتب تعليمات RTL، الحفاظ على التشكيل، وعدم كسر الكلمات.
-
-٨. عناصر إضافية
-اقترح محبرة أو قلمًا أو زخرفة خفيفة.
-
-٩. التذييل
-لا تقترح نص تذييل من عندك. اكتب فقط إن كانت اللوحة تحتاج نسبة أو توقيعًا عبر حاوية التذييل في المولد.
-
-١٠. ممنوعات خاصة
-اكتب ممنوعات تمنع ضغط الأبيات أو تكرار التذييل.
-
-١١. تعليمات إضافية دقيقة
-اكتب ما يحافظ على وضوح النص ووقاره.`;
-
-  const greetingCardContainers = `الحاويات المطلوبة:
-
-١. وصف المشهد
-اكتب وصفًا لبطاقة تهنئة فيزيائية فاخرة، لا بوسترًا مسطحًا. اجمع هنا وصف خامة الورق أو الكرتون، الإحساس الملموس، التذهيب البارز، الطابع العام للمناسبة، وطريقة ظهور البطاقة كقطعة مطبوعة حقيقية.
-
-٢. الألوان والجو البصري
-اكتب لوحة ألوان فاخرة مناسبة للمناسبة، مثل الأخضر الزمردي والذهب أو الكحلي والذهب أو العاجي والذهب، مع وصف لمعان الذهب والتباين بين النص والخلفية.
-
-٣. الإضاءة
-اكتب إضاءة استوديو دافئة أو ناعمة تظهر لمعان الذهب وملمس البطاقة دون إضعاف قراءة النص.
-
-٤. زاوية المشهد
-اكتب زاوية تصوير البطاقة: أمامية فاخرة أو مائلة خفيفة أو لقطة قريبة على مخمل.
-
-٥. الخلفية
-اكتب وصفًا لخلفية مناسبة مثل مخمل داكن أو سطح فاخر أو خلفية نظيفة لا تزاحم البطاقة، مع ترك مساحة هادئة خلف النص الأساسي.
-
-٦. موضع العنصر الرئيسي
-اكتب موضع البطاقة أو النص المركزي داخل التكوين: العبارة الرئيسية في مركز البطاقة، والسطور الثانوية تحتها، مع الحفاظ على منطقة وسطية هادئة.
-
-٧. عناصر إضافية
-اقترح العناصر البصرية المساعدة فقط: إطار ذهبي رفيع، زخارف أرابيسك أو توريق إسلامي في الزوايا والأطراف، فواصل ذهبية، ملمس ورق، حفر أو ضغط بارز، دون إضافة نصوص داخل الزخارف.
-
-٨. النصوص النهائية التي يجب أن تظهر حرفيًا
-اكتب نصوص التهنئة فقط مع توجيهات //...//. اجعل النص الرئيسي بخط ثلث فخم أو ديواني جلي، واجعل التاريخ أو السطر القصير بالديواني الجلي، واجعل الدعاء أو العبارة الطويلة بخط نسخ فاخر واضح، ولا تضع التذييل هنا إلا إذا زوده المستخدم صراحة.
-
-٩. نص ثانوي اختياري
-اكتب نصًا قصيرًا عند الحاجة فقط. إذا لم يحتج التصميم نصًا ثانويًا فاترك هذه الحاوية فارغة.
-
-١٠. مرجع وسياق لا يظهر كاملًا في التصميم
-اكتب سياق المناسبة وفكرة الفخامة والخامة والتذهيب كمرجع بصري فقط، وصرح أنه ليس مصدرًا مباشرًا لأي نص ظاهر داخل البطاقة.
-
-١١. موضع النص الأساسي
-اكتب توزيع النصوص: العبارة الرئيسية في الوسط، السنة أو العبارة الثانوية أسفلها، والتذييل في أسفل البطاقة إن احتاج.
-
-١٢. نوع الخط العربي
-اقترح توزيعًا للخطوط العربية الأصيلة: ثلث فخم أو ديواني جلي للنص الرئيسي، ديواني جلي للسطر القصير أو التاريخ، نسخ فاخر للدعاء أو العبارة الطويلة، وثُلث صغير أو نسخ أنيق للتذييل. لا تجعل الرقعة أو الكوفي افتراضيًا لهذا النوع.
-
-١٣. تعليمات تنسيق النص
-اكتب تعليمات الحفاظ على صحة الحروف والنقط والحركات، وعدم ضغط الزخرفة على النص، وعدم تكرار العبارة.
-
-١٤. التذييل
-لا تقترح نص تذييل من عندك. اكتب هل تحتاج البطاقة تذييلًا أم لا. إن احتاجت، فاكتب: يستخدم تذييل المستخدم من حاوية التذييل في المولد.
-
-١٥. ممنوعات خاصة
-اكتب ممنوعات تمنع الخط الرقمي العادي، النص الذهبي المسطح، الزخرفة فوق الحروف، تكرار التهنئة، أو إضافة نصوص غير مطلوبة.
-
-١٦. تعليمات إضافية دقيقة
-اكتب تعليمات تجعل البطاقة تبدو كقطعة مطبوعة فاخرة حقيقية، مع توازن بين الخط العربي والزخرفة والخامة. اجعل التذهيب والحفر والضغط البارز ضمن الخامة والزخرفة، لا كحاويات مستقلة.`;
-
-  const genericContainers = `الحاويات المطلوبة:
-
-١. وصف المشهد
-اكتب وصفًا بصريًا عامًا للتصميم.
-
-٢. الألوان والجو البصري
-اكتب لوحة ألوان مناسبة.
-
-٣. الإضاءة
-اكتب وصف الإضاءة.
-
-٤. زاوية المشهد
-اكتب زاوية المشهد.
-
-٥. الخلفية
-اكتب وصف الخلفية.
-
-٦. موضع العنصر الرئيسي
-اكتب موضع العنصر الرئيسي.
-
-٧. عناصر إضافية
-اقترح عناصر مساعدة.
-
-٨. النصوص النهائية التي يجب أن تظهر حرفيًا
-اكتب النصوص الظاهرة فقط مع توجيهات //...//.
-
-٩. نص ثانوي اختياري
-اكتب نصًا قصيرًا عند الحاجة فقط. إذا لم يحتج التصميم نصًا ثانويًا فاترك هذه الحاوية فارغة.
-
-١٠. مرجع وسياق لا يظهر كاملًا في التصميم
-اكتب سياقًا داعمًا لا يستخدم كنص ظاهر.
-
-١١. موضع النص الأساسي
-اكتب توزيع النصوص.
-
-١٢. نوع الخط العربي
-اكتب وصفًا عامًا فقط لنمط الخط العربي، ولا تفرض أسماء خطوط كثيرة. اترك الاختيار التفصيلي لإعدادات المولد.
-
-١٣. تعليمات تنسيق النص
-اكتب تعليمات RTL وعدم كسر الكلمات.
-
-١٤. التذييل
-لا تقترح نص تذييل من عندك. اكتب هل يحتاج التصميم تذييلًا أم لا. إن احتاج، فاكتب: يستخدم تذييل المستخدم من حاوية التذييل في المولد.
-
-١٥. ممنوعات خاصة
-اكتب ممنوعات مرتبطة بالموضوع.
-
-١٦. تعليمات إضافية دقيقة
-اكتب تعليمات تمنع الالتباس بين النص والرسم.`;
-
-  function containersForContentRequest(kind) {
-    if (kind === "story") return storyContainers;
-    if (kind === "slides") return slidesContainers;
-    if (kind === "brochure") return brochureContainers;
-    if (kind === "worksheet") return worksheetContainers;
-    if (kind === "greetingCard") return greetingCardContainers;
-    if (kind === "poetry" || kind === "textAsset") return poetryContainers;
-    if (kind === "infographic") return infographicContainers;
-    return genericContainers;
-  }
-
-  function buildContentRequestPrompt() {
-    const kind = classifyContentRequestType(fields.imageType.value);
-    const label = contentRequestLabels[kind] || contentRequestLabels.general;
-    return [
-      contentRequestHeader(label),
-      "",
-      sharedContentRules,
-      "",
-      containersForContentRequest(kind),
-      "",
-      "صيغة الإخراج المطلوبة:",
-      "اكتب اسم كل حاوية كعنوان واضح، ثم ضع محتواها تحته. لا تختم برد عام ولا تضف برومبتًا نهائيًا.",
-    ].join("\n");
-  }
-
-  function updateContentRequestBadge() {
-    const kind = classifyContentRequestType(fields.imageType.value);
-    targetBadge.textContent = contentRequestLabels[kind] || contentRequestLabels.general;
-  }
-
-  function openManualCopyWindow(text) {
-    const win = window.open("", "_blank", "width=780,height=660");
-    if (!win) return false;
-    const escaped = escapeHtml(text);
-    win.document.write(
-      `<pre style="direction:rtl;font-family:Tahoma,Arial,sans-serif;white-space:pre-wrap;padding:18px;font-size:14px;line-height:1.8">${escaped}</pre>`,
-    );
-    win.document.title = "طلب محتوى للحاويات";
-    return true;
-  }
-
-  async function copyContentRequestPrompt() {
-    const requestText = buildContentRequestPrompt();
-    const originalText = copyBtn.textContent;
-    try {
-      if (!navigator.clipboard || window.isSecureContext === false) {
-        throw new Error("clipboard-unavailable");
+      function renderLibraryManager(templates = readLibraryTemplates()) {
+        if (!libraryCheckList) return;
+        const names = Object.keys(templates);
+        libraryCheckList.innerHTML = "";
+        if (!names.length) {
+          const note = document.createElement("div");
+          note.className = "library-empty-note";
+          note.textContent = "لا توجد قوالب محفوظة حاليًا.";
+          libraryCheckList.appendChild(note);
+          return;
+        }
+        names.forEach((name) => {
+          const label = document.createElement("label");
+          label.className = "library-check-item";
+          const checkbox = document.createElement("input");
+          checkbox.type = "checkbox";
+          checkbox.value = name;
+          label.appendChild(checkbox);
+          label.appendChild(document.createTextNode(name));
+          libraryCheckList.appendChild(label);
+        });
       }
-      await navigator.clipboard.writeText(requestText);
-      copyBtn.classList.add("copied");
-      copyBtn.textContent = "تم نسخ طلب المحتوى";
-      statusText.textContent =
-        "تم نسخ طلب المحتوى. أرسله للذكاء، ثم الصق كل حاوية في مكانها داخل المولد قبل توليد البرومبت النهائي.";
-    } catch {
-      const opened = openManualCopyWindow(requestText);
-      statusText.textContent = opened
-        ? "تعذر النسخ التلقائي؛ فُتحت نافذة تحتوي طلب المحتوى لنسخه يدويًا."
-        : "تعذر النسخ التلقائي وفتح النافذة. جرّب تشغيل الصفحة عبر متصفح حديث.";
-    } finally {
-      setTimeout(() => {
-        copyBtn.classList.remove("copied");
-        copyBtn.textContent = originalText;
-      }, 2200);
-    }
-  }
 
-  copyBtn.addEventListener("click", copyContentRequestPrompt);
-  fields.imageType.addEventListener("change", updateContentRequestBadge);
-  updateContentRequestBadge();
-}
+      function selectedLibraryNames() {
+        if (!libraryCheckList) return [];
+        return Array.from(
+          libraryCheckList.querySelectorAll('input[type="checkbox"]:checked'),
+        ).map((input) => input.value);
+      }
 
-initContentRequestHelper();
+      function loadLibrary() {
+        if (!myLibrarySelect) return;
+        try {
+          const templates = readLibraryTemplates();
+          myLibrarySelect.innerHTML =
+            '<option value="">📂 مكتبتي (قوالبي المحفوظة)</option>';
 
-// تحميل المكتبة عند تشغيل الصفحة
-loadLibrary();
+          let hasTemplates = false;
+          for (const name in templates) {
+            const opt = document.createElement("option");
+            opt.value = name;
+            opt.textContent = "📑 " + name;
+            myLibrarySelect.appendChild(opt);
+            hasTemplates = true;
+          }
+          renderLibraryManager(templates);
+          if (libraryManager) libraryManager.classList.toggle("show", false);
+        } catch (e) {
+          console.error("خطأ في تحميل المكتبة", e);
+        }
+      }
+
+      if (saveToLibraryBtn) {
+        saveToLibraryBtn.addEventListener("click", () => {
+          const name = prompt(
+            "أدخل اسماً مميزاً لحفظ هذا القالب (مثلاً: قالب الرياضيات):",
+          );
+          const templateName = clean(name);
+          if (!templateName) return;
+
+          const currentData = gatherData();
+          try {
+            const templates = readLibraryTemplates();
+            if (
+              templates[templateName] &&
+              !confirm(
+                `القالب "${templateName}" موجود بالفعل. هل تريد استبداله؟`,
+              )
+            ) {
+              statusText.textContent =
+                "تم إلغاء حفظ القالب لتجنب استبدال قالب موجود";
+              return;
+            }
+            templates[templateName] = currentData;
+            writeLibraryTemplates(templates);
+
+            statusText.textContent = `تم حفظ القالب: "${templateName}" في مكتبتك`;
+            loadLibrary();
+            myLibrarySelect.value = templateName;
+          } catch (e) {
+            statusText.textContent = "تعذر حفظ القالب في المكتبة";
+          }
+        });
+      }
+
+      if (exportLibraryBtn) {
+        exportLibraryBtn.addEventListener("click", () => {
+          const templates = readLibraryTemplates();
+          const count = Object.keys(templates).length;
+          if (!count) {
+            statusText.textContent = "لا توجد قوالب محفوظة لتصديرها";
+            return;
+          }
+          const payload = {
+            type: "arabic-prompt-treasure-library",
+            version: 1,
+            exportedAt: new Date().toISOString(),
+            templates,
+          };
+          const blob = new Blob([JSON.stringify(payload, null, 2)], {
+            type: "application/json;charset=utf-8",
+          });
+          downloadBlob(blob, "arabic-prompt-library.json");
+          statusText.textContent = `تم تصدير مكتبتك وفيها ${count} قالب`;
+        });
+      }
+
+      function importLibraryFromFile(file) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          try {
+            const incoming = extractLibraryTemplates(JSON.parse(reader.result));
+            if (!incoming) {
+              statusText.textContent =
+                "ملف المكتبة غير صالح أو لا يحتوي قوالب قابلة للاستيراد";
+              return;
+            }
+            const validEntries = Object.entries(incoming).filter(
+              ([, template]) => hasRecognizedTemplateField(template),
+            );
+            const stats = mergeLibraryTemplates(incoming);
+            if (validEntries.length === 1) {
+              const requestedName = clean(validEntries[0][0]) || "قالب مستورد";
+              const openName =
+                (stats.addedNames && stats.addedNames[0]) ||
+                (stats.duplicateNames && stats.duplicateNames[0]) ||
+                requestedName;
+              const templates = readLibraryTemplates();
+              if (templates[openName]) {
+                const wasDuplicate =
+                  stats.duplicateNames &&
+                  stats.duplicateNames.includes(openName);
+                applyTemplateToCurrentProject(
+                  templates[openName],
+                  openName,
+                  wasDuplicate
+                    ? `القالب "${openName}" موجود مسبقًا بنفس المحتوى، وتم فتحه من مكتبتك`
+                    : `تم استيراد القالب "${openName}" وفتحه مباشرة`,
+                );
+                return;
+              }
+            }
+            statusText.textContent = libraryImportStatusMessage(stats);
+          } catch (e) {
+            statusText.textContent = "تعذر استيراد مكتبة القوالب";
+          }
+        };
+        reader.onerror = () => {
+          statusText.textContent =
+            "تعذرت قراءة ملف المكتبة، تأكد من صلاحيات الوصول إليه.";
+        };
+        reader.readAsText(file, "utf-8");
+      }
+
+      if (importLibraryBtn && importLibraryFile) {
+        importLibraryBtn.addEventListener("click", () =>
+          importLibraryFile.click(),
+        );
+        importLibraryFile.addEventListener("change", (e) => {
+          const file = e.target.files && e.target.files[0];
+          if (file) importLibraryFromFile(file);
+          e.target.value = "";
+        });
+      }
+
+      if (manageLibraryBtn && libraryManager) {
+        manageLibraryBtn.addEventListener("click", () => {
+          renderLibraryManager();
+          libraryManager.classList.toggle("show");
+        });
+      }
+
+      if (selectAllLibraryBtn && libraryCheckList) {
+        selectAllLibraryBtn.addEventListener("click", () => {
+          libraryCheckList
+            .querySelectorAll('input[type="checkbox"]')
+            .forEach((input) => {
+              input.checked = true;
+            });
+        });
+      }
+
+      if (clearLibrarySelectionBtn && libraryCheckList) {
+        clearLibrarySelectionBtn.addEventListener("click", () => {
+          libraryCheckList
+            .querySelectorAll('input[type="checkbox"]')
+            .forEach((input) => {
+              input.checked = false;
+            });
+        });
+      }
+
+      if (exportSelectedLibraryBtn) {
+        exportSelectedLibraryBtn.addEventListener("click", () => {
+          const names = selectedLibraryNames();
+          if (!names.length) {
+            statusText.textContent =
+              "حدد قالبًا واحدًا على الأقل لتصديره من المكتبة";
+            return;
+          }
+          const templates = readLibraryTemplates();
+          const selectedTemplates = {};
+          names.forEach((name) => {
+            if (templates[name]) selectedTemplates[name] = templates[name];
+          });
+          const count = Object.keys(selectedTemplates).length;
+          if (!count) {
+            statusText.textContent =
+              "تعذر العثور على القوالب المحددة داخل المكتبة";
+            renderLibraryManager(templates);
+            return;
+          }
+          const payload = {
+            type: "arabic-prompt-treasure-library",
+            version: 1,
+            exportedAt: new Date().toISOString(),
+            templates: selectedTemplates,
+          };
+          const blob = new Blob([JSON.stringify(payload, null, 2)], {
+            type: "application/json;charset=utf-8",
+          });
+          downloadBlob(
+            blob,
+            `arabic-prompt-library-selected-${Date.now()}.json`,
+          );
+          statusText.textContent = `تم تصدير ${displayNumber(count, fields.numberStyle.value)} قالب من القوالب المحددة`;
+        });
+      }
+
+      if (deleteSelectedLibraryBtn) {
+        deleteSelectedLibraryBtn.addEventListener("click", () => {
+          const names = selectedLibraryNames();
+          if (!names.length) {
+            statusText.textContent =
+              "حدد قالبًا واحدًا على الأقل لحذفه من المكتبة";
+            return;
+          }
+          openConfirmDialog(
+            `سيتم حذف ${displayNumber(names.length, fields.numberStyle.value)} قالب من مكتبتك. هل تريد المتابعة؟`,
+            () => {
+              const templates = readLibraryTemplates();
+              names.forEach((name) => delete templates[name]);
+              writeLibraryTemplates(templates);
+              loadLibrary();
+              if (libraryManager) libraryManager.classList.add("show");
+              statusText.textContent = `تم حذف ${displayNumber(names.length, fields.numberStyle.value)} قالب من مكتبتك`;
+            },
+          );
+        });
+      }
+
+      if (myLibrarySelect) {
+        myLibrarySelect.addEventListener("change", (e) => {
+          const name = e.target.value;
+          if (!name) return;
+
+          try {
+            const templates = readLibraryTemplates();
+            if (templates[name]) {
+              applyTemplateToCurrentProject(
+                templates[name],
+                name,
+                `تم استدعاء القالب: "${name}"`,
+              );
+            }
+          } catch (e) {
+            statusText.textContent = "خطأ في استدعاء القالب";
+          }
+          // إرجاع القائمة للوضع الافتراضي بعد الاستدعاء لتكرار الاستخدام
+          setTimeout(() => {
+            e.target.value = "";
+          }, 500);
+        });
+      }
+
+      function initContentRequestHelper() {
+        const copyBtn = $("copyContentRequestBtn");
+        const targetBadge = $("contentRequestTarget");
+        if (!copyBtn || !targetBadge || !fields.imageType) return;
+
+        function classifyContentRequestType(value) {
+          const text = clean(value);
+          if (/إنفوجرافيك|انفوجرافيك|infographic/i.test(text))
+            return "infographic";
+          if (/قصة\s*مصورة|قصص|قصة/i.test(text)) return "story";
+          if (/شرائح/i.test(text)) return "slides";
+          if (/مطوية|بروشور|brochure/i.test(text)) return "brochure";
+          if (
+            /ورقة\s*عمل|اختبار|قياس\s*مهارة|نموذج\s*اختبار|worksheet/i.test(
+              text,
+            )
+          )
+            return "worksheet";
+          if (/غلاف\s*كتاب|book\s*cover/i.test(text)) return "bookCover";
+          if (
+            /بطاقة\s*تهنئة|تهنئة|مباركة|عيد|أضحى|فطر|رمضان|مولود|زواج|greeting\s*card|eid/i.test(
+              text,
+            )
+          )
+            return "greetingCard";
+          if (/بطاقة\s*دعوة|دعوة/i.test(text)) return "invitation";
+          if (/شعرية|شعري|اقتباس|أدبي/i.test(text)) return "poetry";
+          if (/أصل\s*نصي|خطي|مخطوطة/i.test(text)) return "textAsset";
+          if (/هوية\s*بصرية/i.test(text)) return "identity";
+          if (/سوشيال|منشور/i.test(text)) return "social";
+          if (/إعلان|اعلان|دعائي/i.test(text)) return "ad";
+          return "general";
+        }
+
+        const contentRequestLabels = {
+          infographic: "إنفوجرافيك عربي",
+          story: "قصة مصورة عربية",
+          slides: "شرائح تعليمية",
+          brochure: "مطوية عربية",
+          worksheet: "ورقة عمل / اختبار قياس مهارة",
+          bookCover: "غلاف كتاب عربي",
+          greetingCard: "بطاقة تهنئة عربية فاخرة",
+          invitation: "بطاقة دعوة عربية",
+          poetry: "لوحة شعرية",
+          textAsset: "أصل نصي خطي",
+          identity: "هوية بصرية عربية",
+          social: "منشور سوشيال عربي",
+          ad: "إعلان عربي",
+          general: "تصميم عربي عام",
+        };
+
+        function placeholder(value) {
+          return clean(value) || "[............]";
+        }
+
+        function contentRequestHeader(typeLabel) {
+          const isEducational = isEducationalPurpose(
+            fields.purpose && fields.purpose.value,
+          );
+          const subjectValue = placeholder(
+            fields.subject && fields.subject.value,
+          );
+          const purposeValue = placeholder(
+            fields.purpose && fields.purpose.value,
+          );
+          const styleValue = placeholder(fields.style && fields.style.value);
+          const audienceValue = isEducational
+            ? placeholder(fields.audienceType && fields.audienceType.value)
+            : "عام";
+          const aspectRatioValue = placeholder(
+            fields.aspectRatio && fields.aspectRatio.value,
+          );
+          const educationLines = isEducational
+            ? [
+                fields.subjectArea &&
+                clean(fields.subjectArea.value) &&
+                fields.subjectArea.value !== "عام"
+                  ? `- المادة الدراسية: ${clean(fields.subjectArea.value)}`
+                  : "",
+                fields.gradeLevel && clean(fields.gradeLevel.value)
+                  ? `- المرحلة أو الصف: ${clean(fields.gradeLevel.value)}`
+                  : "",
+                fields.lessonTitle && clean(fields.lessonTitle.value)
+                  ? `- عنوان الدرس: ${clean(fields.lessonTitle.value)}`
+                  : "",
+                fields.learningGoal && clean(fields.learningGoal.value)
+                  ? `- الهدف التعليمي أو الرسالة: ${clean(fields.learningGoal.value)}`
+                  : "",
+              ].filter(Boolean)
+            : [];
+          const specs = [
+            "أريد منك إعداد محتوى عربي منظم فقط لمولد برومبت الصور العربي.",
+            "",
+            "مهم جدًا:",
+            "- لا تكتب برومبت صور نهائيًا.",
+            "- لا تجعل إجابتك قابلة للإرسال مباشرة إلى مولد الصور.",
+            "- لا تكتب قسمًا باسم البرومبت النهائي.",
+            "- لا تكتب Negative Prompt.",
+            "- بعد إعداد المحتوى سأعود إلى المولد وألصق كل حاوية في مكانها، ثم أستخدم المولد لإنتاج البرومبت النهائي بضوابطه العربية.",
+            "",
+            "المواصفات المتوفرة:",
+            `- نوع التصميم: ${typeLabel}`,
+            `- موضوع الصورة: ${subjectValue}`,
+            `- الغرض: ${purposeValue}`,
+            `- الأسلوب: ${styleValue}`,
+            `- نسبة الأبعاد: ${aspectRatioValue}`,
+            `- الفئة المستهدفة: ${audienceValue}`,
+          ];
+          if (isEducational) {
+            specs.push(
+              educationLines.length
+                ? ["- السياق التعليمي:", ...educationLines].join("\n")
+                : "- السياق التعليمي: [............]",
+            );
+          }
+          return specs.join("\n");
+        }
+
+        const sharedContentRules = [
+          "قواعد الإجابة:",
+          "- قسّم الرد بنفس أسماء الحاويات المطلوبة أدناه، ولا تضف حاويات جديدة إلا للضرورة.",
+          "- اكتب تحت كل حاوية محتواها فقط، بحيث أستطيع نسخه ولصقه في المولد.",
+          "- اجعل النصوص الظاهرة داخل التصميم موجودة فقط في حاوية: النصوص النهائية التي يجب أن تظهر حرفيًا.",
+          "- لا تكرر النصوص الظاهرة داخل وصف المشهد أو المرجع أو النص الثانوي.",
+          "- اجعل باقي الحاويات وصفية وتوجيهية فقط وليست مصدرًا بديلًا للنص الظاهر.",
+          "- التزم بنوع التصميم المطلوب فقط، ولا تضف حاويات أو قواعد أو تعليمات تخص نوعًا آخر. لا تستخدم تعليمات الشرائح إلا للشرائح، ولا القصة إلا للقصة، ولا المطوية إلا للمطوية، ولا ورقة العمل إلا لورقة العمل، ولا بطاقة التهنئة إلا لبطاقة التهنئة.",
+          "- إذا كان نوع التصميم بطاقة تهنئة، فلا تكتب قواعد شبكات أو بطاقات متعددة أو جداول أو أنشطة. وإذا كان إنفوجرافيك فلا تكتب قواعد بطاقة تهنئة فاخرة إلا إذا طلبت ذلك صراحة.",
+          "- لا تخترع نص تذييل من عندك؛ التذييل له حاوية مستقلة في المولد يملؤها المستخدم يدويًا أو تلقائيًا.",
+          "- في حاوية التذييل اكتب فقط هل يحتاج التصميم تذييلًا أم لا، وإن احتاج فاكتب: يستخدم تذييل المستخدم من حاوية التذييل في المولد.",
+          "- داخل حاوية النصوص النهائية، ضع قبل كل نص مهم توجيهًا محليًا بين //...//.",
+          "- ما بين //...// توجيه للمولد فقط ولا يظهر في التصميم، أما السطر الذي بعده فهو النص الحرفي الظاهر.",
+          "- ابدأ حاوية النصوص النهائية بهذا التوجيه:",
+          "//التزم بالنصوص التالية حرفيًا كما هي. لا تعدل الصياغة، لا تختصر، لا تضف نصوصًا من الحاويات الأخرى، ولا تُظهر أي توجيه بين //...// داخل التصميم النهائي//",
+          "- إذا كان الموضوع يعتمد على رسم دقيق، فاربط كل نص برسمه الصحيح داخل التوجيه المحلي.",
+          "- استخدم العربية الفصحى الواضحة والاتجاه RTL.",
+          "- إذا كان المحتوى يحتوي بطاقات أو خطوات مرقمة، فلا تقترح توزيعًا نصف دائريًا أو حرًا حول المشهد. اطلب شبكة صفوف عربية RTL ثابتة: الصف الأول من اليمين إلى اليسار، ثم الصف التالي من اليمين إلى اليسار.",
+          "- لا تجعل التوازن الزخرفي حول العنصر الرئيسي يغيّر ترتيب البطاقات أو أرقامها.",
+          "- لا تضف أي تعليمات عن نمط الأرقام داخل أي حاوية.",
+          "- لا تكتب: استخدم الأرقام الإنجليزية فقط.",
+          "- لا تكتب: استخدم الأرقام الهندية الشرقية فقط.",
+          "- لا تكتب: ممنوع استخدام الأرقام الإنجليزية أو ممنوع استخدام الأرقام الهندية الشرقية.",
+          "- لا تكتب: حافظ على نظام أرقام موحّد.",
+          "- اترك اختيار نمط الأرقام لإعدادات المولد المستقلة.",
+          "- اذكر الأرقام داخل النصوص النهائية فقط إذا كانت جزءًا من النص التعليمي نفسه، واكتبها كما وردت دون توجيه خاص بنمطها.",
+          "- إذا كان المحتوى يتضمن آية أو حديثًا أو دعاءً منقولًا، فضعه في حاوية النصوص النهائية فقط كما ورد من المستخدم، ولا تعِد صياغته ولا تختصره ولا تصححه من نفسك.",
+          "- للنصوص الشرعية الحساسة، اطلب مساحة نصية واسعة وخطًا مقروءًا وزخرفة قليلة حول النص، ولا تجعل الأيقونات أو المشهد يزاحم الآية أو الحديث.",
+          "- لا تفرض أسماء خطوط كثيرة داخل الحاويات، ولا تخلط مدارس خطية متباعدة. اترك اختيار الخط لإعدادات المولد، أو اكتب وصفًا عامًا فقط: عنوان عربي واضح، عناوين بطاقات واضحة، ونصوص داخلية مقروءة.",
+          "- إذا كان الأسلوب فنيًا أو ألوانًا مائية أو يدويًا، فاجعله للخلفية والمشهد والأيقونات فقط، ولا تطبقه على النصوص. النصوص يجب أن تكون طباعية حادة وواضحة.",
+          "- إذا كان المحتوى ورقة عمل أو نشاطًا أو اختبارًا للطالب، فلا تضع الإجابات ولا تحل الأسئلة ولا تصل عناصر التوصيل، إلا إذا طلبتُ صراحة نموذج إجابة أو مفتاح إجابة.",
+          "- اجعل المحتوى مختصرًا بقدر ما يسمح به نوع التصميم، ولا تملأ التصميم بنصوص طويلة غير ضرورية.",
+        ].join("\n");
+
+        const infographicContainers = `الحاويات المطلوبة:
+
+      ١. وصف المشهد
+      اكتب وصفًا بصريًا عامًا للتصميم دون تكرار النصوص الظاهرة حرفيًا.
+
+      ٢. الألوان والجو البصري
+      اكتب لوحة ألوان وجوًا بصريًا مناسبًا.
+
+      ٣. الإضاءة
+      اكتب وصفًا للإضاءة.
+
+      ٤. زاوية المشهد
+      اكتب زاوية المشهد المناسبة.
+
+      ٥. الخلفية
+      اكتب وصفًا للخلفية.
+
+      ٦. موضع العنصر الرئيسي
+      اكتب وصفًا لموضع العنصر البصري الرئيسي.
+
+      ٧. عناصر إضافية
+      اقترح رسومات وأيقونات وعناصر مساعدة مرتبطة بالموضوع.
+
+      ٨. النصوص النهائية التي يجب أن تظهر حرفيًا
+      ضع النصوص الظاهرة فقط، مع توجيهات //...// قبل النصوص المهمة.
+
+      ٩. نص ثانوي اختياري
+      اكتب نصًا قصيرًا جدًا عند الحاجة فقط. إذا لم يحتج التصميم نصًا ثانويًا فاترك هذه الحاوية فارغة.
+
+      ١٠. مرجع وسياق لا يظهر كاملًا في التصميم
+      اكتب مرجعًا لفهم الموضوع فقط، وصرح أنه ليس مصدرًا مباشرًا للنص الظاهر.
+
+      ١١. موضع النص الأساسي
+      اكتب وصفًا لتوزيع العنوان والبطاقات والنصوص.
+
+      ١٢. نوع الخط العربي
+      اكتب وصفًا عامًا فقط لنمط الخط، ولا تفرض أسماء خطوط كثيرة. اترك الاختيار التفصيلي لإعدادات المولد.
+
+      ١٣. تعليمات تنسيق النص
+      اكتب تعليمات RTL، المحاذاة، وعدم كسر الكلمات.
+
+      ١٤. التذييل
+      لا تقترح نص تذييل من عندك. اكتب هل يحتاج التصميم تذييلًا أم لا. إن احتاج، فاكتب: يستخدم تذييل المستخدم من حاوية التذييل في المولد.
+
+      ١٥. ممنوعات خاصة
+      اكتب ممنوعات مرتبطة بالموضوع والنوع.
+
+      ١٦. تعليمات إضافية دقيقة
+      اكتب تعليمات تربط النص بالعناصر البصرية وتمنع الالتباس.`;
+
+        const storyContainers = `الحاويات المطلوبة:
+
+      ١. الفكرة العامة والرسالة التربوية
+      لخص فكرة القصة ورسالتها.
+
+      ٢. الشخصيات
+      اكتب لكل شخصية اسمها، عمرها، ملامحها، ملابسها، وصفة بصرية ثابتة.
+
+      ٣. أسلوب الرسم والاتساق البصري
+      حدد أسلوب الرسم وثبات الشخصيات بين الصفحات.
+
+      ٤. الألوان والجو البصري
+      اكتب لوحة ألوان وجوًا عاطفيًا مناسبًا.
+
+      ٥. الإضاءة وزاوية المشهد
+      اكتب وصفًا عامًا للإضاءة والزوايا.
+
+      ٦. صفحة الغلاف
+      اكتب عنوان الغلاف، وصف مشهده، والنصوص الظاهرة عليه مع //...//.
+
+      ٧. صفحات القصة
+      لكل صفحة: رقم الصفحة، وصف المشهد، النص الظاهر، الإحساس العاطفي.
+
+      ٨. النصوص النهائية التي يجب أن تظهر حرفيًا
+      اجمع كل نصوص الغلاف والصفحات بالترتيب مع توجيهات //...//.
+
+      ٩. موضع النص في الصفحات
+      حدد هل يكون النص في شريط أسفل الصفحة أو فقاعة أو بطاقة جانبية.
+
+      ١٠. نوع الخط العربي
+      اكتب وصفًا عامًا فقط لنمط الخط المناسب للجمهور، ولا تفرض أسماء خطوط كثيرة. اترك الاختيار التفصيلي لإعدادات المولد.
+
+      ١١. تعليمات تنسيق النص
+      اكتب تعليمات RTL، عدم كسر الكلمات، وحجم النص المناسب.
+
+      ١٢. ممنوعات خاصة
+      اكتب ممنوعات تتعلق بتغيّر الشخصيات أو ازدحام الصفحة.
+
+      ١٣. تعليمات إضافية دقيقة
+      اكتب ما يحافظ على تسلسل القصة ووضوحها.`;
+
+        const slidesContainers = `الحاويات المطلوبة:
+
+      ١. هدف الشرائح
+      حدد الغرض من مجموعة الشرائح.
+
+      ٢. أسلوب الشرائح العام
+      حدد النمط البصري الموحد.
+
+      ٣. قائمة الشرائح
+      اكتب لكل شريحة: رقم الشريحة، عنوانها، فكرتها، النص الظاهر، العناصر البصرية.
+
+      ٤. النصوص النهائية التي يجب أن تظهر حرفيًا
+      اجمع نصوص الشرائح بالترتيب مع توجيهات //...//.
+
+      ٥. الألوان والجو البصري
+      اكتب لوحة ألوان ثابتة.
+
+      ٦. الخلفية والإضاءة وزاوية المشهد
+      اكتب وصفًا موحدًا للخلفية والزوايا.
+
+      ٧. موضع النص الأساسي
+      حدد توزيع العنوان والنقاط والصور في كل شريحة.
+
+      ٨. نوع الخط العربي
+      اكتب وصفًا عامًا فقط لنمط الخط للعناوين والنصوص، ولا تفرض أسماء خطوط كثيرة. اترك الاختيار التفصيلي لإعدادات المولد.
+
+      ٩. تعليمات تنسيق النص
+      اكتب تعليمات RTL، وضوح النص، وعدم ازدحام الشرائح.
+
+      ١٠. التذييل أو رقم الشريحة
+      حدد هل تحتاج الشرائح رقم شريحة أو تذييلًا. لا تقترح نص تذييل من عندك؛ نص التذييل يؤخذ من حاوية التذييل في المولد فقط.
+
+      ١١. ممنوعات خاصة
+      اكتب ممنوعات تمنع اختلاف الأسلوب أو ازدحام النصوص.
+
+      ١٢. تعليمات إضافية دقيقة
+      اكتب تعليمات للحفاظ على اتساق الشرائح.`;
+
+        const brochureContainers = `الحاويات المطلوبة:
+
+      ١. وصف المطوية
+      اكتب هدف المطوية وجمهورها.
+
+      ٢. نوع الوجه المطلوب
+      حدد هل المحتوى للوجه الخارجي فقط، الداخلي فقط، أم وجهين منفصلين.
+
+      ٣. توزيع الأعمدة
+      اكتب ترتيب الأعمدة من اليمين إلى اليسار، وما يظهر في كل عمود.
+
+      ٤. النصوص النهائية التي يجب أن تظهر حرفيًا
+      اكتب نصوص كل عمود مع توجيهات //...//.
+
+      ٥. عناصر إضافية
+      اقترح أيقونات وصورًا صغيرة لكل عمود.
+
+      ٦. الألوان والجو البصري
+      اكتب لوحة الألوان.
+
+      ٧. الخلفية والإضاءة
+      اكتب وصفًا مناسبًا للطباعة.
+
+      ٨. موضع النص الأساسي
+      حدد توزيع العنوان والفقرات والبطاقات داخل الأعمدة.
+
+      ٩. نوع الخط العربي
+      اكتب وصفًا عامًا فقط لنمط الخط الواضح للمطويات، ولا تفرض أسماء خطوط كثيرة. اترك الاختيار التفصيلي لإعدادات المولد.
+
+      ١٠. تعليمات تنسيق النص
+      اكتب تعليمات RTL، عدم كسر الكلمات، والهوامش.
+
+      ١١. التذييل وبيانات التواصل
+      لا تقترح نص تذييل من عندك. إن احتاجت المطوية بيانات تواصل أو تذييلًا، فاكتب أن المستخدم يضعها في حاوية التذييل داخل المولد.
+
+      ١٢. ممنوعات خاصة
+      اكتب ممنوعات تمنع جمع الوجهين في صورة واحدة إلا إذا طُلب ذلك.
+
+      ١٣. تعليمات إضافية دقيقة
+      اكتب تعليمات تجعل المطوية صالحة للقراءة والطباعة.`;
+
+        const worksheetContainers = `الحاويات المطلوبة:
+
+      ١. وصف المشهد
+      اكتب وصفًا بصريًا عامًا لورقة العمل أو اختبار قياس المهارة: هل هي صفحة اختبار قصيرة، تدريب، مراجعة، أو نشاط قابل للطباعة.
+
+      ٢. الألوان والجو البصري
+      حدد هل الورقة بالأبيض والأسود للطباعة الورقية أو ملونة. لا تضف ألوانًا إذا ذكر المستخدم أنها للطباعة بالأبيض والأسود.
+
+      ٣. الإضاءة
+      اكتب وصفًا مناسبًا لتصميم ورقي مسطح وواضح دون مؤثرات مشتتة.
+
+      ٤. زاوية المشهد
+      اكتب زاوية صفحة أمامية مباشرة مناسبة للقراءة والطباعة.
+
+      ٥. الخلفية
+      اكتب وصفًا لخلفية الورقة، ويفضل أن تكون بيضاء أو نظيفة بما يناسب الطباعة.
+
+      ٦. موضع العنصر الرئيسي
+      اكتب بنية الورقة: رأس الصفحة، بيانات الطالب، خط فاصل، ثم أقسام الأسئلة ومساحات الإجابة.
+
+      ٧. عناصر إضافية
+      اقترح عناصر تعليمية مساعدة مثل خطوط إجابة، مربعات اختيار، جداول صغيرة، رسومات خطية، أو مساحات رسم، بحسب موضوع الورقة.
+
+      ٨. النصوص النهائية التي يجب أن تظهر حرفيًا
+      اكتب نصوص ورقة العمل فقط مع توجيهات //...// قبل كل قسم أو سؤال مهم. اجعل النصوص قابلة للنسخ إلى حاوية النصوص النهائية.
+
+      ٩. نص ثانوي اختياري
+      اكتب نصًا قصيرًا عند الحاجة فقط. إذا لم تحتج الورقة نصًا ثانويًا فاترك هذه الحاوية فارغة.
+
+      ١٠. مرجع وسياق لا يظهر كاملًا في التصميم
+      اكتب سياق الدرس والمهارة المقاسة، وما يجب على الورقة أن تختبره، دون استخدامه كنص ظاهر.
+
+      ١١. موضع النص الأساسي
+      اكتب توزيع النصوص من أعلى الورقة إلى أسفلها: العنوان، بيانات الطالب، التعليمات، الأسئلة، مساحات الإجابة.
+
+      ١٢. نوع الخط العربي
+      اكتب وصفًا عامًا فقط لنمط خط عربي واضح مناسب للطباعة المدرسية، ولا تفرض أسماء خطوط كثيرة. اترك الاختيار التفصيلي لإعدادات المولد.
+
+      ١٣. تعليمات تنسيق النص
+      اكتب تعليمات RTL، وضوح الأسئلة، عدم كسر الكلمات، ترك مساحات كافية للإجابة، وعدم ازدحام الورقة.
+
+      ١٤. التذييل
+      لا تقترح نص تذييل من عندك. اكتب هل تحتاج الورقة تذييلًا أم لا. إن احتاجت، فاكتب: يستخدم تذييل المستخدم من حاوية التذييل في المولد.
+
+      ١٥. ممنوعات خاصة
+      اكتب ممنوعات مرتبطة بورقة العمل، مثل منع الزخرفة الزائدة، منع ضيق مساحات الإجابة، منع الرسوم غير الدقيقة، منع تحويل الورقة إلى بوستر، ومنع حل الأسئلة أو ملء الفراغات أو توصيل الإجابات ما لم أطلب نموذج إجابة صراحة.
+
+      ١٦. تعليمات إضافية دقيقة
+      اكتب تعليمات تضمن أن الورقة صالحة للطباعة والنسخ، وأن كل سؤال مرتبط برسومه أو مساحة إجابته دون التباس، وأن تبقى الأنشطة قابلة للحل من الطالب.`;
+
+        const poetryContainers = `الحاويات المطلوبة:
+
+      ١. وصف المشهد البصري للوحة
+      اكتب وصفًا للخلفية والهوامش والزخارف دون مزاحمة النص.
+
+      ٢. الألوان والجو البصري
+      اكتب لوحة ألوان أدبية أو تراثية مناسبة.
+
+      ٣. الإضاءة وزاوية المشهد
+      اكتب وصفًا بسيطًا للإضاءة والتكوين.
+
+      ٤. النصوص النهائية التي يجب أن تظهر حرفيًا
+      اكتب العنوان والأبيات فقط. إذا كانت قصيدة، قسّم كل بيت إلى شطر أيمن وشطر أيسر. لا تكتب التذييل ضمن النصوص النهائية إلا إذا زوده المستخدم صراحة، لأن التذييل له حاوية مستقلة في المولد.
+
+      ٥. تنسيق الأبيات
+      حدد إن كانت شطرين متقابلين، متوسطة، أو متداخلة، مع مراعاة المساحة.
+
+      ٦. نوع الخط العربي
+      اقترح توزيعًا عامًا للخط بين العنوان والأبيات دون الإكثار من أسماء الخطوط، واترك التفصيل لإعدادات المولد.
+
+      ٧. تعليمات تنسيق النص
+      اكتب تعليمات RTL، الحفاظ على التشكيل، وعدم كسر الكلمات.
+
+      ٨. عناصر إضافية
+      اقترح محبرة أو قلمًا أو زخرفة خفيفة.
+
+      ٩. التذييل
+      لا تقترح نص تذييل من عندك. اكتب فقط إن كانت اللوحة تحتاج نسبة أو توقيعًا عبر حاوية التذييل في المولد.
+
+      ١٠. ممنوعات خاصة
+      اكتب ممنوعات تمنع ضغط الأبيات أو تكرار التذييل.
+
+      ١١. تعليمات إضافية دقيقة
+      اكتب ما يحافظ على وضوح النص ووقاره.`;
+
+        const greetingCardContainers = `الحاويات المطلوبة:
+
+      ١. وصف المشهد
+      اكتب وصفًا لبطاقة تهنئة فيزيائية فاخرة، لا بوسترًا مسطحًا. اجمع هنا وصف خامة الورق أو الكرتون، الإحساس الملموس، التذهيب البارز، الطابع العام للمناسبة، وطريقة ظهور البطاقة كقطعة مطبوعة حقيقية.
+
+      ٢. الألوان والجو البصري
+      اكتب لوحة ألوان فاخرة مناسبة للمناسبة، مثل الأخضر الزمردي والذهب أو الكحلي والذهب أو العاجي والذهب، مع وصف لمعان الذهب والتباين بين النص والخلفية.
+
+      ٣. الإضاءة
+      اكتب إضاءة استوديو دافئة أو ناعمة تظهر لمعان الذهب وملمس البطاقة دون إضعاف قراءة النص.
+
+      ٤. زاوية المشهد
+      اكتب زاوية تصوير البطاقة: أمامية فاخرة أو مائلة خفيفة أو لقطة قريبة على مخمل.
+
+      ٥. الخلفية
+      اكتب وصفًا لخلفية مناسبة مثل مخمل داكن أو سطح فاخر أو خلفية نظيفة لا تزاحم البطاقة، مع ترك مساحة هادئة خلف النص الأساسي.
+
+      ٦. موضع العنصر الرئيسي
+      اكتب موضع البطاقة أو النص المركزي داخل التكوين: العبارة الرئيسية في مركز البطاقة، والسطور الثانوية تحتها، مع الحفاظ على منطقة وسطية هادئة.
+
+      ٧. عناصر إضافية
+      اقترح العناصر البصرية المساعدة فقط: إطار ذهبي رفيع، زخارف أرابيسك أو توريق إسلامي في الزوايا والأطراف، فواصل ذهبية، ملمس ورق، حفر أو ضغط بارز، دون إضافة نصوص داخل الزخارف.
+
+      ٨. النصوص النهائية التي يجب أن تظهر حرفيًا
+      اكتب نصوص التهنئة فقط مع توجيهات //...//. اجعل النص الرئيسي بخط ثلث فخم أو ديواني جلي، واجعل التاريخ أو السطر القصير بالديواني الجلي، واجعل الدعاء أو العبارة الطويلة بخط نسخ فاخر واضح، ولا تضع التذييل هنا إلا إذا زوده المستخدم صراحة.
+
+      ٩. نص ثانوي اختياري
+      اكتب نصًا قصيرًا عند الحاجة فقط. إذا لم يحتج التصميم نصًا ثانويًا فاترك هذه الحاوية فارغة.
+
+      ١٠. مرجع وسياق لا يظهر كاملًا في التصميم
+      اكتب سياق المناسبة وفكرة الفخامة والخامة والتذهيب كمرجع بصري فقط، وصرح أنه ليس مصدرًا مباشرًا لأي نص ظاهر داخل البطاقة.
+
+      ١١. موضع النص الأساسي
+      اكتب توزيع النصوص: العبارة الرئيسية في الوسط، السنة أو العبارة الثانوية أسفلها، والتذييل في أسفل البطاقة إن احتاج.
+
+      ١٢. نوع الخط العربي
+      اقترح توزيعًا للخطوط العربية الأصيلة: ثلث فخم أو ديواني جلي للنص الرئيسي، ديواني جلي للسطر القصير أو التاريخ، نسخ فاخر للدعاء أو العبارة الطويلة، وثُلث صغير أو نسخ أنيق للتذييل. لا تجعل الرقعة أو الكوفي افتراضيًا لهذا النوع.
+
+      ١٣. تعليمات تنسيق النص
+      اكتب تعليمات الحفاظ على صحة الحروف والنقط والحركات، وعدم ضغط الزخرفة على النص، وعدم تكرار العبارة.
+
+      ١٤. التذييل
+      لا تقترح نص تذييل من عندك. اكتب هل تحتاج البطاقة تذييلًا أم لا. إن احتاجت، فاكتب: يستخدم تذييل المستخدم من حاوية التذييل في المولد.
+
+      ١٥. ممنوعات خاصة
+      اكتب ممنوعات تمنع الخط الرقمي العادي، النص الذهبي المسطح، الزخرفة فوق الحروف، تكرار التهنئة، أو إضافة نصوص غير مطلوبة.
+
+      ١٦. تعليمات إضافية دقيقة
+      اكتب تعليمات تجعل البطاقة تبدو كقطعة مطبوعة فاخرة حقيقية، مع توازن بين الخط العربي والزخرفة والخامة. اجعل التذهيب والحفر والضغط البارز ضمن الخامة والزخرفة، لا كحاويات مستقلة.`;
+
+        const genericContainers = `الحاويات المطلوبة:
+
+      ١. وصف المشهد
+      اكتب وصفًا بصريًا عامًا للتصميم.
+
+      ٢. الألوان والجو البصري
+      اكتب لوحة ألوان مناسبة.
+
+      ٣. الإضاءة
+      اكتب وصف الإضاءة.
+
+      ٤. زاوية المشهد
+      اكتب زاوية المشهد.
+
+      ٥. الخلفية
+      اكتب وصف الخلفية.
+
+      ٦. موضع العنصر الرئيسي
+      اكتب موضع العنصر الرئيسي.
+
+      ٧. عناصر إضافية
+      اقترح عناصر مساعدة.
+
+      ٨. النصوص النهائية التي يجب أن تظهر حرفيًا
+      اكتب النصوص الظاهرة فقط مع توجيهات //...//.
+
+      ٩. نص ثانوي اختياري
+      اكتب نصًا قصيرًا عند الحاجة فقط. إذا لم يحتج التصميم نصًا ثانويًا فاترك هذه الحاوية فارغة.
+
+      ١٠. مرجع وسياق لا يظهر كاملًا في التصميم
+      اكتب سياقًا داعمًا لا يستخدم كنص ظاهر.
+
+      ١١. موضع النص الأساسي
+      اكتب توزيع النصوص.
+
+      ١٢. نوع الخط العربي
+      اكتب وصفًا عامًا فقط لنمط الخط العربي، ولا تفرض أسماء خطوط كثيرة. اترك الاختيار التفصيلي لإعدادات المولد.
+
+      ١٣. تعليمات تنسيق النص
+      اكتب تعليمات RTL وعدم كسر الكلمات.
+
+      ١٤. التذييل
+      لا تقترح نص تذييل من عندك. اكتب هل يحتاج التصميم تذييلًا أم لا. إن احتاج، فاكتب: يستخدم تذييل المستخدم من حاوية التذييل في المولد.
+
+      ١٥. ممنوعات خاصة
+      اكتب ممنوعات مرتبطة بالموضوع.
+
+      ١٦. تعليمات إضافية دقيقة
+      اكتب تعليمات تمنع الالتباس بين النص والرسم.`;
+
+        function containersForContentRequest(kind) {
+          if (kind === "story") return storyContainers;
+          if (kind === "slides") return slidesContainers;
+          if (kind === "brochure") return brochureContainers;
+          if (kind === "worksheet") return worksheetContainers;
+          if (kind === "greetingCard") return greetingCardContainers;
+          if (kind === "poetry" || kind === "textAsset")
+            return poetryContainers;
+          if (kind === "infographic") return infographicContainers;
+          return genericContainers;
+        }
+
+        function buildContentRequestPrompt() {
+          const kind = classifyContentRequestType(fields.imageType.value);
+          const label =
+            contentRequestLabels[kind] || contentRequestLabels.general;
+          return [
+            contentRequestHeader(label),
+            "",
+            sharedContentRules,
+            "",
+            containersForContentRequest(kind),
+            "",
+            "صيغة الإخراج المطلوبة:",
+            "اكتب اسم كل حاوية كعنوان واضح، ثم ضع محتواها تحته. لا تختم برد عام ولا تضف برومبتًا نهائيًا.",
+          ].join("\n");
+        }
+
+        function updateContentRequestBadge() {
+          const kind = classifyContentRequestType(fields.imageType.value);
+          targetBadge.textContent =
+            contentRequestLabels[kind] || contentRequestLabels.general;
+        }
+
+        function openManualCopyWindow(text) {
+          const win = window.open("", "_blank", "width=780,height=660");
+          if (!win) return false;
+          const escaped = escapeHtml(text);
+          win.document.write(
+            `<pre style="direction:rtl;font-family:Tahoma,Arial,sans-serif;white-space:pre-wrap;padding:18px;font-size:14px;line-height:1.8">${escaped}</pre>`,
+          );
+          win.document.title = "طلب محتوى للحاويات";
+          return true;
+        }
+
+        async function copyContentRequestPrompt() {
+          const requestText = buildContentRequestPrompt();
+          const originalText = copyBtn.textContent;
+          try {
+            if (!navigator.clipboard || window.isSecureContext === false) {
+              throw new Error("clipboard-unavailable");
+            }
+            await navigator.clipboard.writeText(requestText);
+            copyBtn.classList.add("copied");
+            copyBtn.textContent = "تم نسخ طلب المحتوى";
+            statusText.textContent =
+              "تم نسخ طلب المحتوى. أرسله للذكاء، ثم الصق كل حاوية في مكانها داخل المولد قبل توليد البرومبت النهائي.";
+          } catch {
+            const opened = openManualCopyWindow(requestText);
+            statusText.textContent = opened
+              ? "تعذر النسخ التلقائي؛ فُتحت نافذة تحتوي طلب المحتوى لنسخه يدويًا."
+              : "تعذر النسخ التلقائي وفتح النافذة. جرّب تشغيل الصفحة عبر متصفح حديث.";
+          } finally {
+            setTimeout(() => {
+              copyBtn.classList.remove("copied");
+              copyBtn.textContent = originalText;
+            }, 2200);
+          }
+        }
+
+        copyBtn.addEventListener("click", copyContentRequestPrompt);
+        fields.imageType.addEventListener("change", updateContentRequestBadge);
+        updateContentRequestBadge();
+      }
+
+      initContentRequestHelper();
+
+      // تحميل المكتبة عند تشغيل الصفحة
+      loadLibrary();
     </script>
   </body>
 </html>
