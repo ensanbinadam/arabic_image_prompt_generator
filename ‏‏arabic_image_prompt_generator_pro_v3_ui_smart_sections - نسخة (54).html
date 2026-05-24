@@ -3508,7 +3508,7 @@
 
       function primaryArabicText(d) {
         const text = clean(d._arabicText ?? d.arabicText ?? "");
-        const visibleText = stripInlineGuidance(text);
+        const visibleText = stripOpeningEllipsisLines(stripInlineGuidance(text));
         if (
           !visibleText ||
           visibleText === "ضع النص هنا" ||
@@ -3518,8 +3518,16 @@
         return visibleText;
       }
 
+      function stripOpeningEllipsisLines(text) {
+        return String(text || "")
+          .replace(/^\s*(?:"|“|”|')?\s*(?:\.{3,}|…+)\s*(?:"|“|”|')?\s*(?:\r?\n|$)/u, "")
+          .trim();
+      }
+
       function secondaryArabicText(d) {
-        return stripInlineGuidance(d._secondaryText ?? d.secondaryText ?? "");
+        return stripOpeningEllipsisLines(
+          stripInlineGuidance(d._secondaryText ?? d.secondaryText ?? ""),
+        );
       }
 
       function scopedGuidanceExcerpt(text) {
@@ -4543,7 +4551,7 @@
           combined,
         );
         if (!likelyCards && !hasNumberedItems) return "";
-        return "التخطيط المكاني للبطاقات والحاويات من منظور المشاهد: استخدم نظامًا شبكيًا RTL يبدأ من أعلى اليمين. رتّب البطاقة أو النشاط أو السؤال رقم ١ في أعلى يمين المجموعة، ثم ٢ إلى يساره، ثم ٣ إلى يساره، وبعد اكتمال الصف انزل إلى الصف التالي وابدأه من اليمين أيضًا. إذا كان التخطيط أعمدة، املأ العمود الأيمن من أعلى إلى أسفل ثم انتقل للعمود التالي يسارًا. طبّق ذلك على البطاقات، الأنشطة، الأسئلة، الشارات، الجداول، والصناديق، ولا تبدأ من اليسار ولا تبدّل ترتيب الأرقام. عند ضيق النص داخل البطاقة، صغّر حجم الخط قليلًا أو زد ارتفاع البطاقة بدل اختصار النص أو حذفه.";
+        return "التخطيط المكاني للبطاقات والحاويات من منظور المشاهد: استخدم شبكة قراءة عربية RTL وليست شبكة غربية. البطاقة أو النشاط أو السؤال رقم ١ يجب أن يكون في أقصى يمين الصف الأول، والرقم ٢ إلى يساره مباشرة، والرقم ٣ إلى يسار الرقم ٢. بعد اكتمال الصف، يبدأ الصف التالي من أقصى اليمين أيضًا: الرقم ٤ في أقصى يمين الصف الثاني، ثم ٥ إلى يساره، ثم ٦ إلى يساره. لا تضع الرقم ١ في اليسار مطلقًا، ولا تجعل ترتيب البطاقات بصريًا من اليسار إلى اليمين حتى لو كان النص داخلها عربيًا. إذا كان التخطيط أعمدة، املأ العمود الأيمن من أعلى إلى أسفل ثم انتقل للعمود التالي يسارًا. إذا وُجد مشهد مركزي أو عنصر زخرفي، فلا تجعله يتحكم في ترتيب البطاقات؛ البطاقات تبقى في شبكة قراءة عربية مستقلة. عند ضيق النص داخل البطاقة، صغّر حجم الخط قليلًا أو زد ارتفاع البطاقة بدل اختصار النص أو حذفه.";
       }
 
       function hasCardOrStepSequence(d) {
@@ -4568,17 +4576,36 @@
         );
       }
 
+      function hasNumberedVisibleHeadings(d) {
+        const source = [
+          visibleDesignText(d),
+          primaryArabicText(d),
+          d._arabicText || d.arabicText,
+        ].join("\n");
+        return /(?:^|\n)\s*(?:[0-9٠-٩۰-۹]+)\s*[\.\- ـ:\)]\s*\S/.test(source);
+      }
+
+      function numberingDuplicationInstruction(d) {
+        if (!hasCardOrStepSequence(d)) return "";
+        if (hasNumberedVisibleHeadings(d)) {
+          return "قاعدة الشارات الرقمية ومنع تكرار الترقيم: الترقيم موجود داخل عناوين الأقسام أو البطاقات في النصوص النهائية، لذلك يُمنع إنشاء شارة رقمية مستقلة أو رقم جانبي إضافي للبطاقة نفسها. الرقم الظاهر الوحيد لكل قسم هو الرقم المكتوب داخل عنوانه، مثل: ١. عنوان البطاقة. لا تكرر الرقم في زاوية البطاقة أو داخل أيقونة.";
+        }
+        if (d.numberStyle === "eastern") {
+          return "قاعدة الشارات الرقمية ومنع تكرار الترقيم: إذا لم يكن الرقم موجودًا داخل عنوان البطاقة أو الخطوة، فيجوز استخدام شارة رقمية مستقلة واحدة فقط، وتُكتب بالأرقام الهندية الشرقية العربية فقط مثل ١ ٢ ٣ ٤ ٥ ٦ ٧. لا تكرر الرقم داخل العنوان، ولا تستخدم الأرقام اللاتينية أو الفارسية داخل الشارات.";
+        }
+        return "قاعدة الشارات الرقمية ومنع تكرار الترقيم: إذا استُخدمت شارة رقمية مستقلة للبطاقة أو الخطوة، فلا تكرر الرقم داخل عنوان البطاقة. الرقم يجب أن يظهر مرة واحدة فقط لكل قسم.";
+      }
+
       function finalArabicGuardInstruction(d, compact = false) {
         const rules = [];
         if (hasCardOrStepSequence(d)) {
           rules.push(
-            "تعليمة حاكمة عند التعارض: أي وصف مخصص يطلب توزيعًا حرًا أو نصف دائري أو عموديًا للبطاقات لا يقدَّم على ترتيب القراءة العربي. إذا وُجدت بطاقات أو خطوات مرقمة، فالتخطيط الإلزامي هو شبكة صفوف RTL: ١ ثم ٢ ثم ٣ من اليمين إلى اليسار في الصف الأول، ثم ٤ ثم ٥ ثم ٦ في الصف التالي، ثم بقية العناصر من يمين الصف التالي. لا تبدأ من اليسار، ولا تجعل التوازن الزخرفي حول المشهد يغيّر ترتيب الأرقام.",
+            "قاعدة منع انعكاس ترتيب البطاقات: لا يكفي أن يكون النص العربي RTL؛ يجب أن يكون ترتيب البطاقات نفسه RTL من منظور المشاهد. البطاقة ١ يجب أن تكون في أقصى يمين الصف الأول، البطاقة ٢ إلى يسار البطاقة ١، والبطاقة ٣ إلى يسار البطاقة ٢. بعد اكتمال الصف، يبدأ الصف التالي من أقصى اليمين: البطاقة ٤ في أقصى يمين الصف الثاني، البطاقة ٥ إلى يسارها، والبطاقة ٦ إلى يسارها. لا تضع البطاقة ١ في اليسار مطلقًا، ولا ترتب البطاقات بصريًا من اليسار إلى اليمين حتى لو كانت النصوص داخلها عربية صحيحة.",
           );
-        }
-        if (d.numberStyle === "eastern" && !isGreetingCardDesign(d)) {
           rules.push(
-            "أرقام الشارات والبطاقات إلزامية كنص ظاهر لا كأيقونة حرة: اكتبها بالأرقام الهندية الشرقية العربية فقط مثل ١ ٢ ٣ ٤ ٥ ٦ ٧، وامنع داخل الشارات خصوصًا الأرقام اللاتينية 1 2 3 والأرقام الفارسية ۱ ۲ ۳. لا ترسم الرقم بشكل رمزي عام ولا تستبدله بشكل قريب.",
+            "إذا وُجد مشهد مركزي أو عنصر زخرفي، فهو لا يتحكم في ترتيب البطاقات. لا تُوزَّع البطاقات حول المشهد لتحقيق توازن زخرفي، بل تُرتب في شبكة قراءة عربية مستقلة تبدأ من أقصى يمين الصفحة. إذا احتاجت بطاقة مساحة أكبر، فاجعلها صفًا كاملًا تحت موضعها المنطقي دون أن تسبق البطاقة ١ أو تنقل بداية القراءة إلى اليسار.",
           );
+          rules.push(numberingDuplicationInstruction(d));
         }
         {
           const sacredTextGuard = sacredArabicTextInstruction(d);
@@ -4729,10 +4756,16 @@
         return `${map[designKind(d)] || map.general} ${englishNumberCue(d)}`;
       }
 
+      function englishRtlCardOrderCue(d) {
+        if (!hasCardOrStepSequence(d)) return "";
+        return "Important RTL card order: visual reading order must be Arabic RTL, not Western LTR. The first numbered card must be placed on the viewer's far right of the first row; the second card immediately to its left; the third to its left. Continue every new row from the viewer's far right. Never arrange numbered cards left-to-right, and do not let a central scene or decorative balance override numbered card order.";
+      }
+
       function visualDesignBrief(d, compact = false) {
         if (d.visualPromptMode === "arabicOnly") return "";
         const subject = d.title || d.subject || "clear Arabic visual subject";
         const typeConstraint = englishDesignTypeConstraint(d);
+        const rtlCardOrderCue = englishRtlCardOrderCue(d);
         if (isGreetingCardDesign(d)) {
           const greetingKeywords =
             "luxurious physical Arabic greeting card, premium textured cardstock, embossed polished gold foil, authentic Diwani Jali or Thuluth Arabic calligraphy, intricate Arabesque filigree border, tactile paper texture, warm directional studio lighting, photorealistic close-up, elegant depth of field";
@@ -4757,7 +4790,7 @@
             "separate Arabic educational slides, generate a custom illustration for each slide from its description, consistent RTL slide system, no attached screenshots required";
         }
         if (compact) {
-          return `English visual brief: professional Arabic-language ${d.imageType}, ${[keywords, layoutCue].filter(Boolean).join(", ")}, keep all Arabic text exactly as provided. ${typeConstraint}`;
+          return `English visual brief: professional Arabic-language ${d.imageType}, ${[keywords, layoutCue].filter(Boolean).join(", ")}, keep all Arabic text exactly as provided. ${typeConstraint} ${rtlCardOrderCue}`.trim();
         }
         const lines = [
           "English visual design brief for the image model:",
@@ -4767,6 +4800,7 @@
           typeConstraint,
           "Keep every Arabic word exactly as provided in the Arabic text section; do not translate, rewrite, mirror, or invent Arabic text.",
         ];
+        if (rtlCardOrderCue) lines.splice(5, 0, rtlCardOrderCue);
         if (layoutCue) lines.splice(4, 0, `Layout direction: ${layoutCue}.`);
         return lines.join("\n");
       }
@@ -5755,6 +5789,21 @@
             "free card layout around central scene",
             "decorative balance overriding card sequence",
             "wrong numbered card placement",
+            "card 1 on left",
+            "first numbered card on left",
+            "first card placed on viewer's left",
+            "Arabic cards arranged visually left to right",
+            "Western infographic reading order",
+            "LTR visual sequence",
+            "RTL text with LTR card order",
+            "card order reversed",
+            "numbered cards flow left to right",
+            "central scene overriding RTL card order",
+            "duplicate card number",
+            "repeated card number",
+            "number appears twice on the same card",
+            "numbered heading plus separate number badge",
+            "duplicate step number",
             "card 4 above card 1",
             "two independent columns with wrong reading order",
           );
@@ -8176,6 +8225,7 @@ function initContentRequestHelper() {
     "- إذا كان الموضوع يعتمد على رسم دقيق، فاربط كل نص برسمه الصحيح داخل التوجيه المحلي.",
     "- استخدم العربية الفصحى الواضحة والاتجاه RTL.",
     "- إذا كان المحتوى يحتوي بطاقات أو خطوات مرقمة، فلا تقترح توزيعًا نصف دائريًا أو حرًا حول المشهد. اطلب شبكة صفوف عربية RTL ثابتة: الصف الأول من اليمين إلى اليسار، ثم الصف التالي من اليمين إلى اليسار.",
+    "- عند وصف بطاقات مرقمة، اكتب المواضع صراحة: البطاقة ١ في أقصى يمين الصف الأول، البطاقة ٢ إلى يسارها، البطاقة ٣ إلى يسارها، ثم يبدأ الصف التالي من أقصى اليمين. لا تستخدم عبارات مثل: تحيط بالمشهد أو توزع حول العنصر المركزي إذا كان الترتيب مرقمًا.",
     "- لا تجعل التوازن الزخرفي حول العنصر الرئيسي يغيّر ترتيب البطاقات أو أرقامها.",
     "- لا تضف أي تعليمات عن نمط الأرقام داخل أي حاوية.",
     "- لا تكتب: استخدم الأرقام الإنجليزية فقط.",
