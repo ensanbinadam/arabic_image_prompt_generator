@@ -3336,7 +3336,7 @@
           extractTitleFromText(d.referenceText),
           extractTitleFromText(d.sceneDesc),
           d.subject,
-          composeFooterText(d).split("|")[0],
+          d.enableFooter === "yes" ? composeFooterText(d).split("|")[0] : "",
         ]
           .map(clean)
           .filter(Boolean);
@@ -3428,16 +3428,6 @@
             d.layoutType === "تلقائي حسب نوع التصميم")
         ) {
           d.layoutType = "جدول عربي يبدأ عموده الأول من اليمين";
-        }
-        if (
-          clean(
-            d.footerText ||
-              d.footerTeacherName ||
-              d.footerDate ||
-              d.footerLessonTopic,
-          )
-        ) {
-          d.enableFooter = "yes";
         }
         const convertForOutput = (text) =>
           d.numberStyle === "auto"
@@ -3561,7 +3551,15 @@
             return scopedText;
           },
         );
-        source = source.replace(/\/\/([\s\S]{1,2000}?)\/\//g, (_, inner) => {
+        source = source.replace(
+          /(^|\r?\n)([^\S\r\n]*)\/\/([^\r\n]{1,2000})\/\/[^\S\r\n]*(?=\r?\n|$)/g,
+          (_, lineBreak, _indent, inner) => {
+            const directive = normalizeSpaces(inner || "");
+            if (directive) directives.push(directive);
+            return lineBreak;
+          },
+        );
+        source = source.replace(/\/\/([^\r\n]{1,2000}?)\/\//g, (_, inner) => {
           const directive = normalizeSpaces(inner || "");
           if (directive) directives.push(directive);
           return " ";
@@ -4904,22 +4902,16 @@
       }
 
       function effectiveFooterText(d) {
-        const manualFooterData = clean(
-          d._footerText ||
-            d.footerText ||
-            d.footerTeacherName ||
-            d._footerDate ||
-            d.footerDate ||
-            d._footerLessonTopic ||
-            d.footerLessonTopic ||
-            "",
-        );
-        if (d.enableFooter === "yes" || manualFooterData)
-          return composeFooterText(d);
-        return "";
+        if (d.enableFooter !== "yes") return "";
+        return composeFooterText(d);
       }
 
       function updateFooterPreview(d) {
+        if (d.enableFooter !== "yes") {
+          footerPreview.textContent =
+            "التذييل غير مفعّل ولن يُضاف إلى البرومبت.";
+          return "";
+        }
         const text = composeFooterText(d);
         footerPreview.textContent =
           text || "معاينة التذييل ستظهر هنا بعد التركيب.";
@@ -8232,7 +8224,7 @@ function initContentRequestHelper() {
     "- داخل حاوية النصوص النهائية، ضع قبل كل نص مهم توجيهًا محليًا بين //...//.",
     "- ما بين //...// توجيه للمولد فقط ولا يظهر في التصميم، أما السطر الذي بعده فهو النص الحرفي الظاهر.",
     "- ابدأ حاوية النصوص النهائية بهذا التوجيه:",
-    "//التزم بالنصوص التالية حرفيًا كما هي. لا تعدل الصياغة، لا تختصر، لا تضف نصوصًا من الحاويات الأخرى، ولا تُظهر أي توجيه بين //...// داخل التصميم النهائي//",
+    "//التزم بالنصوص التالية حرفيًا كما هي. لا تعدل الصياغة، لا تختصر، لا تضف نصوصًا من الحاويات الأخرى، ولا تُظهر أي توجيه محاط بالشرطتين المائلتين داخل التصميم النهائي//",
     "- إذا كان الموضوع يعتمد على رسم دقيق، فاربط كل نص برسمه الصحيح داخل التوجيه المحلي.",
     "- استخدم العربية الفصحى الواضحة والاتجاه RTL.",
     "- إذا كان المحتوى يحتوي بطاقات أو خطوات مرقمة، فلا تقترح توزيعًا نصف دائريًا أو حرًا حول المشهد. اطلب شبكة صفوف عربية RTL ثابتة: الصف الأول من اليمين إلى اليسار، ثم الصف التالي من اليمين إلى اليسار.",
