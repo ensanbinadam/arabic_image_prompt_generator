@@ -3771,6 +3771,85 @@
         return "إذا ظهرت أرقام داخل بطاقة التهنئة، فطبّق نمطًا واحدًا متسقًا عليها فقط داخل النص أو السنة أو التذييل، دون خلط بين أنظمة الأرقام.";
       }
 
+      function normalizeAnyDigitsToEnglish(text) {
+        const persianMap = {
+          "۰": "0",
+          "۱": "1",
+          "۲": "2",
+          "۳": "3",
+          "۴": "4",
+          "۵": "5",
+          "۶": "6",
+          "۷": "7",
+          "۸": "8",
+          "۹": "9",
+        };
+        return easternToEnglish(String(text || "")).replace(
+          /[۰-۹]/gu,
+          (d) => persianMap[d] || d,
+        );
+      }
+
+      function extractLongNumberSequences(text) {
+        const matches = String(text || "").match(
+          /(?:\+|00)?\s*[0-9٠-٩۰-۹](?:[\s\u00a0().\-–—]*[0-9٠-٩۰-۹]){6,}/gu,
+        );
+        if (!matches) return [];
+        return matches
+          .map((value) => normalizeSpaces(value))
+          .filter((value) => {
+            const digits = normalizeAnyDigitsToEnglish(value).replace(/\D/g, "");
+            return digits.length >= 7;
+          });
+      }
+
+      function protectedContactNumbers(d) {
+        const sources = [
+          primaryArabicText(d),
+          secondaryArabicText(d),
+          visibleDesignText(d),
+          effectiveFooterText(d),
+          d._slideItems ?? d.slideItems,
+          d._storyPages ?? d.storyPages,
+        ];
+        const seen = new Set();
+        const numbers = [];
+        sources.forEach((source) => {
+          extractLongNumberSequences(source).forEach((number) => {
+            const key = normalizeAnyDigitsToEnglish(number).replace(/\D/g, "");
+            if (!key || seen.has(key)) return;
+            seen.add(key);
+            numbers.push(number);
+          });
+        });
+        return numbers;
+      }
+
+      function hasNonZeroProtectedContactNumber(d) {
+        return protectedContactNumbers(d).some((number) =>
+          /[1-9]/.test(normalizeAnyDigitsToEnglish(number).replace(/\D/g, "")),
+        );
+      }
+
+      function contactNumberGuardInstruction(d) {
+        const numbers = protectedContactNumbers(d);
+        if (!numbers.length) return "";
+        const quoted = numbers.map((number) => `"${number}"`).join("، ");
+        return (
+          `حارس أرقام التواصل: الأرقام المحمية في هذا التصميم هي: ${quoted}. ` +
+          "انسخ كل رقم حرفيًا رقمًا رقمًا دون تغيير أو تقريب أو استبدال. " +
+          "ممنوع تحويل رقم التواصل إلى أصفار متكررة أو رقم افتراضي أو رقم وهمي، وممنوع استبدال أي خانة بالرقم ٠. " +
+          "اعرض رقم التواصل داخل زر أو شريط اتصال واضح بحجم كبير وتباعد ثابت بين الأرقام. " +
+          "إذا تعذر نسخ الرقم كاملًا بدقة، اترك مساحة الرقم فارغة بدل كتابة رقم خاطئ."
+        );
+      }
+
+      function englishContactNumberCue(d) {
+        const numbers = protectedContactNumbers(d);
+        if (!numbers.length) return "";
+        return `Protected contact number(s): ${numbers.map((number) => `"${number}"`).join(", ")}. Copy every digit exactly as provided. Never replace the phone number with zeros, repeated 0 digits, a placeholder, or a fake contact number. If exact copying is impossible, leave the phone number area blank rather than writing a wrong number.`;
+      }
+
       function rtlLayoutInstruction() {
         return "كل النصوص العربية من اليمين إلى اليسار RTL، بمحاذاة يمين، دون عكس الحروف أو الكلمات، ودون تقسيم الكلمة العربية بين سطرين. قاعدة الترتيب الافتراضية لكل العناصر العربية: ابدأ القوائم والترقيم والجداول والبطاقات والصناديق والحاويات والأنشطة والأسئلة والخطوات من أعلى اليمين. داخل الصف الواحد رتّب العناصر من اليمين إلى اليسار، ثم انتقل إلى الصف التالي تحته. داخل الأعمدة ابدأ بالعمود الأيمن من أعلى إلى أسفل ثم انتقل إلى العمود التالي يسارًا. اجعل الرقم أو البطاقة أو السؤال أو الخطوة ١ في أقصى اليمين أو أعلى اليمين، ولا تبدأ أي مجموعة من اليسار.";
       }
@@ -4613,6 +4692,10 @@
           const sacredTextGuard = sacredArabicTextInstruction(d);
           if (sacredTextGuard) rules.push(sacredTextGuard);
         }
+        {
+          const contactGuard = contactNumberGuardInstruction(d);
+          if (contactGuard) rules.push(contactGuard);
+        }
         if (
           !isGreetingCardDesign(d) &&
           !isPoetryDesign(d) &&
@@ -4768,11 +4851,12 @@
         const subject = d.title || d.subject || "clear Arabic visual subject";
         const typeConstraint = englishDesignTypeConstraint(d);
         const rtlCardOrderCue = englishRtlCardOrderCue(d);
+        const contactNumberCue = englishContactNumberCue(d);
         if (isGreetingCardDesign(d)) {
           const greetingKeywords =
             "luxurious physical Arabic greeting card, premium textured cardstock, embossed polished gold foil, authentic Diwani Jali or Thuluth Arabic calligraphy, intricate Arabesque filigree border, tactile paper texture, warm directional studio lighting, photorealistic close-up, elegant depth of field";
           if (compact) {
-            return `English visual brief: ${greetingKeywords}, about "${subject}", keep all Arabic text exactly as provided and centered as the visual hero. ${typeConstraint}`;
+            return `English visual brief: ${greetingKeywords}, about "${subject}", keep all Arabic text exactly as provided and centered as the visual hero. ${typeConstraint} ${contactNumberCue}`.trim();
           }
           return [
             "English visual design brief for the image model:",
@@ -4780,9 +4864,12 @@
             `Visual style: ${d.style}. Aspect ratio: ${promptAspectRatio(d)}. Quality: ${d.qualityLevel}.`,
             `Design keywords: ${greetingKeywords}.`,
             typeConstraint,
+            contactNumberCue,
             "Treat the Arabic calligraphy as real embossed gold foil or engraved foil stamping on premium cardstock, not flat yellow text.",
             "Keep every Arabic word exactly as provided in the Arabic text section; do not translate, rewrite, mirror, repeat, or invent Arabic text.",
-          ].join("\n");
+          ]
+            .filter(Boolean)
+            .join("\n");
         }
         const keywords =
           "clean layout, balanced composition, clear hierarchy, high readability, Arabic typography, generous whitespace, crisp text areas, polished spacing, professional design";
@@ -4792,7 +4879,7 @@
             "separate Arabic educational slides, generate a custom illustration for each slide from its description, consistent RTL slide system, no attached screenshots required";
         }
         if (compact) {
-          return `English visual brief: professional Arabic-language ${d.imageType}, ${[keywords, layoutCue].filter(Boolean).join(", ")}, keep all Arabic text exactly as provided. ${typeConstraint} ${rtlCardOrderCue}`.trim();
+          return `English visual brief: professional Arabic-language ${d.imageType}, ${[keywords, layoutCue].filter(Boolean).join(", ")}, keep all Arabic text exactly as provided. ${typeConstraint} ${rtlCardOrderCue} ${contactNumberCue}`.trim();
         }
         const lines = [
           "English visual design brief for the image model:",
@@ -4800,8 +4887,9 @@
           `Visual style: ${d.style}. Aspect ratio: ${promptAspectRatio(d)}. Quality: ${d.qualityLevel}.`,
           `Design keywords: ${keywords}.`,
           typeConstraint,
+          contactNumberCue,
           "Keep every Arabic word exactly as provided in the Arabic text section; do not translate, rewrite, mirror, or invent Arabic text.",
-        ];
+        ].filter(Boolean);
         if (rtlCardOrderCue) lines.splice(5, 0, rtlCardOrderCue);
         if (layoutCue) lines.splice(4, 0, `Layout direction: ${layoutCue}.`);
         return lines.join("\n");
@@ -5759,6 +5847,31 @@
               "ملتقى written as ملحق",
               "wrong footer spelling",
               "footer text changed",
+            );
+          }
+        }
+        if (protectedContactNumbers(d).length) {
+          parts.push(
+            "wrong phone number",
+            "changed contact number",
+            "fake phone number",
+            "placeholder phone number",
+            "missing contact number",
+            "phone number omitted",
+            "phone digits omitted",
+            "phone digits changed",
+            "phone number rewritten",
+            "unreadable phone number",
+            "blurred phone number",
+          );
+          if (hasNonZeroProtectedContactNumber(d)) {
+            parts.push(
+              "all-zero phone number",
+              "phone number replaced with zeros",
+              "repeated zero digits in phone number",
+              "0000000000 phone number",
+              "٠٠٠٠٠٠٠٠٠٠ phone number",
+              "٠٥٠٠٠٠٠٠٠٠ placeholder phone number",
             );
           }
         }
