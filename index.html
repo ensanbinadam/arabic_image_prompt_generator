@@ -1761,25 +1761,24 @@
                   <div class="content-request-card">
                     <div class="content-request-info">
                       <strong>
-                        طلب محتوى للحاويات
+                        طلب محتوى + برومبت سريع + JSON
                         <span id="contentRequestTarget" class="content-request-target"
                           >حسب نوع التصميم</span
                         >
                       </strong>
                       <p>
                         ينسخ طلبًا ترسله للذكاء الاصطناعي ليُعد محتوى مقسمًا
-                        على حاويات هذا المولد. الناتج ليس برومبت صور ولا يُستخدم
-                        مباشرة في مولد الصور؛ الصق الرد داخل الحاويات ثم ولّد
-                        البرومبت النهائي من هنا.
+                        على حاويات هذا المولد، ثم يضيف برومبتًا سريعًا مضبوطًا
+                        بالعربية وملف JSON قابلًا للاستيراد مباشرة.
                       </p>
                     </div>
                     <button
                       type="button"
                       id="copyContentRequestBtn"
                       class="content-request-btn"
-                      aria-label="نسخ طلب محتوى الحاويات"
+                      aria-label="نسخ طلب محتوى الحاويات مع برومبت سريع وملف JSON"
                     >
-                      نسخ طلب المحتوى
+                      نسخ الطلب المتكامل
                     </button>
                   </div>
                 </div>
@@ -8268,15 +8267,257 @@ function initContentRequestHelper() {
     return clean(value) || "[............]";
   }
 
+  function contentRequestNumberStyleLabel() {
+    const value = fields.numberStyle ? clean(fields.numberStyle.value) : "";
+    if (value === "eastern") return "الأرقام الهندية الشرقية العربية: ٠ ١ ٢ ٣ ٤ ٥ ٦ ٧ ٨ ٩";
+    if (value === "english") return "الأرقام الإنجليزية: 0 1 2 3 4 5 6 7 8 9";
+    return "كما يرد في النص دون خلط بين أكثر من نظام";
+  }
+
+  function contentRequestExplicitValue(fieldId, customFieldId) {
+    const field = fields[fieldId];
+    if (!field) return "";
+    const value = clean(field.value);
+    if (!value) return "";
+    if (isCustomOption(value) && customFieldId && fields[customFieldId]) {
+      return clean(fields[customFieldId].value);
+    }
+    if (
+      value === "تلقائي حسب نوع التصميم" ||
+      value === "تلقائي مناسب للتصميم" ||
+      value === "تخطيط عربي مرن حسب المحتوى" ||
+      value === "بلا"
+    ) {
+      return "";
+    }
+    return value;
+  }
+
+  function contentRequestFooterSettings() {
+    const footerData = [
+      fields.footerText && clean(fields.footerText.value),
+      fields.footerTeacherName && clean(fields.footerTeacherName.value),
+      fields.footerDate && clean(fields.footerDate.value),
+      fields.footerLessonTopic && clean(fields.footerLessonTopic.value),
+    ].filter(Boolean);
+    if (fields.enableFooter && fields.enableFooter.value !== "yes") {
+      if (!footerData.length) return [];
+      return [
+        "- التذييل: توجد بيانات تذييل مكتوبة لكن خيار التذييل غير مفعّل؛ لا تستخدم التذييل في الحاويات ولا في البرومبت السريع إلا إذا فعّله المستخدم صراحة.",
+      ];
+    }
+
+    const footerText = composeFooterText({
+      footerMode: fields.footerMode ? clean(fields.footerMode.value) : "manual",
+      footerLayout: fields.footerLayout ? clean(fields.footerLayout.value) : "سطر واحد مفصول بشرطات عمودية",
+      footerText: fields.footerText ? clean(fields.footerText.value) : "",
+      footerTeacherName: fields.footerTeacherName ? clean(fields.footerTeacherName.value) : "",
+      footerDate: fields.footerDate ? clean(fields.footerDate.value) : "",
+      footerLessonTopic: fields.footerLessonTopic ? clean(fields.footerLessonTopic.value) : "",
+      lessonTitle: fields.lessonTitle ? clean(fields.lessonTitle.value) : "",
+      subject: fields.subject ? clean(fields.subject.value) : "",
+      numberStyle: fields.numberStyle ? clean(fields.numberStyle.value) : "auto",
+    });
+
+    const lines = [
+      "- التذييل: مفعّل في إعدادات المولد، ويجب إدراجه في حاوية التذييل وفي البرومبت السريع فقط إذا كان مناسبًا للتصميم.",
+    ];
+    if (footerText) {
+      lines.push(`- نص التذييل النهائي المتوقع من إعدادات المستخدم: "${footerText}". انسخه حرفيًا ولا تخترع تذييلًا بديلًا.`);
+    } else {
+      lines.push(
+        "- التذييل مفعّل لكن لا يوجد نص نهائي قابل للتركيب؛ لا تخترع نصًا من عندك ولا تضف تذييلًا ظاهرًا إلى البرومبت السريع حتى يكتبه المستخدم.",
+      );
+    }
+    if (fields.footerPosition && clean(fields.footerPosition.value))
+      lines.push(`- موضع التذييل المختار: ${clean(fields.footerPosition.value)}.`);
+    if (fields.footerStyle && clean(fields.footerStyle.value))
+      lines.push(`- أسلوب التذييل المختار: ${clean(fields.footerStyle.value)}.`);
+    if (fields.footerSize && clean(fields.footerSize.value))
+      lines.push(`- حجم التذييل المختار: ${clean(fields.footerSize.value)}.`);
+    if (fields.footerLayout && clean(fields.footerLayout.value))
+      lines.push(`- تنسيق التذييل المختار: ${clean(fields.footerLayout.value)}.`);
+    return lines;
+  }
+
+  function contentRequestOptionalSettings() {
+    const lines = [];
+    const push = (label, value) => {
+      const text = clean(value);
+      if (text) lines.push(`- ${label}: ${text}`);
+    };
+
+    push("الألوان والجو البصري من إعدادات المستخدم", fields.colors && fields.colors.value);
+    push("الإضاءة المختارة", contentRequestExplicitValue("lighting", "lightingCustom"));
+    push("زاوية المشهد المختارة", contentRequestExplicitValue("cameraAngle", "cameraAngleCustom"));
+    push("الخلفية المختارة", contentRequestExplicitValue("backgroundStyle", "backgroundStyleCustom"));
+    push("موضع العنصر الرئيسي المختار", contentRequestExplicitValue("mainElementPosition", "mainElementPositionCustom"));
+    push("العناصر الإضافية من إعدادات المستخدم", fields.extraElements && fields.extraElements.value);
+    push("موضع النص الأساسي المختار", contentRequestExplicitValue("textPosition", "textPositionCustom"));
+    push("نمط الخط المختار", contentRequestExplicitValue("fontStyle", "fontStyleCustom"));
+    push("تعليمات تنسيق النص التي كتبها المستخدم", fields.textFormatting && fields.textFormatting.value);
+    push("نوع التخطيط المختار", contentRequestExplicitValue("layoutType"));
+    push("أهمية النص داخل التصميم", fields.textImportance && fields.textImportance.value);
+    push("ممنوعات خاصة كتبها المستخدم", fields.negativeNotes && fields.negativeNotes.value);
+    push("تعليمات إضافية دقيقة كتبها المستخدم", fields.specialInstructions && fields.specialInstructions.value);
+
+    if (fields.slideMode && fields.slideMode.value === "on") {
+      push("وضع الشرائح", "مفعّل");
+      push("مقاس الشرائح", fields.slideSize && fields.slideSize.value);
+      push("مصدر محتوى الشرائح", fields.slideSourceMode && fields.slideSourceMode.value);
+      push("نوع إخراج الشرائح", fields.slideOutputType && fields.slideOutputType.value);
+      push("عدد الشرائح", fields.slideCount && fields.slideCount.value);
+      push("طريقة التعامل مع فائض الشرائح", fields.slideOverflowMode && fields.slideOverflowMode.value);
+    }
+
+    if (fields.storyMode && fields.storyMode.value === "on") {
+      push("وضع القصة المصورة", "مفعّل");
+      push("عدد صفحات القصة", fields.storyPageCount && fields.storyPageCount.value);
+      push("مقاس صفحات القصة", fields.storyPageSize && fields.storyPageSize.value);
+      push("موضع نص القصة", fields.storyTextPlacement && fields.storyTextPlacement.value);
+      push("أسلوب رسم القصة", fields.storyArtStyle && fields.storyArtStyle.value);
+      push("صرامة ثبات الشخصيات", fields.storyConsistency && fields.storyConsistency.value);
+      push("وضع الغلاف", fields.storyCoverMode && fields.storyCoverMode.value);
+    }
+
+    lines.push(...contentRequestFooterSettings());
+    return lines;
+  }
+
+  function contentRequestJsonTemplate(kind) {
+    const d = gatherData();
+    const footerText = effectiveFooterText(d);
+    const template = {
+      imageType: d.imageType,
+      purpose: d.purpose,
+      style: d.style,
+      aspectRatio: d.aspectRatio,
+      qualityLevel: d.qualityLevel,
+      outputMode: d.outputMode,
+      visualPromptMode: d.visualPromptMode,
+      designMode: d.designMode || "designFromScratch",
+      textHeavyInfographicMode: d.textHeavyInfographicMode || "auto",
+      subject: d.subject,
+      subjectArea: d.subjectArea,
+      gradeLevel: d.gradeLevel,
+      lessonTitle: d.lessonTitle,
+      audienceType: d.audienceType,
+      learningGoal: d.learningGoal,
+      sceneDesc: "__AI_SCENE_DESCRIPTION__",
+      colors: "__AI_COLORS_AND_MOOD__",
+      lighting: "وصف مخصص",
+      lightingCustom: "__AI_LIGHTING__",
+      cameraAngle: "وصف مخصص",
+      cameraAngleCustom: "__AI_CAMERA_ANGLE__",
+      backgroundStyle: "وصف مخصص",
+      backgroundStyleCustom: "__AI_BACKGROUND__",
+      mainElementPosition: "وصف مخصص",
+      mainElementPositionCustom: "__AI_MAIN_ELEMENT_POSITION__",
+      extraElements: "__AI_EXTRA_ELEMENTS__",
+      arabicText: "__AI_FINAL_VISIBLE_ARABIC_TEXT_WITH_INLINE_GUIDANCE__",
+      secondaryText: "__AI_SECONDARY_TEXT_OR_EMPTY__",
+      referenceText: "__AI_REFERENCE_CONTEXT_OR_EMPTY__",
+      textPosition: "وصف مخصص",
+      textPositionCustom: "__AI_TEXT_POSITION__",
+      fontStyle: "وصف مخصص",
+      fontStyleCustom: "__AI_ARABIC_FONT_STYLE__",
+      numberStyle: ["english", "eastern", "auto"].includes(d.numberStyle)
+        ? d.numberStyle
+        : "auto",
+      textImportance: d.textImportance,
+      textFormatting: "__AI_TEXT_FORMATTING__",
+      layoutType: d.layoutType,
+      brochureOutputMode: d.brochureOutputMode,
+      enableFooter: footerText ? "yes" : "no",
+      footerMode: "manual",
+      footerText: footerText || "",
+      footerPosition: d.footerPosition,
+      footerStyle: d.footerStyle,
+      footerSize: d.footerSize,
+      footerLayout: d.footerLayout,
+      strictArabic: Boolean(d.strictArabic),
+      keepTashkeel: Boolean(d.keepTashkeel),
+      rtl: true,
+      viewerPerspective: Boolean(d.viewerPerspective),
+      noMirror: Boolean(d.noMirror),
+      noFakeArabic: Boolean(d.noFakeArabic),
+      noSplitWords: Boolean(d.noSplitWords),
+      blankIfFail: Boolean(d.blankIfFail),
+      highReadability: Boolean(d.highReadability),
+      consistentDigits: Boolean(d.consistentDigits),
+      includeNegativePrompt: Boolean(d.includeNegativePrompt),
+      negativeNotes: "__AI_NEGATIVE_NOTES__",
+      specialInstructions: "__AI_SPECIAL_INSTRUCTIONS__",
+    };
+
+    if (kind === "slides") {
+      template.slideMode = "on";
+      template.slideSize = d.slideSize;
+      template.slideSourceMode = d.slideSourceMode;
+      template.slideOutputType = d.slideOutputType || "finalImages";
+      template.slideCount = d.slideCount;
+      template.slideImageCount = d.slideImageCount;
+      template.slideOverflowMode = d.slideOverflowMode;
+      if (d.slideSourceMode === "attached") {
+        template.slideItems = "__AI_SLIDE_ITEMS__";
+        template.slideGeneratedItems = "";
+      } else {
+        template.slideItems = "";
+        template.slideGeneratedItems = "__AI_GENERATED_SLIDE_ITEMS__";
+      }
+    }
+
+    if (kind === "story") {
+      template.storyMode = "on";
+      template.storyPageCount = d.storyPageCount;
+      template.storyPageSize = d.storyPageSize;
+      template.storyCoverMode = d.storyCoverMode;
+      template.storyCoverSubtitle =
+        d.storyCoverMode === "on"
+          ? "__AI_STORY_COVER_SUBTITLE_OR_EMPTY__"
+          : "";
+      template.storyTextPlacement = d.storyTextPlacement;
+      template.storyArtStyle = d.storyArtStyle;
+      template.storyConsistency = d.storyConsistency;
+      template.storyCharacters = "__AI_STORY_CHARACTERS__";
+      template.storyPages = "__AI_STORY_PAGES__";
+    }
+
+    return JSON.stringify(template, null, 2);
+  }
+
+  function contentRequestJsonRules(kind) {
+    return [
+      "قواعد ملف JSON القابل للاستيراد:",
+      "- بعد الحاويات والبرومبت السريع، أنشئ ملف JSON فعليًا قابلًا للتنزيل باسم: arabic-prompt-ai-content.json.",
+      "- هذا الملف إعدادات مشروع واحد للاستيراد من زر: استيراد إعدادات JSON، وليس ملف مكتبة قوالب، لذلك يجب أن يكون جذر الملف كائن JSON واحدًا مباشرة دون templates أو library.",
+      "- استخدم القالب الهيكلي أدناه حرفيًا من حيث أسماء المفاتيح وأنواع القيم، واستبدل كل قيمة تبدأ بـ __AI_ بمحتوى الحاوية المناظرة الذي أنشأته في الرد نفسه.",
+      "- لا تترك أي علامة تبدأ بـ __AI_ داخل الملف النهائي. إذا كانت الحاوية اختيارية وفارغة، استبدل علامتها بسلسلة فارغة: \"\".",
+      "- اجعل arabicText يحتوي النصوص النهائية الظاهرة فقط مع توجيهات //...// غير الظاهرة كما كتبتها في حاوية النصوص النهائية، ولا تنقل إليه أسماء الحاويات أو الشرح العام.",
+      "- حافظ على القيم المملوءة أصلًا في القالب، خصوصًا نوع التصميم والمقاس والجودة ونمط الأرقام والتذييل وضوابط العربية، ولا تغيّرها أو تترجمها.",
+      "- يجب أن يكون الملف UTF-8 وJSON صالحًا تمامًا: علامات اقتباس مزدوجة، تهريب صحيح للأسطر والاقتباسات داخل النصوص، دون تعليقات، دون فواصل زائدة، ودون Markdown داخل الملف.",
+      "- تحقّق داخليًا من صلاحية JSON قبل تسليمه. لا تضع البرومبت السريع أو Negative Prompt داخل أي حقل من حقول JSON.",
+      "- إذا كانت واجهتك لا تستطيع إرفاق ملف فعلي، اعرض محتوى الملف كاملًا داخل كتلة كود JSON واحدة تحت عنوان: بديل تنزيل ملف JSON، دون أي نص داخل الكتلة قبل الكائن أو بعده.",
+      "",
+      "قالب JSON الهيكلي المطلوب تعبئته:",
+      "```json",
+      contentRequestJsonTemplate(kind),
+      "```",
+    ].join("\n");
+  }
+
   function contentRequestHeader(typeLabel) {
     const isEducational = isEducationalPurpose(fields.purpose && fields.purpose.value);
     const subjectValue = placeholder(fields.subject && fields.subject.value);
     const purposeValue = placeholder(fields.purpose && fields.purpose.value);
     const styleValue = placeholder(fields.style && fields.style.value);
+    const qualityValue = placeholder(fields.qualityLevel && fields.qualityLevel.value);
+    const numberStyleValue = contentRequestNumberStyleLabel();
     const audienceValue = isEducational
       ? placeholder(fields.audienceType && fields.audienceType.value)
       : "عام";
     const aspectRatioValue = placeholder(fields.aspectRatio && fields.aspectRatio.value);
+    const optionalSettings = contentRequestOptionalSettings();
     const educationLines = isEducational
       ? [
           fields.subjectArea &&
@@ -8296,14 +8537,16 @@ function initContentRequestHelper() {
         ].filter(Boolean)
       : [];
     const specs = [
-      "أريد منك إعداد محتوى عربي منظم فقط لمولد برومبت الصور العربي.",
+      "أريد منك إعداد محتوى عربي منظم لمولد برومبت الصور العربي، ثم إضافة برومبت سريع جاهز وملف JSON قابل للاستيراد في نهاية الرد.",
       "",
       "مهم جدًا:",
-      "- لا تكتب برومبت صور نهائيًا.",
-      "- لا تجعل إجابتك قابلة للإرسال مباشرة إلى مولد الصور.",
-      "- لا تكتب قسمًا باسم البرومبت النهائي.",
-      "- لا تكتب Negative Prompt.",
-      "- بعد إعداد المحتوى سأعود إلى المولد وألصق كل حاوية في مكانها، ثم أستخدم المولد لإنتاج البرومبت النهائي بضوابطه العربية.",
+      "- ابدأ أولًا بقسم: حاويات المولد، واكتب فيه الحاويات المطلوبة بنفس أسمائها حتى أستطيع النسخ واللصق داخل المولد المطور.",
+      "- بعد الحاويات فقط، أضف قسمًا مستقلًا باسم: برومبت سريع جاهز عند الضرورة.",
+      "- البرومبت السريع ليس بديلًا عن المولد المطور، بل نسخة احتياطية للاستخدام السريع عند الحاجة.",
+      "- بعد البرومبت السريع، أنشئ ملف JSON مستقلًا قابلًا للاستيراد المباشر في المولد المطور وفق القالب المحدد لاحقًا.",
+      "- لا تخلط البرومبت السريع داخل الحاويات، ولا تجعل حاويات المولد جزءًا من البرومبت السريع.",
+      "- لا تضع JSON داخل الحاويات أو داخل البرومبت السريع؛ هو ناتج ثالث مستقل.",
+      "- في نهاية البرومبت السريع أضف Negative Prompt مختصرًا ومناسبًا.",
       "",
       "المواصفات المتوفرة:",
       `- نوع التصميم: ${typeLabel}`,
@@ -8311,6 +8554,8 @@ function initContentRequestHelper() {
       `- الغرض: ${purposeValue}`,
       `- الأسلوب: ${styleValue}`,
       `- نسبة الأبعاد: ${aspectRatioValue}`,
+      `- مستوى الجودة: ${qualityValue}`,
+      `- نمط الأرقام المختار للبرومبت السريع: ${numberStyleValue}`,
       `- الفئة المستهدفة: ${audienceValue}`,
     ];
     if (isEducational) {
@@ -8320,6 +8565,13 @@ function initContentRequestHelper() {
           : "- السياق التعليمي: [............]",
       );
     }
+    if (optionalSettings.length) {
+      specs.push(
+        "",
+        "إعدادات اختيارية مملوءة في المولد ويجب مراعاتها تلقائيًا:",
+        ...optionalSettings,
+      );
+    }
     return specs.join("\n");
   }
 
@@ -8327,13 +8579,15 @@ function initContentRequestHelper() {
     "قواعد الإجابة:",
     "- قسّم الرد بنفس أسماء الحاويات المطلوبة أدناه، ولا تضف حاويات جديدة إلا للضرورة.",
     "- اكتب تحت كل حاوية محتواها فقط، بحيث أستطيع نسخه ولصقه في المولد.",
+    "- إذا وجدت في المواصفات قسمًا باسم إعدادات اختيارية مملوءة في المولد، فيجب مراعاتها تلقائيًا وتوزيعها على الحاويات المناسبة دون أن أكتبها لك مرة أخرى.",
+    "- وزّع الإعدادات الاختيارية كما يلي: الألوان داخل حاوية الألوان، الإضاءة داخل حاوية الإضاءة، زاوية المشهد داخل حاوية زاوية المشهد، الخلفية داخل حاوية الخلفية، موضع العنصر داخل حاوية موضع العنصر الرئيسي، العناصر الإضافية داخل حاوية عناصر إضافية، موضع النص داخل حاوية موضع النص الأساسي، نوع الخط داخل حاوية نوع الخط العربي، تنسيق النص داخل حاوية تعليمات تنسيق النص، الممنوعات داخل حاوية ممنوعات خاصة، والتعليمات الدقيقة داخل حاوية تعليمات إضافية دقيقة.",
     "- اجعل النصوص الظاهرة داخل التصميم موجودة فقط في حاوية: النصوص النهائية التي يجب أن تظهر حرفيًا.",
     "- لا تكرر النصوص الظاهرة داخل وصف المشهد أو المرجع أو النص الثانوي.",
     "- اجعل باقي الحاويات وصفية وتوجيهية فقط وليست مصدرًا بديلًا للنص الظاهر.",
     "- التزم بنوع التصميم المطلوب فقط، ولا تضف حاويات أو قواعد أو تعليمات تخص نوعًا آخر. لا تستخدم تعليمات الشرائح إلا للشرائح، ولا القصة إلا للقصة، ولا المطوية إلا للمطوية، ولا ورقة العمل إلا لورقة العمل، ولا بطاقة التهنئة إلا لبطاقة التهنئة.",
     "- إذا كان نوع التصميم بطاقة تهنئة، فلا تكتب قواعد شبكات أو بطاقات متعددة أو جداول أو أنشطة. وإذا كان إنفوجرافيك فلا تكتب قواعد بطاقة تهنئة فاخرة إلا إذا طلبت ذلك صراحة.",
     "- لا تخترع نص تذييل من عندك؛ التذييل له حاوية مستقلة في المولد يملؤها المستخدم يدويًا أو تلقائيًا.",
-    "- في حاوية التذييل اكتب فقط هل يحتاج التصميم تذييلًا أم لا، وإن احتاج فاكتب: يستخدم تذييل المستخدم من حاوية التذييل في المولد.",
+    "- في حاوية التذييل اكتب فقط هل يحتاج التصميم تذييلًا أم لا. إذا ورد في المواصفات تذييل مفعّل أو نص تذييل نهائي من المستخدم، فاذكر استخدام نص التذييل المحدد حرفيًا كما ورد، ولا تخترع تذييلًا بديلًا.",
     "- داخل حاوية النصوص النهائية، ضع قبل كل نص مهم توجيهًا محليًا بين //...//.",
     "- ما بين //...// توجيه للمولد فقط ولا يظهر في التصميم، أما السطر الذي بعده فهو النص الحرفي الظاهر.",
     "- ابدأ حاوية النصوص النهائية بهذا التوجيه:",
@@ -8349,6 +8603,7 @@ function initContentRequestHelper() {
     "- لا تكتب: ممنوع استخدام الأرقام الإنجليزية أو ممنوع استخدام الأرقام الهندية الشرقية.",
     "- لا تكتب: حافظ على نظام أرقام موحّد.",
     "- اترك اختيار نمط الأرقام لإعدادات المولد المستقلة.",
+    "- إذا ورد نمط الأرقام المختار في المواصفات، فلا تضع تعليماته داخل الحاويات، لكن استخدمه في قسم البرومبت السريع فقط.",
     "- اذكر الأرقام داخل النصوص النهائية فقط إذا كانت جزءًا من النص التعليمي نفسه، واكتبها كما وردت دون توجيه خاص بنمطها.",
     "- إذا كان المحتوى يتضمن آية أو حديثًا أو دعاءً منقولًا، فضعه في حاوية النصوص النهائية فقط كما ورد من المستخدم، ولا تعِد صياغته ولا تختصره ولا تصححه من نفسك.",
     "- للنصوص الشرعية الحساسة، اطلب مساحة نصية واسعة وخطًا مقروءًا وزخرفة قليلة حول النص، ولا تجعل الأيقونات أو المشهد يزاحم الآية أو الحديث.",
@@ -8356,6 +8611,27 @@ function initContentRequestHelper() {
     "- إذا كان الأسلوب فنيًا أو ألوانًا مائية أو يدويًا، فاجعله للخلفية والمشهد والأيقونات فقط، ولا تطبقه على النصوص. النصوص يجب أن تكون طباعية حادة وواضحة.",
     "- إذا كان المحتوى ورقة عمل أو نشاطًا أو اختبارًا للطالب، فلا تضع الإجابات ولا تحل الأسئلة ولا تصل عناصر التوصيل، إلا إذا طلبتُ صراحة نموذج إجابة أو مفتاح إجابة.",
     "- اجعل المحتوى مختصرًا بقدر ما يسمح به نوع التصميم، ولا تملأ التصميم بنصوص طويلة غير ضرورية.",
+  ].join("\n");
+
+  const quickPromptRules = [
+    "قواعد قسم البرومبت السريع الجاهز عند الضرورة:",
+    "- بعد الانتهاء من الحاويات، اكتب قسمًا مستقلًا بهذا العنوان حرفيًا: برومبت سريع جاهز عند الضرورة.",
+    "- داخل هذا القسم اكتب: البرومبت الرئيسي السريع، ثم: Negative Prompt سريع.",
+    "- ابنِ البرومبت السريع من محتوى الحاويات نفسها فقط، ولا تضف نصوصًا ظاهرة جديدة غير موجودة في حاوية النصوص النهائية أو التذييل إن زوده المستخدم.",
+    "- أدرج في البرومبت السريع كل إعداد اختياري ورد في المواصفات إذا كان مؤثرًا في التصميم: الألوان، الإضاءة، الزاوية، الخلفية، موضع العنصر، موضع النص، الخط، التخطيط، التعليمات الخاصة، الممنوعات، والتذييل.",
+    "- اجعل البرومبت السريع صالحًا للإرسال مباشرة إلى مولد الصور عند الضرورة، لكنه لا يلغي أهمية لصق الحاويات داخل المولد المطور.",
+    "- يجب أن يحتوي البرومبت السريع على English visual design brief قصير وواضح يصف النوع، الأسلوب، المقاس، التكوين، والقراءة العربية.",
+    "- يجب أن يحتوي البرومبت السريع على قسم نص عربي حرفي يقول بوضوح: استخدم النص العربي التالي حرفيًا دون أي تعديل، ثم يضع النصوص الظاهرة فقط.",
+    "- ضوابط العربية في البرومبت السريع إلزامية: كل النصوص RTL، المحاذاة عربية صحيحة، لا عكس للكلمات أو الحروف، لا حروف عربية مزيفة، لا تقطيع للكلمات، لا ضغط للحروف، لا نص وهمي، ولا تعليمات ظاهرة داخل التصميم.",
+    "- إذا وُجدت بطاقات أو خطوات أو بنود مرقمة، فاكتب في البرومبت السريع خريطة مكانية صريحة: البطاقة ١ في أقصى يمين الصف الأول، ٢ إلى يسارها، ٣ إلى يسارها، ثم الصف التالي يبدأ من أقصى اليمين. لا تستخدم توزيعًا دائريًا أو حرًا حول المشهد.",
+    "- إذا كان النص يحتوي رقم هاتف أو رقم تواصل طويل، فاجعله رقمًا محميًا في البرومبت السريع: انسخه رقمًا رقمًا كما ورد، ولا تسمح بتحويله إلى أصفار أو رقم وهمي أو رقم بديل. إذا تعذر نسخه بدقة، تترك مساحة الرقم فارغة بدل رقم خاطئ.",
+    "- في البرومبت السريع فقط، طبّق نمط الأرقام المختار في المواصفات. أما الحاويات فلا تضع فيها تعليمات نمط الأرقام.",
+    "- إذا ورد نص تذييل نهائي من المستخدم في المواصفات، فأدرجه في البرومبت السريع حرفيًا مع موضعه وأسلوبه وحجمه إن وُجدت، وامنع تكراره أو تغييره.",
+    "- إذا كان التصميم ورقة عمل أو نشاطًا أو اختبارًا، فاكتب في البرومبت السريع: لا تحل الأسئلة، لا تملأ الفراغات، لا تصل عناصر التوصيل، ولا تظهر مفتاح إجابة إلا إذا طلب المستخدم ذلك صراحة.",
+    "- إذا كان التصميم بطاقة تهنئة فاخرة، فاكتب في البرومبت السريع قواعد البطاقة فقط: خامة فاخرة، تذهيب أو حفر بارز، ثلث أو ديواني جلي للنص الرئيسي، نسخ للنص الطويل، وزخارف لا تزاحم النص. لا تكتب قواعد شبكات أو أوراق عمل.",
+    "- إذا وُجدت آيات أو أحاديث أو أدعية، فاذكر في البرومبت السريع أنها نصوص حساسة تُنسخ حرفيًا دون تغيير، مع مساحة واسعة وخط مقروء وزخرفة قليلة.",
+    "- اكتب Negative Prompt سريعًا مختصرًا يتضمن على الأقل: Arabic text errors, fake Arabic letters, gibberish Arabic, wrong RTL direction, left-to-right Arabic layout, mirrored Arabic text, split Arabic words, cropped text, blurry text, low contrast text, visual clutter, watermark, mixed numeral systems, wrong phone number عند وجود رقم تواصل.",
+    "- لا تجعل البرومبت السريع أطول من اللازم؛ اجعله مركزًا وواضحًا وقابلًا للنسخ.",
   ].join("\n");
 
   const infographicContainers = `الحاويات المطلوبة:
@@ -8734,8 +9010,18 @@ function initContentRequestHelper() {
       "",
       containersForContentRequest(kind),
       "",
+      quickPromptRules,
+      "",
+      contentRequestJsonRules(kind),
+      "",
       "صيغة الإخراج المطلوبة:",
-      "اكتب اسم كل حاوية كعنوان واضح، ثم ضع محتواها تحته. لا تختم برد عام ولا تضف برومبتًا نهائيًا.",
+      "أولًا: اكتب عنوانًا واضحًا: حاويات المولد.",
+      "ثم اكتب اسم كل حاوية كعنوان واضح، وضع محتواها تحته فقط.",
+      "ثانيًا: بعد انتهاء كل الحاويات، اكتب عنوانًا واضحًا: برومبت سريع جاهز عند الضرورة.",
+      "تحته اكتب: البرومبت الرئيسي السريع، ثم اكتب البرومبت كاملًا.",
+      "بعده اكتب: Negative Prompt سريع، ثم اكتب الممنوعات المختصرة.",
+      "ثالثًا: اكتب عنوانًا واضحًا: ملف JSON قابل للاستيراد، ثم أنشئ وأرفق الملف arabic-prompt-ai-content.json. إذا تعذر إرفاقه، استخدم بديل كتلة JSON المحدد أعلاه.",
+      "لا تختم برد عام ولا تضف شرحًا خارج الأقسام الثلاثة.",
     ].join("\n");
   }
 
@@ -8751,7 +9037,7 @@ function initContentRequestHelper() {
     win.document.write(
       `<pre style="direction:rtl;font-family:Tahoma,Arial,sans-serif;white-space:pre-wrap;padding:18px;font-size:14px;line-height:1.8">${escaped}</pre>`,
     );
-    win.document.title = "طلب محتوى للحاويات";
+    win.document.title = "طلب محتوى وبرومبت سريع وملف JSON";
     return true;
   }
 
@@ -8764,9 +9050,9 @@ function initContentRequestHelper() {
       }
       await navigator.clipboard.writeText(requestText);
       copyBtn.classList.add("copied");
-      copyBtn.textContent = "تم نسخ طلب المحتوى";
+      copyBtn.textContent = "تم نسخ الطلب المتكامل";
       statusText.textContent =
-        "تم نسخ طلب المحتوى. أرسله للذكاء، ثم الصق كل حاوية في مكانها داخل المولد قبل توليد البرومبت النهائي.";
+        "تم نسخ الطلب المتكامل. سيطلب حاويات جاهزة، وبرومبتًا سريعًا، وملف JSON قابلًا للاستيراد.";
     } catch {
       const opened = openManualCopyWindow(requestText);
       statusText.textContent = opened
@@ -8792,3 +9078,4 @@ loadLibrary();
     </script>
   </body>
 </html>
+
