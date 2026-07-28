@@ -958,6 +958,76 @@
         background: linear-gradient(135deg, var(--emerald) 0%, var(--accent) 100%);
       }
 
+      .content-request-actions {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .content-request-json-option {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        min-height: 42px;
+        padding: 8px 10px;
+        color: var(--text-muted);
+        font-size: 0.78rem;
+        font-weight: 800;
+        white-space: nowrap;
+      }
+
+      .content-request-json-option input {
+        width: 17px;
+        height: 17px;
+        margin: 0;
+        accent-color: var(--primary);
+      }
+
+      .content-request-btn.secondary {
+        color: var(--primary);
+        background: rgba(255, 255, 255, 0.96);
+        border: 1.5px solid rgba(108, 61, 232, 0.22);
+        box-shadow: 0 5px 16px rgba(108, 61, 232, 0.12);
+      }
+
+      .content-request-btn.secondary:hover {
+        border-color: rgba(108, 61, 232, 0.42);
+        box-shadow: 0 8px 22px rgba(108, 61, 232, 0.18);
+      }
+
+      .ai-response-import-panel {
+        margin-top: 12px;
+        padding: 16px;
+        border: 1.5px solid rgba(108, 61, 232, 0.18);
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.92);
+        box-shadow: 0 8px 24px rgba(57, 37, 105, 0.08);
+      }
+
+      .ai-response-import-panel textarea {
+        width: 100%;
+        min-height: 230px;
+        resize: vertical;
+      }
+
+      .ai-response-import-actions {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 10px;
+      }
+
+      .ai-response-import-status {
+        min-height: 24px;
+        margin-top: 8px;
+        color: var(--text-muted);
+        font-size: 0.86rem;
+        font-weight: 700;
+      }
+
       /* ===== STATUS TEXT ===== */
       .status {
         font-size: 0.92rem;
@@ -1761,25 +1831,66 @@
                   <div class="content-request-card">
                     <div class="content-request-info">
                       <strong>
-                        طلب محتوى + برومبت سريع + JSON
+                        طلب محتوى + برومبت سريع
                         <span id="contentRequestTarget" class="content-request-target"
                           >حسب نوع التصميم</span
                         >
                       </strong>
                       <p>
                         ينسخ طلبًا ترسله للذكاء الاصطناعي ليُعد محتوى مقسمًا
-                        على حاويات هذا المولد، ثم يضيف برومبتًا سريعًا مضبوطًا
-                        بالعربية وملف JSON قابلًا للاستيراد مباشرة.
+                        على حاويات هذا المولد وبرومبت سريع. بعد ذلك استورد الرد
+                        كاملًا محليًا دون الحاجة إلى ملف JSON.
                       </p>
                     </div>
-                    <button
-                      type="button"
-                      id="copyContentRequestBtn"
-                      class="content-request-btn"
-                      aria-label="نسخ طلب محتوى الحاويات مع برومبت سريع وملف JSON"
-                    >
-                      نسخ الطلب المتكامل
-                    </button>
+                    <div class="content-request-actions">
+                      <button
+                        type="button"
+                        id="copyContentRequestBtn"
+                        class="content-request-btn"
+                        aria-label="نسخ طلب محتوى الحاويات مع برومبت سريع وملف JSON"
+                      >
+                        نسخ الطلب المتكامل
+                      </button>
+                      <button
+                        type="button"
+                        id="openAiResponseImportBtn"
+                        class="content-request-btn secondary"
+                        aria-controls="aiResponseImportPanel"
+                        aria-expanded="false"
+                      >
+                        استيراد رد الذكاء
+                      </button>
+                      <label class="content-request-json-option">
+                        <input type="checkbox" id="requestJsonOutput" />
+                        طلب JSON إضافي
+                      </label>
+                    </div>
+                  </div>
+                  <div
+                    id="aiResponseImportPanel"
+                    class="ai-response-import-panel smart-hidden"
+                  >
+                    <label for="aiResponseText">رد الذكاء الكامل</label>
+                    <textarea
+                      id="aiResponseText"
+                      placeholder="الصق هنا الرد كاملًا: الحاويات، والبرومبت السريع، وJSON إن وُجد."
+                    ></textarea>
+                    <div class="ai-response-import-actions">
+                      <button type="button" id="pasteAiResponseBtn" class="mini">
+                        لصق من الحافظة
+                      </button>
+                      <button type="button" id="importAiResponseBtn" class="primary">
+                        استيراد الرد
+                      </button>
+                      <button type="button" id="closeAiResponseImportBtn" class="ghost">
+                        إغلاق
+                      </button>
+                    </div>
+                    <div
+                      id="aiResponseImportStatus"
+                      class="ai-response-import-status"
+                      aria-live="polite"
+                    ></div>
                   </div>
                 </div>
               </div>
@@ -8224,6 +8335,14 @@ if (myLibrarySelect) {
 function initContentRequestHelper() {
   const copyBtn = $("copyContentRequestBtn");
   const targetBadge = $("contentRequestTarget");
+  const openResponseImportBtn = $("openAiResponseImportBtn");
+  const responseImportPanel = $("aiResponseImportPanel");
+  const responseText = $("aiResponseText");
+  const pasteResponseBtn = $("pasteAiResponseBtn");
+  const importResponseBtn = $("importAiResponseBtn");
+  const closeResponseImportBtn = $("closeAiResponseImportBtn");
+  const responseImportStatus = $("aiResponseImportStatus");
+  const requestJsonOutput = $("requestJsonOutput");
   if (!copyBtn || !targetBadge || !fields.imageType) return;
 
   function classifyContentRequestType(value) {
@@ -8262,6 +8381,387 @@ function initContentRequestHelper() {
     ad: "إعلان عربي",
     general: "تصميم عربي عام",
   };
+
+  function normalizeAiResponseHeading(line) {
+    return String(line || "")
+      .replace(/^\uFEFF/, "")
+      .trim()
+      .replace(/^#{1,6}\s*/, "")
+      .replace(/\*\*/g, "")
+      .replace(/^[-*•]\s+/, "")
+      .replace(/^[\[(]?\s*[0-9٠-٩۰-۹]+\s*[\])\].:،\-–—]?\s*/, "")
+      .replace(/\s*[:：]\s*$/, "")
+      .trim();
+  }
+
+  const aiResponseHeadingMap = new Map();
+  function registerAiResponseHeadings(key, headings) {
+    headings.forEach((heading) =>
+      aiResponseHeadingMap.set(normalizeAiResponseHeading(heading), key),
+    );
+  }
+
+  registerAiResponseHeadings("sceneDesc", [
+    "وصف المشهد",
+    "وصف المشهد البصري للوحة",
+    "وصف المطوية",
+    "الفكرة العامة والرسالة التربوية",
+    "أسلوب الشرائح العام",
+  ]);
+  registerAiResponseHeadings("learningGoal", ["هدف الشرائح"]);
+  registerAiResponseHeadings("storyCharacters", ["الشخصيات"]);
+  registerAiResponseHeadings("storyStyle", [
+    "أسلوب الرسم والاتساق البصري",
+  ]);
+  registerAiResponseHeadings("colors", ["الألوان والجو البصري"]);
+  registerAiResponseHeadings("lighting", ["الإضاءة"]);
+  registerAiResponseHeadings("cameraAngle", ["زاوية المشهد"]);
+  registerAiResponseHeadings("lightingCamera", [
+    "الإضاءة وزاوية المشهد",
+  ]);
+  registerAiResponseHeadings("background", ["الخلفية"]);
+  registerAiResponseHeadings("backgroundLighting", [
+    "الخلفية والإضاءة",
+  ]);
+  registerAiResponseHeadings("backgroundLightingCamera", [
+    "الخلفية والإضاءة وزاوية المشهد",
+  ]);
+  registerAiResponseHeadings("mainElementPosition", [
+    "موضع العنصر الرئيسي",
+  ]);
+  registerAiResponseHeadings("extraElements", [
+    "عناصر إضافية",
+    "العناصر الإضافية",
+  ]);
+  registerAiResponseHeadings("arabicText", [
+    "النصوص النهائية التي يجب أن تظهر حرفيًا",
+    "النصوص النهائية التي تظهر حرفيًا",
+    "النصوص النهائية",
+  ]);
+  registerAiResponseHeadings("secondaryText", ["نص ثانوي اختياري"]);
+  registerAiResponseHeadings("referenceText", [
+    "مرجع وسياق لا يظهر كاملًا في التصميم",
+    "مرجع وسياق",
+  ]);
+  registerAiResponseHeadings("textPosition", [
+    "موضع النص الأساسي",
+    "موضع النص في الصفحات",
+  ]);
+  registerAiResponseHeadings("fontStyle", ["نوع الخط العربي"]);
+  registerAiResponseHeadings("textFormatting", [
+    "تعليمات تنسيق النص",
+  ]);
+  registerAiResponseHeadings("negativeNotes", ["ممنوعات خاصة"]);
+  registerAiResponseHeadings("specialInstructions", [
+    "تعليمات إضافية دقيقة",
+  ]);
+  registerAiResponseHeadings("storyCover", ["صفحة الغلاف"]);
+  registerAiResponseHeadings("storyPages", ["صفحات القصة"]);
+  registerAiResponseHeadings("slideItems", ["قائمة الشرائح"]);
+  registerAiResponseHeadings("brochureOutput", ["نوع الوجه المطلوب"]);
+  registerAiResponseHeadings("columns", ["توزيع الأعمدة"]);
+  registerAiResponseHeadings("verseFormatting", ["تنسيق الأبيات"]);
+  registerAiResponseHeadings("footerIgnored", [
+    "التذييل",
+    "التذييل أو رقم الشريحة",
+    "التذييل وبيانات التواصل",
+  ]);
+
+  function isAiResponseOutputBoundary(heading) {
+    return /^(?:برومبت سريع جاهز|البرومبت الرئيسي السريع|Negative Prompt سريع|ملف JSON قابل للاستيراد|بديل تنزيل ملف JSON)/i.test(
+      heading,
+    );
+  }
+
+  function cleanAiResponseSection(lines) {
+    const valueLines = [...lines];
+    while (valueLines.length && !valueLines[0].trim()) valueLines.shift();
+    while (valueLines.length && !valueLines[valueLines.length - 1].trim())
+      valueLines.pop();
+    if (/^```/.test(valueLines[0] || "")) valueLines.shift();
+    if (/^```/.test(valueLines[valueLines.length - 1] || "")) valueLines.pop();
+    return valueLines.join("\n").trim();
+  }
+
+  function parseAiResponseSections(rawText) {
+    const sections = {};
+    let activeKey = "";
+    let buffer = [];
+
+    const flush = () => {
+      if (!activeKey) return;
+      const value = cleanAiResponseSection(buffer);
+      if (value) {
+        sections[activeKey] = sections[activeKey]
+          ? `${sections[activeKey]}\n\n${value}`
+          : value;
+      }
+      buffer = [];
+    };
+
+    for (const line of String(rawText || "").replace(/\r\n?/g, "\n").split("\n")) {
+      const heading = normalizeAiResponseHeading(line);
+      if (isAiResponseOutputBoundary(heading)) {
+        flush();
+        break;
+      }
+      const key = aiResponseHeadingMap.get(heading);
+      if (key) {
+        flush();
+        activeKey = key;
+        continue;
+      }
+      if (activeKey) buffer.push(line);
+    }
+    flush();
+    return sections;
+  }
+
+  function extractAiResponseSettings(rawText) {
+    const text = String(rawText || "").trim();
+    const candidates = [];
+    const fencedPattern = /```(?:json)?\s*([\s\S]*?)\s*```/gi;
+    let match;
+    while ((match = fencedPattern.exec(text))) candidates.push(match[1]);
+    if (text.startsWith("{") && text.endsWith("}")) candidates.push(text);
+    const firstBrace = text.indexOf("{");
+    const lastBrace = text.lastIndexOf("}");
+    if (firstBrace >= 0 && lastBrace > firstBrace)
+      candidates.push(text.slice(firstBrace, lastBrace + 1));
+
+    for (let index = candidates.length - 1; index >= 0; index -= 1) {
+      try {
+        const payload = JSON.parse(candidates[index]);
+        if (JSON.stringify(payload).includes("__AI_")) continue;
+        if (hasRecognizedTemplateField(payload)) return payload;
+        const templates = extractLibraryTemplates(payload);
+        if (!templates) continue;
+        const validEntries = Object.values(templates).filter((template) =>
+          hasRecognizedTemplateField(template),
+        );
+        if (validEntries.length === 1) return validEntries[0];
+      } catch {
+        // Ignore malformed JSON and fall back to container parsing.
+      }
+    }
+    return null;
+  }
+
+  function setAiImportedField(fieldId, value, merge = false) {
+    const field = fields[fieldId];
+    const incoming = String(value || "").trim();
+    if (!field || !incoming) return false;
+    if (!merge) {
+      field.value = incoming;
+      return true;
+    }
+    const existing = clean(field.value);
+    if (!existing) field.value = incoming;
+    else if (existing.includes(incoming)) return false;
+    else if (incoming.includes(existing)) field.value = incoming;
+    else field.value = `${existing}\n\n${incoming}`;
+    return true;
+  }
+
+  function setAiImportedCustomField(selectId, customId, value) {
+    const incoming = String(value || "").trim();
+    if (!incoming || !fields[selectId] || !fields[customId]) return false;
+    const customOption = Array.from(fields[selectId].options || []).find(
+      (option) => option.value === "وصف مخصص",
+    );
+    if (customOption) fields[selectId].value = customOption.value;
+    fields[customId].value = incoming;
+    return true;
+  }
+
+  function applyAiResponseSettings(settings) {
+    let applied = 0;
+    for (const [key, value] of Object.entries(
+      normalizeImportedSettings(settings || {}),
+    )) {
+      const field = fields[key];
+      if (!field || value === undefined || value === null) continue;
+      if (field.type === "checkbox") {
+        field.checked = importedCheckboxValue(value);
+        applied += 1;
+        continue;
+      }
+      const previousValue = field.value;
+      field.value = value;
+      if (field.tagName === "SELECT" && String(value) && field.value === "") {
+        field.value = previousValue;
+        continue;
+      }
+      applied += 1;
+    }
+    fields.rtl.checked = true;
+    syncModeFieldsFromImageType();
+    [
+      ["lighting", "lightingCustom"],
+      ["cameraAngle", "cameraAngleCustom"],
+      ["backgroundStyle", "backgroundStyleCustom"],
+      ["mainElementPosition", "mainElementPositionCustom"],
+      ["textPosition", "textPositionCustom"],
+      ["fontStyle", "fontStyleCustom"],
+    ].forEach(([selectId, customId]) => {
+      if (
+        fields[selectId] &&
+        fields[customId] &&
+        clean(fields[customId].value) &&
+        Array.from(fields[selectId].options || []).some(
+          (option) => option.value === "وصف مخصص",
+        )
+      ) {
+        fields[selectId].value = "وصف مخصص";
+      }
+    });
+    updateSmartSections();
+    generate();
+    return applied;
+  }
+
+  function applyAiResponseSections(sections) {
+    let applied = 0;
+    const direct = (fieldId, key, merge = false) => {
+      if (setAiImportedField(fieldId, sections[key], merge)) applied += 1;
+    };
+    const custom = (selectId, customId, key) => {
+      if (setAiImportedCustomField(selectId, customId, sections[key]))
+        applied += 1;
+    };
+
+    direct("sceneDesc", "sceneDesc");
+    direct("learningGoal", "learningGoal");
+    direct("colors", "colors");
+    custom("lighting", "lightingCustom", "lighting");
+    custom("cameraAngle", "cameraAngleCustom", "cameraAngle");
+    custom("backgroundStyle", "backgroundStyleCustom", "background");
+    custom(
+      "mainElementPosition",
+      "mainElementPositionCustom",
+      "mainElementPosition",
+    );
+    direct("extraElements", "extraElements");
+    direct("arabicText", "arabicText");
+    direct("secondaryText", "secondaryText");
+    direct("referenceText", "referenceText");
+    custom("textPosition", "textPositionCustom", "textPosition");
+    custom("fontStyle", "fontStyleCustom", "fontStyle");
+    direct("textFormatting", "textFormatting", true);
+    direct("negativeNotes", "negativeNotes", true);
+    direct("specialInstructions", "specialInstructions", true);
+    direct("storyCharacters", "storyCharacters");
+
+    if (sections.storyStyle)
+      setAiImportedField(
+        "specialInstructions",
+        `أسلوب القصة والاتساق:\n${sections.storyStyle}`,
+        true,
+      ) && (applied += 1);
+
+    const storyPages = [
+      sections.storyCover
+        ? `صفحة الغلاف:\n${sections.storyCover}`
+        : "",
+      sections.storyPages || "",
+    ]
+      .filter(Boolean)
+      .join("\n\n");
+    if (storyPages && fields.storyPages) {
+      fields.storyPages.value = storyPages;
+      applied += 1;
+    }
+
+    if (sections.slideItems) {
+      const targetField =
+        fields.slideSourceMode && fields.slideSourceMode.value === "attached"
+          ? "slideItems"
+          : "slideGeneratedItems";
+      if (setAiImportedField(targetField, sections.slideItems)) applied += 1;
+    }
+
+    if (sections.brochureOutput)
+      setAiImportedField(
+        "specialInstructions",
+        `نوع وجه المطوية المطلوب:\n${sections.brochureOutput}`,
+        true,
+      ) && (applied += 1);
+
+    if (sections.columns) {
+      setAiImportedCustomField(
+        "textPosition",
+        "textPositionCustom",
+        sections.columns,
+      );
+      setAiImportedField(
+        "specialInstructions",
+        `توزيع أعمدة المطوية:\n${sections.columns}`,
+        true,
+      );
+      applied += 1;
+    }
+
+    if (sections.verseFormatting)
+      setAiImportedField(
+        "textFormatting",
+        sections.verseFormatting,
+        true,
+      ) && (applied += 1);
+
+    if (sections.lightingCamera) {
+      setAiImportedCustomField(
+        "lighting",
+        "lightingCustom",
+        sections.lightingCamera,
+      );
+      setAiImportedCustomField(
+        "cameraAngle",
+        "cameraAngleCustom",
+        sections.lightingCamera,
+      );
+      applied += 1;
+    }
+
+    if (sections.backgroundLighting) {
+      setAiImportedCustomField(
+        "backgroundStyle",
+        "backgroundStyleCustom",
+        sections.backgroundLighting,
+      );
+      setAiImportedCustomField(
+        "lighting",
+        "lightingCustom",
+        sections.backgroundLighting,
+      );
+      applied += 1;
+    }
+
+    if (sections.backgroundLightingCamera) {
+      setAiImportedCustomField(
+        "backgroundStyle",
+        "backgroundStyleCustom",
+        sections.backgroundLightingCamera,
+      );
+      setAiImportedCustomField(
+        "lighting",
+        "lightingCustom",
+        sections.backgroundLightingCamera,
+      );
+      setAiImportedCustomField(
+        "cameraAngle",
+        "cameraAngleCustom",
+        sections.backgroundLightingCamera,
+      );
+      applied += 1;
+    }
+
+    if (applied) {
+      fields.rtl.checked = true;
+      updateSmartSections();
+      generate();
+    }
+    return applied;
+  }
 
   function placeholder(value) {
     return clean(value) || "[............]";
@@ -8489,15 +8989,15 @@ function initContentRequestHelper() {
   function contentRequestJsonRules(kind) {
     return [
       "قواعد ملف JSON القابل للاستيراد:",
-      "- بعد الحاويات والبرومبت السريع، أنشئ ملف JSON فعليًا قابلًا للتنزيل باسم: arabic-prompt-ai-content.json.",
-      "- هذا الملف إعدادات مشروع واحد للاستيراد من زر: استيراد إعدادات JSON، وليس ملف مكتبة قوالب، لذلك يجب أن يكون جذر الملف كائن JSON واحدًا مباشرة دون templates أو library.",
+      "- بعد الحاويات والبرومبت السريع، اعرض JSON كاملًا وصالحًا داخل كتلة كود JSON واحدة. لا تجعل إنشاء مرفق فعلي شرطًا لإكمال الرد.",
+      "- هذا JSON إعدادات مشروع واحد للاستيراد من زر: استيراد إعدادات JSON، وليس ملف مكتبة قوالب، لذلك يجب أن يكون جذره كائن JSON واحدًا مباشرة دون templates أو library.",
       "- استخدم القالب الهيكلي أدناه حرفيًا من حيث أسماء المفاتيح وأنواع القيم، واستبدل كل قيمة تبدأ بـ __AI_ بمحتوى الحاوية المناظرة الذي أنشأته في الرد نفسه.",
       "- لا تترك أي علامة تبدأ بـ __AI_ داخل الملف النهائي. إذا كانت الحاوية اختيارية وفارغة، استبدل علامتها بسلسلة فارغة: \"\".",
       "- اجعل arabicText يحتوي النصوص النهائية الظاهرة فقط مع توجيهات //...// غير الظاهرة كما كتبتها في حاوية النصوص النهائية، ولا تنقل إليه أسماء الحاويات أو الشرح العام.",
       "- حافظ على القيم المملوءة أصلًا في القالب، خصوصًا نوع التصميم والمقاس والجودة ونمط الأرقام والتذييل وضوابط العربية، ولا تغيّرها أو تترجمها.",
-      "- يجب أن يكون الملف UTF-8 وJSON صالحًا تمامًا: علامات اقتباس مزدوجة، تهريب صحيح للأسطر والاقتباسات داخل النصوص، دون تعليقات، دون فواصل زائدة، ودون Markdown داخل الملف.",
+      "- يجب أن يكون المحتوى UTF-8 وJSON صالحًا تمامًا: علامات اقتباس مزدوجة، تهريب صحيح للأسطر والاقتباسات داخل النصوص، دون تعليقات، ودون فواصل زائدة.",
       "- تحقّق داخليًا من صلاحية JSON قبل تسليمه. لا تضع البرومبت السريع أو Negative Prompt داخل أي حقل من حقول JSON.",
-      "- إذا كانت واجهتك لا تستطيع إرفاق ملف فعلي، اعرض محتوى الملف كاملًا داخل كتلة كود JSON واحدة تحت عنوان: بديل تنزيل ملف JSON، دون أي نص داخل الكتلة قبل الكائن أو بعده.",
+      "- إذا كانت منصتك تدعم المرفقات، يمكنك إرفاق نسخة مطابقة باسم arabic-prompt-ai-content.json، لكن لا تحذف كتلة JSON من الرد ولا تعِد المحاولة إذا تعذر المرفق.",
       "",
       "قالب JSON الهيكلي المطلوب تعبئته:",
       "```json",
@@ -8506,7 +9006,7 @@ function initContentRequestHelper() {
     ].join("\n");
   }
 
-  function contentRequestHeader(typeLabel) {
+  function contentRequestHeader(typeLabel, includeJson = false) {
     const isEducational = isEducationalPurpose(fields.purpose && fields.purpose.value);
     const subjectValue = placeholder(fields.subject && fields.subject.value);
     const purposeValue = placeholder(fields.purpose && fields.purpose.value);
@@ -8537,15 +9037,21 @@ function initContentRequestHelper() {
         ].filter(Boolean)
       : [];
     const specs = [
-      "أريد منك إعداد محتوى عربي منظم لمولد برومبت الصور العربي، ثم إضافة برومبت سريع جاهز وملف JSON قابل للاستيراد في نهاية الرد.",
+      includeJson
+        ? "أريد منك إعداد محتوى عربي منظم لمولد برومبت الصور العربي، ثم إضافة برومبت سريع جاهز وJSON إضافي قابل للاستيراد في نهاية الرد."
+        : "أريد منك إعداد محتوى عربي منظم لمولد برومبت الصور العربي، ثم إضافة برومبت سريع جاهز في نهاية الرد.",
       "",
       "مهم جدًا:",
       "- ابدأ أولًا بقسم: حاويات المولد، واكتب فيه الحاويات المطلوبة بنفس أسمائها حتى أستطيع النسخ واللصق داخل المولد المطور.",
       "- بعد الحاويات فقط، أضف قسمًا مستقلًا باسم: برومبت سريع جاهز عند الضرورة.",
       "- البرومبت السريع ليس بديلًا عن المولد المطور، بل نسخة احتياطية للاستخدام السريع عند الحاجة.",
-      "- بعد البرومبت السريع، أنشئ ملف JSON مستقلًا قابلًا للاستيراد المباشر في المولد المطور وفق القالب المحدد لاحقًا.",
+      includeJson
+        ? "- بعد البرومبت السريع، أضف JSON مستقلًا قابلًا للاستيراد المباشر في المولد المطور وفق القالب المحدد لاحقًا."
+        : "- لا تنشئ ملف JSON في هذا الطلب؛ سأستورد رد الحاويات كاملًا مباشرة داخل المولد.",
       "- لا تخلط البرومبت السريع داخل الحاويات، ولا تجعل حاويات المولد جزءًا من البرومبت السريع.",
-      "- لا تضع JSON داخل الحاويات أو داخل البرومبت السريع؛ هو ناتج ثالث مستقل.",
+      ...(includeJson
+        ? ["- لا تضع JSON داخل الحاويات أو داخل البرومبت السريع؛ هو ناتج ثالث مستقل."]
+        : []),
       "- في نهاية البرومبت السريع أضف Negative Prompt مختصرًا ومناسبًا.",
       "",
       "المواصفات المتوفرة:",
@@ -9003,8 +9509,9 @@ function initContentRequestHelper() {
   function buildContentRequestPrompt() {
     const kind = classifyContentRequestType(fields.imageType.value);
     const label = contentRequestLabels[kind] || contentRequestLabels.general;
-    return [
-      contentRequestHeader(label),
+    const includeJson = Boolean(requestJsonOutput && requestJsonOutput.checked);
+    const requestParts = [
+      contentRequestHeader(label, includeJson),
       "",
       sharedContentRules,
       "",
@@ -9012,17 +9519,30 @@ function initContentRequestHelper() {
       "",
       quickPromptRules,
       "",
-      contentRequestJsonRules(kind),
-      "",
       "صيغة الإخراج المطلوبة:",
       "أولًا: اكتب عنوانًا واضحًا: حاويات المولد.",
       "ثم اكتب اسم كل حاوية كعنوان واضح، وضع محتواها تحته فقط.",
       "ثانيًا: بعد انتهاء كل الحاويات، اكتب عنوانًا واضحًا: برومبت سريع جاهز عند الضرورة.",
       "تحته اكتب: البرومبت الرئيسي السريع، ثم اكتب البرومبت كاملًا.",
       "بعده اكتب: Negative Prompt سريع، ثم اكتب الممنوعات المختصرة.",
-      "ثالثًا: اكتب عنوانًا واضحًا: ملف JSON قابل للاستيراد، ثم أنشئ وأرفق الملف arabic-prompt-ai-content.json. إذا تعذر إرفاقه، استخدم بديل كتلة JSON المحدد أعلاه.",
-      "لا تختم برد عام ولا تضف شرحًا خارج الأقسام الثلاثة.",
-    ].join("\n");
+    ];
+    if (includeJson) {
+      requestParts.splice(
+        8,
+        0,
+        contentRequestJsonRules(kind),
+        "",
+      );
+      requestParts.push(
+        "ثالثًا: اكتب عنوانًا واضحًا: ملف JSON قابل للاستيراد، ثم اعرض JSON صالحًا داخل كتلة كود واحدة. إرفاق الملف arabic-prompt-ai-content.json اختياري إذا كانت منصتك تدعم ذلك، ولا تعطل بقية الرد إن تعذر إنشاء المرفق.",
+        "لا تختم برد عام ولا تضف شرحًا خارج الأقسام الثلاثة.",
+      );
+    } else {
+      requestParts.push(
+        "لا تضف ملف JSON أو كتلة JSON، ولا تختم برد عام أو شرح خارج القسمين.",
+      );
+    }
+    return requestParts.join("\n");
   }
 
   function updateContentRequestBadge() {
@@ -9037,7 +9557,7 @@ function initContentRequestHelper() {
     win.document.write(
       `<pre style="direction:rtl;font-family:Tahoma,Arial,sans-serif;white-space:pre-wrap;padding:18px;font-size:14px;line-height:1.8">${escaped}</pre>`,
     );
-    win.document.title = "طلب محتوى وبرومبت سريع وملف JSON";
+    win.document.title = "طلب محتوى وبرومبت سريع";
     return true;
   }
 
@@ -9051,8 +9571,9 @@ function initContentRequestHelper() {
       await navigator.clipboard.writeText(requestText);
       copyBtn.classList.add("copied");
       copyBtn.textContent = "تم نسخ الطلب المتكامل";
-      statusText.textContent =
-        "تم نسخ الطلب المتكامل. سيطلب حاويات جاهزة، وبرومبتًا سريعًا، وملف JSON قابلًا للاستيراد.";
+      statusText.textContent = requestJsonOutput && requestJsonOutput.checked
+        ? "تم نسخ الطلب المتكامل مع JSON إضافي اختياري."
+        : "تم نسخ طلب الحاويات والبرومبت السريع. بعد وصول الرد استخدم استيراد رد الذكاء.";
     } catch {
       const opened = openManualCopyWindow(requestText);
       statusText.textContent = opened
@@ -9066,7 +9587,90 @@ function initContentRequestHelper() {
     }
   }
 
+  function setAiResponseImportStatus(message, isError = false) {
+    if (responseImportStatus) {
+      responseImportStatus.textContent = message;
+      responseImportStatus.style.color = isError ? "#b42318" : "";
+    }
+    statusText.textContent = message;
+  }
+
+  function toggleAiResponseImportPanel(forceOpen) {
+    if (!responseImportPanel || !openResponseImportBtn) return;
+    const shouldOpen =
+      typeof forceOpen === "boolean"
+        ? forceOpen
+        : responseImportPanel.classList.contains("smart-hidden");
+    responseImportPanel.classList.toggle("smart-hidden", !shouldOpen);
+    openResponseImportBtn.setAttribute("aria-expanded", String(shouldOpen));
+    if (shouldOpen && responseText) responseText.focus();
+  }
+
+  async function pasteAiResponseFromClipboard() {
+    if (!responseText) return;
+    try {
+      if (!navigator.clipboard || !navigator.clipboard.readText)
+        throw new Error("clipboard-unavailable");
+      const clipboardText = await navigator.clipboard.readText();
+      if (!clipboardText.trim()) throw new Error("clipboard-empty");
+      responseText.value = clipboardText;
+      setAiResponseImportStatus("تم لصق رد الذكاء؛ اضغط استيراد الرد.");
+    } catch {
+      setAiResponseImportStatus(
+        "تعذر اللصق التلقائي؛ الصق الرد يدويًا داخل الحقل.",
+        true,
+      );
+      responseText.focus();
+    }
+  }
+
+  function importAiResponseText() {
+    if (!responseText) return;
+    const rawText = responseText.value.trim();
+    if (!rawText) {
+      setAiResponseImportStatus("الصق رد الذكاء أولًا.", true);
+      return;
+    }
+
+    const settings = extractAiResponseSettings(rawText);
+    if (settings) {
+      const appliedSettings = applyAiResponseSettings(settings);
+      if (appliedSettings) {
+        setAiResponseImportStatus(
+          `تم استيراد JSON من الرد وتحديث ${displayNumber(appliedSettings, fields.numberStyle.value)} إعدادًا بنجاح.`,
+        );
+        return;
+      }
+    }
+
+    const sections = parseAiResponseSections(rawText);
+    const appliedSections = applyAiResponseSections(sections);
+    if (appliedSections) {
+      setAiResponseImportStatus(
+        `لم يوجد JSON صالح؛ تم استخراج الحاويات النصية وتحديث ${displayNumber(appliedSections, fields.numberStyle.value)} حقلًا بنجاح.`,
+      );
+      return;
+    }
+
+    setAiResponseImportStatus(
+      "لم أجد JSON صالحًا أو عناوين حاويات معروفة. الصق الرد كاملًا كما ولّده طلب المحتوى.",
+      true,
+    );
+  }
+
   copyBtn.addEventListener("click", copyContentRequestPrompt);
+  if (openResponseImportBtn)
+    openResponseImportBtn.addEventListener("click", () =>
+      toggleAiResponseImportPanel(),
+    );
+  if (closeResponseImportBtn)
+    closeResponseImportBtn.addEventListener("click", () =>
+      toggleAiResponseImportPanel(false),
+    );
+  if (pasteResponseBtn)
+    pasteResponseBtn.addEventListener("click", pasteAiResponseFromClipboard);
+  if (importResponseBtn)
+    importResponseBtn.addEventListener("click", importAiResponseText);
   fields.imageType.addEventListener("change", updateContentRequestBadge);
   updateContentRequestBadge();
 }
@@ -9078,4 +9682,3 @@ loadLibrary();
     </script>
   </body>
 </html>
-
